@@ -342,22 +342,26 @@ const LandingPage = () => `
 
         <section class="trust-section">
             <div class="trust-content">
-                <h2>Keamanan Tingkat Perbankan</h2>
+                <span class="badge-premium">Bank-grade Trust</span>
+                <h2 class="section-title">Keamanan Tingkat Perbankan</h2>
                 <div class="trust-grid">
                     <div class="trust-card">
-                        <div class="trust-icon">🔒</div>
+                        <div class="cert-badge">Certified</div>
+                        <div class="trust-icon-box">🛡️</div>
                         <h4>ISO 27001</h4>
-                        <p>Standar keamanan informasi internasional.</p>
+                        <p>Standar internasional untuk sistem manajemen keamanan informasi (ISMS).</p>
                     </div>
                     <div class="trust-card">
-                        <div class="trust-icon">🛡️</div>
-                        <h4>PDP Law Compliant</h4>
-                        <p>Kepatuhan penuh pada UU Perlindungan Data Pribadi.</p>
+                        <div class="cert-badge">Compliant</div>
+                        <div class="trust-icon-box">⚖️</div>
+                        <h4>PDP Law</h4>
+                        <p>Kepatuhan penuh terhadap regulasi Perlindungan Data Pribadi di Indonesia.</p>
                     </div>
                     <div class="trust-card">
-                        <div class="trust-icon">💎</div>
-                        <h4>Data Isolation</h4>
-                        <p>Data sandbox 100% terpisah dari sistem operasional.</p>
+                        <div class="cert-badge">Isolated</div>
+                        <div class="trust-icon-box">💎</div>
+                        <h4>Enterprise Isolation</h4>
+                        <p>Data sandbox 100% terisolasi menggunakan enkripsi tingkat tinggi AES-256.</p>
                     </div>
                 </div>
             </div>
@@ -543,20 +547,29 @@ const SecurityPage = () => `
         </div>
 
         <div class="cert-grid">
-            <div class="cert-card card-premium">
-                <img src="https://via.placeholder.com/100x50?text=ISO+27001" alt="ISO">
-                <h4>ISO 27001</h4>
-                <p>Sertifikasi Sistem Manajemen Keamanan Informasi.</p>
+            <div class="cert-card">
+                <div class="cert-logo-container">
+                    <div class="cert-logo-placeholder">ISO 27001</div>
+                </div>
+                <h4>Information Security</h4>
+                <p>Implementasi ISMS global untuk menjamin kerahasiaan, integritas, dan ketersediaan data Anda.</p>
+                <div class="cert-status"><span class="status-dot"></span> Certified & Audited</div>
             </div>
-            <div class="cert-card card-premium">
-                <img src="https://via.placeholder.com/100x50?text=PDP+Law" alt="PDP">
-                <h4>PDP Law Compliance</h4>
-                <p>Kepatuhan penuh terhadap regulasi data di Indonesia.</p>
+            <div class="cert-card">
+                <div class="cert-logo-container">
+                    <div class="cert-logo-placeholder">PDP</div>
+                </div>
+                <h4>Data Privacy</h4>
+                <p>Seluruh proses pengolahan data mematuhi standar UU Perlindungan Data Pribadi yang berlaku.</p>
+                <div class="cert-status"><span class="status-dot"></span> Compliant</div>
             </div>
-            <div class="cert-card card-premium">
-                <img src="https://via.placeholder.com/100x50?text=BCA+Secure" alt="BCA">
-                <h4>BCA Internal Audit</h4>
-                <p>Pengawasan berkala oleh tim auditor keamanan BCA.</p>
+            <div class="cert-card">
+                <div class="cert-logo-container">
+                    <div class="cert-logo-placeholder">BCA SECURE</div>
+                </div>
+                <h4>Internal Audit</h4>
+                <p>Pengawasan dan pengujian penetrasi (Pen-test) berkala oleh tim pakar keamanan internal BCA.</p>
+                <div class="cert-status"><span class="status-dot"></span> Active Monitoring</div>
             </div>
         </div>
     </div>
