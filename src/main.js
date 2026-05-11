@@ -281,8 +281,8 @@ const PublicNavbar = () => `
                 <a href="#" class="nav-link-p" data-page="security">Security</a>
             </div>
             <div class="nav-actions">
-                <button class="btn-outline" id="switch-internal">Internal Portal</button>
-                <button class="btn-primary">Open Account</button>
+                <button class="btn-outline" id="btn-direct-internal">Internal Portal</button>
+                <button class="btn-primary" id="btn-login-trigger">Masuk</button>
             </div>
         </div>
     </nav>
@@ -906,13 +906,16 @@ const attachEventListeners = () => {
     // View Mode Switches
     const adminBtn = document.getElementById('set-admin');
     const staffBtn = document.getElementById('set-staff');
-    const internalBtn = document.getElementById('switch-internal');
+    const directInternalBtn = document.getElementById('btn-direct-internal');
+    const loginTriggerBtn = document.getElementById('btn-login-trigger');
     const homeBtn = document.getElementById('nav-home');
 
     if (adminBtn) adminBtn.addEventListener('click', () => { state.role = 'admin'; state.currentPage = 'ingestion'; render(); });
     if (staffBtn) staffBtn.addEventListener('click', () => { state.role = 'staff'; state.currentPage = 'dashboard'; render(); });
-    if (internalBtn) internalBtn.addEventListener('click', () => { state.viewMode = 'auth'; state.authStep = 'login'; render(); });
+    if (directInternalBtn) directInternalBtn.addEventListener('click', () => { state.viewMode = 'internal'; state.currentPage = 'dashboard'; render(); });
+    if (loginTriggerBtn) loginTriggerBtn.addEventListener('click', () => { state.viewMode = 'auth'; state.authStep = 'login'; render(); });
     if (homeBtn) homeBtn.addEventListener('click', () => { state.viewMode = 'public'; state.currentPage = 'landing'; render(); });
+
 
     // Sector Selector
     document.querySelectorAll('.sector-tab').forEach(tab => {
