@@ -13,23 +13,28 @@ const state = {
     otp: ['', '', '', ''],
     isAuthenticating: false,
     user: {
-        name: 'Andi RO Senior',
-        branch: 'KCU Jakarta Area',
-        points: 2450,
-        level: 'Expert',
-        progress: 85,
+        name: 'Andi Pratama',
+        branch: 'KCP Menteng',
+        points: 8450,
+        level: 'EXPERT',
+        roleType: 'Senior RO',
+        progress: 75,
         badges: ['Fast Learner', 'Problem Solver', 'BCA Champion']
     },
     leaderboard: [
         { rank: 1, name: 'Siti Aminah', branch: 'KCU Surabaya', points: 3100 },
         { rank: 2, name: 'Budi Santoso', branch: 'KCU Jakarta', points: 2950 },
-        { rank: 3, name: 'Andi (Anda)', branch: 'KCU Jakarta', points: 2450 },
-        { rank: 4, name: 'Dewi Lestari', branch: 'KCU Medan', points: 2200 }
+        { rank: 3, name: 'Andi (Anda)', branch: 'KCU Jakarta', points: 8450 }
     ],
     courses: [
-        { id: 1, title: 'Mastering Business Dashboard', cat: 'Technical', progress: 40, duration: '7 min' },
-        { id: 2, title: 'Pitching for UMKM', cat: 'Soft Skill', progress: 100, duration: '5 min' },
-        { id: 3, title: 'Ocean API Security', cat: 'Compliance', progress: 10, duration: '10 min' }
+        { id: 1, title: 'Business Dashboard 101', cat: 'Basic', duration: '5m', progress: 100, roles: ['Beginner', 'Senior'] },
+        { id: 2, title: 'Ocean Cash Management', cat: 'Corporate', duration: '7m', progress: 75, roles: ['Senior'] },
+        { id: 3, title: 'FAQ - Global Transaction', cat: 'Ops', duration: '5m', progress: 60, roles: ['Ops', 'Senior'] },
+        { id: 4, title: 'Relationship Mastery', cat: 'Soft-skill', duration: '10m', progress: 20, roles: ['Beginner', 'Senior'] }
+    ],
+    simulations: [
+        { id: 'umkm', title: 'Nasabah UMKM Retail', difficulty: 'Easy' },
+        { id: 'corp', title: 'Nasabah Korporasi Premier', difficulty: 'Hard' }
     ],
     ingestionSteps: [
         { id: 1, label: 'Upload / Import File', status: 'waiting' },
@@ -39,13 +44,12 @@ const state = {
         { id: 5, label: 'Simpan ke Vector DB', status: 'waiting' }
     ],
     chatHistory: [
-        { role: 'ai', content: 'Halo! Saya Ocean AI Assistant. Ada yang bisa saya bantu terkait solusi bisnis BCA?' }
+        { role: 'ai', content: 'Halo Andi! Saya Ocean AI Assistant. Ingin tanya tentang fitur atau butuh script jualan?' }
     ],
+    activeModule: null, 
+    benefitMode: false,
     isIngesting: false,
-    roiInputs: {
-        branches: 1,
-        transactions: 100
-    },
+    roiInputs: { branches: 1, transactions: 100 },
     selectedSector: 'Retail'
 };
 
@@ -53,38 +57,26 @@ const state = {
 
 const Sidebar = () => {
     const isAdmin = state.role === 'admin';
-    
-    const adminMenu = [
-        { id: 'analytics', label: 'Adoption Analytics', icon: '📊' },
-        { id: 'ingestion', label: 'Ingestion Hub', icon: '⚙️' },
-        { id: 'sources', label: 'Data Sources', icon: '📂' },
-        { id: 'reports', label: 'Branch Reports', icon: '📈' },
-        { id: 'settings', label: 'Admin Settings', icon: '⚙️' }
-    ];
-
     const staffMenu = [
-        { id: 'dashboard', label: 'My Dashboard', icon: '🏠' },
+        { id: 'dashboard', label: 'Dashboard Mastery', icon: '🏠' },
+        { id: 'learning', label: 'Learning Path', icon: '🛣️' },
         { id: 'ai', label: 'Ocean AI Assistant', icon: '🤖' },
-        { id: 'learning', label: 'Learning Mastery', icon: '🎓' },
         { id: 'simulation', label: 'Simulation Role-play', icon: '🤝' },
-        { id: 'leaderboard', label: 'Leaderboard', icon: '🏆' },
-        { id: 'settings-ai', label: 'My Profile', icon: '👤' }
+        { id: 'certificates', label: 'Sertifikat', icon: '📜' },
+        { id: 'ingestion', label: 'Admin Hub', icon: '⚙️' }
     ];
-
+    const adminMenu = [
+        { id: 'ingestion', label: 'Ingestion Hub', icon: '⚙️' },
+        { id: 'analytics', label: 'Analytics', icon: '📊' }
+    ];
     const menuItems = isAdmin ? adminMenu : staffMenu;
-
     return `
         <aside class="sidebar">
             <div class="role-switcher">
-                <button class="role-btn ${isAdmin ? 'active' : ''}" id="set-admin">ADMIN (Knowledge)</button>
-                <button class="role-btn ${!isAdmin ? 'active' : ''}" id="set-staff">STAFF (RO/Ops)</button>
+                <button class="role-btn ${isAdmin ? 'active' : ''}" id="set-admin">ADMIN</button>
+                <button class="role-btn ${!isAdmin ? 'active' : ''}" id="set-staff">STAFF</button>
             </div>
-
-            <div class="sidebar-logo">
-                <div class="logo-box">O</div>
-                <span>${isAdmin ? 'Ocean Admin' : 'Ocean Platform'}</span>
-            </div>
-
+            <div class="sidebar-logo"><div class="logo-box">O</div> <span>${isAdmin ? 'Ocean Admin' : 'Ocean Mastery'}</span></div>
             <nav class="nav-links">
                 ${menuItems.map(item => `
                     <li class="nav-item">
@@ -94,14 +86,10 @@ const Sidebar = () => {
                     </li>
                 `).join('')}
             </nav>
-
             <div class="sidebar-footer">
                 <div class="user-profile">
                     <div class="avatar">${state.user.name.charAt(0)}</div>
-                    <div>
-                        <div class="user-name">${state.user.name}</div>
-                        <div class="user-branch">${state.user.branch}</div>
-                    </div>
+                    <div><div class="user-name">${state.user.name}</div><div class="user-branch">${state.user.branch}</div></div>
                 </div>
             </div>
         </aside>
@@ -109,84 +97,174 @@ const Sidebar = () => {
 };
 
 const DashboardPage = () => `
-    <div class="fade-in">
-        <header>
-            <h1>Halo, Andi! Anda berada di Level <span style="color: var(--ocean-accent);">${state.user.level}</span></h1>
-            <p class="subtitle">Selesaikan 1 modul lagi untuk mencapai level Master & klaim bonus KPI.</p>
-        </header>
-
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-label">Poin Karir</div>
-                <div class="stat-val">${state.user.points} XP</div>
-                <div class="progress-bar"><div class="progress-fill" style="width: ${state.user.progress}%"></div></div>
-                <div style="font-size: 0.75rem; color: var(--text-muted);">Tinggal 550 XP ke Master</div>
+    <div class="mastery-container fade-in">
+        <div class="mastery-stats-row">
+            <div class="m-stat-card"><label>TOTAL POIN SAYA</label><div class="m-val">8.450</div><div class="m-trend">↑ 1.250 dari minggu lalu</div></div>
+            <div class="m-stat-card flex-row"><div class="m-avatar-big">👨‍✈️</div><div><label>LEVEL SAYA</label><div class="m-val">EXPERT</div><div class="m-sub">Level 3</div></div></div>
+            <div class="m-stat-card flex-row"><div class="m-icon-star">🏆</div><div><label>BADGE SAYA</label><div class="m-val">12</div></div></div>
+            <div class="m-stat-card bg-gradient-blue"><label style="color: rgba(255,255,255,0.8)">RANK SAYA (REGIONAL)</label><div class="m-val" style="color: white">#5</div><div class="m-sub" style="color: rgba(255,255,255,0.7)">Jakarta Region</div></div>
+        </div>
+        <div class="mastery-grid">
+            <div class="m-card leaderboard-section">
+                <h3>OCEAN CHAMPIONS (TOP 10)</h3>
+                <div class="m-podium">
+                    <div class="podium-col rank-2"><div class="p-avatar">🥈</div><div class="p-name">Sarah Wijaya</div><div class="p-pts">11.230 XP</div><div class="p-step">2nd</div></div>
+                    <div class="podium-col rank-1"><div class="p-crown">👑</div><div class="p-avatar">🥇</div><div class="p-name">Andi Pratama</div><div class="p-pts">12.560 XP</div><div class="p-step">1st</div></div>
+                    <div class="podium-col rank-3"><div class="p-avatar">🥉</div><div class="p-name">Budi Santoso</div><div class="p-pts">10.980 XP</div><div class="p-step">3rd</div></div>
+                </div>
+                <table class="m-table">
+                    <thead><tr><th>Rank</th><th>Cabang</th><th>Champion</th><th>Poin</th></tr></thead>
+                    <tbody><tr class="active-row"><td>5</td><td>KCP Menteng</td><td>Anda</td><td>8.450</td></tr></tbody>
+                </table>
             </div>
-            <div class="stat-card">
-                <div class="stat-label">Peringkat Region</div>
-                <div class="stat-val">#3</div>
-                <div style="font-size: 0.75rem; color: #10b981; font-weight: 700;">▲ Naik 2 peringkat</div>
+            <div class="m-card progress-section">
+                <h3>PROGRESS SAYA</h3>
+                <div class="m-progress-list">
+                    ${state.courses.slice(0, 3).map(c => `
+                        <div class="m-prog-item">
+                            <div class="m-prog-icon">📄</div>
+                            <div class="m-prog-details">
+                                <div class="m-prog-info"><span class="m-prog-title">${c.title}</span><span class="m-prog-pct">${c.progress}%</span></div>
+                                <div class="m-bar"><div class="m-fill" style="width: ${c.progress}%"></div></div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="m-btn-flat" style="margin-top: auto;" data-page="learning">Lanjutkan Belajar</button>
             </div>
-            <div class="stat-card">
-                <div class="stat-label">Sertifikat Digital</div>
-                <div class="stat-val">8</div>
-                <div style="font-size: 0.75rem; color: var(--bca-blue-primary);">Lihat semua sertifikat →</div>
+            <div class="m-card badge-section">
+                <h3>BADGE TERBARU</h3>
+                <div class="badge-hex-grid">
+                    <div class="hex-badge b-gold">⭐</div><div class="hex-badge b-fire">🔥</div><div class="hex-badge b-blue">💎</div><div class="hex-badge b-silver">✨</div>
+                </div>
             </div>
         </div>
+    </div>
+`;
 
-        <section style="margin-top: 3rem;">
-            <h2 style="margin-bottom: 1.5rem;">Rekomendasi Micro-learning</h2>
-            <div class="learning-grid">
-                ${state.courses.map(course => `
-                    <div class="course-card">
-                        <div class="course-tag">${course.cat}</div>
-                        <h3>${course.title}</h3>
-                        <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0.5rem 0;">Durasi: ${course.duration}</p>
-                        <div class="progress-bar"><div class="progress-fill" style="width: ${course.progress}%"></div></div>
-                        <button class="btn-primary" style="width: 100%; padding: 10px; margin-top: 1rem;">${course.progress === 100 ? 'Review' : 'Mulai Belajar'}</button>
-                    </div>
-                `).join('')}
+const ModuleDetailPage = (module) => `
+    <div class="fade-in module-detail-container">
+        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <div>
+                <a href="#" class="back-link" data-page="learning">← Kembali ke Learning Path</a>
+                <h1 style="margin-top: 10px;">${module.title}</h1>
             </div>
-        </section>
+            <div class="badge-premium">${module.cat}</div>
+        </header>
+
+        <div class="module-layout" style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 2rem;">
+            <div class="module-main-content">
+                <div class="video-container" style="background: black; border-radius: 16px; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: var(--shadow-premium);">
+                    <div style="color: white; text-align: center;">
+                        <div style="font-size: 5rem; margin-bottom: 1rem; cursor: pointer;" id="play-video">▶️</div>
+                        <p>Video Pembelajaran: ${module.title}</p>
+                    </div>
+                </div>
+
+                <div class="m-card" style="margin-top: 2rem; padding: 2rem;">
+                    <h3>Deskripsi Materi</h3>
+                    <p style="color: var(--text-muted); margin-top: 1rem; line-height: 1.8;">
+                        Modul ini membahas tentang implementasi praktis ${module.title} untuk meningkatkan efisiensi nasabah. 
+                        Anda akan mempelajari cara melakukan pitching, handling objection, hingga teknis aktivasi di platform Ocean.
+                    </p>
+                    <div style="margin-top: 2rem; padding: 1.5rem; background: #f8fafc; border-radius: 12px; border-left: 4px solid var(--bca-blue-primary);">
+                        <h4 style="font-size: 0.9rem; color: var(--bca-blue-primary);">Key Takeaways:</h4>
+                        <ul style="margin-top: 10px; font-size: 0.85rem; padding-left: 20px;">
+                            <li>Otomasi rekonsiliasi data nasabah.</li>
+                            <li>Integrasi myEcosystem dengan ERP pihak ketiga.</li>
+                            <li>Manajemen limit transaksi harian.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="module-sidebar">
+                <div class="m-card" style="padding: 1.5rem; margin-bottom: 1.5rem;">
+                    <h3>DOKUMEN PENDUKUNG</h3>
+                    <div class="doc-item" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; margin-top: 1rem; cursor: pointer;">
+                        <span>📄</span>
+                        <div style="flex: 1;">
+                            <div style="font-size: 0.85rem; font-weight: 700;">Product_Guide_V2.pdf</div>
+                            <div style="font-size: 0.7rem; color: var(--text-muted);">PDF • 2.4 MB</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="m-card" style="padding: 1.5rem; text-align: center;">
+                    <div style="font-size: 0.8rem; font-weight: 800; color: var(--bca-blue-primary); margin-bottom: 1rem;">STATUS PROGRES</div>
+                    <div class="m-val" style="font-size: 2.5rem; margin-bottom: 1rem;">${module.progress}%</div>
+                    <div class="m-bar" style="margin-bottom: 2rem;"><div class="m-fill" style="width: ${module.progress}%"></div></div>
+                    <button class="btn-primary" style="width: 100%;" id="complete-module" ${module.progress === 100 ? 'disabled' : ''}>
+                        ${module.progress === 100 ? 'Sudah Selesai ✓' : 'Selesaikan Modul & Klaim XP'}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+`;
+
+const LearningPage = () => {
+    const roleCourses = state.courses.filter(c => c.roles.includes(state.user.roleType.split(' ')[0]));
+    return `
+    <div class="fade-in">
+        <header>
+            <h1>Learning Path: ${state.user.roleType}</h1>
+            <p class="subtitle">Modul bite-sized 5-7 menit untuk penguasaan platform Ocean.</p>
+        </header>
+        <div class="learning-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+            ${roleCourses.map(course => `
+                <div class="m-card course-card">
+                    <div class="badge-premium">${course.cat}</div>
+                    <h3 style="margin: 1rem 0;">${course.title}</h3>
+                    <div class="m-prog-info"><span>${course.duration}</span> <span>${course.progress}%</span></div>
+                    <div class="m-bar"><div class="m-fill" style="width: ${course.progress}%"></div></div>
+                    <button class="btn-primary start-module" style="width: 100%; margin-top: 1.5rem;" data-id="${course.id}">
+                        ${course.progress === 100 ? 'Review Materi' : 'Mulai Belajar'}
+                    </button>
+                </div>
+            `).join('')}
+        </div>
+    </div>
+    `;
+};
+
+const SimulationPage = () => `
+    <div class="fade-in">
+        <h1>Simulation Q&A dengan Nasabah</h1>
+        <div class="sim-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 2rem;">
+            ${state.simulations.map(sim => `
+                <div class="m-card sim-card" style="text-align: center; padding: 2rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">${sim.id === 'umkm' ? '🏬' : '🏢'}</div>
+                    <h3>${sim.title}</h3>
+                    <p>Difficulty: <b>${sim.difficulty}</b></p>
+                    <button class="btn-outline" style="width: 100%; margin-top: 1rem;">Mulai Role-play</button>
+                </div>
+            `).join('')}
+        </div>
     </div>
 `;
 
 const AIPage = () => `
     <div class="fade-in">
-        <header style="display: flex; justify-content: space-between; align-items: flex-end;">
-            <div>
-                <h1>Ocean AI Assistant</h1>
-                <p class="subtitle">Just-in-time Q&A & Benefit Translator</p>
-            </div>
-            <div style="display: flex; gap: 10px;">
-                <button class="btn-outline active">Mode Tanya Jawab</button>
-                <button class="btn-outline">Mode Translator</button>
+        <header style="display: flex; justify-content: space-between; align-items: center;">
+            <div><h1>Ocean AI Assistant</h1><p class="subtitle">Just-in-time Q&A & Benefit Translator</p></div>
+            <div class="m-card" style="padding: 10px 20px; display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 0.8rem; font-weight: 800; color: var(--bca-blue-primary);">BENEFIT TRANSLATOR</span>
+                <label class="switch"><input type="checkbox" id="benefit-toggle" ${state.benefitMode ? 'checked' : ''}><span class="slider round"></span></label>
             </div>
         </header>
-
         <div class="ai-layout">
             <div class="chat-main">
-                <div class="chat-content" id="chat-messages">
-                    ${state.chatHistory.map(msg => `
-                        <div class="msg ${msg.role}">${msg.content}</div>
-                    `).join('')}
-                </div>
+                <div class="chat-content" id="chat-messages">${state.chatHistory.map(m => `<div class="msg ${m.role}">${m.content}</div>`).join('')}</div>
                 <div class="chat-input-wrapper">
-                    <input type="text" class="chat-input" id="chat-input" placeholder="Tanya: Bagaimana jelaskan benefit Business Dashboard ke CFO?">
-                    <button class="btn-send-chat" id="btn-send-chat">🚀</button>
+                    <input type="text" class="chat-input" id="chat-input-main" placeholder="Tanya tentang fitur...">
+                    <button class="btn-primary" id="btn-send-main">🚀</button>
                 </div>
             </div>
-
             <div class="ai-sources">
-                <h3 style="font-size: 0.9rem; margin-bottom: 1rem;">Reference & Script</h3>
-                <div class="source-item"><span>📜</span> Script: Pitching CFO</div>
-                <div class="source-item"><span>📄</span> Document: Dashboard Guide</div>
-                <div class="source-item"><span>🎥</span> Video: HO Socialization</div>
-                <div style="margin-top: 2rem; background: var(--bca-blue-light); padding: 1rem; border-radius: 12px;">
-                    <p style="font-size: 0.75rem; font-weight: 700; color: var(--bca-blue-primary);">Punya Best Practice?</p>
-                    <p style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 1rem;">Upload video sosialisasi Anda untuk poin XP tambahan!</p>
-                    <button class="btn-primary" style="width: 100%; font-size: 0.7rem; padding: 8px;">Upload Sekarang</button>
-                </div>
+                <h3>RAG SOURCES</h3>
+                <div class="source-item"><span>📜</span> Script Pitching CFO</div>
+                <div class="source-item"><span>📄</span> Guide: Dashboard</div>
             </div>
         </div>
     </div>
@@ -194,42 +272,14 @@ const AIPage = () => `
 
 const IngestionPage = () => `
     <div class="fade-in">
-        <header>
-            <h1>Admin: Knowledge Capture Loop</h1>
-            <p class="subtitle">Ingest data resmi & video best practice ke dalam RAG database</p>
-        </header>
-
+        <header><h1>Knowledge Capture Loop</h1></header>
         <div class="ingestion-container">
             <div class="hub-card">
-                <h2 style="font-size: 1.2rem; margin-bottom: 1.5rem; color: var(--bca-blue-dark);">Ocean Knowledge Hub</h2>
-                <div class="type-grid">
-                    ${['Dokumen', 'Video Sosialisasi', 'Audio', 'Teks', 'FAQ', 'Web Link'].map((t, i) => `
-                        <div class="type-item">
-                            <div class="type-icon">${['📄', '🎬', '🎧', '📝', '❓', '🔗'][i]}</div>
-                            <div class="type-label">${t}</div>
-                        </div>
-                    `).join('')}
-                </div>
-                <div class="upload-zone ${state.isIngesting ? 'active' : ''}" id="upload-zone">
-                    <p style="font-size: 0.9rem; color: var(--text-muted);">Upload Video Sosialisasi / Dokumen Baru</p>
-                    <button class="btn-primary" id="btn-pilih" style="margin-top: 1rem;">Pilih File</button>
-                </div>
+                <div class="type-grid">${['Dokumen', 'Video', 'FAQ'].map(t => `<div class="type-item"><div class="type-label">${t}</div></div>`).join('')}</div>
+                <div class="upload-zone"><p>Upload data resmi ke RAG database</p></div>
             </div>
-
             <div class="process-column">
-                <h2 style="font-size: 0.9rem; text-align: center; color: var(--bca-blue-primary); margin-bottom: 1rem;">RAG PROCESSING</h2>
-                ${state.ingestionSteps.map(step => `
-                    <div class="process-step ${step.status}">
-                        <div class="step-num">${step.status === 'completed' ? '✓' : step.id}</div>
-                        <div style="font-size: 0.85rem; font-weight: 600;">${step.label}</div>
-                    </div>
-                `).join('')}
-            </div>
-
-            <div class="vector-db">
-                <div class="db-icon">🗄️</div>
-                <div style="font-weight: 800; font-size: 0.9rem; color: var(--bca-blue-dark);">RAG Vector DB</div>
-                <div style="font-size: 0.7rem; color: var(--ocean-accent);">Updated Real-time</div>
+                ${state.ingestionSteps.map(s => `<div class="process-step ${s.status}"><div class="step-num">${s.id}</div><div>${s.label}</div></div>`).join('')}
             </div>
         </div>
     </div>
@@ -240,26 +290,22 @@ const LeaderboardPage = () => `
         <h1>Ocean Champion Leaderboard</h1>
         <p class="subtitle">Top adoption rate & quiz score tertinggi per Region.</p>
 
-        <div class="leaderboard-podium">
-            ${state.leaderboard.slice(0, 3).map((u, i) => `
-                <div class="podium-item rank-${u.rank}">
-                    <div class="podium-avatar">${u.name.charAt(0)}</div>
-                    <div style="font-weight: 800; margin-top: 1rem;">${u.name}</div>
-                    <div style="font-size: 0.8rem; color: var(--text-muted);">${u.branch}</div>
-                    <div style="font-size: 1.2rem; font-weight: 800; color: var(--bca-blue-primary); margin-top: 0.5rem;">${u.points} XP</div>
+        <div class="mastery-grid" style="grid-template-columns: 1fr; margin-top: 2rem;">
+            <div class="m-card">
+                <div class="m-podium">
+                    <div class="podium-col rank-2"><div class="p-avatar">🥈</div><div class="p-name">Sarah Wijaya</div><div class="p-pts">11.230 XP</div><div class="p-step">2nd</div></div>
+                    <div class="podium-col rank-1"><div class="p-crown">👑</div><div class="p-avatar">🥇</div><div class="p-name">Andi Pratama</div><div class="p-pts">12.560 XP</div><div class="p-step">1st</div></div>
+                    <div class="podium-col rank-3"><div class="p-avatar">🥉</div><div class="p-name">Budi Santoso</div><div class="p-pts">10.980 XP</div><div class="p-step">3rd</div></div>
                 </div>
-            `).join('')}
-        </div>
-
-        <div class="leaderboard-list">
-            ${state.leaderboard.map(u => `
-                <div class="leaderboard-row">
-                    <span style="font-weight: 800; width: 30px;">#${u.rank}</span>
-                    <span style="flex: 1; font-weight: 600;">${u.name}</span>
-                    <span style="width: 150px; color: var(--text-muted);">${u.branch}</span>
-                    <span style="font-weight: 800; color: var(--bca-blue-primary);">${u.points} XP</span>
-                </div>
-            `).join('')}
+                <table class="m-table">
+                    <thead><tr><th>Rank</th><th>Cabang</th><th>Champion</th><th>Poin</th></tr></thead>
+                    <tbody>
+                        ${state.leaderboard.map((u, i) => `
+                            <tr class="${u.name.includes('Anda') ? 'active-row' : ''}"><td>${i + 1}</td><td>${u.branch}</td><td>${u.name}</td><td>${u.points}</td></tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 `;
@@ -765,10 +811,12 @@ const render = () => {
     } else {
         switch(page) {
             case 'dashboard': content = DashboardPage(); break;
+            case 'learning': content = LearningPage(); break;
+            case 'module-detail': content = ModuleDetailPage(state.activeModule); break;
             case 'ai': content = AIPage(); break;
+            case 'simulation': content = SimulationPage(); break;
             case 'ingestion': content = IngestionPage(); break;
             case 'leaderboard': content = LeaderboardPage(); break;
-            case 'learning': content = DashboardPage(); break; 
             default: content = DashboardPage();
         }
 
@@ -893,8 +941,8 @@ const attachEventListeners = () => {
         return; // Don't attach other listeners in auth mode
     }
 
-    // Nav Links
-    document.querySelectorAll('.nav-link, .nav-link-p, [data-page]').forEach(link => {
+    // Nav Links & Module Handling
+    document.querySelectorAll('[data-page]').forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             state.currentPage = e.currentTarget.getAttribute('data-page');
@@ -902,6 +950,27 @@ const attachEventListeners = () => {
             window.scrollTo(0,0);
         });
     });
+
+    document.querySelectorAll('.start-module').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const courseId = parseInt(e.currentTarget.getAttribute('data-id'));
+            state.activeModule = state.courses.find(c => c.id === courseId);
+            state.currentPage = 'module-detail';
+            render();
+        });
+    });
+
+    // Complete Module Handler
+    const completeBtn = document.getElementById('complete-module');
+    if (completeBtn && state.activeModule) {
+        completeBtn.addEventListener('click', () => {
+            state.activeModule.progress = 100;
+            state.user.points += 250; // Award XP
+            alert('Selamat! Anda menyelesaikan modul ini dan mendapatkan 250 XP! 🏆');
+            state.currentPage = 'learning';
+            render();
+        });
+    }
 
     // View Mode Switches
     const adminBtn = document.getElementById('set-admin');
@@ -915,6 +984,24 @@ const attachEventListeners = () => {
     if (directInternalBtn) directInternalBtn.addEventListener('click', () => { state.viewMode = 'internal'; state.currentPage = 'dashboard'; render(); });
     if (loginTriggerBtn) loginTriggerBtn.addEventListener('click', () => { state.viewMode = 'auth'; state.authStep = 'login'; render(); });
     if (homeBtn) homeBtn.addEventListener('click', () => { state.viewMode = 'public'; state.currentPage = 'landing'; render(); });
+
+    // AI & Benefits
+    const benefitToggle = document.getElementById('benefit-toggle');
+    if (benefitToggle) benefitToggle.addEventListener('change', (e) => { state.benefitMode = e.target.checked; });
+
+    const sendBtn = document.getElementById('btn-send-main');
+    const chatInput = document.getElementById('chat-input-main');
+    if (sendBtn && chatInput) {
+        sendBtn.addEventListener('click', () => {
+            const val = chatInput.value; if (!val) return;
+            state.chatHistory.push({ role: 'user', content: val });
+            let resp = "Menganalisis basis pengetahuan...";
+            if (state.benefitMode) resp = "<b>[Benefit Translator]</b>: Berdasarkan RAG, fitur ini akan memberikan efisiensi operasional sebesar 30% bagi nasabah UMKM Anda.";
+            setTimeout(() => { state.chatHistory.push({ role: 'ai', content: resp }); render(); }, 800);
+            chatInput.value = ''; render();
+        });
+        chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendBtn.click(); });
+    }
 
 
     // Sector Selector
