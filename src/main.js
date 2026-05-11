@@ -2,9 +2,16 @@ import './style.css'
 
 // --- State Management ---
 const state = {
-    viewMode: 'public', // 'public' or 'internal'
+    viewMode: 'public', // 'public', 'internal', or 'auth'
     role: 'staff',
     currentPage: 'landing',
+    authStep: 'login', // 'login', 'select', 'pin', 'biometric', 'otp'
+    corporateId: '',
+    userId: '',
+    keyBcaResponse: '',
+    pin: '',
+    otp: ['', '', '', ''],
+    isAuthenticating: false,
     user: {
         name: 'Andi RO Senior',
         branch: 'KCU Jakarta Area',
@@ -595,11 +602,143 @@ const PublicAIChatbot = () => `
     </div>
 `;
 
+const OceanAuth = () => {
+    const renderLogin = () => `
+        <div class="fade-in">
+            <h2 class="auth-title" style="margin-bottom: 2rem;">Halo, Selamat Datang!</h2>
+            
+            <div class="login-form" style="text-align: left;">
+                <label class="auth-label">BCA ID Bisnis</label>
+                <div class="input-group-auth">
+                    <span class="input-tag">Corporate ID</span>
+                    <input type="text" class="auth-field" id="corp-id" placeholder="Masukkan Corporate ID" value="${state.corporateId}">
+                </div>
+                <div class="input-group-auth" style="margin-bottom: 2rem;">
+                    <span class="input-tag">User ID</span>
+                    <input type="text" class="auth-field" id="user-id" placeholder="Masukkan User ID" value="${state.userId}">
+                </div>
+
+                <label class="auth-label">KeyBCA Response <span class="help-icon">?</span></label>
+                <div class="input-group-auth">
+                    <input type="text" class="auth-field" id="key-response" placeholder="Masukkan KeyBCA Response" value="${state.keyBcaResponse}">
+                </div>
+
+                <button class="btn-primary" id="btn-login-submit" style="width: 100%; margin-top: 2rem; padding: 16px; border-radius: 50px; background: #ccc; cursor: not-allowed;" disabled>Masuk</button>
+                
+                <div style="margin-top: 1.5rem; text-align: center;">
+                    <a href="#" class="auth-link">Buka Blokir User</a>
+                </div>
+            </div>
+            <div class="back-link" id="cancel-auth" style="margin-top: 2rem;">Kembali ke Beranda</div>
+        </div>
+    `;
+
+    const renderSelect = () => `
+        <div class="fade-in">
+            <h2 class="auth-title">Ocean Auth</h2>
+            <p class="auth-subtitle">Pilih metode verifikasi untuk mengakses portal internal.</p>
+            <div class="method-grid">
+                <button class="method-btn" data-auth="pin">
+                    <div class="method-icon">🔑</div>
+                    <div class="method-info">
+                        <h4>PIN Ocean</h4>
+                        <p>Gunakan 6 digit PIN keamanan Anda</p>
+                    </div>
+                </button>
+                <button class="method-btn" data-auth="biometric">
+                    <div class="method-icon">👤</div>
+                    <div class="method-info">
+                        <h4>Biometrik</h4>
+                        <p>Face ID atau Sidik Jari</p>
+                    </div>
+                </button>
+                <button class="method-btn" data-auth="otp">
+                    <div class="method-icon">📧</div>
+                    <div class="method-info">
+                        <h4>OTP Email</h4>
+                        <p>Kode verifikasi ke email terdaftar</p>
+                    </div>
+                </button>
+            </div>
+            <div class="back-link" id="cancel-auth">Kembali ke Beranda</div>
+        </div>
+    `;
+
+    const renderPin = () => `
+        <div class="fade-in">
+            <h2 class="auth-title">Masukkan PIN</h2>
+            <p class="auth-subtitle">Silakan masukkan 6 digit PIN Ocean Anda.</p>
+            <div class="pin-display">
+                ${[...Array(6)].map((_, i) => `<div class="pin-dot ${state.pin.length > i ? 'filled' : ''}"></div>`).join('')}
+            </div>
+            <div class="pin-keypad">
+                ${[1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => `<button class="key-btn" data-key="${num}">${num}</button>`).join('')}
+                <button class="key-btn" style="font-size: 1rem; color: #ef4444;" data-key="clear">CLR</button>
+                <button class="key-btn" data-key="0">0</button>
+                <button class="key-btn" style="font-size: 1rem; color: var(--ocean-accent);" data-key="del">DEL</button>
+            </div>
+            <div class="back-link" data-auth="select">Ganti Metode Verifikasi</div>
+        </div>
+    `;
+
+    const renderBiometric = () => `
+        <div class="fade-in">
+            <h2 class="auth-title">Verifikasi Biometrik</h2>
+            <p class="auth-subtitle">Memindai wajah atau sidik jari Anda...</p>
+            <div class="biometric-visual">
+                <div class="scan-line"></div>
+                ${state.isAuthenticating ? '✅' : '👤'}
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted);">${state.isAuthenticating ? 'Berhasil diverifikasi!' : 'Posisikan wajah Anda pada layar'}</p>
+            <div class="back-link" data-auth="select">Ganti Metode Verifikasi</div>
+        </div>
+    `;
+
+    const renderOtp = () => `
+        <div class="fade-in">
+            <h2 class="auth-title">Verifikasi OTP</h2>
+            <p class="auth-subtitle">Kami telah mengirimkan kode ke an***@bca.co.id</p>
+            <div class="otp-grid">
+                ${state.otp.map((v, i) => `<input type="text" class="otp-input" value="${v}" maxlength="1" data-otp-idx="${i}">`).join('')}
+            </div>
+            <div class="resend-timer">
+                Tidak menerima kode? <span class="resend-link">Kirim Ulang (59s)</span>
+            </div>
+            <div class="back-link" data-auth="select">Ganti Metode Verifikasi</div>
+        </div>
+    `;
+
+    let stepContent = '';
+    switch(state.authStep) {
+        case 'login': stepContent = renderLogin(); break;
+        case 'select': stepContent = renderSelect(); break;
+        case 'pin': stepContent = renderPin(); break;
+        case 'biometric': stepContent = renderBiometric(); break;
+        case 'otp': stepContent = renderOtp(); break;
+        default: stepContent = renderLogin();
+    }
+
+    return `
+        <div class="auth-overlay">
+            <div class="auth-card">
+                <div class="auth-logo">O</div>
+                ${stepContent}
+            </div>
+        </div>
+    `;
+};
+
 // --- Router ---
 
 const render = () => {
     const app = document.getElementById('app');
     if (!app) return;
+
+    if (state.viewMode === 'auth') {
+        app.innerHTML = OceanAuth();
+        attachEventListeners();
+        return;
+    }
     
     let content = '';
     const page = state.currentPage;
@@ -647,6 +786,113 @@ const render = () => {
 };
 
 const attachEventListeners = () => {
+    // --- Auth Listeners ---
+    if (state.viewMode === 'auth') {
+        // Login Logic
+        const corpIdInput = document.getElementById('corp-id');
+        const userIdInput = document.getElementById('user-id');
+        const keyBcaInput = document.getElementById('key-response');
+        const loginBtn = document.getElementById('btn-login-submit');
+
+        const validateLogin = () => {
+            const isValid = state.corporateId && state.userId && state.keyBcaResponse;
+            if (loginBtn) {
+                loginBtn.disabled = !isValid;
+                loginBtn.style.background = isValid ? 'var(--bca-blue-primary)' : '#ccc';
+                loginBtn.style.cursor = isValid ? 'pointer' : 'not-allowed';
+            }
+        };
+
+        if (corpIdInput) corpIdInput.addEventListener('input', (e) => { state.corporateId = e.target.value; validateLogin(); });
+        if (userIdInput) userIdInput.addEventListener('input', (e) => { state.userId = e.target.value; validateLogin(); });
+        if (keyBcaInput) keyBcaInput.addEventListener('input', (e) => { state.keyBcaResponse = e.target.value; validateLogin(); });
+
+        // Initial validation
+        validateLogin();
+
+        if (loginBtn) loginBtn.addEventListener('click', () => {
+            if (state.corporateId && state.userId && state.keyBcaResponse) {
+                state.authStep = 'select';
+                render();
+            }
+        });
+
+        document.querySelectorAll('[data-auth]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const step = btn.getAttribute('data-auth');
+                state.authStep = step;
+                state.pin = ''; // Reset pin on switch
+                render();
+
+                if (step === 'biometric') {
+                    state.isAuthenticating = false;
+                    setTimeout(() => {
+                        state.isAuthenticating = true;
+                        render();
+                        setTimeout(() => {
+                            state.viewMode = 'internal';
+                            state.currentPage = 'dashboard';
+                            render();
+                        }, 1000);
+                    }, 2000);
+                }
+            });
+        });
+
+        const cancelBtn = document.getElementById('cancel-auth');
+        if (cancelBtn) cancelBtn.addEventListener('click', () => {
+            state.viewMode = 'public';
+            state.currentPage = 'landing';
+            render();
+        });
+
+        // PIN Keypad
+        document.querySelectorAll('.key-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const key = btn.getAttribute('data-key');
+                if (key === 'clear') state.pin = '';
+                else if (key === 'del') state.pin = state.pin.slice(0, -1);
+                else if (state.pin.length < 6) state.pin += key;
+
+                render();
+
+                if (state.pin.length === 6) {
+                    setTimeout(() => {
+                        state.viewMode = 'internal';
+                        state.currentPage = 'dashboard';
+                        render();
+                    }, 500);
+                }
+            });
+        });
+
+        // OTP Logic
+        document.querySelectorAll('.otp-input').forEach((input, idx) => {
+            input.addEventListener('input', (e) => {
+                const val = e.target.value;
+                if (val && idx < 3) {
+                    document.querySelectorAll('.otp-input')[idx + 1].focus();
+                }
+                state.otp[idx] = val;
+                
+                if (state.otp.every(o => o !== '')) {
+                    setTimeout(() => {
+                        state.viewMode = 'internal';
+                        state.currentPage = 'dashboard';
+                        render();
+                    }, 500);
+                }
+            });
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !input.value && idx > 0) {
+                    document.querySelectorAll('.otp-input')[idx - 1].focus();
+                }
+            });
+        });
+
+        return; // Don't attach other listeners in auth mode
+    }
+
     // Nav Links
     document.querySelectorAll('.nav-link, .nav-link-p, [data-page]').forEach(link => {
         link.addEventListener('click', (e) => {
@@ -665,7 +911,7 @@ const attachEventListeners = () => {
 
     if (adminBtn) adminBtn.addEventListener('click', () => { state.role = 'admin'; state.currentPage = 'ingestion'; render(); });
     if (staffBtn) staffBtn.addEventListener('click', () => { state.role = 'staff'; state.currentPage = 'dashboard'; render(); });
-    if (internalBtn) internalBtn.addEventListener('click', () => { state.viewMode = 'internal'; state.currentPage = 'dashboard'; render(); });
+    if (internalBtn) internalBtn.addEventListener('click', () => { state.viewMode = 'auth'; state.authStep = 'login'; render(); });
     if (homeBtn) homeBtn.addEventListener('click', () => { state.viewMode = 'public'; state.currentPage = 'landing'; render(); });
 
     // Sector Selector
