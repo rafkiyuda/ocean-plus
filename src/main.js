@@ -76,7 +76,7 @@ const Sidebar = () => {
                 <button class="role-btn ${isAdmin ? 'active' : ''}" id="set-admin">ADMIN</button>
                 <button class="role-btn ${!isAdmin ? 'active' : ''}" id="set-staff">STAFF</button>
             </div>
-            <div class="sidebar-logo"><div class="logo-box">O</div> <span>${isAdmin ? 'Ocean Admin' : 'Ocean Mastery'}</span></div>
+            <div class="sidebar-logo" style="padding: 1rem 1.5rem; display: flex; align-items: center; gap: 0.5rem;"><img src="https://pustaka.bca.co.id/Ocean/Assets/Icon/Logo-Ocean-by-BCA-white.png" alt="Ocean by BCA Logo" style="height: 28px; width: auto; object-fit: contain;"></div>
             <nav class="nav-links">
                 ${menuItems.map(item => `
                     <li class="nav-item">
@@ -316,109 +316,520 @@ const PublicNavbar = () => `
     <nav class="public-nav">
         <div class="nav-container">
             <div class="nav-logo" id="nav-home">
-                <div class="logo-box">O</div>
-                <span>Ocean by BCA</span>
+                <img src="https://pustaka.bca.co.id/Ocean/Assets/Icon/Logo-Ocean-by-BCA-white.png" alt="Ocean by BCA Logo" class="nav-logo-img">
             </div>
             <div class="nav-links-public">
-                <a href="#" class="nav-link-p" data-page="landing">Home</a>
-                <a href="#" class="nav-link-p" data-page="how-it-works">How It Works</a>
-                <a href="#" class="nav-link-p" data-page="sandbox">Sandbox Demo</a>
-                <a href="#" class="nav-link-p" data-page="roi">ROI Calculator</a>
-                <a href="#" class="nav-link-p" data-page="security">Security</a>
+                <a href="#" class="nav-link-p ${state.currentPage === 'landing' ? 'active' : ''}" data-page="landing">Home</a>
+                <a href="#" class="nav-link-p ${state.currentPage === 'how-it-works' ? 'active' : ''}" data-page="how-it-works">Produk</a>
+                <a href="#" class="nav-link-p ${state.currentPage === 'sandbox' ? 'active' : ''}" data-page="sandbox">
+                    myEcosystem
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-chevron-down"><path d="m6 9 6 6 6-6"></path></svg>
+                </a>
+                <a href="#" class="nav-link-p ${state.currentPage === 'roi' ? 'active' : ''}" data-page="roi">
+                    Quick Access
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-chevron-down"><path d="m6 9 6 6 6-6"></path></svg>
+                </a>
+                <a href="#" class="nav-link-p ${state.currentPage === 'security' ? 'active' : ''}" data-page="security">Artikel</a>
+                <a href="#" class="nav-link-p" id="btn-direct-internal">Pusat Bantuan</a>
             </div>
             <div class="nav-actions">
-                <button class="btn-outline" id="btn-direct-internal">Internal Portal</button>
-                <button class="btn-primary" id="btn-login-trigger">Masuk</button>
+                <button class="lang-selector-btn">
+                    <div class="flag-circle">
+                        <div class="flag-red"></div>
+                        <div class="flag-white"></div>
+                    </div>
+                    <span class="lang-label">ID</span>
+                </button>
+                <button class="btn-masuk" id="btn-login-trigger">
+                    Masuk
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-masuk-arrow"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </button>
             </div>
+            <button class="mobile-menu-btn" id="btn-toggle-mobile-menu">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" y1="12" x2="20" y2="12"></line>
+                    <line x1="4" y1="6" x2="20" y2="6"></line>
+                    <line x1="4" y1="18" x2="20" y2="18"></line>
+                </svg>
+            </button>
         </div>
     </nav>
+
+    <!-- MOBILE MENU DRAWER -->
+    <div class="mobile-menu-drawer" id="mobile-menu-drawer">
+        <div class="mobile-menu-header">
+            <div class="nav-logo">
+                <img src="https://pustaka.bca.co.id/Ocean/Assets/Icon/Logo-Ocean-by-BCA-white.png" alt="Ocean by BCA Logo" class="nav-logo-img">
+            </div>
+            <button class="mobile-menu-close-btn" id="btn-close-mobile-menu">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <div class="mobile-menu-links">
+            <a href="#" class="mobile-menu-link ${state.currentPage === 'landing' ? 'active' : ''}" data-page="landing">Home</a>
+            <a href="#" class="mobile-menu-link ${state.currentPage === 'how-it-works' ? 'active' : ''}" data-page="how-it-works">Produk</a>
+            <div class="mobile-menu-dropdown-trigger">
+                <span>myEcosystem</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+            </div>
+            <div class="mobile-menu-dropdown-trigger">
+                <span>Quick Access</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+            </div>
+            <a href="#" class="mobile-menu-link ${state.currentPage === 'security' ? 'active' : ''}" data-page="security">Artikel</a>
+            <a href="#" class="mobile-menu-link" id="btn-mobile-help">Pusat Bantuan</a>
+        </div>
+        <div class="mobile-menu-footer">
+            <div class="mobile-lang-row">
+                <span>Bahasa</span>
+                <button class="lang-selector-btn">
+                    <div class="flag-circle">
+                        <div class="flag-red"></div>
+                        <div class="flag-white"></div>
+                    </div>
+                    <span class="lang-label">ID</span>
+                </button>
+            </div>
+            <button class="btn-masuk-mobile" id="btn-login-mobile-trigger">
+                Masuk
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-masuk-arrow"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            </button>
+        </div>
+    </div>
 `;
 
 const LandingPage = () => `
-    <div class="public-layout fade-in">
-        <section class="hero-section">
-            <div class="hero-content">
-                <span class="badge-premium">Elevate Your Business</span>
-                <h1>Transformasi Digital Bisnis Anda Mulai dari Sini.</h1>
-                <p>Ocean by BCA bukan sekadar perbankan bisnis. Ini adalah ekosistem pintar untuk mengelola arus kas, otomasi transaksi, dan pertumbuhan ekosistem bisnis Anda.</p>
-                <div class="hero-ctas">
-                    <button class="btn-primary btn-lg" data-page="sandbox">Try It Out (Sandbox)</button>
-                    <button class="btn-outline btn-lg" data-page="how-it-works">Watch How It Works</button>
+    <div class="fade-in">
+        <!-- HERO SECTION 1 (Image 2 style) -->
+        <section class="hero-official-container">
+            <div class="hero-official-content" style="position: relative; z-index: 10;">
+                <h1>Kolaborasi. Inovasi. Ekspansi.</h1>
+                <p>Ocean by BCA menghubungkan bisnis dengan ekosistem perbankan, operasional, dan jaringan dalam industri.</p>
+                <button class="btn-mulai-pelajari" data-page="how-it-works">Mulai Pelajari</button>
+            </div>
+            <div class="video-official-box" id="official-video-container" style="position: relative; z-index: 10;">
+                <div class="video-play-pill-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="play-icon-svg"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    <span>Simak Video Perkenalan Ocean by BCA</span>
                 </div>
             </div>
-            <div class="hero-visual">
-                <div class="visual-card main">
-                    <div class="visual-header">
-                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+
+            <!-- Ocean Waves SVG markup -->
+            <div class="ocean-waves-container">
+              <div class="ocean-waves-scale-wrapper">
+                <svg class="ocean-wave-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2560 520" width="2560" height="520" preserveAspectRatio="xMidYMid meet">
+                  <defs>
+                    <clipPath id="wave-clip-path">
+                      <rect width="2560" height="520" x="0" y="0"></rect>
+                    </clipPath>
+                  </defs>
+                  <g clip-path="url(#wave-clip-path)">
+                    <!-- Wave Layer 1 -->
+                    <g class="wave-layer wave-layer-1">
+                      <path fill="#00335D" fill-opacity="0.25" d=" M440.9739990234375,289.7969970703125 C573.7969970703125,277.2980041503906 704.4810180664062,265 853.3330078125,265 C1002.1900024414062,265 1132.8699951171875,277.2980041503906 1265.68994140625,289.7969970703125 C1402.9300537109375,302.7120056152344 1542.4599609375,315.84100341796875 1706.6700439453125,315.84100341796875 C1870.8800048828125,315.84100341796875 2010.4000244140625,302.7120056152344 2147.639892578125,289.7969970703125 C2280.4599609375,277.2980041503906 2411.14990234375,265 2560,265 C2708.85009765625,265 2839.5400390625,277.2980041503906 2972.360107421875,289.7969970703125 C3109.550048828125,302.7070007324219 3249.030029296875,315.8330078125 3413.169921875,315.84100341796875 C3577.300048828125,315.8330078125 3716.780029296875,302.7070007324219 3853.969970703125,289.7969970703125 C3986.800048828125,277.2980041503906 4117.47998046875,265 4266.330078125,265 C4415.18994140625,265 4545.8701171875,277.2980041503906 4678.68994140625,289.7969970703125 C4815.93017578125,302.7120056152344 4955.4599609375,315.84100341796875 5119.669921875,315.84100341796875 C5283.8701171875,315.84100341796875 5423.39990234375,302.7120056152344 5560.64013671875,289.7969970703125 C5693.4599609375,277.2980041503906 5824.14990234375,265 5973,265 C5973,265 5973,520 5973,520 C5973,520 0,520 0,520 C0,520 0,315.84100341796875 0,315.84100341796875 C164.20799255371094,315.84100341796875 303.7330017089844,302.7120056152344 440.9739990234375,289.7969970703125 C440.9739990234375,289.7969970703125 C440.9739990234375,289.7969970703125 C440.9739990234375,289.7969970703125z"></path>
+                    </g>
+                    <!-- Wave Layer 2 -->
+                    <g class="wave-layer wave-layer-2">
+                      <path fill="#00335D" fill-opacity="0.25" d=" M640,264 C528.3610229492188,264 430.34698486328125,276.2980041503906 330.7300109863281,288.7969970703125 C227.7989959716797,301.7120056152344 123.15599822998047,314.84100341796875 0,314.84100341796875 C0,314.84100341796875 0,520 0,520 C0,520 7680,520 7680,520 C7680,520 7680,314.84100341796875 7680,314.84100341796875 C7556.83984375,314.84100341796875 7452.2001953125,301.7120056152344 7349.27001953125,288.7969970703125 C7249.64990234375,276.2980041503906 7151.64013671875,264 7040,264 C6928.35986328125,264 6830.35009765625,276.2980041503906 6730.72998046875,288.7969970703125 C6627.7998046875,301.7120056152344 6523.16015625,314.84100341796875 6400,314.84100341796875 C6276.83984375,314.84100341796875 6172.2001953125,301.7120056152344 6069.27001953125,288.7969970703125 C5969.64990234375,276.2980041503906 5871.64013671875,264 5760,264 C5648.35986328125,264 5550.35009765625,276.2980041503906 5450.72998046875,288.7969970703125 C5347.7998046875,301.7120056152344 5243.16015625,314.84100341796875 5120,314.84100341796875 C4996.83984375,314.84100341796875 4892.2001953125,301.7120056152344 4789.27001953125,288.7969970703125 C4689.64990234375,276.2980041503906 4591.64013671875,264 4480,264 C4368.35986328125,264 4270.35009765625,276.2980041503906 4170.72998046875,288.7969970703125 C4067.800048828125,301.7120056152344 3963.159912109375,314.84100341796875 3840,314.84100341796875 C3716.840087890625,314.84100341796875 3612.199951171875,301.7120056152344 3509.27001953125,288.7969970703125 C3409.64990234375,276.2980041503906 3311.639892578125,264 3200,264 C3088.360107421875,264 2990.35009765625,276.2980041503906 2890.72998046875,288.7969970703125 C2787.800048828125,301.7120056152344 2683.159912109375,314.84100341796875 2560,314.84100341796875 C2436.840087890625,314.84100341796875 2332.199951171875,301.7120056152344 2229.27001953125,288.7969970703125 C2129.64990234375,276.2980041503906 2031.6400146484375,264 1920,264 C1808.3599853515625,264 1710.3499755859375,276.2980041503906 1610.72998046875,288.7969970703125 C1507.800048828125,301.7120056152344 1403.1600341796875,314.84100341796875 1280,314.84100341796875 C1156.8399658203125,314.84100341796875 1052.199951171875,301.7120056152344 949.27001953125,288.7969970703125 C849.6530151367188,276.2980041503906 751.6389770507812,264 640,264 C640,264 640,264 640,264z"></path>
+                    </g>
+                    <!-- Wave Layer 3 -->
+                    <g class="wave-layer wave-layer-3">
+                      <path fill="#00335D" fill-opacity="0.25" d=" M309.2699890136719,315.4779968261719 C209.6529998779297,305.6600036621094 111.63899993896484,296 0.000021731300876126625,296 C0.000021731300876126625,296 0,520 0,520 C0,520 5120,520 5120,520 C5120,520 5120,296 5120,296 C5008.35986328125,296 4910.35009765625,305.6600036621094 4810.72998046875,315.4779968261719 C4707.7998046875,325.62200927734375 4603.16015625,335.93499755859375 4480,335.93499755859375 C4356.83984375,335.93499755859375 4252.2001953125,325.62200927734375 4149.27001953125,315.4779968261719 C4049.64990234375,305.6600036621094 3951.639892578125,296 3840,296 C3728.360107421875,296 3630.35009765625,305.6600036621094 3530.72998046875,315.4779968261719 C3427.800048828125,325.62200927734375 3323.159912109375,335.93499755859375 3200,335.93499755859375 C3076.840087890625,335.93499755859375 2972.199951171875,325.62200927734375 2869.27001953125,315.4779968261719 C2769.64990234375,305.6600036621094 2671.639892578125,296 2560,296 C2448.360107421875,296 2350.35009765625,305.6600036621094 2250.72998046875,315.4779968261719 C2147.800048828125,325.62200927734375 2043.1600341796875,335.93499755859375 1920,335.93499755859375 C1796.8399658203125,335.93499755859375 1692.199951171875,325.62200927734375 1589.27001953125,315.4779968261719 C1489.6500244140625,305.6600036621094 1391.6400146484375,296 1280,296 C1168.3599853515625,296 1070.3499755859375,305.6600036621094 970.72998046875,315.4779968261719 C867.7990112304688,325.62200927734375 763.156005859375,335.93499755859375 640,335.93499755859375 C516.843994140625,335.93499755859375 412.20098876953125,325.62200927734375 309.2699890136719,315.4779968261719 C309.2699890136719,315.4779968261719 C309.2699890136719,315.4779968261719 C309.2699890136719,315.4779968261719z"></path>
+                    </g>
+                  </g>
+                </svg>
+              </div>
+            </div>
+        </section>
+
+        <!-- TENTANG OCEAN BY BCA SECTION (Official Site Style) -->
+        <section class="tentang-ocean-section">
+            <h2 class="tentang-title">TENTANG OCEAN BY BCA</h2>
+            <div class="tentang-grid">
+                <!-- Card 1 -->
+                <div class="tentang-card" style="background-image: url('https://pustaka.bca.co.id/Ocean/Homepage/collaboration.jpg');" data-page="how-it-works">
+                    <div class="tentang-glass-overlay">
+                        <h3>Integrasi Digital</h3>
+                        <p>Pantau dan akses berbagai produk perbankan bisnis BCA melalui satu platform.</p>
                     </div>
-                    <div class="visual-body">
-                        <div class="fake-chart"></div>
-                        <div class="fake-rows">
-                            <div class="fake-row"></div>
-                            <div class="fake-row"></div>
+                </div>
+                <!-- Card 2 -->
+                <div class="tentang-card" style="background-image: url('https://pustaka.bca.co.id/Ocean/Homepage/bca-tower.jpg');" data-page="sandbox">
+                    <div class="tentang-glass-overlay">
+                        <h3>Produk Pilihan</h3>
+                        <p>Optimalkan potensi bisnis dengan rekomendasi produk yang tepat untuk bisnis Anda.</p>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="tentang-card" style="background-image: url('https://pustaka.bca.co.id/Ocean/Homepage/harbour.jpg');" data-page="roi">
+                    <div class="tentang-glass-overlay">
+                        <h3>Jaringan Bisnis</h3>
+                        <p>Perluas jaringan bisnis dan tumbuh bersama ratusan ribu nasabah bisnis BCA lainnya.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOLUSI DARI OCEAN BY BCA SECTION (Official Site Style) -->
+        <section class="solusi-ocean-section">
+            <span class="solusi-badge">SOLUSI DARI OCEAN BY BCA</span>
+            <h2 class="solusi-main-title">Bagaimana Ocean by BCA membantu bisnis Anda?</h2>
+            
+            <div class="solusi-grid">
+                <!-- Card 1 -->
+                <a target="_blank" class="solusi-card card-teal col-2-row-2" href="https://ocean.bca.co.id/id/artikel/transaksi-aman-untuk-menunjang-kelancaran-bisnis?article_id=477f5e89-ef91-47d8-b5ab-9e41be97839b&lob_id=5d1cedf0-a0ed-4112-a636-b70446c495af&source=landing">
+                    <div class="solusi-img-wrapper">
+                        <img src="https://pustaka.bca.co.id/Ocean/Business%20News/Tips_Aman_Bertransaksi_dengan_myBCA%20Bisnis_dan_Ocean.jpeg" alt="Transaksi Aman untuk Menunjang Kelancaran Bisnis">
+                    </div>
+                    <div class="solusi-text-block">
+                        <h3>Transaksi Aman untuk Menunjang Kelancaran Bisnis</h3>
+                        <span class="solusi-link">
+                            Pelajari Lebih Lanjut
+                            <span class="arrow-icon"></span>
+                        </span>
+                    </div>
+                </a>
+
+                <!-- Card 2 -->
+                <a target="_blank" class="solusi-card card-navy col-2-reverse" href="https://ocean.bca.co.id/id/artikel/integrasi-bisnis-dengan-mybca-bisnis-lite?article_id=f670a5fa-35ad-418d-a17c-0d3a5a5e2f5e&lob_id=5d1cedf0-a0ed-4112-a636-b70446c495af&source=landing">
+                    <div class="solusi-img-wrapper">
+                        <img src="https://pustaka.bca.co.id/Ocean/Business%20News/Artikel%20myBCA%20Bisnis%20Lite.jpg" alt="Bisnis Terintegrasi di Mana Saja dengan myBCA Bisnis Lite">
+                    </div>
+                    <div class="solusi-text-block">
+                        <h3>Bisnis Terintegrasi di Mana Saja dengan myBCA Bisnis Lite</h3>
+                        <span class="solusi-link">
+                            Pelajari Lebih Lanjut
+                            <span class="arrow-icon"></span>
+                        </span>
+                    </div>
+                </a>
+
+                <!-- Card 3 (Overlay Style) -->
+                <a target="_blank" class="solusi-card card-overlay" href="https://ocean.bca.co.id/id/artikel/pengertian-supply-chain-management?source=landing&article_id=6689ed21-dc96-4386-afe3-5d354289ef97&lob_id=b7a6426a-4d61-4034-8760-04d8ba5f5ada">
+                    <div class="solusi-img-wrapper full-height">
+                        <div class="gradient-overlay"></div>
+                        <img src="https://pustaka.bca.co.id/Ocean/Business%20News/Agustus%202025/Supply%20Chain%20Management%20Bisnis.jpg" alt="Supply Chain Management: Definisi, Komponen, dan Manfaatnya untuk Bisnis">
+                        <div class="glass-overlay-card">
+                            <h3>Supply Chain Management: Definisi, Komponen, dan Manfaatnya untuk Bisnis</h3>
+                            <span class="solusi-link">
+                                Pelajari Lebih Lanjut
+                                <span class="arrow-icon"></span>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Card 4 (Overlay Style) -->
+                <a target="_blank" class="solusi-card card-overlay" href="https://ocean.bca.co.id/id/artikel/pengertian-bisnis-internasional?source=landing&article_id=1b4f98eb-6163-4167-81c7-f47c34940b82&lob_id=e33d16d0-7883-44f5-8637-3a324026ced0">
+                    <div class="solusi-img-wrapper full-height">
+                        <div class="gradient-overlay"></div>
+                        <img src="https://pustaka.bca.co.id/Ocean/Business%20News/Agustus%202025/Bisnis%20Internasional%20Ekspor%20Impor.jpg" alt="Bisnis Internasional: Pengertian, Jenis, dan Contohnya">
+                        <div class="glass-overlay-card">
+                            <h3>Bisnis Internasional: Pengertian, Jenis, dan Contohnya</h3>
+                            <span class="solusi-link">
+                                Pelajari Lebih Lanjut
+                                <span class="arrow-icon"></span>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Card 5 (Full-width style) -->
+                <a target="_blank" class="solusi-card card-white col-3-full" href="https://ocean.bca.co.id/id/artikel/alat-pembayaran-non-tunai?source=landing&article_id=78dea3d4-26b9-4633-a8e9-182efdccd4c7&lob_id=b7a6426a-4d61-4034-8760-04d8ba5f5ada">
+                    <div class="solusi-img-wrapper">
+                        <img src="https://pustaka.bca.co.id/Ocean/Business%20News/Agustus%202025/Alat%20Pembayaran%20Nontunai.jpg" alt="4 Alat Pembayaran Non Tunai Paling Populer untuk Bisnis">
+                    </div>
+                    <div class="solusi-text-block">
+                        <h3>4 Alat Pembayaran Non Tunai Paling Populer untuk Bisnis</h3>
+                        <span class="solusi-link blue-theme">
+                            Pelajari Lebih Lanjut
+                            <span class="arrow-icon blue-theme"></span>
+                        </span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- MENGAPA OCEAN BY BCA SECTION (Official Site Style) -->
+        <section class="mengapa-ocean-section">
+            <div class="mengapa-gradient-overlay"></div>
+            <div class="mengapa-content-container">
+                <div>
+                    <span class="mengapa-badge">MENGAPA OCEAN BY BCA</span>
+                    <h3 class="mengapa-title">Membangun Ekosistem Bisnis Potensial dan Berkelanjutan</h3>
+                </div>
+                
+                <div class="mengapa-cards-grid">
+                    <!-- Card 1 -->
+                    <div class="mengapa-card">
+                        <h3>Dipercaya ±34 Juta Nasabah</h3>
+                        <p>Perbesar potensi bisnis dengan jangkauan pasar yang lebih luas.</p>
+                    </div>
+                    
+                    <!-- Card 2 -->
+                    <div class="mengapa-card">
+                        <h3>Volume Transaksi Tumbuh 76%</h3>
+                        <p><i>Cashflow</i> dan operasional lancar, bisnis siap untuk bertumbuh.</p>
+                    </div>
+                    
+                    <!-- Card 3 -->
+                    <div class="mengapa-card">
+                        <h3>99% Transaksi Berbasis Digital</h3>
+                        <p>Adaptasi digital untuk mengakomodasi kebiasaan baru customer.</p>
+                    </div>
+                    
+                    <!-- Footer Note -->
+                    <p class="mengapa-disclaimer">*Data dihimpun di tahun 2025</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FITUR UNGGULAN SECTION (Interactive Slideshow) -->
+        <section class="fitur-unggulan-section">
+            <div class="fitur-unggulan-container">
+                <!-- Slide List -->
+                <div class="fitur-slides-wrapper">
+                    <!-- Slide 1 (Active) -->
+                    <div class="fitur-slide active" data-slide="0">
+                        <div class="fitur-slide-content">
+                            <span class="fitur-badge-premium">FITUR UNGGULAN</span>
+                            <span class="fitur-slide-title">Dashboard Terintegrasi</span>
+                            <h2 class="fitur-slide-subtitle">Pantau Setiap Aktivitas Bisnis dalam Satu Layar</h2>
+                            <p class="fitur-slide-desc">Dashboard yang bisa disesuaikan dengan kebutuhan bisnis Anda, mulai dari arus kas, tren transaksi, hingga analisis bisnis. Pengambilan keputusan menjadi lebih efektif dengan data yang akurat.</p>
+                        </div>
+                        <div class="fitur-slide-image-box">
+                            <img src="https://pustaka.bca.co.id/Ocean/Homepage/feature_01_png.png" alt="Dashboard Terintegrasi">
+                        </div>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="fitur-slide" data-slide="1">
+                        <div class="fitur-slide-content">
+                            <span class="fitur-badge-premium">FITUR UNGGULAN</span>
+                            <span class="fitur-slide-title">Rekomendasi Produk</span>
+                            <h2 class="fitur-slide-subtitle">Temukan Solusi Tepat untuk Perkembangan Bisnis</h2>
+                            <p class="fitur-slide-desc">Ocean by BCA mengerti setiap bisnis memiliki kebutuhan yang berbeda-beda. Temukan solusi simpanan, transaksi, pinjaman, asuransi, investasi, dan operasional sesuai. Ajukan langsung dalam satu layar.</p>
+                        </div>
+                        <div class="fitur-slide-image-box">
+                            <img src="https://pustaka.bca.co.id/Ocean/Homepage/feature_02_png.png" alt="Rekomendasi Produk">
+                        </div>
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="fitur-slide" data-slide="2">
+                        <div class="fitur-slide-content">
+                            <span class="fitur-badge-premium">FITUR UNGGULAN</span>
+                            <span class="fitur-slide-title">myEcosystem</span>
+                            <h2 class="fitur-slide-subtitle">Bangun Jaringan, Penuhi Kebutuhan Operasional</h2>
+                            <p class="fitur-slide-desc">Miliki pengelolaan karyawan yang terstruktur, administrasi penagihan yang sistematis, pelaporan pajak yang pruden, manajemen risiko perusahaan, hingga kesempatan berkolaborasi dengan ratusan ribu nasabah bisnis BCA lainnya.</p>
+                        </div>
+                        <div class="fitur-slide-image-box">
+                            <img src="https://pustaka.bca.co.id/Ocean/Homepage/feature_03_png.png" alt="myEcosystem">
                         </div>
                     </div>
                 </div>
-                <div class="visual-card floating-1">
-                    <span>⚡ Real-time Invoicing</span>
-                </div>
-                <div class="visual-card floating-2">
-                    <span>🛡️ Bank-grade Security</span>
+
+                <!-- Navigation controls (positioned bottom-left of content) -->
+                <div class="fitur-controls">
+                    <button class="fitur-control-btn btn-prev" aria-label="Previous Slide">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="18" height="18">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                    <button class="fitur-control-btn btn-next" aria-label="Next Slide">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="18" height="18">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <div class="fitur-dots">
+                        <span class="fitur-dot active" data-dot="0"></span>
+                        <span class="fitur-dot" data-dot="1"></span>
+                        <span class="fitur-dot" data-dot="2"></span>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="use-case-section">
-            <h2 class="section-title">Solusi untuk Setiap Sektor</h2>
-            <div class="sector-tabs">
-                ${['Retail', 'Manufaktur', 'Jasa', 'Logistik'].map(s => `
-                    <button class="sector-tab ${state.selectedSector === s ? 'active' : ''}" data-sector="${s}">${s}</button>
-                `).join('')}
+        <!-- STEPS SECTION -->
+        <section class="steps-section-official">
+            <h2>Cara Bergabung dengan Ocean by BCA</h2>
+            
+            <div class="steps-grid-official">
+                <!-- Step 1 -->
+                <div class="step-card-official">
+                    <img class="step-icon-img" src="https://pustaka.bca.co.id/Ocean/Homepage/Icon%20Steps/deposit.png" alt="Buka Rekening Bisnis BCA">
+                    <div class="step-badge-circle">1</div>
+                    <h4>Buka Rekening Bisnis BCA</h4>
+                    <p>Pastikan memiliki rekening bisnis BCA (Tahapan Gold/Rekening Giro)</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="step-card-official">
+                    <img class="step-icon-img" src="https://pustaka.bca.co.id/Ocean/Homepage/Icon%20Steps/super-admin.png" alt="Buat BCA ID Bisnis">
+                    <div class="step-badge-circle">2</div>
+                    <h4>Buat BCA ID Bisnis</h4>
+                    <p>Dapatkan BCA ID Bisnis dengan registrasi di Ocean by BCA</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="step-card-official">
+                    <img class="step-icon-img" src="https://pustaka.bca.co.id/Ocean/Homepage/Icon%20Steps/ocean-logo.png" alt="Masuk Ocean by BCA">
+                    <div class="step-badge-circle">3</div>
+                    <h4>Masuk Ocean by BCA</h4>
+                    <p>Gunakan BCA ID Bisnis untuk login ke Ocean by BCA</p>
+                </div>
             </div>
-            <div class="sector-content card-premium">
-                <div class="sector-text">
-                    <h3>Ocean untuk ${state.selectedSector}</h3>
-                    <p>${state.selectedSector === 'Retail' ? 'Kelola ratusan cabang dengan satu dashboard. Otomasi rekonsiliasi harian dan integrasi langsung dengan POS Anda.' : 
-                        state.selectedSector === 'Manufaktur' ? 'Optimalkan supply chain financing dan pembayaran vendor dalam skala besar dengan akurasi 100%.' :
-                        'Solusi pembayaran invoice otomatis dan manajemen cash flow yang membantu bisnis Anda tetap likuid.'}</p>
-                    <ul class="benefit-list">
-                        <li><span>✓</span> Konsolidasi Rekening Otomatis</li>
-                        <li><span>✓</span> Laporan Real-time 24/7</li>
-                        <li><span>✓</span> Integrasi API Seamless</li>
+        </section>
+
+        <!-- CONTACT FORM (Punya pertanyaan?) -->
+        <section class="contact-section-official">
+            <div class="contact-container-official">
+                <!-- Left Side image -->
+                <div class="contact-image-side">
+                    <img src="https://pustaka.bca.co.id/Ocean/Homepage/form-card.png" alt="Person with packages">
+                </div>
+                
+                <!-- Right Side form -->
+                <div class="contact-form-side">
+                    <h2 class="contact-form-title">Punya pertanyaan?</h2>
+                    <p class="contact-form-subtitle">Silakan tinggalkan kontak untuk dihubungi.</p>
+                    
+                    <form id="ocean-contact-form" class="contact-grid-form">
+                        <!-- Row 1 -->
+                        <div class="contact-form-group">
+                            <label for="contact-pic">Nama PIC</label>
+                            <input type="text" id="contact-pic" placeholder="Masukkan nama Anda" required autocomplete="off">
+                        </div>
+                        <div class="contact-form-group">
+                            <label for="contact-usaha">Nama Usaha</label>
+                            <input type="text" id="contact-usaha" placeholder="Masukkan nama perusahaan Anda" required autocomplete="off">
+                        </div>
+                        
+                        <!-- Row 2 -->
+                        <div class="contact-form-group">
+                            <label for="contact-tel">Nomor Telepon <span class="label-optional">(opsional)</span></label>
+                            <input type="tel" id="contact-tel" placeholder="Masukkan nomor telepon Anda" autocomplete="off">
+                        </div>
+                        <div class="contact-form-group email-group">
+                            <label for="contact-email">Alamat Email</label>
+                            <div class="email-input-wrapper">
+                                <span class="email-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="20" height="20">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    </svg>
+                                </span>
+                                <input type="email" id="contact-email" placeholder="Masukkan alamat email Anda" required autocomplete="off">
+                            </div>
+                        </div>
+                        
+                        <!-- Row 3: Textarea -->
+                        <div class="contact-form-group full-width textarea-group">
+                            <label for="contact-desc">Deskripsi Kebutuhan Bisnis</label>
+                            <div class="textarea-wrapper">
+                                <textarea id="contact-desc" placeholder="Masukkan pertanyaan Anda" maxlength="500" required autocomplete="off"></textarea>
+                                <span class="char-counter">0 / 500</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Row 4: Checkboxes -->
+                        <div class="contact-form-group full-width consent-group">
+                            <p class="consent-header">Saya dengan ini menyatakan hal-hal berikut:</p>
+                            
+                            <label class="consent-checkbox-label">
+                                <input type="checkbox" id="consent-1" required>
+                                <span class="custom-checkbox"></span>
+                                <span class="consent-text">Seluruh data yang saya berikan dalam Layanan Leave Contact ini adalah benar, lengkap, dan akurat, serta merupakan data milik saya pribadi</span>
+                            </label>
+                            
+                            <label class="consent-checkbox-label">
+                                <input type="checkbox" id="consent-2" required>
+                                <span class="custom-checkbox"></span>
+                                <span class="consent-text">Saya bersedia dihubungi oleh pihak PT Bank Central Asia Tbk melalui sarana komunikasi pribadi yang saya berikan dalam Layanan Leave Contact ini untuk menerima penjelasan/informasi lebih lanjut mengenai produk/layanan yang terdapat pada portal Ocean by BCA</span>
+                            </label>
+                        </div>
+                        
+                        <!-- Row 5: Action Button -->
+                        <div class="contact-form-group full-width submit-wrapper">
+                            <button type="submit" id="btn-submit-contact" class="btn-submit-disabled" disabled>Kirim</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER SECTION -->
+        <footer class="footer-official">
+            <div class="footer-border-container">
+                <!-- Column 1: Logo & Address & Contacts -->
+                <div class="footer-col-main">
+                    <div class="footer-logo">
+                        <img src="https://pustaka.bca.co.id/Ocean/Assets/Icon/Logo-Ocean-by-BCA-white.png" alt="Ocean by BCA Logo" style="height: 36px; width: auto; object-fit: contain;">
+                    </div>
+                    <div class="footer-address">
+                        <p class="addr-title">Kantor Pusat</p>
+                        <p class="addr-desc">Menara BCA, Grand Indonesia,<br>Jl. MH Thamrin No. 1<br>Jakarta 10310</p>
+                    </div>
+                    <div class="footer-contacts">
+                        <div class="contact-item">
+                            <span class="icon">📞</span>
+                            <span class="text">Halo BCA Bisnis | 1500998</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="icon">@</span>
+                            <span class="text">halobca@bca.co.id</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="icon">💬</span>
+                            <span class="text">62 811 1500 998</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2: PERUSAHAAN -->
+                <div class="footer-col-links">
+                    <h4>PERUSAHAAN</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="#">Tentang Kami</a></li>
+                        <li><a href="#">Pusat Bantuan</a></li>
+                        <li><a href="#">Kebijakan</a></li>
+                        <li><a href="#">Syarat & Ketentuan</a></li>
+                        <li><a href="https://www.bca.co.id" target="_blank">bca.co.id</a></li>
                     </ul>
                 </div>
-                <div class="sector-image">
-                    <img src="/public/images/feature-1.png" alt="Feature" style="width: 100%; border-radius: 12px;">
-                </div>
-            </div>
-        </section>
 
-        <section class="trust-section">
-            <div class="trust-content">
-                <span class="badge-premium">Bank-grade Trust</span>
-                <h2 class="section-title">Keamanan Tingkat Perbankan</h2>
-                <div class="trust-grid">
-                    <div class="trust-card">
-                        <div class="cert-badge">Certified</div>
-                        <div class="trust-icon-box">🛡️</div>
-                        <h4>ISO 27001</h4>
-                        <p>Standar internasional untuk sistem manajemen keamanan informasi (ISMS).</p>
-                    </div>
-                    <div class="trust-card">
-                        <div class="cert-badge">Compliant</div>
-                        <div class="trust-icon-box">⚖️</div>
-                        <h4>PDP Law</h4>
-                        <p>Kepatuhan penuh terhadap regulasi Perlindungan Data Pribadi di Indonesia.</p>
-                    </div>
-                    <div class="trust-card">
-                        <div class="cert-badge">Isolated</div>
-                        <div class="trust-icon-box">💎</div>
-                        <h4>Enterprise Isolation</h4>
-                        <p>Data sandbox 100% terisolasi menggunakan enkripsi tingkat tinggi AES-256.</p>
-                    </div>
+                <!-- Column 3: PRODUK -->
+                <div class="footer-col-links">
+                    <h4>PRODUK</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="#">EDC BCA</a></li>
+                        <li><a href="#">QRIS</a></li>
+                        <li><a href="#">myBCA Bisnis</a></li>
+                        <li><a href="#">Virtual Account</a></li>
+                        <li><a href="#">Lihat Semua..</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: ARTIKEL -->
+                <div class="footer-col-links">
+                    <h4>ARTIKEL</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="#">Trade</a></li>
+                        <li><a href="#">Food & Beverage</a></li>
+                        <li><a href="#">Manufacture</a></li>
+                        <li><a href="#">Tourism & Hospitality</a></li>
+                        <li><a href="#">Lihat Semua..</a></li>
+                    </ul>
                 </div>
             </div>
-        </section>
+
+            <!-- Footer Bottom Disclaimer -->
+            <div class="footer-bottom-official">
+                <p class="disclaimer-text">BCA berizin dan diawasi oleh Otoritas Jasa Keuangan & Bank Indonesia</p>
+                <p class="disclaimer-text">BCA merupakan peserta penjaminan LPS. Maksimum nilai simpanan yang dijamin LPS per nasabah per bank adalah Rp2 miliar. Untuk cek Tingkat Bunga Penjaminan LPS, klik <a href="https://www.lps.go.id" target="_blank" class="lps-link">di sini</a></p>
+                <p class="copyright-text">© 2026 PT Bank Central Asia Tbk, All Rights Reserved.</p>
+            </div>
+        </footer>
     </div>
 `;
 
@@ -767,7 +1178,9 @@ const OceanAuth = () => {
     return `
         <div class="auth-overlay">
             <div class="auth-card">
-                <div class="auth-logo">O</div>
+                <div class="auth-logo">
+                    <img src="https://pustaka.bca.co.id/Ocean/Assets/Icon/Logo-Ocean-by-BCA-white.png" alt="Ocean by BCA Logo" style="height: 36px; width: auto; object-fit: contain; filter: brightness(0) saturate(100%) invert(12%) sepia(87%) saturate(2222%) hue-rotate(198deg) brightness(92%) contrast(105%);">
+                </div>
                 ${stepContent}
             </div>
         </div>
@@ -946,10 +1359,52 @@ const attachEventListeners = () => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             state.currentPage = e.currentTarget.getAttribute('data-page');
+            const mobileDrawer = document.getElementById('mobile-menu-drawer');
+            if (mobileDrawer) {
+                mobileDrawer.classList.remove('open');
+            }
             render();
             window.scrollTo(0,0);
         });
     });
+
+    // Mobile Menu Toggles
+    const toggleMobileBtn = document.getElementById('btn-toggle-mobile-menu');
+    const closeMobileBtn = document.getElementById('btn-close-mobile-menu');
+    const mobileDrawer = document.getElementById('mobile-menu-drawer');
+    const loginMobileTrigger = document.getElementById('btn-login-mobile-trigger');
+    const mobileHelpBtn = document.getElementById('btn-mobile-help');
+
+    if (toggleMobileBtn && mobileDrawer) {
+        toggleMobileBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            mobileDrawer.classList.add('open');
+        });
+    }
+    if (closeMobileBtn && mobileDrawer) {
+        closeMobileBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            mobileDrawer.classList.remove('open');
+        });
+    }
+    if (loginMobileTrigger && mobileDrawer) {
+        loginMobileTrigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            mobileDrawer.classList.remove('open');
+            state.viewMode = 'auth';
+            state.authStep = 'login';
+            render();
+        });
+    }
+    if (mobileHelpBtn && mobileDrawer) {
+        mobileHelpBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            mobileDrawer.classList.remove('open');
+            state.viewMode = 'internal';
+            state.currentPage = 'dashboard';
+            render();
+        });
+    }
 
     document.querySelectorAll('.start-module').forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -1003,8 +1458,44 @@ const attachEventListeners = () => {
         chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendBtn.click(); });
     }
 
+    // Official Video Handler
+    const officialVideo = document.getElementById('official-video-container');
+    if (officialVideo) {
+        // Attempt to load custom hero-photo with extensions fallback
+        const setBg = (url) => {
+            officialVideo.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('${url}')`;
+            officialVideo.style.backgroundSize = 'cover';
+            officialVideo.style.backgroundPosition = 'center';
+        };
 
-    // Sector Selector
+        const tryLoadImage = (exts, index) => {
+            if (index >= exts.length) {
+                // Fallback to official default cover image
+                setBg('https://pustaka.bca.co.id/Ocean/Homepage/ocean-hero-image.jpg');
+                return;
+            }
+            const tempImg = new Image();
+            const url = `/images/hero/hero-photo.${exts[index]}`;
+            tempImg.src = url;
+            tempImg.onload = () => {
+                setBg(url);
+            };
+            tempImg.onerror = () => {
+                tryLoadImage(exts, index + 1);
+            };
+        };
+
+        // Try png, then jpg, then jpeg
+        tryLoadImage(['png', 'jpg', 'jpeg'], 0);
+
+        officialVideo.addEventListener('click', () => {
+            officialVideo.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/Ua6NWwCSJGE?autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 12px; border: none; width: 100%; height: 100%;"></iframe>`;
+            officialVideo.style.cursor = 'default';
+            officialVideo.style.backgroundImage = 'none';
+        });
+    }
+
+
     document.querySelectorAll('.sector-tab').forEach(tab => {
         tab.addEventListener('click', () => {
             state.selectedSector = tab.getAttribute('data-sector');
@@ -1052,14 +1543,14 @@ const attachEventListeners = () => {
     });
 
     // Chat Logic (Internal)
-    const chatInput = document.getElementById('chat-input');
-    const sendBtn = document.getElementById('btn-send-chat');
-    if (chatInput && sendBtn) {
+    const chatInputInternal = document.getElementById('chat-input');
+    const sendBtnInternal = document.getElementById('btn-send-chat');
+    if (chatInputInternal && sendBtnInternal) {
         const send = () => {
-            const val = chatInput.value.trim();
+            const val = chatInputInternal.value.trim();
             if (!val) return;
             state.chatHistory.push({ role: 'user', content: val });
-            chatInput.value = '';
+            chatInputInternal.value = '';
             render();
             setTimeout(() => {
                 let aiResponse = "Menganalisis basis pengetahuan...";
@@ -1074,8 +1565,8 @@ const attachEventListeners = () => {
                 render();
             }, 1000);
         };
-        sendBtn.addEventListener('click', send);
-        chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') send(); });
+        sendBtnInternal.addEventListener('click', send);
+        chatInputInternal.addEventListener('keypress', (e) => { if (e.key === 'Enter') send(); });
     }
 
     // Chat Logic (Public)
@@ -1095,6 +1586,113 @@ const attachEventListeners = () => {
         };
         pubSendBtn.addEventListener('click', send);
         pubChatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') send(); });
+    }
+
+    // Fitur Unggulan Slideshow Listener
+    const slides = document.querySelectorAll('.fitur-slide');
+    const dots = document.querySelectorAll('.fitur-dot');
+    const prevBtn = document.querySelector('.fitur-controls .btn-prev');
+    const nextBtn = document.querySelector('.fitur-controls .btn-next');
+    
+    if (slides.length > 0) {
+        let currentSlide = 0;
+        const showSlide = (index) => {
+            slides.forEach((slide, idx) => {
+                if (idx === index) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+            dots.forEach((dot, idx) => {
+                if (idx === index) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+            currentSlide = index;
+        };
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                let prev = currentSlide - 1;
+                if (prev < 0) prev = slides.length - 1;
+                showSlide(prev);
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                let next = currentSlide + 1;
+                if (next >= slides.length) next = 0;
+                showSlide(next);
+            });
+        }
+
+        dots.forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                e.preventDefault();
+                const index = parseInt(e.currentTarget.getAttribute('data-dot'));
+                showSlide(index);
+            });
+        });
+    }
+
+    // Punya Pertanyaan Contact Form Validation
+    const contactForm = document.getElementById('ocean-contact-form');
+    if (contactForm) {
+        const picInput = document.getElementById('contact-pic');
+        const usahaInput = document.getElementById('contact-usaha');
+        const emailInput = document.getElementById('contact-email');
+        const descInput = document.getElementById('contact-desc');
+        const consent1 = document.getElementById('consent-1');
+        const consent2 = document.getElementById('consent-2');
+        const submitBtn = document.getElementById('btn-submit-contact');
+        const charCounter = document.querySelector('.char-counter');
+
+        const validateForm = () => {
+            const isPicValid = picInput.value.trim() !== '';
+            const isUsahaValid = usahaInput.value.trim() !== '';
+            const isEmailValid = emailInput.value.trim() !== '' && emailInput.checkValidity();
+            const isDescValid = descInput.value.trim() !== '';
+            const isConsent1Checked = consent1.checked;
+            const isConsent2Checked = consent2.checked;
+
+            const isFormValid = isPicValid && isUsahaValid && isEmailValid && isDescValid && isConsent1Checked && isConsent2Checked;
+
+            if (isFormValid) {
+                submitBtn.disabled = false;
+                submitBtn.className = 'btn-submit-active';
+            } else {
+                submitBtn.disabled = true;
+                submitBtn.className = 'btn-submit-disabled';
+            }
+        };
+
+        // Textarea Char Counter
+        descInput.addEventListener('input', () => {
+            const length = descInput.value.length;
+            charCounter.textContent = `${length} / 500`;
+            validateForm();
+        });
+
+        // Event listeners for change and input
+        [picInput, usahaInput, emailInput, consent1, consent2].forEach(element => {
+            element.addEventListener('input', validateForm);
+            element.addEventListener('change', validateForm);
+        });
+
+        // Form Submit
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Terima kasih! Kontak Anda telah terkirim. Relationship Officer kami akan segera menghubungi Anda.');
+            contactForm.reset();
+            charCounter.textContent = '0 / 500';
+            validateForm();
+        });
     }
 };
 
