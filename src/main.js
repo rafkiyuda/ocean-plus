@@ -50,7 +50,11 @@ const state = {
     benefitMode: false,
     isIngesting: false,
     roiInputs: { branches: 1, transactions: 100 },
-    selectedSector: 'Retail'
+    selectedSector: 'Retail',
+    productSearchQuery: '',
+    productSelectedSector: 'Semua',
+    productSelectedCategory: 'Rekening',
+    selectedProducts: []
 };
 
 // --- Components ---
@@ -311,6 +315,81 @@ const LeaderboardPage = () => `
 `;
 
 // --- Public Components ---
+
+const PublicFooter = () => `
+        <!-- FOOTER SECTION -->
+        <footer class="footer-official">
+            <div class="footer-border-container">
+                <!-- Column 1: Logo & Address & Contacts -->
+                <div class="footer-col-main">
+                    <div class="footer-logo">
+                        <img src="https://pustaka.bca.co.id/Ocean/Assets/Icon/Logo-Ocean-by-BCA-white.png" alt="Ocean by BCA Logo" style="height: 36px; width: auto; object-fit: contain;">
+                    </div>
+                    <div class="footer-address">
+                        <p class="addr-title">Kantor Pusat</p>
+                        <p class="addr-desc">Menara BCA, Grand Indonesia,<br>Jl. MH Thamrin No. 1<br>Jakarta 10310</p>
+                    </div>
+                    <div class="footer-contacts">
+                        <div class="contact-item">
+                            <span class="icon">📞</span>
+                            <span class="text">Halo BCA Bisnis | 1500998</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="icon">@</span>
+                            <span class="text">halobca@bca.co.id</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="icon">💬</span>
+                            <span class="text">62 811 1500 998</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2: PERUSAHAAN -->
+                <div class="footer-col-links">
+                    <h4>PERUSAHAAN</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="#">Tentang Kami</a></li>
+                        <li><a href="#">Pusat Bantuan</a></li>
+                        <li><a href="#">Kebijakan</a></li>
+                        <li><a href="#">Syarat & Ketentuan</a></li>
+                        <li><a href="https://www.bca.co.id" target="_blank">bca.co.id</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: PRODUK -->
+                <div class="footer-col-links">
+                    <h4>PRODUK</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="#">EDC BCA</a></li>
+                        <li><a href="#">QRIS</a></li>
+                        <li><a href="#">myBCA Bisnis</a></li>
+                        <li><a href="#">Virtual Account</a></li>
+                        <li><a href="#">Lihat Semua..</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: ARTIKEL -->
+                <div class="footer-col-links">
+                    <h4>ARTIKEL</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="#">Trade</a></li>
+                        <li><a href="#">Food & Beverage</a></li>
+                        <li><a href="#">Manufacture</a></li>
+                        <li><a href="#">Tourism & Hospitality</a></li>
+                        <li><a href="#">Lihat Semua..</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom Disclaimer -->
+            <div class="footer-bottom-official">
+                <p class="disclaimer-text">BCA berizin dan diawasi oleh Otoritas Jasa Keuangan & Bank Indonesia</p>
+                <p class="disclaimer-text">BCA merupakan peserta penjaminan LPS. Maksimum nilai simpanan yang dijamin LPS per nasabah per bank adalah Rp2 miliar. Untuk cek Tingkat Bunga Penjaminan LPS, klik <a href="https://www.lps.go.id" target="_blank" class="lps-link">di sini</a></p>
+                <p class="copyright-text">© 2026 PT Bank Central Asia Tbk, All Rights Reserved.</p>
+            </div>
+        </footer>
+`;
 
 const PublicNavbar = () => `
     <nav class="public-nav">
@@ -759,77 +838,7 @@ const LandingPage = () => `
         </section>
 
         <!-- FOOTER SECTION -->
-        <footer class="footer-official">
-            <div class="footer-border-container">
-                <!-- Column 1: Logo & Address & Contacts -->
-                <div class="footer-col-main">
-                    <div class="footer-logo">
-                        <img src="https://pustaka.bca.co.id/Ocean/Assets/Icon/Logo-Ocean-by-BCA-white.png" alt="Ocean by BCA Logo" style="height: 36px; width: auto; object-fit: contain;">
-                    </div>
-                    <div class="footer-address">
-                        <p class="addr-title">Kantor Pusat</p>
-                        <p class="addr-desc">Menara BCA, Grand Indonesia,<br>Jl. MH Thamrin No. 1<br>Jakarta 10310</p>
-                    </div>
-                    <div class="footer-contacts">
-                        <div class="contact-item">
-                            <span class="icon">📞</span>
-                            <span class="text">Halo BCA Bisnis | 1500998</span>
-                        </div>
-                        <div class="contact-item">
-                            <span class="icon">@</span>
-                            <span class="text">halobca@bca.co.id</span>
-                        </div>
-                        <div class="contact-item">
-                            <span class="icon">💬</span>
-                            <span class="text">62 811 1500 998</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Column 2: PERUSAHAAN -->
-                <div class="footer-col-links">
-                    <h4>PERUSAHAAN</h4>
-                    <ul class="footer-links-list">
-                        <li><a href="#">Tentang Kami</a></li>
-                        <li><a href="#">Pusat Bantuan</a></li>
-                        <li><a href="#">Kebijakan</a></li>
-                        <li><a href="#">Syarat & Ketentuan</a></li>
-                        <li><a href="https://www.bca.co.id" target="_blank">bca.co.id</a></li>
-                    </ul>
-                </div>
-
-                <!-- Column 3: PRODUK -->
-                <div class="footer-col-links">
-                    <h4>PRODUK</h4>
-                    <ul class="footer-links-list">
-                        <li><a href="#">EDC BCA</a></li>
-                        <li><a href="#">QRIS</a></li>
-                        <li><a href="#">myBCA Bisnis</a></li>
-                        <li><a href="#">Virtual Account</a></li>
-                        <li><a href="#">Lihat Semua..</a></li>
-                    </ul>
-                </div>
-
-                <!-- Column 4: ARTIKEL -->
-                <div class="footer-col-links">
-                    <h4>ARTIKEL</h4>
-                    <ul class="footer-links-list">
-                        <li><a href="#">Trade</a></li>
-                        <li><a href="#">Food & Beverage</a></li>
-                        <li><a href="#">Manufacture</a></li>
-                        <li><a href="#">Tourism & Hospitality</a></li>
-                        <li><a href="#">Lihat Semua..</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Footer Bottom Disclaimer -->
-            <div class="footer-bottom-official">
-                <p class="disclaimer-text">BCA berizin dan diawasi oleh Otoritas Jasa Keuangan & Bank Indonesia</p>
-                <p class="disclaimer-text">BCA merupakan peserta penjaminan LPS. Maksimum nilai simpanan yang dijamin LPS per nasabah per bank adalah Rp2 miliar. Untuk cek Tingkat Bunga Penjaminan LPS, klik <a href="https://www.lps.go.id" target="_blank" class="lps-link">di sini</a></p>
-                <p class="copyright-text">© 2026 PT Bank Central Asia Tbk, All Rights Reserved.</p>
-            </div>
-        </footer>
+        ${PublicFooter()}
     </div>
 `;
 
@@ -946,56 +955,354 @@ const ROICalculatorPage = () => `
     </div>
 `;
 
-const HowItWorksPage = () => `
-    <div class="public-layout fade-in">
-        <header class="page-header-p">
-            <h1>How Ocean Works</h1>
-            <p>Langkah mudah menuju ekosistem perbankan modern.</p>
-        </header>
+const PRODUCTS = [
+    {
+        id: 'mybca-bisnis',
+        name: 'myBCA Bisnis',
+        subtitle: 'Kelola Keuangan Bisnis',
+        category: 'Rekening',
+        sectors: ['Umum', 'Logistik', 'Institusi Finansial', 'Kesehatan', 'Lainnya'],
+        desc: 'Satu platform perbankan digital untuk memantau saldo, mutasi, dan transaksi bisnis Anda kapan saja secara real-time.',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard"><rect width="7" height="9" x="3" y="3" rx="1"></rect><rect width="7" height="5" x="14" y="3" rx="1"></rect><rect width="7" height="9" x="14" y="10" rx="1"></rect><rect width="7" height="5" x="3" y="14" rx="1"></rect></svg>`,
+        link: 'https://ocean.bca.co.id/id/produk/transaksi/ocean-by-bca/mybca-bisnis'
+    },
+    {
+        id: 'edc-bca',
+        name: 'EDC BCA',
+        subtitle: 'Menerima Pembayaran Kartu',
+        category: 'Transaksi',
+        sectors: ['Umum', 'Fashion & Beauty', 'Food & Beverages', 'Lainnya'],
+        desc: 'Satu mesin EDC untuk menerima pembayaran Kartu Debit, Kredit (BCA, Visa, Mastercard, JCB, Amex), Flazz, dan QRIS.',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-smartphone"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"></rect><path d="M12 18h.01"></path></svg>`,
+        link: 'https://ocean.bca.co.id/id/produk/transaksi/edc-bca'
+    },
+    {
+        id: 'qris-bca',
+        name: 'QRIS BCA',
+        subtitle: 'Satu QR untuk Semua E-Wallet',
+        category: 'Transaksi',
+        sectors: ['Umum', 'Fashion & Beauty', 'Food & Beverages', 'Lainnya'],
+        desc: 'Terima pembayaran digital secara praktis dan real-time menggunakan satu kode QR standar nasional untuk semua e-wallet.',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-qr-code"><rect width="5" height="5" x="3" y="3" rx="1"></rect><rect width="5" height="5" x="16" y="3" rx="1"></rect><rect width="5" height="5" x="3" y="16" rx="1"></rect><path d="M21 16v5h-5"></path><path d="M21 21v-2h-4"></path><path d="M7 21h4"></path><path d="M12 17v-4"></path><path d="M17 12h4"></path></svg>`,
+        link: 'https://ocean.bca.co.id/id/produk/transaksi/qris-bisnis'
+    },
+    {
+        id: 'virtual-account',
+        name: 'Virtual Account',
+        subtitle: 'Identifikasi Pembayaran Otomatis',
+        category: 'Transaksi',
+        sectors: ['Umum', 'Logistik', 'Kesehatan', 'Lainnya'],
+        desc: 'Identifikasi pembayaran dari setiap pelanggan secara cepat dan akurat tanpa perlu konfirmasi pembayaran manual.',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-check"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><polyline points="16 11 18 13 22 9"></polyline></svg>`,
+        link: 'https://ocean.bca.co.id/id/produk/transaksi/virtual-account'
+    },
+    {
+        id: 'e-deposito',
+        name: 'e-Deposito',
+        subtitle: 'Investasi Dana Efisien',
+        category: 'Investasi',
+        sectors: ['Umum', 'Institusi Finansial'],
+        desc: 'Penempatan deposito berjangka secara online di myBCA Bisnis dengan opsi perpanjangan otomatis dan bunga bersaing.',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>`,
+        link: 'https://ocean.bca.co.id/id/produk/rekening/e-deposito'
+    },
+    {
+        id: 'giro-bca',
+        name: 'Giro BCA',
+        subtitle: 'Transaksi Bisnis Fleksibel',
+        category: 'Rekening',
+        sectors: ['Umum', 'Institusi Finansial'],
+        desc: 'Kemudahan transaksi pembayaran bisnis menggunakan Cek, Bilyet Giro, atau sarana perbankan elektronik lainnya.',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg>`,
+        link: 'https://ocean.bca.co.id/id/produk/rekening/giro'
+    },
+    {
+        id: 'tahapan-gold',
+        name: 'Tahapan Gold',
+        subtitle: 'Tabungan Bisnis Praktis',
+        category: 'Rekening',
+        sectors: ['Umum', 'Fashion & Beauty', 'Food & Beverages', 'Lainnya'],
+        desc: 'Tabungan khusus bisnis dengan limit transaksi yang besar, informasi mutasi lebih detail, dan layanan autodebet.',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-coins"><circle cx="8" cy="8" r="6"></circle><circle cx="18" cy="18" r="4"></circle><path d="M12 18a6 6 0 0 0-6-6M18 14V4b2 2 0 0 0-2-2h-2"></path></svg>`,
+        link: 'https://ocean.bca.co.id/id/produk/rekening/tahapan-gold'
+    },
+    {
+        id: 'bca-api',
+        name: 'BCA API',
+        subtitle: 'Integrasi Finansial Real-time',
+        category: 'Solusi Digital',
+        sectors: ['Logistik', 'Institusi Finansial', 'Kesehatan', 'Lainnya'],
+        desc: 'Integrasikan sistem ERP atau aplikasi internal bisnis Anda langsung dengan sistem perbankan BCA untuk transaksi otomatis.',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-code-2"><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"></path><path d="m14.5 4-5 16"></path></svg>`,
+        link: 'https://ocean.bca.co.id/id/produk/solusi-digital/bca-api'
+    },
+    {
+        id: 'kur-bca',
+        name: 'Kredit Usaha Rakyat (KUR)',
+        subtitle: 'Pembiayaan Modal Kerja',
+        category: 'Pinjaman',
+        sectors: ['Umum', 'Fashion & Beauty', 'Food & Beverages', 'Lainnya'],
+        desc: 'Pembiayaan modal kerja atau investasi untuk pelaku UMKM dengan bunga subsidi dan syarat yang mudah.',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-helping-hand"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 22v-4a2 2 0 0 0-2-2H9"></path><path d="M19 14h2a2 2 0 0 1 2 2v1.5a2.5 2.5 0 0 1-5 0v-2.5"></path></svg>`,
+        link: 'https://ocean.bca.co.id/id/produk/pinjaman/kur'
+    },
+    {
+        id: 'kredit-lokal',
+        name: 'Kredit Lokal',
+        subtitle: 'Kebutuhan Modal Kerja Dinamis',
+        category: 'Pinjaman',
+        sectors: ['Umum', 'Logistik', 'Lainnya'],
+        desc: 'Fasilitas kredit modal kerja dengan penarikan fleksibel menggunakan Cek/Bilyet Giro sesuai kebutuhan bisnis Anda.',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-landmark"><line x1="3" y1="22" x2="21" y2="22"></line><line x1="6" y1="18" x2="6" y2="11"></line><line x1="10" y1="18" x2="10" y2="11"></line><line x1="14" y1="18" x2="14" y2="11"></line><line x1="18" y1="18" x2="18" y2="11"></line><polygon points="12 2 20 7 4 7"></polygon></svg>`,
+        link: 'https://ocean.bca.co.id/id/produk/pinjaman/kredit-lokal'
+    },
+    {
+        id: 'asuransi-kebakaran',
+        name: 'Asuransi Kebakaran Bisnis',
+        subtitle: 'Proteksi Aset Fisik',
+        category: 'Asuransi',
+        sectors: ['Umum', 'Logistik', 'Kesehatan', 'Lainnya'],
+        desc: 'Perlindungan tempat usaha, mesin, persediaan barang dagangan, dan aset fisik lainnya dari risiko kebakaran.',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-alert"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`,
+        link: 'https://ocean.bca.co.id/id/produk/asuransi/kebakaran-bisnis'
+    }
+];
 
-        <div class="how-grid">
-            <div class="how-step">
-                <div class="how-num">1</div>
-                <div class="how-content card-premium">
-                    <h4>Hubungkan Rekening</h4>
-                    <p>Integrasi seamless dengan KlikBCA Bisnis Anda. Pindahkan akses tanpa ribet.</p>
-                    <div class="how-visual-mini">🔗</div>
-                </div>
-            </div>
-            <div class="how-step">
-                <div class="how-num">2</div>
-                <div class="how-content card-premium">
-                    <h4>Aktifkan myEcosystem</h4>
-                    <p>Pilih mitra strategis seperti CATAPA (HR) atau Paper.id (Invoicing) langsung dari dashboard.</p>
-                    <div class="how-visual-mini">🧩</div>
-                </div>
-            </div>
-            <div class="how-step">
-                <div class="how-num">3</div>
-                <div class="how-content card-premium">
-                    <h4>Automasi Alur Kerja</h4>
-                    <p>Biarkan Ocean menangani rekonsiliasi, pembayaran terjadwal, dan laporan keuangan Anda.</p>
-                    <div class="how-visual-mini">⚙️</div>
-                </div>
-            </div>
-        </div>
+const getCategoryIcon = (category) => {
+    switch(category) {
+        case 'Rekening':
+            return `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9"></path><path d="M16 14h.01"></path></svg>`;
+        case 'Transaksi':
+            return `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-repeat"><path d="m17 2 4 4-4 4"></path><path d="M3 11v-1a4 4 0 0 1 4-4h14"></path><path d="m7 22-4-4 4-4"></path><path d="M21 13v1a4 4 0 0 1-4 4H3"></path></svg>`;
+        case 'Pinjaman':
+            return `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-helping-hand"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 22v-4a2 2 0 0 0-2-2H9"></path><path d="M19 14h2a2 2 0 0 1 2 2v1.5a2.5 2.5 0 0 1-5 0v-2.5"></path></svg>`;
+        case 'Investasi':
+            return `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>`;
+        case 'Asuransi':
+            return `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 11 2 2 4-4"></path></svg>`;
+        case 'Solusi Digital':
+            return `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cpu"><rect width="16" height="16" x="4" y="4" rx="2"></rect><rect width="6" height="6" x="9" y="9" rx="1"></rect><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 15h3M1 9h3M1 15h3"></path></svg>`;
+        default:
+            return '';
+    }
+};
 
-        <div class="comparison-section card-premium">
-            <h3>KlikBCA Bisnis vs Ocean</h3>
-            <table class="sb-table">
-                <thead>
-                    <tr><th>Fitur</th><th>KlikBCA Bisnis</th><th>Ocean by BCA</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>Akses Portal</td><td>Multiple Login</td><td><b>Single Sign-On (Direct Access)</b></td></tr>
-                    <tr><td>Dashboard</td><td>Tabular Only</td><td><b>Interactive Visualization</b></td></tr>
-                    <tr><td>Integrasi ERP/HR</td><td>Manual Upload</td><td><b>Real-time API Integration</b></td></tr>
-                    <tr><td>Insight AI</td><td>Tidak Ada</td><td><b>Ocean AI Assistant</b></td></tr>
-                </tbody>
-            </table>
+const HowItWorksPage = () => {
+    const filtered = PRODUCTS.filter(p => {
+        const matchesSector = state.productSelectedSector === 'Semua' || p.sectors.includes(state.productSelectedSector);
+        const matchesCategory = p.category === state.productSelectedCategory;
+        const matchesSearch = state.productSearchQuery === '' || 
+            p.name.toLowerCase().includes(state.productSearchQuery.toLowerCase()) || 
+            p.desc.toLowerCase().includes(state.productSearchQuery.toLowerCase()) || 
+            p.subtitle.toLowerCase().includes(state.productSearchQuery.toLowerCase());
+        return matchesSector && matchesCategory && matchesSearch;
+    });
+
+    const sectors = ['Semua', 'Umum', 'Fashion & Beauty', 'Food & Beverages', 'Logistik', 'Kesehatan', 'Institusi Finansial', 'Lainnya'];
+    const categories = ['Rekening', 'Transaksi', 'Pinjaman', 'Investasi', 'Asuransi', 'Solusi Digital'];
+
+    return `
+        <div class="product-page-layout fade-in">
+            <div id="product-big-header" class="product-hero-header">
+                <div class="product-hero-content">
+                    <h1>Produk BCA</h1>
+                    <p>untuk Kemudahan Bisnis Anda</p>
+                </div>
+            </div>
+            
+            <div class="product-container-wrap">
+                <div class="product-content-card-wrap">
+                    <div class="product-card-header">
+                        <p>Pilih berbagai produk sesuai kebutuhan bisnis Anda, lalu tinggalkan kontak untuk kami hubungi.</p>
+                        <div class="product-search-wrapper">
+                            <div class="product-search-bar">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                <input type="text" id="product-search-input" value="${state.productSearchQuery}" placeholder="Cari produk atau solusi bisnis...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-filters-row">
+                        <!-- Left Column: Sector select -->
+                        <div class="product-sector-col">
+                            <label for="product-sector-select" class="product-sector-label">Pilih Bidang Usaha</label>
+                            <div class="product-select-wrapper">
+                                <select id="product-sector-select" class="product-select">
+                                    ${sectors.map(sec => `
+                                        <option value="${sec}" ${state.productSelectedSector === sec ? 'selected' : ''}>${sec}</option>
+                                    `).join('')}
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Category buttons -->
+                        <div class="product-category-col">
+                            <div class="category-header-row">
+                                <span class="category-title-label">Pilih Kategori Produk</span>
+                                ${state.selectedProducts.length > 0 ? `
+                                    <div class="btn-reset-filters cursor-pointer">Reset Filter</div>
+                                ` : ''}
+                            </div>
+                            <div class="category-buttons-grid">
+                                ${categories.map(cat => {
+                                    const isActive = state.productSelectedCategory === cat;
+                                    return `
+                                        <div class="category-item ${isActive ? 'active' : ''}" data-category="${cat}">
+                                            <div class="category-icon-circle">
+                                                ${getCategoryIcon(cat)}
+                                            </div>
+                                            <span class="category-label">${cat}</span>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Selected products chips bar -->
+                    ${state.selectedProducts.length > 0 ? `
+                        <div class="selected-products-info-bar">
+                            <span class="info-label">
+                                ${state.selectedProducts.length === 10 
+                                    ? 'Anda telah mencapai jumlah maksimal produk yang dipilih :' 
+                                    : 'Anda telah memilih :'}
+                            </span>
+                            <div class="selected-chips-list">
+                                ${state.selectedProducts.map(p => `
+                                    <div class="product-chip">
+                                        <span class="chip-text">${p.name}</span>
+                                        <button class="btn-remove-chip" data-product-id="${p.id}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                        </button>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <div class="products-list-results">
+                        <div class="products-count-bar">
+                            Menampilkan <span>${filtered.length}</span> produk
+                        </div>
+
+                        ${filtered.length === 0 ? `
+                            <div class="products-empty-state">
+                                <div class="empty-icon">🔍</div>
+                                <h4>Produk tidak ditemukan</h4>
+                                <p>Tidak ada produk yang cocok dengan pencarian atau filter Anda. Coba gunakan kata kunci lain.</p>
+                            </div>
+                        ` : `
+                            <div class="products-cards-grid-wrap">
+                                ${filtered.map(p => {
+                                    const isChecked = state.selectedProducts.some(sp => sp.id === p.id);
+                                    const isDisabled = state.selectedProducts.length === 10 && !isChecked;
+                                    return `
+                                        <div class="product-item-card-premium ${isChecked ? 'checked' : ''} ${isDisabled ? 'disabled' : ''}" data-product-id="${p.id}">
+                                            <div class="product-card-top-row">
+                                                ${!isDisabled ? `
+                                                    <div class="product-card-checkbox ${isChecked ? 'checked' : ''}">
+                                                        ${isChecked ? `
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                                        ` : ''}
+                                                    </div>
+                                                ` : ''}
+                                                <span class="product-badge-category" title="${p.name}">${p.name}</span>
+                                            </div>
+                                            <h3 class="product-card-name">${p.subtitle}</h3>
+                                            <p class="product-card-desc">${p.desc}</p>
+                                            <a href="${p.link}" target="_blank" class="product-card-more-link" onclick="event.stopPropagation();">
+                                                Selengkapnya
+                                            </a>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        `}
+
+                        <!-- Bottom Submit Button Container -->
+                        <div class="product-bottom-submit-container">
+                            <button id="product-btn-bottom-submit" class="btn-bottom-submit" ${state.selectedProducts.length === 0 ? 'disabled' : ''}>
+                                Tinggalkan Kontak
+                            </button>
+                        </div>
+
+                        <div class="product-cta-banner-official">
+                            <div class="product-cta-image-side">
+                                <img src="https://pustaka.bca.co.id/Ocean/Homepage/image-cta.svg" alt="CTA Image">
+                            </div>
+                            <div class="product-cta-info-side">
+                                <h2>Temukan rekomendasi produk yang sesuai untuk tingkatkan bisnis Anda</h2>
+                                <a href="https://main.ocean.bca.co.id/visitor/product" target="_blank" class="btn-cta-learn-more">
+                                    Pelajari Lebih Lanjut
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right ml-1"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leave Contact Modal -->
+            <div id="product-contact-modal" class="modal-overlay-contact">
+                <div class="modal-card-contact">
+                    <button class="modal-close-btn-contact" id="btn-close-contact-modal">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                    <h2 class="modal-title-contact">Tinggalkan Kontak</h2>
+                    <p class="modal-subtitle-contact">Tertarik dengan <span id="modal-product-name-label" style="font-weight: 700; color: #005CAA;"></span>? Hubungi kami untuk penawaran terbaik.</p>
+                    
+                    <form id="product-modal-contact-form" class="contact-grid-form">
+                        <input type="hidden" id="modal-contact-product-name">
+                        <div class="contact-form-group">
+                            <label for="modal-contact-pic">Nama PIC</label>
+                            <input type="text" id="modal-contact-pic" placeholder="Masukkan nama Anda" required autocomplete="off">
+                        </div>
+                        <div class="contact-form-group">
+                            <label for="modal-contact-usaha">Nama Usaha</label>
+                            <input type="text" id="modal-contact-usaha" placeholder="Masukkan nama perusahaan Anda" required autocomplete="off">
+                        </div>
+                        <div class="contact-form-group">
+                            <label for="modal-contact-tel">Nomor Telepon <span class="label-optional">(opsional)</span></label>
+                            <input type="tel" id="modal-contact-tel" placeholder="Masukkan nomor telepon Anda" autocomplete="off">
+                        </div>
+                        <div class="contact-form-group email-group">
+                            <label for="modal-contact-email">Alamat Email</label>
+                            <div class="email-input-wrapper">
+                                <span class="email-icon">@</span>
+                                <input type="email" id="modal-contact-email" placeholder="Masukkan alamat email Anda" required autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="contact-form-group full-width textarea-group">
+                            <label for="modal-contact-desc">Deskripsi Kebutuhan Bisnis</label>
+                            <div class="textarea-wrapper">
+                                <textarea id="modal-contact-desc" placeholder="Masukkan deskripsi kebutuhan bisnis Anda" maxlength="500" required autocomplete="off"></textarea>
+                                <span class="modal-char-counter char-counter">0 / 500</span>
+                            </div>
+                        </div>
+                        <div class="contact-form-group full-width consent-group">
+                            <div class="consent-header">Persetujuan</div>
+                            <label class="consent-checkbox-label">
+                                <input type="checkbox" id="modal-consent-1" required>
+                                <span class="custom-checkbox"></span>
+                                <span class="consent-text">Seluruh data yang saya berikan dalam Layanan Leave Contact ini adalah benar, lengkap, dan akurat, serta merupakan data milik saya pribadi</span>
+                            </label>
+                            <label class="consent-checkbox-label">
+                                <input type="checkbox" id="modal-consent-2" required>
+                                <span class="custom-checkbox"></span>
+                                <span class="consent-text">Saya bersedia dihubungi oleh pihak PT Bank Central Asia Tbk melalui sarana komunikasi pribadi yang saya berikan dalam Layanan Leave Contact ini untuk menerima penjelasan/informasi lebih lanjut mengenai produk/layanan yang terdapat pada portal Ocean by BCA</span>
+                            </label>
+                        </div>
+                        <div class="contact-form-group full-width submit-wrapper">
+                            <button type="submit" id="btn-submit-modal-contact" class="btn-submit-disabled" disabled>Kirim</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            ${PublicFooter()}
         </div>
-    </div>
-`;
+    `;
+};
 
 const SecurityPage = () => `
     <div class="public-layout fade-in">
@@ -1692,6 +1999,173 @@ const attachEventListeners = () => {
             contactForm.reset();
             charCounter.textContent = '0 / 500';
             validateForm();
+        });
+    }
+
+    // --- Product Catalog Listeners ---
+    const searchInput = document.getElementById('product-search-input');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            state.productSearchQuery = e.target.value;
+            render();
+            // Refocus search input and set cursor to end
+            const refocusedInput = document.getElementById('product-search-input');
+            if (refocusedInput) {
+                refocusedInput.focus();
+                refocusedInput.setSelectionRange(refocusedInput.value.length, refocusedInput.value.length);
+            }
+        });
+    }
+
+    const sectorSelect = document.getElementById('product-sector-select');
+    if (sectorSelect) {
+        sectorSelect.addEventListener('change', (e) => {
+            state.productSelectedSector = e.target.value;
+            render();
+        });
+    }
+
+    document.querySelectorAll('.category-item').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const cat = e.currentTarget.getAttribute('data-category');
+            if (cat) {
+                state.productSelectedCategory = cat;
+                render();
+            }
+        });
+    });
+
+    document.querySelectorAll('.product-item-card-premium').forEach(card => {
+        card.addEventListener('click', (e) => {
+            if (card.classList.contains('disabled')) return;
+            const productId = card.getAttribute('data-product-id');
+            const product = PRODUCTS.find(p => p.id === productId);
+            if (!product) return;
+
+            const existingIndex = state.selectedProducts.findIndex(p => p.id === product.id);
+            if (existingIndex > -1) {
+                state.selectedProducts.splice(existingIndex, 1);
+            } else {
+                if (state.selectedProducts.length < 10) {
+                    state.selectedProducts.push(product);
+                }
+            }
+            render();
+        });
+    });
+
+    document.querySelectorAll('.btn-remove-chip').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const productId = btn.getAttribute('data-product-id');
+            state.selectedProducts = state.selectedProducts.filter(p => p.id !== productId);
+            render();
+        });
+    });
+
+    const resetFiltersBtn = document.querySelector('.btn-reset-filters');
+    if (resetFiltersBtn) {
+        resetFiltersBtn.addEventListener('click', () => {
+            state.productSelectedSector = 'Semua';
+            state.productSelectedCategory = 'Rekening';
+            state.productSearchQuery = '';
+            state.selectedProducts = [];
+            render();
+        });
+    }
+
+    // Modal Events Handling
+    let validateModalForm = () => {};
+
+    const closeBtn = document.getElementById('btn-close-contact-modal');
+    const modal = document.getElementById('product-contact-modal');
+    if (closeBtn && modal) {
+        closeBtn.addEventListener('click', () => {
+            modal.classList.remove('show');
+        });
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('show');
+            }
+        });
+    }
+
+    const bottomSubmitBtn = document.getElementById('product-btn-bottom-submit');
+    if (bottomSubmitBtn && modal) {
+        bottomSubmitBtn.addEventListener('click', () => {
+            const nameLabel = document.getElementById('modal-product-name-label');
+            const nameInput = document.getElementById('modal-contact-product-name');
+            const descInput = document.getElementById('modal-contact-desc');
+            const charCounter = document.querySelector('.modal-char-counter');
+            
+            const productNames = state.selectedProducts.map(p => p.name).join(', ');
+            if (nameLabel) nameLabel.textContent = productNames;
+            if (nameInput) nameInput.value = productNames;
+            if (descInput) {
+                descInput.value = `Saya tertarik dengan produk ${productNames} dan ingin mendapatkan penjelasan lebih lanjut mengenai solusi ini untuk bisnis saya.`;
+                if (charCounter) charCounter.textContent = `${descInput.value.length} / 500`;
+            }
+            modal.classList.add('show');
+            validateModalForm();
+        });
+    }
+
+    const modalForm = document.getElementById('product-modal-contact-form');
+    if (modalForm) {
+        const picInput = document.getElementById('modal-contact-pic');
+        const usahaInput = document.getElementById('modal-contact-usaha');
+        const emailInput = document.getElementById('modal-contact-email');
+        const descInput = document.getElementById('modal-contact-desc');
+        const consent1 = document.getElementById('modal-consent-1');
+        const consent2 = document.getElementById('modal-consent-2');
+        const submitBtn = document.getElementById('btn-submit-modal-contact');
+        const charCounter = document.querySelector('.modal-char-counter');
+
+        validateModalForm = () => {
+            const isPicValid = picInput.value.trim() !== '';
+            const isUsahaValid = usahaInput.value.trim() !== '';
+            const isEmailValid = emailInput.value.trim() !== '' && emailInput.checkValidity();
+            const isDescValid = descInput.value.trim() !== '';
+            const isConsent1Checked = consent1.checked;
+            const isConsent2Checked = consent2.checked;
+
+            const isFormValid = isPicValid && isUsahaValid && isEmailValid && isDescValid && isConsent1Checked && isConsent2Checked;
+
+            if (submitBtn) {
+                if (isFormValid) {
+                    submitBtn.disabled = false;
+                    submitBtn.className = 'btn-submit-active';
+                } else {
+                    submitBtn.disabled = true;
+                    submitBtn.className = 'btn-submit-disabled';
+                }
+            }
+        };
+
+        if (descInput && charCounter) {
+            descInput.addEventListener('input', () => {
+                const length = descInput.value.length;
+                charCounter.textContent = `${length} / 500`;
+                validateModalForm();
+            });
+        }
+
+        [picInput, usahaInput, emailInput, consent1, consent2].forEach(element => {
+            if (element) {
+                element.addEventListener('input', validateModalForm);
+                element.addEventListener('change', validateModalForm);
+            }
+        });
+
+        modalForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const productName = document.getElementById('modal-contact-product-name').value;
+            alert(`Terima kasih! Kontak Anda untuk produk "${productName}" telah terkirim. Relationship Officer kami akan segera menghubungi Anda.`);
+            modalForm.reset();
+            if (charCounter) charCounter.textContent = '0 / 500';
+            if (modal) modal.classList.remove('show');
+            state.selectedProducts = [];
+            render();
         });
     }
 };
