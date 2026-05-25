@@ -1,4 +1,35 @@
 import './style.css'
+import { uploadDocument, importFromUrl, fetchDocuments, fetchStats, deleteDocument, chatWithRAG, chatSimulation } from './rag-service.js'
+
+// ── Markdown renderer (lightweight, no deps) ────────────────────────────────
+function renderMarkdown(text) {
+    return text
+        // Bold **text** or __text__
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/__(.*?)__/g, '<strong>$1</strong>')
+        // Italic *text* or _text_
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/_(.*?)_/g, '<em>$1</em>')
+        // Headers ### H3 / ## H2 / # H1
+        .replace(/^### (.+)$/gm, '<h4 style="margin:0.8em 0 0.3em;font-size:0.95em;">$1</h4>')
+        .replace(/^## (.+)$/gm, '<h3 style="margin:0.8em 0 0.3em;font-size:1.05em;">$1</h3>')
+        .replace(/^# (.+)$/gm, '<h2 style="margin:0.8em 0 0.3em;font-size:1.15em;">$1</h2>')
+        // Unordered list items (lines starting with * or - or •)
+        .replace(/^[\*\-•]\s+(.+)$/gm, '<li style="margin:0.25em 0;">$1</li>')
+        // Ordered list items
+        .replace(/^\d+\.\s+(.+)$/gm, '<li style="margin:0.25em 0;">$1</li>')
+        // Wrap consecutive <li> items into <ul>
+        .replace(/(<li[^>]*>.*?<\/li>\s*)+/gs, (match) => `<ul style="padding-left:1.2em;margin:0.3em 0;">${match}</ul>`)
+        // Horizontal rule
+        .replace(/^---+$/gm, '<hr style="border:none;border-top:1px solid rgba(255,255,255,0.15);margin:0.8em 0;">')
+        // Line breaks: double newline → paragraph break
+        .replace(/\n\n/g, '</p><p style="margin:0.5em 0;">')
+        // Single newline → <br>
+        .replace(/\n/g, '<br>')
+        // Wrap in paragraph
+        .replace(/^/, '<p style="margin:0;">')
+        .replace(/$/, '</p>');
+}
 
 // --- State Management ---
 const state = {
@@ -6,9 +37,9 @@ const state = {
     role: 'staff',
     currentPage: 'landing',
     authStep: 'login', // 'login', 'select', 'pin', 'biometric', 'otp'
-    corporateId: '',
-    userId: '',
-    keyBcaResponse: '',
+    corporateId: 'BCA001',
+    userId: 'ANDI01',
+    keyBcaResponse: '123456',
     pin: '',
     otp: ['', '', '', ''],
     isAuthenticating: false,
@@ -21,10 +52,15 @@ const state = {
         progress: 75,
         badges: ['Fast Learner', 'Problem Solver', 'BCA Champion']
     },
+    leaderboardFilter: 'Semua Cabang',
     leaderboard: [
-        { rank: 1, name: 'Siti Aminah', branch: 'KCU Surabaya', points: 3100 },
-        { rank: 2, name: 'Budi Santoso', branch: 'KCU Jakarta', points: 2950 },
-        { rank: 3, name: 'Andi (Anda)', branch: 'KCU Jakarta', points: 8450 }
+        { rank: 1, name: 'Siti Aminah', branch: 'KCU Surabaya', points: 15200, avatar: '👩‍💼', role: 'Senior RO' },
+        { rank: 2, name: 'Andi Pratama', branch: 'KCP Menteng', points: 12560, avatar: '👨‍💼', role: 'RO Pemula' },
+        { rank: 3, name: 'Budi Santoso', branch: 'KCU Jakarta', points: 10980, avatar: '👨‍💻', role: 'Ops' },
+        { rank: 4, name: 'Reza Pahlevi', branch: 'KCU Thamrin', points: 9500, avatar: '👨‍🚀', role: 'Senior RO' },
+        { rank: 5, name: 'Anda', branch: 'KCP Menteng', points: 8450, avatar: '👨‍🚀', isMe: true, role: 'Senior RO' },
+        { rank: 6, name: 'Dewi Lestari', branch: 'KCU Surabaya', points: 8120, avatar: '👩‍💻', role: 'Ops' },
+        { rank: 7, name: 'Kevin Sanjaya', branch: 'KCU Jakarta', points: 7900, avatar: '👨‍💼', role: 'RO Pemula' }
     ],
     courses: [
         { id: 1, title: 'Business Dashboard 101', cat: 'Basic', duration: '5m', progress: 100, roles: ['Beginner', 'Senior'] },
@@ -48,13 +84,23 @@ const state = {
     ],
     activeModule: null, 
     benefitMode: false,
+    activeSimulation: null,
+    simChatHistory: [],
     isIngesting: false,
     roiInputs: { branches: 1, transactions: 100 },
     selectedSector: 'Retail',
     productSearchQuery: '',
     productSelectedSector: 'Semua',
     productSelectedCategory: 'Rekening',
-    selectedProducts: []
+    selectedProducts: [],
+    // RAG Hub state
+    ragDocs: [],
+    ragStats: { docs: 0, chunks: 0 },
+    ragUploading: false,
+    ragUploadProgress: { step: 0, message: '' },
+    ragUploadError: null,
+    ragActiveType: 'doc',
+    ragLoaded: false
 };
 
 // --- Components ---
@@ -63,11 +109,13 @@ const Sidebar = () => {
     const isAdmin = state.role === 'admin';
     const staffMenu = [
         { id: 'dashboard', label: 'Dashboard Mastery', icon: '🏠' },
-        { id: 'learning', label: 'Learning Path', icon: '🛣️' },
-        { id: 'ai', label: 'Ocean AI Assistant', icon: '🤖' },
+        { title: 'Ocean AI Features', isTitle: true },
+        { id: 'ai', label: 'AI Assistant', icon: '✨' },
+        { id: 'learning', label: 'Micro-Learning', icon: '⏱️' },
+        { id: 'learning-path', label: 'Role-based Path', icon: '🎯' },
         { id: 'simulation', label: 'Simulation Role-play', icon: '🤝' },
-        { id: 'certificates', label: 'Sertifikat', icon: '📜' },
-        { id: 'ingestion', label: 'Admin Hub', icon: '⚙️' }
+        { title: 'Other', isTitle: true },
+        { id: 'certificates', label: 'Sertifikat', icon: '📜' }
     ];
     const adminMenu = [
         { id: 'ingestion', label: 'Ingestion Hub', icon: '⚙️' },
@@ -82,13 +130,18 @@ const Sidebar = () => {
             </div>
             <div class="sidebar-logo" style="padding: 1rem 1.5rem; display: flex; align-items: center; gap: 0.5rem;"><img src="https://pustaka.bca.co.id/Ocean/Assets/Icon/Logo-Ocean-by-BCA-white.png" alt="Ocean by BCA Logo" style="height: 28px; width: auto; object-fit: contain;"></div>
             <nav class="nav-links">
-                ${menuItems.map(item => `
+                ${menuItems.map(item => {
+                    if (item.isTitle) {
+                        return `<div style="padding: 1.5rem 1.5rem 0.5rem; font-size: 0.7rem; font-weight: 800; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1px;">${item.title}</div>`;
+                    }
+                    return `
                     <li class="nav-item">
-                        <a href="#" class="nav-link ${state.currentPage === item.id ? 'active' : ''}" data-page="${item.id}">
+                        <a href="#" class="nav-link ${state.currentPage === item.id || (item.id === 'ai' && state.currentPage === 'ai-benefit') ? 'active' : ''}" data-page="${item.id}">
                             <span class="nav-icon">${item.icon}</span> ${item.label}
                         </a>
                     </li>
-                `).join('')}
+                    `;
+                }).join('')}
             </nav>
             <div class="sidebar-footer">
                 <div class="user-profile">
@@ -110,16 +163,59 @@ const DashboardPage = () => `
         </div>
         <div class="mastery-grid">
             <div class="m-card leaderboard-section">
-                <h3>OCEAN CHAMPIONS (TOP 10)</h3>
-                <div class="m-podium">
-                    <div class="podium-col rank-2"><div class="p-avatar">🥈</div><div class="p-name">Sarah Wijaya</div><div class="p-pts">11.230 XP</div><div class="p-step">2nd</div></div>
-                    <div class="podium-col rank-1"><div class="p-crown">👑</div><div class="p-avatar">🥇</div><div class="p-name">Andi Pratama</div><div class="p-pts">12.560 XP</div><div class="p-step">1st</div></div>
-                    <div class="podium-col rank-3"><div class="p-avatar">🥉</div><div class="p-name">Budi Santoso</div><div class="p-pts">10.980 XP</div><div class="p-step">3rd</div></div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3>OCEAN CHAMPIONS (TOP 10)</h3>
+                    <select id="leaderboard-filter-select" class="branch-filter">
+                        <option value="Semua Cabang" ${state.leaderboardFilter === 'Semua Cabang' ? 'selected' : ''}>Semua Cabang</option>
+                        <option value="KCP Menteng" ${state.leaderboardFilter === 'KCP Menteng' ? 'selected' : ''}>KCP Menteng</option>
+                        <option value="KCU Jakarta" ${state.leaderboardFilter === 'KCU Jakarta' ? 'selected' : ''}>KCU Jakarta</option>
+                        <option value="KCU Surabaya" ${state.leaderboardFilter === 'KCU Surabaya' ? 'selected' : ''}>KCU Surabaya</option>
+                        <option value="KCU Thamrin" ${state.leaderboardFilter === 'KCU Thamrin' ? 'selected' : ''}>KCU Thamrin</option>
+                    </select>
                 </div>
-                <table class="m-table">
-                    <thead><tr><th>Rank</th><th>Cabang</th><th>Champion</th><th>Poin</th></tr></thead>
-                    <tbody><tr class="active-row"><td>5</td><td>KCP Menteng</td><td>Anda</td><td>8.450</td></tr></tbody>
-                </table>
+                ${(() => {
+                    let filtered = state.leaderboard;
+                    if (state.leaderboardFilter !== 'Semua Cabang') {
+                        filtered = filtered.filter(u => u.branch === state.leaderboardFilter);
+                    }
+                    
+                    // Recalculate rank visually based on filtered data
+                    filtered = filtered.sort((a,b) => b.points - a.points).map((u, i) => ({...u, displayRank: i + 1}));
+
+                    const top3 = filtered.slice(0, 3);
+                    const rest = filtered; // Show all in table for now, or slice(3) if preferred, but usually table shows all.
+                    
+                    let podiumHTML = '<div class="m-podium">';
+                    if (top3.length > 1) {
+                        podiumHTML += `<div class="podium-col rank-2"><div class="p-avatar">${top3[1].avatar}</div><div class="p-name">${top3[1].name}</div><div class="p-pts">${top3[1].points.toLocaleString()} XP</div><div class="p-step">2nd</div></div>`;
+                    }
+                    if (top3.length > 0) {
+                        podiumHTML += `<div class="podium-col rank-1"><div class="p-crown">👑</div><div class="p-avatar">${top3[0].avatar}</div><div class="p-name">${top3[0].name}</div><div class="p-pts">${top3[0].points.toLocaleString()} XP</div><div class="p-step">1st</div></div>`;
+                    }
+                    if (top3.length > 2) {
+                        podiumHTML += `<div class="podium-col rank-3"><div class="p-avatar">${top3[2].avatar}</div><div class="p-name">${top3[2].name}</div><div class="p-pts">${top3[2].points.toLocaleString()} XP</div><div class="p-step">3rd</div></div>`;
+                    }
+                    podiumHTML += '</div>';
+
+                    if (filtered.length === 0) return '<div style="text-align:center; padding: 2rem; color: #94a3b8;">Tidak ada data champion di cabang ini.</div>';
+
+                    return `
+                        ${top3.length > 0 ? podiumHTML : ''}
+                        <table class="m-table">
+                            <thead><tr><th>Rank</th><th>Cabang</th><th>Champion</th><th>Poin</th></tr></thead>
+                            <tbody>
+                                ${rest.map(u => `
+                                    <tr class="${u.isMe ? 'active-row' : ''}">
+                                        <td>${u.displayRank}</td>
+                                        <td>${u.branch}</td>
+                                        <td>${u.name}</td>
+                                        <td>${u.points.toLocaleString()}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    `;
+                })()}
             </div>
             <div class="m-card progress-section">
                 <h3>PROGRESS SAYA</h3>
@@ -140,6 +236,172 @@ const DashboardPage = () => `
                 <h3>BADGE TERBARU</h3>
                 <div class="badge-hex-grid">
                     <div class="hex-badge b-gold">⭐</div><div class="hex-badge b-fire">🔥</div><div class="hex-badge b-blue">💎</div><div class="hex-badge b-silver">✨</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="champion-section fade-in">
+            <!-- Header Card -->
+            <div class="champ-header-card">
+                <div class="champ-mascot">
+                    <img src="/ocean_champion_mascot.png" alt="Ocean Champion Mascot" />
+                    <div class="champ-mascot-badge">Learn. Apply. Share. Grow Together!</div>
+                </div>
+                <div class="champ-header-content">
+                    <div class="champ-desc-wrap">
+                        <span class="champ-title-inline">Ocean Champion Program</span> 
+                        adalah program <span class="champ-highlight">gamification</span> yang mendorong setiap karyawan untuk aktif belajar, menerapkan knowledge, berbagi insight, dan berkontribusi bagi kemajuan bersama.
+                    </div>
+                    
+                    <div class="champ-components-box">
+                        <div class="champ-comp-title">KOMPONEN UTAMA OCEAN CHAMPION PROGRAM</div>
+                        <div class="champ-comp-grid">
+                            <div class="champ-comp-item">
+                                <div class="cci-icon">🛡️</div>
+                                <div class="cci-text">
+                                    <h5>1. LEVELING SYSTEM</h5>
+                                    <p>Naik level berdasarkan pengetahuan, skill, dan kontribusi.</p>
+                                </div>
+                                <div class="cci-label l-green">BELAJAR</div>
+                            </div>
+                            <div class="champ-comp-item">
+                                <div class="cci-icon">📄</div>
+                                <div class="cci-text">
+                                    <h5>2. SERTIFIKASI</h5>
+                                    <p>Sertifikat digital diberikan setelah lulus modul + quiz (KKM ≥ 85).</p>
+                                </div>
+                                <div class="cci-label l-blue">TERAPKAN</div>
+                            </div>
+                            <div class="champ-comp-item">
+                                <div class="cci-icon">🏆</div>
+                                <div class="cci-text">
+                                    <h5>3. RANKING & LEADERBOARD</h5>
+                                    <p>Peringkat per cabang & region untuk menciptakan kompetisi sehat.</p>
+                                </div>
+                                <div class="cci-label l-purple">BAGIKAN</div>
+                            </div>
+                            <div class="champ-comp-item">
+                                <div class="cci-icon">🎁</div>
+                                <div class="cci-text">
+                                    <h5>4. BENEFIT & REWARD</h5>
+                                    <p>Dapatkan berbagai reward menarik sesuai pencapaian dan level.</p>
+                                </div>
+                                <div class="cci-label l-orange">BERKEMBANG</div>
+                            </div>
+                            <div class="champ-comp-item">
+                                <div class="cci-icon">👥</div>
+                                <div class="cci-text">
+                                    <h5>5. BCA MENTEE</h5>
+                                    <p>Wajib diikuti sebagai bagian dari KPI pengembangan talenta muda.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leveling System Section -->
+            <div class="champ-leveling-wrapper">
+                <div class="champ-section-title">
+                    <span>Leveling System</span>
+                    <div class="champ-line"></div>
+                </div>
+
+                <!-- Leveling Grid (4 Columns) -->
+                <div class="leveling-grid">
+                    <!-- Level 1 -->
+                    <div class="lvl-card lvl-1">
+                        <div class="lvl-card-bg"></div>
+                        <div class="lvl-header">Level 1 Beginner</div>
+                        <div class="lvl-icon-shield">🛡️</div>
+                        <div class="lvl-desc">Mulai belajar & menyelesaikan modul dasar</div>
+                        <div class="lvl-req">
+                            <strong>Syarat:</strong>
+                            <ul>
+                                <li>Selesaikan modul dasar</li>
+                                <li>Quiz score ≥85</li>
+                            </ul>
+                        </div>
+                        <div class="lvl-points">0 - 1.999 Poin</div>
+                    </div>
+                    <!-- Level 2 -->
+                    <div class="lvl-card lvl-2">
+                        <div class="lvl-card-bg"></div>
+                        <div class="lvl-header">Level 2 Practioner</div>
+                        <div class="lvl-icon-shield">🛡️</div>
+                        <div class="lvl-desc">Memahami fitur & implementasi Ocean</div>
+                        <div class="lvl-req">
+                            <strong>Syarat:</strong>
+                            <ul>
+                                <li>Selesaikan modul lanjutan</li>
+                                <li>Quiz score ≥85</li>
+                            </ul>
+                        </div>
+                        <div class="lvl-points">2.000 - 4.999 Poin</div>
+                    </div>
+                    <!-- Level 3 -->
+                    <div class="lvl-card lvl-3">
+                        <div class="lvl-card-bg"></div>
+                        <div class="lvl-header">Level 3 Expert</div>
+                        <div class="lvl-icon-shield">🛡️</div>
+                        <div class="lvl-desc">Mahir menjelaskan benefit & solusi ke nasabah</div>
+                        <div class="lvl-req">
+                            <strong>Syarat:</strong>
+                            <ul>
+                                <li>Simulation & Role-play</li>
+                                <li>Quiz score ≥85</li>
+                                <li>Kontribusi knowledge</li>
+                            </ul>
+                        </div>
+                        <div class="lvl-points">5.000 - 9.999 Poin</div>
+                    </div>
+                    <!-- Level 4 -->
+                    <div class="lvl-card lvl-4">
+                        <div class="lvl-card-bg"></div>
+                        <div class="lvl-header">Level 4 Master</div>
+                        <div class="lvl-icon-shield">👑</div>
+                        <div class="lvl-desc">Menjadi role model & kontributor knowledge</div>
+                        <div class="lvl-req">
+                            <strong>Syarat:</strong>
+                            <ul>
+                                <li>Top performance</li>
+                                <li>Kontribusi champion</li>
+                                <li>Quiz score ≥90</li>
+                            </ul>
+                        </div>
+                        <div class="lvl-points">≥10.000 Poin</div>
+                    </div>
+                </div>
+
+                <!-- Jalur Leveling (Horizontal Stepper) -->
+                <div class="lvl-path-banner">
+                    <div class="lpb-title">JALUR LEVELING</div>
+                    <div class="lpb-steps">
+                        <div class="lpb-step">
+                            <div class="lpb-icon">✅</div>
+                            <div class="lpb-text">Belajar &<br/>Selesaikan Modul</div>
+                        </div>
+                        <div class="lpb-arrow">➔</div>
+                        <div class="lpb-step">
+                            <div class="lpb-icon">📝</div>
+                            <div class="lpb-text">Kerjakan Quiz<br/>(KKM ≥85)</div>
+                        </div>
+                        <div class="lpb-arrow">➔</div>
+                        <div class="lpb-step">
+                            <div class="lpb-icon">⭐</div>
+                            <div class="lpb-text">Dapatkan<br/>Poin</div>
+                        </div>
+                        <div class="lpb-arrow">➔</div>
+                        <div class="lpb-step">
+                            <div class="lpb-icon">⬆️</div>
+                            <div class="lpb-text">Naik<br/>Level</div>
+                        </div>
+                        <div class="lpb-arrow">➔</div>
+                        <div class="lpb-step">
+                            <div class="lpb-icon">🎁</div>
+                            <div class="lpb-text">Dapatkan<br/>Reward</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -232,63 +494,483 @@ const LearningPage = () => {
     `;
 };
 
-const SimulationPage = () => `
-    <div class="fade-in">
-        <h1>Simulation Q&A dengan Nasabah</h1>
-        <div class="sim-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 2rem;">
-            ${state.simulations.map(sim => `
-                <div class="m-card sim-card" style="text-align: center; padding: 2rem;">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">${sim.id === 'umkm' ? '🏬' : '🏢'}</div>
-                    <h3>${sim.title}</h3>
-                    <p>Difficulty: <b>${sim.difficulty}</b></p>
-                    <button class="btn-outline" style="width: 100%; margin-top: 1rem;">Mulai Role-play</button>
+const SimulationPage = () => {
+    if (!state.activeSimulation) {
+        return `
+            <div class="fade-in" style="padding: 1rem;">
+                <h1 style="color: var(--text-main); margin-bottom: 0.5rem;">Simulation Role-play</h1>
+                <p style="color: var(--text-muted); margin-bottom: 2rem;">Pilih skenario simulasi nasabah untuk berlatih kemampuan pitching Anda.</p>
+                <div class="sim-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+                    ${state.simulations.map(sim => `
+                        <div class="m-card sim-card" style="display: flex; flex-direction: column; text-align: center; padding: 2rem; border-radius: 16px; border: 1px solid #e2e8f0;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">${sim.id === 'umkm' ? '🏬' : '🏢'}</div>
+                            <h3 style="margin: 0 0 0.5rem 0; color: var(--text-main);">${sim.title}</h3>
+                            <p style="margin: 0 0 1.5rem 0; color: var(--text-muted); font-size: 0.85rem;">Tingkat Kesulitan: <b>${sim.difficulty}</b></p>
+                            <button class="btn-primary btn-start-sim" data-sim-id="${sim.id}" style="margin-top: auto; padding: 0.75rem;">Mulai Role-play</button>
+                        </div>
+                    `).join('')}
                 </div>
-            `).join('')}
+            </div>
+        `;
+    }
+
+    const sim = state.simulations.find(s => s.id === state.activeSimulation);
+    const bgHeader = sim.id === 'umkm' ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #3b82f6, #1d4ed8)';
+    
+    return `
+        <div class="premium-ai-container fade-in">
+            <header class="premium-ai-header" style="background: ${bgHeader}; color: white; border: none;">
+                <div class="pai-header-left">
+                    <div class="pai-logo-wrap" style="background: rgba(255,255,255,0.2); box-shadow: none;">${sim.id === 'umkm' ? '🏬' : '🏢'}</div>
+                    <div>
+                        <h1 class="pai-title" style="color: white; margin-bottom: 2px;">Nasabah ${sim.id === 'umkm' ? 'UMKM' : 'Korporasi'}</h1>
+                        <p class="pai-subtitle" style="color: rgba(255,255,255,0.8);">${sim.title}</p>
+                    </div>
+                </div>
+                <div class="pai-header-right">
+                    <button id="btn-end-sim" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: white; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 0.8rem; transition: background 0.2s;">Akhiri Simulasi</button>
+                </div>
+            </header>
+            <div class="premium-ai-layout" style="background: #f8fafc;">
+                <div class="pai-chat-area" style="background: transparent;">
+                    <div class="pai-chat-messages" id="sim-chat-messages">
+                        ${state.simChatHistory.length === 0 ? `
+                            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 2rem;">
+                                Anda sedang berhadapan dengan nasabah prospek. Sapalah nasabah terlebih dahulu untuk memulai pitching!
+                            </div>
+                        ` : ''}
+                        ${state.simChatHistory.map(m => `
+                            <div class="pai-msg-row ${m.role}">
+                                <div class="pai-msg-avatar" style="${m.role === 'ai' ? 'background: white; color: initial; border: 1px solid #e2e8f0;' : ''}">${m.role === 'ai' ? (sim.id === 'umkm' ? '🧑‍🌾' : '👔') : '👨‍✈️'}</div>
+                                <div class="pai-msg-bubble">
+                                    <div class="pai-msg-author" style="${m.role === 'ai' ? 'color: var(--text-main);' : ''}">${m.role === 'ai' ? 'Nasabah' : state.user.name}</div>
+                                    <div class="pai-msg-content" style="${m.role === 'user' ? 'background: #00458b; box-shadow: 0 4px 12px rgba(0, 69, 139, 0.2);' : 'background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.05);'}">${m.role === 'ai' ? renderMarkdown(m.content) : m.content}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="pai-input-container">
+                        <div class="pai-input-glass">
+                            <input type="text" id="sim-chat-input" placeholder="Ketik balasan Anda ke nasabah..." class="pai-input-field" autocomplete="off" />
+                            <button id="btn-sim-send" class="pai-send-btn">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-`;
+    `;
+};
 
 const AIPage = () => `
-    <div class="fade-in">
-        <header style="display: flex; justify-content: space-between; align-items: center;">
-            <div><h1>Ocean AI Assistant</h1><p class="subtitle">Just-in-time Q&A & Benefit Translator</p></div>
-            <div class="m-card" style="padding: 10px 20px; display: flex; align-items: center; gap: 10px;">
-                <span style="font-size: 0.8rem; font-weight: 800; color: var(--bca-blue-primary);">BENEFIT TRANSLATOR</span>
-                <label class="switch"><input type="checkbox" id="benefit-toggle" ${state.benefitMode ? 'checked' : ''}><span class="slider round"></span></label>
-            </div>
-        </header>
-        <div class="ai-layout">
-            <div class="chat-main">
-                <div class="chat-content" id="chat-messages">${state.chatHistory.map(m => `<div class="msg ${m.role}">${m.content}</div>`).join('')}</div>
-                <div class="chat-input-wrapper">
-                    <input type="text" class="chat-input" id="chat-input-main" placeholder="Tanya tentang fitur...">
-                    <button class="btn-primary" id="btn-send-main">🚀</button>
+    <div class="premium-ai-container fade-in">
+        <!-- Header -->
+        <header class="premium-ai-header">
+            <div class="pai-header-left">
+                <div class="pai-logo-wrap">✨</div>
+                <div>
+                    <h1 class="pai-title">Ocean AI Assistant</h1>
+                    <p class="pai-subtitle">Enterprise Intelligence · Powered by Gemini</p>
                 </div>
             </div>
-            <div class="ai-sources">
-                <h3>RAG SOURCES</h3>
-                <div class="source-item"><span>📜</span> Script Pitching CFO</div>
-                <div class="source-item"><span>📄</span> Guide: Dashboard</div>
+            <div class="pai-header-right">
+                <div class="benefit-toggle-pill ${state.benefitMode ? 'active' : ''}">
+                    <span class="bt-label">BENEFIT TRANSLATOR</span>
+                    <label class="switch-modern">
+                        <input type="checkbox" id="benefit-toggle" ${state.benefitMode ? 'checked' : ''}>
+                        <span class="slider-modern"></span>
+                    </label>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Layout -->
+        <div class="premium-ai-layout">
+            <!-- Chat Area -->
+            <div class="pai-chat-area">
+                <div class="pai-chat-messages" id="chat-messages">
+                    ${state.chatHistory.map(m => `
+                        <div class="pai-msg-row ${m.role}">
+                            <div class="pai-msg-avatar">${m.role === 'ai' ? '🤖' : '👨‍✈️'}</div>
+                            <div class="pai-msg-bubble">
+                                <div class="pai-msg-author">${m.role === 'ai' ? 'Ocean AI' : state.user.name}</div>
+                                <div class="pai-msg-content">${m.role === 'ai' ? renderMarkdown(m.content) : m.content}</div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <!-- Input Area -->
+                <div class="pai-input-container">
+                    <div class="pai-input-glass">
+                        <input type="text" id="chat-input-main" placeholder="Tanya tentang Ocean by BCA..." class="pai-input-field" autocomplete="off" />
+                        <button id="btn-send-main" class="pai-send-btn" title="Kirim">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                        </button>
+                    </div>
+                    <div class="pai-input-hint">AI dapat melakukan kesalahan. Harap periksa kembali informasi penting.</div>
+                </div>
+            </div>
+
+            <!-- Context Sidebar -->
+            <div class="pai-sidebar">
+                <div class="pai-sidebar-card">
+                    <h3 class="pai-sidebar-title">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                        Active Knowledge
+                    </h3>
+                    <p class="pai-sidebar-desc">AI menjawab berdasarkan sumber dokumen terverifikasi di bawah ini.</p>
+                    
+                    <div class="pai-sources-list">
+                        ${state.ragDocs.length > 0 ? state.ragDocs.map(d => `
+                            <div class="pai-source-item">
+                                <div class="pai-si-icon doc">📄</div>
+                                <div class="pai-si-info">
+                                    <div class="pai-si-name">${d.name}</div>
+                                    <div class="pai-si-meta">RAG Database • ${d.chunk_count || 0} chunks</div>
+                                </div>
+                            </div>
+                        `).join('') : `
+                            <div class="pai-source-item">
+                                <div class="pai-si-icon doc">📜</div>
+                                <div class="pai-si-info">
+                                    <div class="pai-si-name">Script Pitching CFO.pdf</div>
+                                    <div class="pai-si-meta">Default Context</div>
+                                </div>
+                            </div>
+                            <div class="pai-source-item">
+                                <div class="pai-si-icon doc">📄</div>
+                                <div class="pai-si-info">
+                                    <div class="pai-si-name">Guide: Dashboard.docx</div>
+                                    <div class="pai-si-meta">Default Context</div>
+                                </div>
+                            </div>
+                        `}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 `;
 
-const IngestionPage = () => `
-    <div class="fade-in">
-        <header><h1>Knowledge Capture Loop</h1></header>
-        <div class="ingestion-container">
-            <div class="hub-card">
-                <div class="type-grid">${['Dokumen', 'Video', 'FAQ'].map(t => `<div class="type-item"><div class="type-label">${t}</div></div>`).join('')}</div>
-                <div class="upload-zone"><p>Upload data resmi ke RAG database</p></div>
+const IngestionPage = () => {
+    const { ragDocs, ragStats, ragUploading, ragUploadProgress, ragUploadError, ragActiveType } = state;
+    const fileTypeMap = {
+        doc:   { icon: '📄', label: 'Dokumen',     exts: 'PDF, DOCX, PPTX, XLSX', accept: '.pdf,.doc,.docx,.ppt,.pptx,.xlsx,.xls' },
+        video: { icon: '🎥', label: 'Video',        exts: 'MP4, MOV, AVI',         accept: '.mp4,.mov,.avi' },
+        audio: { icon: '🎙️', label: 'Audio',        exts: 'MP3, WAV, M4A',         accept: '.mp3,.wav,.m4a' },
+        text:  { icon: '📝', label: 'Teks/Artikel', exts: 'TXT, HTML, MD',         accept: '.txt,.html,.md' },
+        faq:   { icon: '❓', label: 'FAQ / Q&A',    exts: 'XLSX, CSV',             accept: '.xlsx,.csv,.xls' },
+        web:   { icon: '🌐', label: 'URL / Web',    exts: 'Paste URL',             accept: '' },
+        json:  { icon: '⚙️', label: 'JSON / API',   exts: 'JSON',                  accept: '.json' },
+    };
+    const activeType = fileTypeMap[ragActiveType] || fileTypeMap.doc;
+    
+    const docIconType = (ft) => {
+        if (['mp4','mov','avi'].includes(ft)) return '🎥';
+        if (['mp3','wav','m4a'].includes(ft)) return '🎙️';
+        if (['pdf','doc','docx','ppt','pptx'].includes(ft)) return '📄';
+        if (['xlsx','xls','csv'].includes(ft)) return '📊';
+        if (['txt','html','md'].includes(ft)) return '📝';
+        return '📁';
+    };
+    const docIconClass = (ft) => {
+        if (['mp4','mov','avi'].includes(ft)) return 'video';
+        if (['mp3','wav','m4a'].includes(ft)) return 'audio';
+        if (['pdf','docx','pptx'].includes(ft)) return 'doc';
+        if (['xlsx','csv'].includes(ft)) return 'faq';
+        return 'doc';
+    };
+    const formatSize = (bytes) => {
+        if (!bytes) return '—';
+        if (bytes < 1024) return bytes + ' B';
+        if (bytes < 1024*1024) return (bytes/1024).toFixed(1) + ' KB';
+        return (bytes/1024/1024).toFixed(1) + ' MB';
+    };
+    const formatDate = (iso) => {
+        if (!iso) return '—';
+        return new Date(iso).toLocaleDateString('id-ID', { day:'2-digit', month:'short', year:'numeric' });
+    };
+
+    const pipelineSteps = [
+        { id: 1, label: 'Validasi File',          desc: 'Format dan ukuran file diverifikasi' },
+        { id: 2, label: 'Ekstraksi Konten',        desc: 'Gemini AI mengekstrak teks dari file' },
+        { id: 3, label: 'Chunking & Embedding',    desc: 'Semantic chunking + vektor 768-dim' },
+        { id: 4, label: 'Quality Check',           desc: 'Dedup, tagging, dan enrichment' },
+        { id: 5, label: 'Simpan ke Vector DB',     desc: 'Chunks disimpan ke Supabase pgvector' },
+    ];
+
+    return `
+    <div class="fade-in rag-hub-page" id="rag-hub-root">
+
+        <!-- HIDDEN FILE INPUT -->
+        <input type="file" id="rag-file-input" style="display:none"
+            accept="${activeType.accept}"
+            ${ragUploading ? 'disabled' : ''}>
+
+        <!-- HEADER -->
+        <div class="rag-page-header">
+            <div class="rag-header-left">
+                <div class="rag-breadcrumb">
+                    <span>Admin</span>
+                    <span class="bc-sep">›</span>
+                    <span class="bc-active">Knowledge Capture Loop</span>
+                </div>
+                <h1 class="rag-page-title">Knowledge Capture Loop</h1>
+                <p class="rag-page-subtitle">
+                    Ingesti knowledge dari berbagai sumber ke RAG database — digunakan oleh Ocean AI Chatbot
+                    untuk menjawab pertanyaan berdasarkan dokumen resmi BCA.
+                </p>
+                <div class="rag-powered-badges">
+                    <span class="rag-badge gemini-badge">✦ Gemini 2.0 Flash</span>
+                    <span class="rag-badge supabase-badge">⬡ Supabase pgvector</span>
+                    <span class="rag-badge pakar-badge">🗂 PAKAR</span>
+                    <span class="rag-badge lms-badge">🎓 myDevelopment</span>
+                </div>
             </div>
-            <div class="process-column">
-                ${state.ingestionSteps.map(s => `<div class="process-step ${s.status}"><div class="step-num">${s.id}</div><div>${s.label}</div></div>`).join('')}
+            <div class="rag-header-stats">
+                <div class="rag-stat-mini active-stat" id="stat-chunks">
+                    <div class="rsm-val">${ragStats.chunks.toLocaleString()}</div>
+                    <div class="rsm-lbl">Vector Chunks</div>
+                </div>
+                <div class="rag-stat-mini">
+                    <div class="rsm-val">${ragStats.docs}</div>
+                    <div class="rsm-lbl">Dokumen Aktif</div>
+                </div>
+                <div class="rag-stat-mini">
+                    <div class="rsm-val">768</div>
+                    <div class="rsm-lbl">Embedding Dims</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- INTEGRATION STRIP -->
+        <div class="rag-integration-strip">
+            <div class="ris-item">
+                <div class="ris-icon lms-c">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                </div>
+                <div class="ris-info">
+                    <div class="ris-name">myDevelopment LMS</div>
+                    <div class="ris-sub">Single Access Point · SSO · API REST</div>
+                </div>
+                <span class="ris-badge connected">Connected</span>
+            </div>
+            <div class="ris-divider">›</div>
+            <div class="ris-item">
+                <div class="ris-icon ocean-c">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>
+                </div>
+                <div class="ris-info">
+                    <div class="ris-name">Ocean Mastery RAG</div>
+                    <div class="ris-sub">Gemini AI · pgvector · Semantic Search</div>
+                </div>
+                <span class="ris-badge connected">Active</span>
+            </div>
+            <div class="ris-divider">›</div>
+            <div class="ris-item">
+                <div class="ris-icon pakar-c">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                </div>
+                <div class="ris-info">
+                    <div class="ris-name">PAKAR Repository</div>
+                    <div class="ris-sub">Dokumen · FAQ · Best Practice · Use Case</div>
+                </div>
+                <span class="ris-badge syncing">Syncing</span>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="rag-main-layout">
+
+            <!-- LEFT: UPLOAD PANEL -->
+            <div class="rag-upload-panel">
+
+                <!-- SOURCE TYPE TABS -->
+                <div class="rag-card">
+                    <div class="rag-card-title">Tipe Sumber Knowledge</div>
+                    <div class="rag-type-tabs">
+                        ${Object.entries(fileTypeMap).map(([key, t]) => `
+                            <button class="rtt-btn ${ragActiveType === key ? 'active' : ''}" data-type="${key}" id="rtt-${key}">
+                                <span class="rtt-icon">${t.icon}</span>
+                                <span class="rtt-label">${t.label}</span>
+                                <span class="rtt-ext">${t.exts}</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <!-- UPLOAD ZONE -->
+                <div class="rag-card">
+                    <div class="rag-card-title">Upload File</div>
+
+                    ${ragUploading ? `
+                    <div class="rag-progress-panel">
+                        <div class="rpp-header">
+                            <span class="rpp-spinner"></span>
+                            <span class="rpp-title">Memproses file...</span>
+                        </div>
+                        <div class="rpp-steps">
+                            ${pipelineSteps.map(s => {
+                                const isDone   = s.id < ragUploadProgress.step;
+                                const isActive = s.id === ragUploadProgress.step;
+                                return `
+                                <div class="rpp-step ${isDone ? 'done' : isActive ? 'active' : 'wait'}">
+                                    <div class="rpp-dot">
+                                        ${isDone ? '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' 
+                                                 : isActive ? '<span class="rpp-pulse"></span>' 
+                                                 : s.id}
+                                    </div>
+                                    <div class="rpp-step-info">
+                                        <div class="rpp-step-label">${s.label}</div>
+                                        <div class="rpp-step-desc">${isActive ? ragUploadProgress.message : isDone ? 'Selesai' : s.desc}</div>
+                                    </div>
+                                </div>`;
+                            }).join('')}
+                        </div>
+                    </div>
+                    ` : `
+                    <div class="rag-dropzone" id="rag-dropzone" onclick="document.getElementById('rag-file-input').click()">
+                        <div class="rdz-icon">${activeType.icon}</div>
+                        <div class="rdz-title">Klik atau drag & drop ${activeType.label}</div>
+                        <div class="rdz-sub">${activeType.exts}</div>
+                        ${ragUploadError ? `<div class="rdz-error">⚠ ${ragUploadError}</div>` : ''}
+                    </div>
+                    `}
+
+                    ${ragActiveType === 'web' ? `
+                    <div class="rag-url-row">
+                        <input type="text" id="rag-url-input" class="rag-url-input" placeholder="https://pakar.bca.co.id/dokumen/..." ${ragUploading ? 'disabled' : ''}>
+                        <button class="rag-url-btn" id="btn-import-url" ${ragUploading ? 'disabled' : ''}>Import</button>
+                    </div>
+                    ` : ''}
+                </div>
+
+                <!-- AI CAPABILITIES INFO -->
+                <div class="rag-card rag-ai-card">
+                    <div class="rag-ai-header">
+                        <div class="rag-ai-icon">✦</div>
+                        <div>
+                            <div class="rag-card-title" style="margin-bottom:0">Powered by Gemini AI</div>
+                            <div class="rag-card-sub">gemini-3.5-flash · gemini-embedding-2</div>
+                        </div>
+                    </div>
+                    <div class="rag-ai-caps">
+                        <div class="rac-item">
+                            <div class="rac-icon">🎙️</div>
+                            <div class="rac-text">
+                                <div class="rac-title">Auto Transcription</div>
+                                <div class="rac-desc">Video & Audio ditranskrip otomatis ke teks</div>
+                            </div>
+                        </div>
+                        <div class="rac-item">
+                            <div class="rac-icon">📊</div>
+                            <div class="rac-text">
+                                <div class="rac-title">Document Understanding</div>
+                                <div class="rac-desc">Ekstrak PDF, DOCX, PPTX termasuk tabel</div>
+                            </div>
+                        </div>
+                        <div class="rac-item">
+                            <div class="rac-icon">🧬</div>
+                            <div class="rac-text">
+                                <div class="rac-title">Semantic Embedding</div>
+                                <div class="rac-desc">Vektor 768-dim untuk semantic search akurat</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: KNOWLEDGE BASE TABLE -->
+            <div class="rag-docs-panel">
+                <div class="rag-card rag-docs-card">
+                    <div class="rag-docs-header">
+                        <div>
+                            <div class="rag-card-title">Knowledge Base</div>
+                            <div class="rag-card-sub">${ragDocs.length} dokumen terdaftar · data real dari Supabase</div>
+                        </div>
+                        <button class="rag-refresh-btn" id="btn-rag-refresh">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                            Refresh
+                        </button>
+                    </div>
+
+                    ${ragDocs.length === 0 && ragStats.docs === 0 ? `
+                    <div class="rag-empty-state">
+                        <div class="res-icon">📂</div>
+                        <div class="res-title">Knowledge Base kosong</div>
+                        <div class="res-sub">Upload dokumen pertama Anda untuk mulai membangun RAG database</div>
+                    </div>
+                    ` : `
+                    <div class="rag-docs-table-wrap">
+                        <table class="rag-docs-table">
+                            <thead>
+                                <tr>
+                                    <th>Dokumen</th>
+                                    <th>Tipe</th>
+                                    <th>Sumber</th>
+                                    <th>Ukuran</th>
+                                    <th>Chunks</th>
+                                    <th>Status</th>
+                                    <th>Tanggal</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${ragDocs.map(doc => `
+                                <tr>
+                                    <td>
+                                        <div class="rdt-name-cell">
+                                            <div class="rdt-file-icon ${docIconClass(doc.file_type)}">${docIconType(doc.file_type)}</div>
+                                            <span class="rdt-filename">${doc.name}</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="rdt-badge type">${doc.file_type?.toUpperCase() || '—'}</span></td>
+                                    <td><span class="rdt-badge source">${doc.source || 'upload'}</span></td>
+                                    <td class="rdt-muted">${formatSize(doc.size_bytes)}</td>
+                                    <td class="rdt-muted">${doc.chunk_count || 0}</td>
+                                    <td>
+                                        <span class="rdt-status ${doc.status}">
+                                            ${doc.status === 'done' ? '✓ Done' : doc.status === 'processing' ? '⚡ Processing' : '⚠ Error'}
+                                        </span>
+                                    </td>
+                                    <td class="rdt-muted">${formatDate(doc.created_at)}</td>
+                                    <td>
+                                        <button class="rdt-delete-btn" data-doc-id="${doc.id}" title="Hapus dokumen">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    `}
+
+                    <!-- RETRIEVAL FLOW -->
+                    <div class="rag-flow-section">
+                        <div class="rag-card-title" style="margin-bottom: 1rem;">Alur Retrieval — Cara Chatbot Membaca Knowledge Base Ini</div>
+                        <div class="rag-flow-row">
+                            <div class="rfr-step"><div class="rfr-icon">💬</div><div class="rfr-label">User bertanya</div></div>
+                            <div class="rfr-arr">→</div>
+                            <div class="rfr-step"><div class="rfr-icon">🔢</div><div class="rfr-label">Query di-embed</div></div>
+                            <div class="rfr-arr">→</div>
+                            <div class="rfr-step"><div class="rfr-icon">🔍</div><div class="rfr-label">Vector search</div></div>
+                            <div class="rfr-arr">→</div>
+                            <div class="rfr-step"><div class="rfr-icon">📚</div><div class="rfr-label">Top-K chunks</div></div>
+                            <div class="rfr-arr">→</div>
+                            <div class="rfr-step"><div class="rfr-icon">🧠</div><div class="rfr-label">Gemini jawab</div></div>
+                            <div class="rfr-arr">→</div>
+                            <div class="rfr-step active-step"><div class="rfr-icon">✅</div><div class="rfr-label">Respons + sumber</div></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-`;
-
+    `;
+};
 const LeaderboardPage = () => `
     <div class="fade-in">
         <h1>Ocean Champion Leaderboard</h1>
@@ -943,7 +1625,7 @@ const ROICalculatorPage = () => `
                     </div>
                     <div class="roi-res-card highlight">
                         <div class="label">Efisiensi Biaya Operasional</div>
-                        <div class="val">Rp ${ (state.roiInputs.branches * 1500000).toLocaleString('id-ID') } / Bulan</div>
+                    <div class="val">Rp ${ (state.roiInputs.branches * 1500000).toLocaleString('id-ID') } / Bulan</div>
                         <p>Pengurangan biaya manual error dan administrasi.</p>
                     </div>
                 </div>
@@ -963,7 +1645,7 @@ const PRODUCTS = [
         category: 'Rekening',
         sectors: ['Umum', 'Logistik', 'Institusi Finansial', 'Kesehatan', 'Lainnya'],
         desc: 'Satu platform perbankan digital untuk memantau saldo, mutasi, dan transaksi bisnis Anda kapan saja secara real-time.',
-        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard"><rect width="7" height="9" x="3" y="3" rx="1"></rect><rect width="7" height="5" x="14" y="3" rx="1"></rect><rect width="7" height="9" x="14" y="10" rx="1"></rect><rect width="7" height="5" x="3" y="14" rx="1"></rect></svg>`,
+        icon: '/images/mbb-icon-quick.svg',
         link: 'https://ocean.bca.co.id/id/produk/transaksi/ocean-by-bca/mybca-bisnis'
     },
     {
@@ -973,7 +1655,7 @@ const PRODUCTS = [
         category: 'Transaksi',
         sectors: ['Umum', 'Fashion & Beauty', 'Food & Beverages', 'Lainnya'],
         desc: 'Satu mesin EDC untuk menerima pembayaran Kartu Debit, Kredit (BCA, Visa, Mastercard, JCB, Amex), Flazz, dan QRIS.',
-        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-smartphone"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"></rect><path d="M12 18h.01"></path></svg>`,
+        icon: '/images/e-commerce-merchant-portal.svg',
         link: 'https://ocean.bca.co.id/id/produk/transaksi/edc-bca'
     },
     {
@@ -983,7 +1665,7 @@ const PRODUCTS = [
         category: 'Transaksi',
         sectors: ['Umum', 'Fashion & Beauty', 'Food & Beverages', 'Lainnya'],
         desc: 'Terima pembayaran digital secara praktis dan real-time menggunakan satu kode QR standar nasional untuk semua e-wallet.',
-        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-qr-code"><rect width="5" height="5" x="3" y="3" rx="1"></rect><rect width="5" height="5" x="16" y="3" rx="1"></rect><rect width="5" height="5" x="3" y="16" rx="1"></rect><path d="M21 16v5h-5"></path><path d="M21 21v-2h-4"></path><path d="M7 21h4"></path><path d="M12 17v-4"></path><path d="M17 12h4"></path></svg>`,
+        icon: '/images/e-commerce-merchant-portal.svg',
         link: 'https://ocean.bca.co.id/id/produk/transaksi/qris-bisnis'
     },
     {
@@ -993,7 +1675,7 @@ const PRODUCTS = [
         category: 'Transaksi',
         sectors: ['Umum', 'Logistik', 'Kesehatan', 'Lainnya'],
         desc: 'Identifikasi pembayaran dari setiap pelanggan secara cepat dan akurat tanpa perlu konfirmasi pembayaran manual.',
-        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-check"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><polyline points="16 11 18 13 22 9"></polyline></svg>`,
+        icon: '/images/klikbcabisnis.svg',
         link: 'https://ocean.bca.co.id/id/produk/transaksi/virtual-account'
     },
     {
@@ -1003,7 +1685,7 @@ const PRODUCTS = [
         category: 'Investasi',
         sectors: ['Umum', 'Institusi Finansial'],
         desc: 'Penempatan deposito berjangka secara online di myBCA Bisnis dengan opsi perpanjangan otomatis dan bunga bersaing.',
-        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>`,
+        icon: '/images/mbb-icon-quick.svg',
         link: 'https://ocean.bca.co.id/id/produk/rekening/e-deposito'
     },
     {
@@ -1013,7 +1695,7 @@ const PRODUCTS = [
         category: 'Rekening',
         sectors: ['Umum', 'Institusi Finansial'],
         desc: 'Kemudahan transaksi pembayaran bisnis menggunakan Cek, Bilyet Giro, atau sarana perbankan elektronik lainnya.',
-        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg>`,
+        icon: '/images/klikbcabisnis.svg',
         link: 'https://ocean.bca.co.id/id/produk/rekening/giro'
     },
     {
@@ -1023,7 +1705,7 @@ const PRODUCTS = [
         category: 'Rekening',
         sectors: ['Umum', 'Fashion & Beauty', 'Food & Beverages', 'Lainnya'],
         desc: 'Tabungan khusus bisnis dengan limit transaksi yang besar, informasi mutasi lebih detail, dan layanan autodebet.',
-        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-coins"><circle cx="8" cy="8" r="6"></circle><circle cx="18" cy="18" r="4"></circle><path d="M12 18a6 6 0 0 0-6-6M18 14V4b2 2 0 0 0-2-2h-2"></path></svg>`,
+        icon: '/images/mbb-icon-quick.svg',
         link: 'https://ocean.bca.co.id/id/produk/rekening/tahapan-gold'
     },
     {
@@ -1033,7 +1715,7 @@ const PRODUCTS = [
         category: 'Solusi Digital',
         sectors: ['Logistik', 'Institusi Finansial', 'Kesehatan', 'Lainnya'],
         desc: 'Integrasikan sistem ERP atau aplikasi internal bisnis Anda langsung dengan sistem perbankan BCA untuk transaksi otomatis.',
-        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-code-2"><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"></path><path d="m14.5 4-5 16"></path></svg>`,
+        icon: '/images/developer-api-bca.svg',
         link: 'https://ocean.bca.co.id/id/produk/solusi-digital/bca-api'
     },
     {
@@ -1043,7 +1725,7 @@ const PRODUCTS = [
         category: 'Pinjaman',
         sectors: ['Umum', 'Fashion & Beauty', 'Food & Beverages', 'Lainnya'],
         desc: 'Pembiayaan modal kerja atau investasi untuk pelaku UMKM dengan bunga subsidi dan syarat yang mudah.',
-        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-helping-hand"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 22v-4a2 2 0 0 0-2-2H9"></path><path d="M19 14h2a2 2 0 0 1 2 2v1.5a2.5 2.5 0 0 1-5 0v-2.5"></path></svg>`,
+        icon: '/images/client-trade.svg',
         link: 'https://ocean.bca.co.id/id/produk/pinjaman/kur'
     },
     {
@@ -1053,7 +1735,7 @@ const PRODUCTS = [
         category: 'Pinjaman',
         sectors: ['Umum', 'Logistik', 'Lainnya'],
         desc: 'Fasilitas kredit modal kerja dengan penarikan fleksibel menggunakan Cek/Bilyet Giro sesuai kebutuhan bisnis Anda.',
-        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-landmark"><line x1="3" y1="22" x2="21" y2="22"></line><line x1="6" y1="18" x2="6" y2="11"></line><line x1="10" y1="18" x2="10" y2="11"></line><line x1="14" y1="18" x2="14" y2="11"></line><line x1="18" y1="18" x2="18" y2="11"></line><polygon points="12 2 20 7 4 7"></polygon></svg>`,
+        icon: '/images/client-trade.svg',
         link: 'https://ocean.bca.co.id/id/produk/pinjaman/kredit-lokal'
     },
     {
@@ -1063,7 +1745,7 @@ const PRODUCTS = [
         category: 'Asuransi',
         sectors: ['Umum', 'Logistik', 'Kesehatan', 'Lainnya'],
         desc: 'Perlindungan tempat usaha, mesin, persediaan barang dagangan, dan aset fisik lainnya dari risiko kebakaran.',
-        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-alert"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`,
+        icon: '/images/bagio.svg',
         link: 'https://ocean.bca.co.id/id/produk/asuransi/kebakaran-bisnis'
     }
 ];
@@ -1112,6 +1794,21 @@ const HowItWorksPage = () => {
             
             <div class="product-container-wrap">
                 <div class="product-content-card-wrap">
+                    <div class="product-card-title-row">
+                        <div class="title-icon-container">
+                            <img src="/images/checklist-icon.png" class="title-icon-img" alt="Checklist Icon">
+                        </div>
+                        <h2 class="product-card-main-title">Produk BCA untuk Kemudahan Bisnis Anda</h2>
+                    </div>
+
+                    <div class="featured-banner-card">
+                        <div class="glass-info-block">
+                            <h3 class="glass-banner-title">Virtual Account BCA</h3>
+                            <p class="glass-banner-desc">Terima pembayaran dengan mudah, cepat, dan lancar dengan Virtual Account BCA.</p>
+                            <a href="https://ocean.bca.co.id/id/produk/transaksi/virtual-account" target="_blank" class="btn-learn-more-pill" onclick="event.stopPropagation();">Pelajari Lebih Lanjut</a>
+                        </div>
+                    </div>
+
                     <div class="product-card-header">
                         <p>Pilih berbagai produk sesuai kebutuhan bisnis Anda, lalu tinggalkan kontak untuk kami hubungi.</p>
                         <div class="product-search-wrapper">
@@ -1206,9 +1903,13 @@ const HowItWorksPage = () => {
                                                         ` : ''}
                                                     </div>
                                                 ` : ''}
-                                                <span class="product-badge-category" title="${p.name}">${p.name}</span>
+                                                <span class="product-badge-category" title="${p.category}">${p.category}</span>
                                             </div>
-                                            <h3 class="product-card-name">${p.subtitle}</h3>
+                                            <div class="product-card-icon-container">
+                                                <img src="${p.icon}" alt="${p.name} Icon" class="product-card-icon-img">
+                                            </div>
+                                            <h3 class="product-card-name">${p.name}</h3>
+                                            <h4 class="product-card-subtitle">${p.subtitle}</h4>
                                             <p class="product-card-desc">${p.desc}</p>
                                             <a href="${p.link}" target="_blank" class="product-card-more-link" onclick="event.stopPropagation();">
                                                 Selengkapnya
@@ -1239,6 +1940,24 @@ const HowItWorksPage = () => {
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div class="riwayat-pengajuan-card">
+                    <div class="riwayat-left">
+                        <div class="riwayat-icon-clock">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="clock-icon-svg">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </div>
+                        <span class="riwayat-title-text">Riwayat Pengajuan</span>
+                    </div>
+                    <a href="#" class="btn-lihat-riwayat" id="btn-lihat-riwayat">
+                        <span>Lihat Riwayat Pengajuan</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="chevron-right-svg">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </a>
                 </div>
             </div>
 
@@ -1532,8 +2251,13 @@ const render = () => {
         switch(page) {
             case 'dashboard': content = DashboardPage(); break;
             case 'learning': content = LearningPage(); break;
+            case 'learning-path': content = LearningPage(); break;
             case 'module-detail': content = ModuleDetailPage(state.activeModule); break;
             case 'ai': content = AIPage(); break;
+            case 'ai-benefit': 
+                state.benefitMode = true;
+                content = AIPage(); 
+                break;
             case 'simulation': content = SimulationPage(); break;
             case 'ingestion': content = IngestionPage(); break;
             case 'leaderboard': content = LeaderboardPage(); break;
@@ -1580,7 +2304,8 @@ const attachEventListeners = () => {
 
         if (loginBtn) loginBtn.addEventListener('click', () => {
             if (state.corporateId && state.userId && state.keyBcaResponse) {
-                state.authStep = 'select';
+                state.viewMode = 'internal';
+                state.currentPage = 'dashboard';
                 render();
             }
         });
@@ -1751,19 +2476,153 @@ const attachEventListeners = () => {
     const benefitToggle = document.getElementById('benefit-toggle');
     if (benefitToggle) benefitToggle.addEventListener('change', (e) => { state.benefitMode = e.target.checked; });
 
+    const linkBenefit = document.getElementById('link-benefit');
+    if (linkBenefit) {
+        linkBenefit.addEventListener('click', () => {
+            state.benefitMode = true;
+            // The data-page="ai" listener will handle the navigation
+        });
+    }
+
+    const leaderboardFilterSelect = document.getElementById('leaderboard-filter-select');
+    if (leaderboardFilterSelect) {
+        leaderboardFilterSelect.addEventListener('change', (e) => {
+            state.leaderboardFilter = e.target.value;
+            render();
+        });
+    }
+
     const sendBtn = document.getElementById('btn-send-main');
     const chatInput = document.getElementById('chat-input-main');
     if (sendBtn && chatInput) {
-        sendBtn.addEventListener('click', () => {
-            const val = chatInput.value; if (!val) return;
+        const sendMessage = async () => {
+            const val = chatInput.value.trim();
+            if (!val || sendBtn.disabled) return;
             state.chatHistory.push({ role: 'user', content: val });
-            let resp = "Menganalisis basis pengetahuan...";
-            if (state.benefitMode) resp = "<b>[Benefit Translator]</b>: Berdasarkan RAG, fitur ini akan memberikan efisiensi operasional sebesar 30% bagi nasabah UMKM Anda.";
-            setTimeout(() => { state.chatHistory.push({ role: 'ai', content: resp }); render(); }, 800);
-            chatInput.value = ''; render();
-        });
-        chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendBtn.click(); });
+            chatInput.value = '';
+            sendBtn.disabled = true;
+            // Show typing indicator
+            state.chatHistory.push({ role: 'ai', content: '<span class="typing-dots">●●●</span>' });
+            render();
+            try {
+                const { reply, sources } = await chatWithRAG(val, state.benefitMode);
+                // Replace typing indicator with real response
+                state.chatHistory[state.chatHistory.length - 1] = {
+                    role: 'ai',
+                    content: reply + (sources.length > 0
+                        ? `<div class="rag-sources-tag">📚 Berdasarkan ${sources.length} sumber dari Knowledge Base</div>`
+                        : '')
+                };
+            } catch (err) {
+                state.chatHistory[state.chatHistory.length - 1] = {
+                    role: 'ai',
+                    content: 'Maaf, terjadi kesalahan saat menghubungi AI. Coba lagi.'
+                };
+            } finally {
+                sendBtn.disabled = false;
+                render();
+            }
+        };
+        sendBtn.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
     }
+
+    const dashChatSend = document.getElementById('dash-chat-send');
+    const dashChatInput = document.getElementById('dash-chat-input');
+    const dashChatHistory = document.getElementById('dash-chat-history');
+    if (dashChatSend && dashChatInput && dashChatHistory) {
+        const sendDashMessage = async () => {
+            const val = dashChatInput.value.trim();
+            if (!val || dashChatSend.disabled) return;
+            
+            // Add user message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'msg user';
+            userMsg.textContent = val;
+            dashChatHistory.appendChild(userMsg);
+            
+            dashChatInput.value = '';
+            dashChatSend.disabled = true;
+            
+            // Add typing indicator
+            const typingMsg = document.createElement('div');
+            typingMsg.className = 'msg ai typing';
+            typingMsg.innerHTML = '<span class="typing-dots">●●●</span>';
+            dashChatHistory.appendChild(typingMsg);
+            dashChatHistory.scrollTop = dashChatHistory.scrollHeight;
+
+            try {
+                const { reply } = await chatWithRAG(val, false);
+                typingMsg.className = 'msg ai';
+                typingMsg.innerHTML = renderMarkdown(reply);
+            } catch (err) {
+                typingMsg.className = 'msg ai';
+                typingMsg.textContent = 'Maaf, terjadi kesalahan saat menghubungi AI. Coba lagi.';
+            } finally {
+                dashChatSend.disabled = false;
+                dashChatHistory.scrollTop = dashChatHistory.scrollHeight;
+            }
+        };
+        dashChatSend.addEventListener('click', sendDashMessage);
+        dashChatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendDashMessage(); });
+    }
+    // --- Simulation Role-play Listeners ---
+    document.querySelectorAll('.btn-start-sim').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const simId = e.currentTarget.getAttribute('data-sim-id');
+            state.activeSimulation = simId;
+            state.simChatHistory = []; // Reset history
+            render();
+        });
+    });
+
+    const endSimBtn = document.getElementById('btn-end-sim');
+    if (endSimBtn) {
+        endSimBtn.addEventListener('click', () => {
+            state.activeSimulation = null;
+            state.simChatHistory = [];
+            render();
+        });
+    }
+
+    const simSendBtn = document.getElementById('btn-sim-send');
+    const simChatInput = document.getElementById('sim-chat-input');
+    if (simSendBtn && simChatInput) {
+        const sendSimMessage = async () => {
+            const val = simChatInput.value.trim();
+            if (!val || simSendBtn.disabled) return;
+            
+            state.simChatHistory.push({ role: 'user', content: val });
+            simChatInput.value = '';
+            simSendBtn.disabled = true;
+            
+            // Show typing indicator
+            state.simChatHistory.push({ role: 'ai', content: '<span class="typing-dots">●●●</span>' });
+            render();
+
+            try {
+                // Pass history excluding the typing indicator
+                const history = state.simChatHistory.slice(0, -1);
+                const reply = await chatSimulation(val, state.activeSimulation, history);
+                
+                state.simChatHistory[state.simChatHistory.length - 1] = {
+                    role: 'ai',
+                    content: reply
+                };
+            } catch (err) {
+                state.simChatHistory[state.simChatHistory.length - 1] = {
+                    role: 'ai',
+                    content: 'Maaf, nasabah sedang tidak dapat merespons. Coba lagi.'
+                };
+            } finally {
+                simSendBtn.disabled = false;
+                render();
+            }
+        };
+        simSendBtn.addEventListener('click', sendSimMessage);
+        simChatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendSimMessage(); });
+    }
+
 
     // Official Video Handler
     const officialVideo = document.getElementById('official-video-container');
@@ -1835,42 +2694,167 @@ const attachEventListeners = () => {
         });
     }
 
-    // Ingestion Logics (Internal)
-    const btnPilih = document.getElementById('btn-pilih');
-    if (btnPilih) btnPilih.addEventListener('click', () => {
-        if (state.isIngesting) return;
-        state.isIngesting = true;
+    // ═══════════════════════════════════════════════════════════
+    // REAL RAG HUB EVENT HANDLERS
+    // ═══════════════════════════════════════════════════════════
+
+    async function startFileUpload(file) {
+        if (!file) return;
+        state.ragUploading   = true;
+        state.ragUploadError = null;
+        state.ragUploadProgress = { step: 1, message: 'Memvalidasi file...' };
         render();
-        let step = 0;
-        const interval = setInterval(() => {
-            if (step > 0) state.ingestionSteps[step-1].status = 'completed';
-            if (step < 5) { state.ingestionSteps[step].status = 'active'; step++; render(); }
-            else { clearInterval(interval); state.isIngesting = false; render(); }
-        }, 1000);
+
+        try {
+            await uploadDocument(file, state.ragActiveType === 'pakar' ? 'pakar' : 'upload', (step, message) => {
+                state.ragUploadProgress = { step, message };
+                render();
+            });
+            // Refresh docs list
+            state.ragDocs  = await fetchDocuments();
+            state.ragStats = await fetchStats();
+        } catch (err) {
+            state.ragUploadError = err.message;
+        } finally {
+            state.ragUploading = false;
+            render();
+        }
+    }
+
+    // File input — hidden <input type="file">
+    const ragFileInput = document.getElementById('rag-file-input');
+    if (ragFileInput) {
+        ragFileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) startFileUpload(file);
+            ragFileInput.value = ''; // reset so same file can be re-uploaded
+        });
+    }
+
+    // Dropzone drag & drop
+    const dropzone = document.getElementById('rag-dropzone');
+    if (dropzone) {
+        dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('drag-over'); });
+        dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag-over'));
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('drag-over');
+            const file = e.dataTransfer.files[0];
+            if (file) startFileUpload(file);
+        });
+    }
+
+    // URL Import
+    const btnImportUrl = document.getElementById('btn-import-url');
+    if (btnImportUrl) {
+        btnImportUrl.addEventListener('click', async () => {
+            const urlInput = document.getElementById('rag-url-input');
+            const url = urlInput?.value.trim();
+            if (!url) return;
+            state.ragUploading   = true;
+            state.ragUploadError = null;
+            state.ragUploadProgress = { step: 1, message: 'Mengakses URL...' };
+            render();
+            try {
+                await importFromUrl(url, (step, message) => {
+                    state.ragUploadProgress = { step, message };
+                    render();
+                });
+                state.ragDocs  = await fetchDocuments();
+                state.ragStats = await fetchStats();
+                if (urlInput) urlInput.value = '';
+            } catch (err) {
+                state.ragUploadError = err.message;
+            } finally {
+                state.ragUploading = false;
+                render();
+            }
+        });
+    }
+
+    // Refresh button
+    const btnRefresh = document.getElementById('btn-rag-refresh');
+    if (btnRefresh) {
+        btnRefresh.addEventListener('click', async () => {
+            btnRefresh.disabled = true;
+            btnRefresh.textContent = '↻ Loading...';
+            try {
+                state.ragDocs  = await fetchDocuments();
+                state.ragStats = await fetchStats();
+                render();
+            } catch (err) {
+                console.error('Refresh failed:', err);
+            }
+        });
+    }
+
+    // Delete document buttons
+    document.querySelectorAll('.rdt-delete-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            const docId = btn.dataset.docId;
+            if (!docId || !confirm('Hapus dokumen ini dan semua chunk-nya dari knowledge base?')) return;
+            try {
+                await deleteDocument(docId);
+                state.ragDocs  = await fetchDocuments();
+                state.ragStats = await fetchStats();
+                render();
+            } catch (err) {
+                alert('Gagal menghapus: ' + err.message);
+            }
+        });
     });
+
+    // Source type tab switching
+    document.querySelectorAll('.rtt-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            state.ragActiveType = btn.dataset.type;
+            render();
+        });
+    });
+
+    // Load RAG data on page mount (only once per page visit)
+    if (state.currentPage === 'ingestion' && !state.ragLoaded) {
+        state.ragLoaded = true;
+        fetchDocuments().then(docs => {
+            state.ragDocs = docs;
+            return fetchStats();
+        }).then(stats => {
+            state.ragStats = stats;
+            render();
+        }).catch(err => console.warn('Failed to load RAG data:', err));
+    }
+
 
     // Chat Logic (Internal)
     const chatInputInternal = document.getElementById('chat-input');
     const sendBtnInternal = document.getElementById('btn-send-chat');
     if (chatInputInternal && sendBtnInternal) {
-        const send = () => {
+        const send = async () => {
             const val = chatInputInternal.value.trim();
-            if (!val) return;
+            if (!val || sendBtnInternal.disabled) return;
             state.chatHistory.push({ role: 'user', content: val });
             chatInputInternal.value = '';
+            sendBtnInternal.disabled = true;
+            state.chatHistory.push({ role: 'ai', content: '<span class="typing-dots">●●●</span>' });
             render();
-            setTimeout(() => {
-                let aiResponse = "Menganalisis basis pengetahuan...";
-                if (val.toLowerCase().includes('benefit')) {
-                    aiResponse = `<b>RAG Analysis - Business Benefit Translator:</b><br><br>
-                    1. <b>Multi-rekening dashboard</b> → Visibilitas arus kas real-time.<br>
-                    2. <b>Real-time report</b> → Keputusan lebih cepat & akurat.<br>
-                    3. <b>Otomasi Rekonsiliasi</b> → Penghematan waktu operasional hingga 70%.<br><br>
-                    <b>Script Presentasi:</b> "Dengan Ocean, Bapak/Ibu bisa memantau ratusan rekening cabang dalam satu layar secara real-time..."`;
-                }
-                state.chatHistory.push({ role: 'ai', content: aiResponse });
+            try {
+                const { reply, sources } = await chatWithRAG(val);
+                state.chatHistory[state.chatHistory.length - 1] = {
+                    role: 'ai',
+                    content: reply + (sources.length > 0
+                        ? `<div class="rag-sources-tag">📚 Berdasarkan ${sources.length} sumber dari Knowledge Base</div>`
+                        : '')
+                };
+            } catch (err) {
+                state.chatHistory[state.chatHistory.length - 1] = {
+                    role: 'ai',
+                    content: 'Maaf, terjadi kesalahan saat menghubungi AI. Coba lagi.'
+                };
+            } finally {
+                sendBtnInternal.disabled = false;
                 render();
-            }, 1000);
+            }
         };
         sendBtnInternal.addEventListener('click', send);
         chatInputInternal.addEventListener('keypress', (e) => { if (e.key === 'Enter') send(); });
@@ -1880,16 +2864,33 @@ const attachEventListeners = () => {
     const pubChatInput = document.getElementById('public-chat-input');
     const pubSendBtn = document.getElementById('public-send-chat');
     if (pubChatInput && pubSendBtn) {
-        const send = () => {
+        const send = async () => {
             const val = pubChatInput.value.trim();
-            if (!val) return;
+            if (!val || pubSendBtn.disabled) return;
             const msgBox = document.getElementById('public-chat-messages');
-            msgBox.innerHTML += `<div class="msg user">${val}</div>`;
+            msgBox.insertAdjacentHTML('beforeend', `<div class="msg user">${val}</div>`);
             pubChatInput.value = '';
-            setTimeout(() => {
-                msgBox.innerHTML += `<div class="msg ai"><b>BCA Ocean AI:</b> Tentu! Berdasarkan kebutuhan bisnis Anda, Ocean membantu monitoring arus kas ${state.roiInputs.branches} cabang secara otomatis. Anda bisa menghemat sekitar 70% waktu administrasi harian.</div>`;
+            pubSendBtn.disabled = true;
+            
+            const typingId = 'typing-' + Date.now();
+            msgBox.insertAdjacentHTML('beforeend', `<div class="msg ai" id="${typingId}"><span class="typing-dots">●●●</span></div>`);
+            msgBox.scrollTop = msgBox.scrollHeight;
+
+            try {
+                const { reply, sources } = await chatWithRAG(val);
+                const typingEl = document.getElementById(typingId);
+                if (typingEl) {
+                    typingEl.innerHTML = renderMarkdown(reply) + (sources.length > 0 
+                        ? `<br><br><small style="opacity:0.7">📚 Berdasarkan ${sources.length} sumber KB</small>`
+                        : '');
+                }
+            } catch (err) {
+                const typingEl = document.getElementById(typingId);
+                if (typingEl) typingEl.innerHTML = 'Maaf, layanan AI sedang sibuk. Silakan coba lagi.';
+            } finally {
+                pubSendBtn.disabled = false;
                 msgBox.scrollTop = msgBox.scrollHeight;
-            }, 1000);
+            }
         };
         pubSendBtn.addEventListener('click', send);
         pubChatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') send(); });
@@ -2165,6 +3166,16 @@ const attachEventListeners = () => {
             if (charCounter) charCounter.textContent = '0 / 500';
             if (modal) modal.classList.remove('show');
             state.selectedProducts = [];
+            render();
+        });
+    }
+
+    const lihatRiwayatBtn = document.getElementById('btn-lihat-riwayat');
+    if (lihatRiwayatBtn) {
+        lihatRiwayatBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            state.viewMode = 'auth';
+            state.authStep = 'login';
             render();
         });
     }
