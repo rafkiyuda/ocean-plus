@@ -2158,7 +2158,7 @@ const SandboxPage = () => {
     const menuLabels = { dashboard: '🏠 Dashboard', analytics: '📊 Analytics', invoicing: '📑 Invoicing', ecosystem: '🤝 Ecosystem' };
 
     return `
-    <div class="public-layout fade-in" style="max-width:1200px; margin:0 auto; padding:2rem 1.5rem;">
+    <div class="public-layout fade-in" style="width: 100%; max-width: 100%; margin: 0; padding: 2rem 3rem;">
         <header class="page-header-p" style="margin-bottom:2rem; text-align:left; border-bottom: 2px solid #e2e8f0; padding-bottom: 1.5rem;">
             <div style="display:flex; justify-content:space-between; align-items:center;">
                 <div>
