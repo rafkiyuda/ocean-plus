@@ -2244,7 +2244,7 @@ const ROICalculatorPage = () => {
                         <h3>Estimasi Nilai ROI Bulanan</h3>
                         
                         <div class="roi-metric-card highlight-metric">
-                            <div class="metric-icon"><img src="https://ocean.bca.co.id/images/icons/icon--layanan-bantuan.png" style="width:32px; filter: hue-rotate(180deg);" alt="money"></div>
+                            <div class="metric-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #00fdb2;"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2"></circle><path d="M6 12h.01M18 12h.01"></path></svg></div>
                             <div class="metric-info">
                                 <div class="metric-title">Potensi Penghematan Biaya</div>
                                 <div class="metric-val" id="roi-res-savings">Rp ${oceanSavings.toLocaleString('id-ID')}</div>
@@ -2253,7 +2253,7 @@ const ROICalculatorPage = () => {
                         </div>
                         
                         <div class="roi-metric-card">
-                            <div class="metric-icon"><img src="https://ocean.bca.co.id/icons/clock.svg" style="width:32px;" alt="clock"></div>
+                            <div class="metric-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #ffffff;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></div>
                             <div class="metric-info">
                                 <div class="metric-title">Produktivitas Waktu Ekstra</div>
                                 <div class="metric-val"><span id="roi-res-time">${Math.round(timeSaved)} Jam</span></div>
