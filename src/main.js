@@ -1442,6 +1442,72 @@ const LandingPage = () => `
             </div>
         </section>
 
+
+        <!-- AI-POWERED ECOSYSTEM OPTIMIZER SECTION -->
+        <section class="ai-ecosystem-section">
+            <div class="ai-eco-container">
+                <div class="ai-eco-header fade-in">
+                    <div class="ai-eco-badge">✨ AI-POWERED</div>
+                    <h2>Ecosystem Optimizer</h2>
+                    <p>Modul cerdas berbasis <b>Artificial Intelligence</b> yang menganalisis pola operasional untuk merekomendasikan layanan BCA dan mitra ekosistem secara presisi dan terpersonalisasi.</p>
+                </div>
+
+                <div class="ai-eco-grid">
+                    <!-- Card 1 -->
+                    <div class="ai-eco-card fade-in">
+                        <div class="ai-eco-card-content">
+                            <div class="ai-eco-icon-wrapper">
+                                <span class="ai-eco-icon">🧩</span>
+                            </div>
+                            <h3>Smart Ecosystem Matching</h3>
+                            <p>AI secara otomatis menganalisis volume transaksi, frekuensi invoicing, dan aktivitas payroll Anda untuk merekomendasikan kombinasi mitra ekosistem yang paling optimal.</p>
+                        </div>
+                        <div class="ai-eco-visual">
+                            <div class="ai-eco-mock">
+                                <div class="ai-eco-mock-header">
+                                    <span class="mock-dot red"></span><span class="mock-dot yellow"></span><span class="mock-dot green"></span>
+                                </div>
+                                <div class="ai-eco-mock-body">
+                                    <div style="font-size:0.75rem; color:#2563eb; font-weight:800; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+                                        <span>✨</span> AI Auto-Suggestion
+                                    </div>
+                                    <div style="font-size:0.9rem; font-weight:800; color:#0f172a; margin-bottom:6px;">Koneksi Sistem HRIS Direkomendasikan</div>
+                                    <div style="font-size:0.8rem; color:#475569; line-height:1.5;">Frekuensi transaksi payroll Anda meningkat 20% bulan ini. Integrasikan HRIS Partner kami untuk otomasi penuh.</div>
+                                    <button class="mock-btn primary">Lihat Mitra Ekosistem</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="ai-eco-card fade-in" style="animation-delay: 0.2s;">
+                        <div class="ai-eco-card-content">
+                            <div class="ai-eco-icon-wrapper">
+                                <span class="ai-eco-icon">🤝</span>
+                            </div>
+                            <h3>Predictive Supply Chain Finance</h3>
+                            <p>AI mengidentifikasi kebutuhan pembiayaan dalam <i>supply chain</i> dengan menganalisis hubungan supplier-customer, lalu secara proaktif menawarkan solusi kredit yang relevan.</p>
+                        </div>
+                        <div class="ai-eco-visual">
+                            <div class="ai-eco-mock">
+                                <div class="ai-eco-mock-header">
+                                    <span class="mock-dot red"></span><span class="mock-dot yellow"></span><span class="mock-dot green"></span>
+                                </div>
+                                <div class="ai-eco-mock-body">
+                                    <div style="font-size:0.75rem; color:#ef4444; font-weight:800; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+                                        <span>⚠️</span> Proactive Insight
+                                    </div>
+                                    <div style="font-size:0.9rem; font-weight:800; color:#0f172a; margin-bottom:6px;">Potensi Keterlambatan Pembayaran</div>
+                                    <div style="font-size:0.8rem; color:#475569; line-height:1.5;">Terdeteksi potensi telat bayar dari pelanggan utama hingga 20 hari. <b>Rekomendasi:</b> Cairkan Invoice Financing Rp 2 Miliar.</div>
+                                    <button class="mock-btn primary" style="background:#00a4ad;">Ajukan Pembiayaan Instan</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- TRY OCEAN NOW (Self-Service Discovery) SECTION -->
         <section class="try-ocean-section">
             <div class="try-ocean-header">
