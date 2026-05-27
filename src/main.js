@@ -2228,7 +2228,7 @@ const SandboxPage = () => {
                     ✨ Ocean Predictive Intelligence Layer
                 </h3>
                 <p style="color:#64748b; font-size:0.95rem; margin-top:0.5rem; max-width: 800px;">
-                    Sistem inti berbasis AI yang memproses data historis, pola operasional, dan variabel eksternal untuk memberikan proyeksi keuangan serta rekomendasi tindakan secara proaktif dan presisi.
+                    Sistem inti berbasis AI yang memproses data historis, pola operasional, dan variabel eksternal untuk memberikan proyeksi keuangan. Sebagai nilai tambah (value-added) untuk meningkatkan daya saing, Ocean menghadirkan insight strategis melalui pemanfaatan machine learning dan pattern analysis terhadap data agregat dan pola transaksi. Fitur ini memungkinkan nasabah memahami posisi bisnisnya melalui benchmark industri serta mengidentifikasi peluang secara proaktif, sehingga mendukung pengambilan keputusan yang lebih cepat, akurat, dan berbasis data.
                 </p>
             </div>
             <div style="background: linear-gradient(135deg, #0ea5e9, #2563eb); color: white; padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.75rem; font-weight: 700; display:flex; align-items:center; gap: 6px; box-shadow: 0 4px 10px rgba(37,99,235,0.3);">
@@ -2406,6 +2406,79 @@ const SandboxPage = () => {
                         </table>
                         <div style="margin-top: 1rem; font-size: 0.65rem; color: #94a3b8; font-style: italic;">*Data bersumber dari perbankan + myEcosystem.</div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Card 5: AI-Driven Industry Benchmarking -->
+            <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:1.5rem; display:flex; flex-direction:column; animation-delay: 0.5s;">
+                <div style="border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem; margin-bottom: 1rem;">
+                    <h4 style="color:var(--bca-blue-dark); font-weight:800; font-size:1.1rem;">📊 AI-Driven Industry Benchmarking</h4>
+                    <p style="color:#64748b; font-size:0.8rem; margin-top:0.25rem;">Membandingkan performa keuangan dengan <i>peer group</i> industri (anonim agregat) secara objektif tanpa kebocoran data.</p>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:1rem; flex:1;">
+                    <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:1.25rem;">
+                        <div style="font-size:0.85rem; font-weight:800; color:#0f172a; margin-bottom:1rem; text-align:center;">Cash Conversion Cycle (CCC)</div>
+                        
+                        <!-- You -->
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                            <span style="font-size:0.75rem; font-weight:700; color:#475569;">Perusahaan Anda</span>
+                            <span style="font-size:0.85rem; font-weight:800; color:#ef4444;">52 Hari</span>
+                        </div>
+                        <div style="height:6px; background:#f1f5f9; border-radius:3px; margin-bottom:12px; overflow:hidden;">
+                            <div style="width:75%; height:100%; background:#ef4444; border-radius:3px;"></div>
+                        </div>
+                        
+                        <!-- Industry -->
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                            <span style="font-size:0.75rem; font-weight:700; color:#475569;">Rata-rata Industri (Distributor)</span>
+                            <span style="font-size:0.85rem; font-weight:800; color:#22c55e;">38 - 42 Hari</span>
+                        </div>
+                        <div style="height:6px; background:#f1f5f9; border-radius:3px; overflow:hidden;">
+                            <div style="width:60%; height:100%; background:#22c55e; border-radius:3px;"></div>
+                        </div>
+                    </div>
+                    
+                    <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:12px; padding:1rem; display:flex; gap:12px; align-items:flex-start;">
+                        <span style="font-size:1.5rem; line-height:1;">💡</span>
+                        <div>
+                            <div style="font-size:0.8rem; font-weight:800; color:#b45309; margin-bottom:4px;">Insight & Rekomendasi AI</div>
+                            <div style="font-size:0.75rem; color:#92400e; line-height:1.5;">Perputaran kas Anda 10 hari lebih lambat dari kompetitor. Pertimbangkan penggunaan <b>API Invoicing & Virtual Account</b> untuk mempercepat collection.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 6: Opportunity Radar -->
+            <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:1.5rem; display:flex; flex-direction:column; animation-delay: 0.6s;">
+                <div style="border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem; margin-bottom: 1rem;">
+                    <h4 style="color:var(--bca-blue-dark); font-weight:800; font-size:1.1rem;">🎯 Opportunity Radar</h4>
+                    <p style="color:#64748b; font-size:0.8rem; margin-top:0.25rem;">Mendeteksi peluang bisnis baru berdasarkan pola anomali positif dan memberikan rekomendasi ekspansi.</p>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:1rem; flex:1; justify-content:center;">
+                    
+                    <div style="text-align:center; position:relative; padding:1rem 0;">
+                        <!-- Radar Animation Mock -->
+                        <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:120px; height:120px; border-radius:50%; border:1px solid rgba(59,130,246,0.1); animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;"></div>
+                        <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:80px; height:80px; border-radius:50%; border:1px solid rgba(59,130,246,0.3); animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite 0.5s;"></div>
+                        <span style="font-size:2.5rem; position:relative; z-index:2;">🚢</span>
+                    </div>
+
+                    <div style="background:linear-gradient(135deg, #eff6ff, #dbeafe); border:1px solid #bfdbfe; border-radius:12px; padding:1.25rem;">
+                        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                            <span style="width:8px; height:8px; background:#3b82f6; border-radius:50%; display:inline-block; animation:pulse 1.5s infinite;"></span>
+                            <span style="font-size:0.75rem; font-weight:800; color:#1e40af; text-transform:uppercase;">Sinyal Pertumbuhan Terdeteksi</span>
+                        </div>
+                        <div style="font-size:0.85rem; font-weight:700; color:#0f172a; margin-bottom:8px; line-height:1.4;">Volume ekspor (FX) Anda meningkat tajam <span style="color:#16a34a;">+35%</span> dalam 3 bulan terakhir.</div>
+                        
+                        <div style="background:white; border-radius:8px; padding:10px; margin-top:12px;">
+                            <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:4px;">Mitra Ekosistem Direkomendasikan:</div>
+                            <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                                <span style="background:#f1f5f9; padding:4px 8px; border-radius:4px; font-size:0.7rem; font-weight:700; color:#334155;">💳 Trade Finance</span>
+                                <span style="background:#f1f5f9; padding:4px 8px; border-radius:4px; font-size:0.7rem; font-weight:700; color:#334155;">🛡️ Asuransi Pengiriman</span>
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
         </div>
