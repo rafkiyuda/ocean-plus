@@ -2188,102 +2188,134 @@ const ROICalculatorPage = () => {
     const tx = state.roiInputs.transactions || 5000;
     const staff = state.roiInputs.financeStaff || 3;
     const hours = state.roiInputs.manualHours || 4;
-    
+
     const hourlyRate = 85000;
     const monthlyHoursWasted = staff * hours * 22;
-    const savings = monthlyHoursWasted * hourlyRate;
-    const oceanSavings = savings * 0.85; 
-    const timeSaved = monthlyHoursWasted * 0.85;
-    
+    const costSavings = Math.round(monthlyHoursWasted * hourlyRate * 0.85);
+    const timeSaved = Math.round(monthlyHoursWasted * 0.85);
+    const errorReduction = Math.min(95, Math.round(60 + (tx / 100000) * 35));
+    const stpRate = Math.min(98, Math.round(75 + (tx / 100000) * 23));
+    const oldBarPct = 100;
+    const newBarPct = Math.max(5, Math.round(100 - (timeSaved / monthlyHoursWasted) * 100));
+
     return `
-    <div class="roi-container fade-in">
-        <div class="roi-hero-bg"></div>
-        <div class="roi-content-wrapper">
-            <div class="roi-header">
-                <h2>Kalkulator Efisiensi B2B</h2>
-                <p>Simulasikan potensi penghematan biaya dan optimalisasi jam kerja perusahaan Anda setelah menggunakan solusi Cash Management Ocean by BCA.</p>
-            </div>
-            
-            <div class="roi-grid">
-                <!-- Left: Inputs -->
-                <div class="roi-input-panel">
-                    <h3>Parameter Bisnis Anda</h3>
-                    
-                    <div class="roi-form-group">
-                        <label>Volume Transaksi per Bulan</label>
-                        <div class="roi-range-display">
-                            <span class="range-val" id="roi-val-tx">${tx.toLocaleString('id-ID')}</span> <span class="range-unit">Transaksi</span>
-                        </div>
-                        <input type="range" id="roi-tx" min="1000" max="100000" step="1000" value="${tx}" class="roi-slider">
-                    </div>
-                    
-                    <div class="roi-form-group">
-                        <label>Jumlah Staf Finance / Operasional</label>
-                        <div class="roi-range-display">
-                            <span class="range-val" id="roi-val-staff">${staff}</span> <span class="range-unit">Orang</span>
-                        </div>
-                        <input type="range" id="roi-staff" min="1" max="50" step="1" value="${staff}" class="roi-slider">
-                    </div>
-                    
-                    <div class="roi-form-group">
-                        <label>Waktu Manual Rekonsiliasi (per staf/hari)</label>
-                        <div class="roi-range-display">
-                            <span class="range-val" id="roi-val-hours">${hours}</span> <span class="range-unit">Jam</span>
-                        </div>
-                        <input type="range" id="roi-hours" min="1" max="8" step="1" value="${hours}" class="roi-slider">
-                    </div>
-                    
-                    <div class="roi-disclaimer">
-                        <p>* Kalkulasi menggunakan standar rata-rata UMR/Gaji Staf Rp 15.000.000/bln dan peningkatan STP (Straight-Through Processing) hingga 85%.</p>
-                    </div>
-                </div>
-                
-                <!-- Right: Results -->
-                <div class="roi-result-panel">
-                    <div class="roi-result-glass">
-                        <h3>Estimasi Nilai ROI Bulanan</h3>
-                        
-                        <div class="roi-metric-card highlight-metric">
-                            <div class="metric-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #00fdb2;"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2"></circle><path d="M6 12h.01M18 12h.01"></path></svg></div>
-                            <div class="metric-info">
-                                <div class="metric-title">Potensi Penghematan Biaya</div>
-                                <div class="metric-val" id="roi-res-savings">Rp ${oceanSavings.toLocaleString('id-ID')}</div>
-                                <div class="metric-sub">Mengurangi beban biaya lembur & inefisiensi manual.</div>
-                            </div>
-                        </div>
-                        
-                        <div class="roi-metric-card">
-                            <div class="metric-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #ffffff;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></div>
-                            <div class="metric-info">
-                                <div class="metric-title">Produktivitas Waktu Ekstra</div>
-                                <div class="metric-val"><span id="roi-res-time">${Math.round(timeSaved)} Jam</span></div>
-                                <div class="metric-sub">Waktu yang dapat dialihkan untuk analisis strategis.</div>
-                            </div>
-                        </div>
-                        
-                        <div class="roi-chart-box">
-                            <div class="chart-title">Perbandingan Durasi Rekonsiliasi (Bulan)</div>
-                            <div class="chart-bars">
-                                <div class="bar-group">
-                                    <div class="bar-label">Sistem Lama</div>
-                                    <div class="bar-track">
-                                        <div class="bar-fill old-way" style="width: 100%;"></div>
-                                    </div>
-                                </div>
-                                <div class="bar-group">
-                                    <div class="bar-label">Dengan Ocean</div>
-                                    <div class="bar-track">
-                                        <div class="bar-fill new-way" style="width: 15%;"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <button class="roi-cta-btn" onclick="state.currentPage='product'; render();">Pelajari Solusi Cash Management</button>
-                    </div>
-                </div>
+    <div class="roi-page fade-in">
+        <div class="roi-page__hero">
+            <h1>Kalkulator ROI Bisnis</h1>
+            <p>Hitung potensi penghematan biaya operasional dan peningkatan produktivitas perusahaan Anda dengan solusi Cash Management Ocean by BCA.</p>
+            <div class="roi-page__trust">
+                <span class="roi-page__trust-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    Terenkripsi End-to-End
+                </span>
+                <span class="roi-page__trust-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    Diawasi OJK & BI
+                </span>
+                <span class="roi-page__trust-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    500+ Perusahaan Aktif
+                </span>
             </div>
         </div>
+
+        <div class="roi-page__body">
+            <div class="roi-page__card">
+                <div class="roi-page__columns">
+                    <!-- LEFT: Inputs -->
+                    <div class="roi-page__inputs">
+                        <h3 class="roi-page__inputs-title">Parameter Bisnis Anda</h3>
+                        <p class="roi-page__inputs-sub">Sesuaikan parameter di bawah untuk melihat estimasi penghematan secara real-time.</p>
+
+                        <div class="roi-field">
+                            <div class="roi-field__header">
+                                <span class="roi-field__label">Volume Transaksi / Bulan</span>
+                                <span><span class="roi-field__value" id="roi-val-tx">${tx.toLocaleString('id-ID')}</span><span class="roi-field__unit">trx</span></span>
+                            </div>
+                            <input type="range" id="roi-tx" min="500" max="100000" step="500" value="${tx}" class="roi-field__slider">
+                        </div>
+
+                        <div class="roi-field">
+                            <div class="roi-field__header">
+                                <span class="roi-field__label">Jumlah Staf Finance</span>
+                                <span><span class="roi-field__value" id="roi-val-staff">${staff}</span><span class="roi-field__unit">orang</span></span>
+                            </div>
+                            <input type="range" id="roi-staff" min="1" max="50" step="1" value="${staff}" class="roi-field__slider">
+                        </div>
+
+                        <div class="roi-field">
+                            <div class="roi-field__header">
+                                <span class="roi-field__label">Jam Rekonsiliasi Manual / Hari</span>
+                                <span><span class="roi-field__value" id="roi-val-hours">${hours}</span><span class="roi-field__unit">jam</span></span>
+                            </div>
+                            <input type="range" id="roi-hours" min="1" max="8" step="1" value="${hours}" class="roi-field__slider">
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: Results -->
+                    <div class="roi-page__results">
+                        <h3 class="roi-page__results-title">Estimasi Penghematan Bulanan</h3>
+                        <p class="roi-page__results-sub">Berdasarkan standar gaji staf Rp 15 juta/bulan dan tingkat otomatisasi STP 85%.</p>
+
+                        <div class="roi-result-item roi-result-item--highlight">
+                            <div class="roi-result-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
+                            </div>
+                            <div class="roi-result-info">
+                                <div class="roi-result-label">Penghematan Biaya Operasional</div>
+                                <div class="roi-result-value" id="roi-res-savings">Rp ${costSavings.toLocaleString('id-ID')}</div>
+                                <div class="roi-result-desc">Estimasi pengurangan biaya lembur, error manual, dan administrasi berulang per bulan.</div>
+                            </div>
+                        </div>
+
+                        <div class="roi-result-item">
+                            <div class="roi-result-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            </div>
+                            <div class="roi-result-info">
+                                <div class="roi-result-label">Waktu Produktif yang Dikembalikan</div>
+                                <div class="roi-result-value" id="roi-res-time">${timeSaved} Jam</div>
+                                <div class="roi-result-desc">Jam kerja yang dialihkan dari rekonsiliasi manual ke analisis strategis.</div>
+                            </div>
+                        </div>
+
+                        <div class="roi-result-item">
+                            <div class="roi-result-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            </div>
+                            <div class="roi-result-info">
+                                <div class="roi-result-label">Tingkat STP (Straight-Through Processing)</div>
+                                <div class="roi-result-value" id="roi-res-stp">${stpRate}%</div>
+                                <div class="roi-result-desc">Persentase transaksi yang diproses otomatis tanpa intervensi manual.</div>
+                            </div>
+                        </div>
+
+                        <div class="roi-chart">
+                            <div class="roi-chart__title">Perbandingan Waktu Rekonsiliasi per Bulan</div>
+                            <div class="roi-chart__row">
+                                <span class="roi-chart__label">Sistem Lama</span>
+                                <div class="roi-chart__track">
+                                    <div class="roi-chart__bar roi-chart__bar--old" style="width: ${oldBarPct}%;">${monthlyHoursWasted} jam</div>
+                                </div>
+                            </div>
+                            <div class="roi-chart__row">
+                                <span class="roi-chart__label">Dengan Ocean</span>
+                                <div class="roi-chart__track">
+                                    <div class="roi-chart__bar roi-chart__bar--new" id="roi-bar-new" style="width: ${newBarPct}%;">${monthlyHoursWasted - timeSaved} jam</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="roi-page__cta" onclick="state.currentPage='how-it-works'; render();">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            Pelajari Solusi Cash Management
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <p class="roi-page__disclaimer">* Kalkulasi bersifat estimasi berdasarkan rata-rata industri. Angka aktual dapat bervariasi tergantung skala operasi, kompleksitas proses, dan tingkat adopsi digital perusahaan Anda.</p>
+        </div>
+
         ${PublicFooter()}
     </div>
     `;
@@ -4712,12 +4744,20 @@ const attachEventListeners = () => {
             
             const hourlyRate = 85000;
             const monthlyHoursWasted = staff * hours * 22;
-            const savings = monthlyHoursWasted * hourlyRate;
-            const oceanSavings = savings * 0.85; 
-            const timeSaved = monthlyHoursWasted * 0.85;
+            const costSavings = Math.round(monthlyHoursWasted * hourlyRate * 0.85);
+            const timeSaved = Math.round(monthlyHoursWasted * 0.85);
+            const stpRate = Math.min(98, Math.round(75 + (tx / 100000) * 23));
+            const newBarPct = Math.max(5, Math.round(100 - (timeSaved / monthlyHoursWasted) * 100));
             
-            document.getElementById('roi-res-savings').textContent = 'Rp ' + oceanSavings.toLocaleString('id-ID');
-            document.getElementById('roi-res-time').textContent = Math.round(timeSaved) + ' Jam';
+            document.getElementById('roi-res-savings').textContent = 'Rp ' + costSavings.toLocaleString('id-ID');
+            document.getElementById('roi-res-time').textContent = timeSaved + ' Jam';
+            document.getElementById('roi-res-stp').textContent = stpRate + '%';
+            
+            const barNew = document.getElementById('roi-bar-new');
+            if (barNew) {
+                barNew.style.width = newBarPct + '%';
+                barNew.textContent = (monthlyHoursWasted - timeSaved) + ' jam';
+            }
         };
         
         roiTx.addEventListener('input', updateROI);
