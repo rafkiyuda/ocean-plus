@@ -2247,6 +2247,9 @@ const ROICalculatorPage = () => `
                 </div>
             </div>
         </div>
+    </div>
+`;
+
 const HelpCenterPage = () => `
     <div class="public-layout fade-in" style="min-height: 100vh; display: flex; flex-direction: column;">
         <!-- HERO SECTION -->
@@ -2270,6 +2273,72 @@ const HelpCenterPage = () => `
                     </div>
                 </div>
             </div>
+        </div>
+        
+        <div style="max-width: 1200px; margin: 60px auto; padding: 0 24px; width: 100%; display: flex; flex-direction: column; gap: 60px;">
+            <!-- KATEGORI SECTION -->
+            <section>
+                <h2 style="font-size: 24px; font-weight: 700; color: #00213D; margin-bottom: 24px; border-left: 4px solid #00A4AD; padding-left: 12px;">Kategori</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px;">
+                    <!-- Category Card 1 -->
+                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: all 0.2s ease-in-out; box-shadow: 0 4px 6px rgba(0,0,0,0.02);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 20px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.02)';">
+                        <div style="width: 48px; height: 48px; background: #f0f9ff; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #0284c7;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M7 15h0M2 9h20"></path></svg>
+                        </div>
+                        <div style="font-weight: 600; font-size: 16px; color: #1e293b;">Transaksi & Pembayaran</div>
+                    </div>
+                    <!-- Category Card 2 -->
+                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: all 0.2s ease-in-out; box-shadow: 0 4px 6px rgba(0,0,0,0.02);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 20px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.02)';">
+                        <div style="width: 48px; height: 48px; background: #f0f9ff; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #0284c7;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        </div>
+                        <div style="font-weight: 600; font-size: 16px; color: #1e293b;">Akun & Keamanan</div>
+                    </div>
+                    <!-- Category Card 3 -->
+                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: all 0.2s ease-in-out; box-shadow: 0 4px 6px rgba(0,0,0,0.02);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 20px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.02)';">
+                        <div style="width: 48px; height: 48px; background: #f0f9ff; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #0284c7;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        </div>
+                        <div style="font-weight: 600; font-size: 16px; color: #1e293b;">Laporan & Mutasi</div>
+                    </div>
+                    <!-- Category Card 4 -->
+                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: all 0.2s ease-in-out; box-shadow: 0 4px 6px rgba(0,0,0,0.02);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 20px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.02)';">
+                        <div style="width: 48px; height: 48px; background: #f0f9ff; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #0284c7;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+                        </div>
+                        <div style="font-weight: 600; font-size: 16px; color: #1e293b;">API & Integrasi</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ARTIKEL PILIHAN SECTION -->
+            <section>
+                <h2 style="font-size: 24px; font-weight: 700; color: #00213D; margin-bottom: 24px; border-left: 4px solid #00A4AD; padding-left: 12px;">Artikel Pilihan</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+                    
+                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; cursor: pointer; transition: all 0.2s ease-in-out; box-shadow: 0 4px 6px rgba(0,0,0,0.02);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 20px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.02)';">
+                        <div style="color: #00A4AD; font-size: 12px; font-weight: 600; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Akun & Keamanan</div>
+                        <h3 style="font-size: 18px; font-weight: 600; color: #0f172a; margin-bottom: 12px; line-height: 1.4;">Cara Mengaktifkan Akun myBCA Bisnis Anda</h3>
+                        <p style="color: #64748b; font-size: 14px; line-height: 1.6; margin-bottom: 16px;">Panduan langkah demi langkah untuk melakukan aktivasi akun myBCA Bisnis pertama kali setelah pendaftaran disetujui.</p>
+                        <div style="display: flex; align-items: center; color: #0284c7; font-weight: 500; font-size: 14px; gap: 4px;">Baca selengkapnya <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></div>
+                    </div>
+
+                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; cursor: pointer; transition: all 0.2s ease-in-out; box-shadow: 0 4px 6px rgba(0,0,0,0.02);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 20px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.02)';">
+                        <div style="color: #00A4AD; font-size: 12px; font-weight: 600; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Transaksi & Pembayaran</div>
+                        <h3 style="font-size: 18px; font-weight: 600; color: #0f172a; margin-bottom: 12px; line-height: 1.4;">Limit Transaksi Harian di Ocean by BCA</h3>
+                        <p style="color: #64748b; font-size: 14px; line-height: 1.6; margin-bottom: 16px;">Pelajari batasan limit transfer dan transaksi harian untuk berbagai tipe akun bisnis Anda di platform Ocean.</p>
+                        <div style="display: flex; align-items: center; color: #0284c7; font-weight: 500; font-size: 14px; gap: 4px;">Baca selengkapnya <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></div>
+                    </div>
+
+                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; cursor: pointer; transition: all 0.2s ease-in-out; box-shadow: 0 4px 6px rgba(0,0,0,0.02);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 20px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.02)';">
+                        <div style="color: #00A4AD; font-size: 12px; font-weight: 600; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">API & Integrasi</div>
+                        <h3 style="font-size: 18px; font-weight: 600; color: #0f172a; margin-bottom: 12px; line-height: 1.4;">Mengintegrasikan ERP Perusahaan dengan BCA API</h3>
+                        <p style="color: #64748b; font-size: 14px; line-height: 1.6; margin-bottom: 16px;">Dokumentasi untuk tim IT terkait cara menyambungkan sistem ERP internal Anda dengan layanan API perbankan BCA.</p>
+                        <div style="display: flex; align-items: center; color: #0284c7; font-weight: 500; font-size: 14px; gap: 4px;">Baca selengkapnya <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></div>
+                    </div>
+
+                </div>
+            </section>
         </div>
         
         <div style="flex-grow: 1;"></div>
