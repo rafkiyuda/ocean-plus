@@ -378,3 +378,35 @@ ATURAN JAWABAN:
     const data = await res.json();
     return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
 }
+
+// ── Ecosystem Optimizer AI ───────────────────────────────────────────────────
+export async function generateEcosystemOptimizer(industry, volume, challenge) {
+    const prompt = `Anda adalah "Ocean Predictive Intelligence Layer" - mesin AI dari BCA.
+Tugas Anda adalah memberikan rekomendasi kombinasi produk/mitra ekosistem BCA dan strategi pembiayaan untuk nasabah berikut:
+- Industri: ${industry}
+- Volume Transaksi: ${volume} per bulan
+- Tantangan Utama: ${challenge}
+
+Berikan rekomendasi "Smart Ecosystem Matching" dan "Predictive Supply Chain Finance".
+Format output Anda HARUS dalam sintaks HTML murni tanpa markdown blok \`\`\`. Gunakan struktur elemen seperti <div>, <ul>, <li>, dan <strong>. 
+Jangan gunakan gaya CSS eksternal, gunakan class utilitas Tailwind-like jika perlu atau styling sederhana. Buatlah agar terlihat sangat cerdas, presisi, dan seperti sistem otomatis BCA yang canggih (sebutkan nama-nama layanan fiktif/nyata BCA seperti "Ocean API Disbursement", "BCA KlikBisnis", "Fasilitas KKB BCA", "Invoice Financing", dsb). Berikan angka proyeksi fiktif tapi logis (misal: "potensi efisiensi 25%").`;
+
+    const body = {
+        contents: [{ role: 'user', parts: [{ text: prompt }] }],
+        generationConfig: { temperature: 0.4, maxOutputTokens: 1024 }
+    };
+
+    const res = await fetch(`${GEMINI_BASE}/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_KEY}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    });
+
+    if (!res.ok) throw new Error('Gemini API error');
+
+    const data = await res.json();
+    let reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Gagal menghasilkan rekomendasi.';
+    // Clean up markdown code blocks if AI still output them
+    reply = reply.replace(/```html/g, '').replace(/```/g, '');
+    return reply;
+}

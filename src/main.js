@@ -1,5 +1,5 @@
 import './style.css'
-import { uploadDocument, importFromUrl, fetchDocuments, fetchStats, deleteDocument, chatWithRAG, chatSimulation } from './rag-service.js'
+import { uploadDocument, importFromUrl, fetchDocuments, fetchStats, deleteDocument, chatWithRAG, chatSimulation, generateEcosystemOptimizer } from './rag-service.js'
 
 // ── Markdown renderer (lightweight, no deps) ────────────────────────────────
 function renderMarkdown(text) {
@@ -2236,7 +2236,45 @@ const SandboxPage = () => {
             </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem;">
+        
+        <!-- LIVE AI ECOSYSTEM OPTIMIZER FORM -->
+        <div class="card-premium fade-in" style="background:linear-gradient(135deg, #f8fafc, #f1f5f9); border-radius:16px; border:1px solid #bfdbfe; padding:1.5rem; margin-bottom: 1.5rem; box-shadow: 0 4px 6px -1px rgba(59,130,246,0.1);">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:1rem;">
+                <span style="font-size:1.5rem;">🤖</span>
+                <div>
+                    <h4 style="color:#1e40af; font-weight:800; font-size:1.1rem; margin:0;">Live Ecosystem Optimizer (Powered by Gemini AI)</h4>
+                    <p style="color:#475569; font-size:0.8rem; margin:4px 0 0 0;">Coba masukkan profil bisnis fiktif Anda, dan AI BCA akan menghasilkan rekomendasi kombinasi produk ekosistem yang paling tepat secara real-time.</p>
+                </div>
+            </div>
+            
+            <div style="display:flex; gap:1rem; align-items:flex-end;">
+                <div style="flex:1;">
+                    <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:4px;">Industri Bisnis</label>
+                    <input type="text" id="ai-opt-industry" placeholder="Misal: E-Commerce / Manufaktur / Retail..." style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:8px; font-size:0.85rem; outline:none; background:white;">
+                </div>
+                <div style="flex:1;">
+                    <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:4px;">Volume Transaksi (per bulan)</label>
+                    <input type="text" id="ai-opt-volume" placeholder="Misal: 10.000 trx atau Rp 5 Miliar" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:8px; font-size:0.85rem; outline:none; background:white;">
+                </div>
+                <div style="flex:2;">
+                    <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:4px;">Tantangan Operasional Saat Ini</label>
+                    <input type="text" id="ai-opt-challenge" placeholder="Misal: Banyak pelanggan telat bayar, rekonsiliasi manual ribet..." style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:8px; font-size:0.85rem; outline:none; background:white;">
+                </div>
+                <button id="btn-ai-optimize" class="btn-primary" style="padding:0.6rem 1.25rem; height:42px; border-radius:8px; font-weight:800; background:#2563eb; white-space:nowrap; display:flex; align-items:center; gap:6px;">
+                    ✨ Generate Optimizer
+                </button>
+            </div>
+            
+            <div id="ai-opt-result-container" style="display:none; margin-top:1.5rem; background:white; border:1px solid #e2e8f0; border-radius:12px; padding:1.5rem;">
+                <div id="ai-opt-loading" style="display:flex; align-items:center; gap:10px; color:#64748b; font-size:0.85rem; font-weight:700;">
+                    <div class="spinner" style="width:20px; height:20px; border:3px solid #e2e8f0; border-top-color:#3b82f6; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                    AI sedang menganalisis pola bisnis Anda...
+                </div>
+                <div id="ai-opt-content" style="display:none; font-size:0.85rem; color:#1e293b; line-height:1.6;"></div>
+            </div>
+        </div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem;">
             
             <!-- Card 1: Cash Flow Forecasting -->
             <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:1.5rem; display:flex; flex-direction:column; animation-delay: 0.1s;">
