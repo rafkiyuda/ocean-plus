@@ -3517,7 +3517,7 @@ const HowItWorksPage = () => {
                 <div class="product-content-card-wrap">
                     <div class="product-card-title-row">
                         <div class="title-icon-container">
-                            <img src="/images/request.svg" class="title-icon-img" alt="Request Icon">
+                            <img src="https://ocean.bca.co.id/images/request.svg" class="title-icon-img" alt="Request Icon">
                         </div>
                         <h2 class="product-card-main-title">Produk BCA untuk Kemudahan Bisnis Anda</h2>
                     </div>
@@ -3666,7 +3666,7 @@ const HowItWorksPage = () => {
                 <div class="riwayat-pengajuan-card">
                     <div class="riwayat-left">
                         <div class="riwayat-icon-container">
-                            <img src="/images/history.svg" class="riwayat-icon-img" alt="History Icon">
+                            <img src="https://ocean.bca.co.id/images/history.svg" class="riwayat-icon-img" alt="History Icon">
                         </div>
                         <div class="riwayat-text-col">
                             <span class="riwayat-title-text">Riwayat Pengajuan</span>
@@ -3747,7 +3747,7 @@ const HowItWorksPage = () => {
 const ArticlePage = () => `
     <div class="public-layout fade-in">
 <section class="relative overflow-hidden bg-oceanV2-neutral-200 pt-4">
-  <img class="pointer-events-none absolute left-0 right-0 top-0 w-full rotate-180 object-cover opacity-50" draggable="false" src="/images/bg/bg-pattern.png"/>
+  <img class="pointer-events-none absolute left-0 right-0 top-0 w-full rotate-180 object-cover opacity-50" draggable="false" src="https://ocean.bca.co.id/images/bg/bg-pattern.png"/>
   <div class="container">
    <!--$-->
    <div class="relative w-full">
@@ -3814,14 +3814,14 @@ const ArticlePage = () => `
     <section class="relative z-10">
      <div class="mb-[6px] flex items-center justify-between gap-4">
       <h3 class="flex items-center gap-2 text-xl font-bold text-oceanV2-primary-700">
-       <img alt="" class="inline-block" src="/images/icons/icon--artikel-terkini.png"/>
+       <img alt="" class="inline-block" src="https://ocean.bca.co.id/images/icons/icon--artikel-terkini.png"/>
        <p class="inline-block">
         Artikel Terkini
        </p>
       </h3>
       <a class="group inline-flex items-center gap-1 text-oceanV2-primary-500 transition-all duration-300 hover:text-oceanV2-primary-700" href="#articles">
        Lihat Semua
-       <img alt="right" class="inline-block filter transition-transform duration-300 group-hover:brightness-[.60]" height="20" src="/icons/ArrowRight.svg" width="20"/>
+       <img alt="right" class="inline-block filter transition-transform duration-300 group-hover:brightness-[.60]" height="20" src="https://ocean.bca.co.id/icons/ArrowRight.svg" width="20"/>
       </a>
      </div>
      <p class="mb-6 text-oceanV2-neutral-700">
@@ -3853,11 +3853,11 @@ const ArticlePage = () => `
          </div>
         </div>
         <div class="p-6 !mt-auto flex items-center gap-[3px] px-4 text-xs text-oceanV2-neutral-600 transition-colors duration-300 md:gap-2 pt-4">
-         <img alt="clock" class="h-4 w-4 transition-colors duration-200 md:h-5 md:w-5 md:-translate-y-[1px]" src="/icons/clock.svg"/>
+         <img alt="clock" class="h-4 w-4 transition-colors duration-200 md:h-5 md:w-5 md:-translate-y-[1px]" src="https://ocean.bca.co.id/icons/clock.svg"/>
          <span class="whitespace-nowrap uppercase transition-all duration-200 md:tracking-[0.12em]">
           3 MIN READ
          </span>
-         <img alt="" class="mx-1 md:-translate-y-[1px]" height="4" src="/icons/circle-divider.svg" width="4"/>
+         <img alt="" class="mx-1 md:-translate-y-[1px]" height="4" src="https://ocean.bca.co.id/icons/circle-divider.svg" width="4"/>
          <span class="whitespace-nowrap uppercase transition-all duration-200 md:tracking-[0.16em]">
           22 Mei 2026
          </span>
@@ -3889,11 +3889,11 @@ const ArticlePage = () => `
          </div>
         </div>
         <div class="p-6 !mt-auto flex items-center gap-[3px] px-4 text-xs text-oceanV2-neutral-600 transition-colors duration-300 md:gap-2 pt-4">
-         <img alt="clock" class="h-4 w-4 transition-colors duration-200 md:h-5 md:w-5 md:-translate-y-[1px]" src="/icons/clock.svg"/>
+         <img alt="clock" class="h-4 w-4 transition-colors duration-200 md:h-5 md:w-5 md:-translate-y-[1px]" src="https://ocean.bca.co.id/icons/clock.svg"/>
          <span class="whitespace-nowrap uppercase transition-all duration-200 md:tracking-[0.12em]">
           3 MIN READ
          </span>
-         <img alt="" class="mx-1 md:-translate-y-[1px]" height="4" src="/icons/circle-divider.svg" width="4"/>
+         <img alt="" class="mx-1 md:-translate-y-[1px]" height="4" src="https://ocean.bca.co.id/icons/circle-divider.svg" width="4"/>
          <span class="whitespace-nowrap uppercase transition-all duration-200 md:tracking-[0.16em]">
           11 Mei 2026
          </span>
@@ -3997,11 +3997,11 @@ const ArticlePage = () => `
          </div>
         </div>
         <div class="p-6 !mt-auto flex items-center gap-[3px] px-4 pt-0 text-xs text-oceanV2-neutral-600 transition-colors duration-300 md:gap-2">
-         <img alt="clock" class="h-4 w-4 transition-colors duration-200 md:h-5 md:w-5 md:-translate-y-[1px]" src="/icons/clock.svg"/>
+         <img alt="clock" class="h-4 w-4 transition-colors duration-200 md:h-5 md:w-5 md:-translate-y-[1px]" src="https://ocean.bca.co.id/icons/clock.svg"/>
          <span class="whitespace-nowrap uppercase transition-all duration-200 md:tracking-[0.12em]">
           3 MIN READ
          </span>
-         <img alt="" class="mx-1 md:-translate-y-[1px]" height="4" src="/icons/circle-divider.svg" width="4"/>
+         <img alt="" class="mx-1 md:-translate-y-[1px]" height="4" src="https://ocean.bca.co.id/icons/circle-divider.svg" width="4"/>
          <span class="whitespace-nowrap uppercase transition-all duration-200 md:tracking-[0.16em]">
           22 Mei 2026
          </span>
@@ -4033,11 +4033,11 @@ const ArticlePage = () => `
          </div>
         </div>
         <div class="p-6 !mt-auto flex items-center gap-[3px] px-4 pt-0 text-xs text-oceanV2-neutral-600 transition-colors duration-300 md:gap-2">
-         <img alt="clock" class="h-4 w-4 transition-colors duration-200 md:h-5 md:w-5 md:-translate-y-[1px]" src="/icons/clock.svg"/>
+         <img alt="clock" class="h-4 w-4 transition-colors duration-200 md:h-5 md:w-5 md:-translate-y-[1px]" src="https://ocean.bca.co.id/icons/clock.svg"/>
          <span class="whitespace-nowrap uppercase transition-all duration-200 md:tracking-[0.12em]">
           3 MIN READ
          </span>
-         <img alt="" class="mx-1 md:-translate-y-[1px]" height="4" src="/icons/circle-divider.svg" width="4"/>
+         <img alt="" class="mx-1 md:-translate-y-[1px]" height="4" src="https://ocean.bca.co.id/icons/circle-divider.svg" width="4"/>
          <span class="whitespace-nowrap uppercase transition-all duration-200 md:tracking-[0.16em]">
           11 Mei 2026
          </span>
@@ -4069,11 +4069,11 @@ const ArticlePage = () => `
          </div>
         </div>
         <div class="p-6 !mt-auto flex items-center gap-[3px] px-4 pt-0 text-xs text-oceanV2-neutral-600 transition-colors duration-300 md:gap-2">
-         <img alt="clock" class="h-4 w-4 transition-colors duration-200 md:h-5 md:w-5 md:-translate-y-[1px]" src="/icons/clock.svg"/>
+         <img alt="clock" class="h-4 w-4 transition-colors duration-200 md:h-5 md:w-5 md:-translate-y-[1px]" src="https://ocean.bca.co.id/icons/clock.svg"/>
          <span class="whitespace-nowrap uppercase transition-all duration-200 md:tracking-[0.12em]">
           2 MIN READ
          </span>
-         <img alt="" class="mx-1 md:-translate-y-[1px]" height="4" src="/icons/circle-divider.svg" width="4"/>
+         <img alt="" class="mx-1 md:-translate-y-[1px]" height="4" src="https://ocean.bca.co.id/icons/circle-divider.svg" width="4"/>
          <span class="whitespace-nowrap uppercase transition-all duration-200 md:tracking-[0.16em]">
           08 Mei 2026
          </span>
@@ -4092,7 +4092,7 @@ const ArticlePage = () => `
    <section class="my-10">
     <div class="relative z-10 rounded-xl bg-oceanV2-neutral-100 shadow" id="articles">
      <div class="flex items-center gap-2 border-b p-4 pb-4">
-      <img alt="" src="/images/icons/icon--semua-artikel.png"/>
+      <img alt="" src="https://ocean.bca.co.id/images/icons/icon--semua-artikel.png"/>
       <h2 class="text-lg font-bold text-oceanV2-primary-700">
        Semua Artikel
       </h2>
@@ -4124,13 +4124,13 @@ const ArticlePage = () => `
           </div>
          </div>
          <div class="p-6 !mt-auto flex items-center gap-2 px-0 pb-0 pt-0 text-xs text-oceanV2-neutral-600 transition-colors duration-300">
-          <img alt="clock" class="-translate-y-[1px] transition-colors duration-200" height="20" src="/icons/clock.svg" width="20"/>
+          <img alt="clock" class="-translate-y-[1px] transition-colors duration-200" height="20" src="https://ocean.bca.co.id/icons/clock.svg" width="20"/>
           <span class="font-semibold uppercase tracking-[0.12em] transition-all duration-200">
            3
            <!-- -->
            MIN READ
           </span>
-          <img alt="" class="mx-1 -translate-y-[1px]" height="4" src="/icons/circle-divider.svg" width="4"/>
+          <img alt="" class="mx-1 -translate-y-[1px]" height="4" src="https://ocean.bca.co.id/icons/circle-divider.svg" width="4"/>
           <span class="font-semibold uppercase tracking-[0.16em] transition-all duration-200">
            22 Mei 2026
           </span>
@@ -4166,13 +4166,13 @@ const ArticlePage = () => `
           </div>
          </div>
          <div class="p-6 !mt-auto flex items-center gap-2 px-0 pb-0 pt-0 text-xs text-oceanV2-neutral-600 transition-colors duration-300">
-          <img alt="clock" class="-translate-y-[1px] transition-colors duration-200" height="20" src="/icons/clock.svg" width="20"/>
+          <img alt="clock" class="-translate-y-[1px] transition-colors duration-200" height="20" src="https://ocean.bca.co.id/icons/clock.svg" width="20"/>
           <span class="font-semibold uppercase tracking-[0.12em] transition-all duration-200">
            3
            <!-- -->
            MIN READ
           </span>
-          <img alt="" class="mx-1 -translate-y-[1px]" height="4" src="/icons/circle-divider.svg" width="4"/>
+          <img alt="" class="mx-1 -translate-y-[1px]" height="4" src="https://ocean.bca.co.id/icons/circle-divider.svg" width="4"/>
           <span class="font-semibold uppercase tracking-[0.16em] transition-all duration-200">
            11 Mei 2026
           </span>
@@ -4208,13 +4208,13 @@ const ArticlePage = () => `
           </div>
          </div>
          <div class="p-6 !mt-auto flex items-center gap-2 px-0 pb-0 pt-0 text-xs text-oceanV2-neutral-600 transition-colors duration-300">
-          <img alt="clock" class="-translate-y-[1px] transition-colors duration-200" height="20" src="/icons/clock.svg" width="20"/>
+          <img alt="clock" class="-translate-y-[1px] transition-colors duration-200" height="20" src="https://ocean.bca.co.id/icons/clock.svg" width="20"/>
           <span class="font-semibold uppercase tracking-[0.12em] transition-all duration-200">
            2
            <!-- -->
            MIN READ
           </span>
-          <img alt="" class="mx-1 -translate-y-[1px]" height="4" src="/icons/circle-divider.svg" width="4"/>
+          <img alt="" class="mx-1 -translate-y-[1px]" height="4" src="https://ocean.bca.co.id/icons/circle-divider.svg" width="4"/>
           <span class="font-semibold uppercase tracking-[0.16em] transition-all duration-200">
            08 Mei 2026
           </span>
@@ -4250,13 +4250,13 @@ const ArticlePage = () => `
           </div>
          </div>
          <div class="p-6 !mt-auto flex items-center gap-2 px-0 pb-0 pt-0 text-xs text-oceanV2-neutral-600 transition-colors duration-300">
-          <img alt="clock" class="-translate-y-[1px] transition-colors duration-200" height="20" src="/icons/clock.svg" width="20"/>
+          <img alt="clock" class="-translate-y-[1px] transition-colors duration-200" height="20" src="https://ocean.bca.co.id/icons/clock.svg" width="20"/>
           <span class="font-semibold uppercase tracking-[0.12em] transition-all duration-200">
            3
            <!-- -->
            MIN READ
           </span>
-          <img alt="" class="mx-1 -translate-y-[1px]" height="4" src="/icons/circle-divider.svg" width="4"/>
+          <img alt="" class="mx-1 -translate-y-[1px]" height="4" src="https://ocean.bca.co.id/icons/circle-divider.svg" width="4"/>
           <span class="font-semibold uppercase tracking-[0.16em] transition-all duration-200">
            07 Mei 2026
           </span>
@@ -4292,13 +4292,13 @@ const ArticlePage = () => `
           </div>
          </div>
          <div class="p-6 !mt-auto flex items-center gap-2 px-0 pb-0 pt-0 text-xs text-oceanV2-neutral-600 transition-colors duration-300">
-          <img alt="clock" class="-translate-y-[1px] transition-colors duration-200" height="20" src="/icons/clock.svg" width="20"/>
+          <img alt="clock" class="-translate-y-[1px] transition-colors duration-200" height="20" src="https://ocean.bca.co.id/icons/clock.svg" width="20"/>
           <span class="font-semibold uppercase tracking-[0.12em] transition-all duration-200">
            4
            <!-- -->
            MIN READ
           </span>
-          <img alt="" class="mx-1 -translate-y-[1px]" height="4" src="/icons/circle-divider.svg" width="4"/>
+          <img alt="" class="mx-1 -translate-y-[1px]" height="4" src="https://ocean.bca.co.id/icons/circle-divider.svg" width="4"/>
           <span class="font-semibold uppercase tracking-[0.16em] transition-all duration-200">
            06 Mei 2026
           </span>
@@ -4334,13 +4334,13 @@ const ArticlePage = () => `
           </div>
          </div>
          <div class="p-6 !mt-auto flex items-center gap-2 px-0 pb-0 pt-0 text-xs text-oceanV2-neutral-600 transition-colors duration-300">
-          <img alt="clock" class="-translate-y-[1px] transition-colors duration-200" height="20" src="/icons/clock.svg" width="20"/>
+          <img alt="clock" class="-translate-y-[1px] transition-colors duration-200" height="20" src="https://ocean.bca.co.id/icons/clock.svg" width="20"/>
           <span class="font-semibold uppercase tracking-[0.12em] transition-all duration-200">
            3
            <!-- -->
            MIN READ
           </span>
-          <img alt="" class="mx-1 -translate-y-[1px]" height="4" src="/icons/circle-divider.svg" width="4"/>
+          <img alt="" class="mx-1 -translate-y-[1px]" height="4" src="https://ocean.bca.co.id/icons/circle-divider.svg" width="4"/>
           <span class="font-semibold uppercase tracking-[0.16em] transition-all duration-200">
            06 Mei 2026
           </span>
@@ -4376,13 +4376,13 @@ const ArticlePage = () => `
           </div>
          </div>
          <div class="p-6 !mt-auto flex items-center gap-2 px-0 pb-0 pt-0 text-xs text-oceanV2-neutral-600 transition-colors duration-300">
-          <img alt="clock" class="-translate-y-[1px] transition-colors duration-200" height="20" src="/icons/clock.svg" width="20"/>
+          <img alt="clock" class="-translate-y-[1px] transition-colors duration-200" height="20" src="https://ocean.bca.co.id/icons/clock.svg" width="20"/>
           <span class="font-semibold uppercase tracking-[0.12em] transition-all duration-200">
            4
            <!-- -->
            MIN READ
           </span>
-          <img alt="" class="mx-1 -translate-y-[1px]" height="4" src="/icons/circle-divider.svg" width="4"/>
+          <img alt="" class="mx-1 -translate-y-[1px]" height="4" src="https://ocean.bca.co.id/icons/circle-divider.svg" width="4"/>
           <span class="font-semibold uppercase tracking-[0.16em] transition-all duration-200">
            06 Mei 2026
           </span>
@@ -4418,13 +4418,13 @@ const ArticlePage = () => `
           </div>
          </div>
          <div class="p-6 !mt-auto flex items-center gap-2 px-0 pb-0 pt-0 text-xs text-oceanV2-neutral-600 transition-colors duration-300">
-          <img alt="clock" class="-translate-y-[1px] transition-colors duration-200" height="20" src="/icons/clock.svg" width="20"/>
+          <img alt="clock" class="-translate-y-[1px] transition-colors duration-200" height="20" src="https://ocean.bca.co.id/icons/clock.svg" width="20"/>
           <span class="font-semibold uppercase tracking-[0.12em] transition-all duration-200">
            3
            <!-- -->
            MIN READ
           </span>
-          <img alt="" class="mx-1 -translate-y-[1px]" height="4" src="/icons/circle-divider.svg" width="4"/>
+          <img alt="" class="mx-1 -translate-y-[1px]" height="4" src="https://ocean.bca.co.id/icons/circle-divider.svg" width="4"/>
           <span class="font-semibold uppercase tracking-[0.16em] transition-all duration-200">
            06 Mei 2026
           </span>
@@ -4460,13 +4460,13 @@ const ArticlePage = () => `
           </div>
          </div>
          <div class="p-6 !mt-auto flex items-center gap-2 px-0 pb-0 pt-0 text-xs text-oceanV2-neutral-600 transition-colors duration-300">
-          <img alt="clock" class="-translate-y-[1px] transition-colors duration-200" height="20" src="/icons/clock.svg" width="20"/>
+          <img alt="clock" class="-translate-y-[1px] transition-colors duration-200" height="20" src="https://ocean.bca.co.id/icons/clock.svg" width="20"/>
           <span class="font-semibold uppercase tracking-[0.12em] transition-all duration-200">
            4
            <!-- -->
            MIN READ
           </span>
-          <img alt="" class="mx-1 -translate-y-[1px]" height="4" src="/icons/circle-divider.svg" width="4"/>
+          <img alt="" class="mx-1 -translate-y-[1px]" height="4" src="https://ocean.bca.co.id/icons/circle-divider.svg" width="4"/>
           <span class="font-semibold uppercase tracking-[0.16em] transition-all duration-200">
            05 Mei 2026
           </span>
@@ -5178,6 +5178,23 @@ const OceanAuth = () => {
 // --- Router ---
 
 const render = () => {
+
+    // Dynamically inject scraped Tailwind CSS only for the Article page
+    let cssLink = document.getElementById('ocean-scraped-css');
+    if (state.viewMode === 'public' && state.currentPage === 'article') {
+        if (!cssLink) {
+            cssLink = document.createElement('link');
+            cssLink.id = 'ocean-scraped-css';
+            cssLink.rel = 'stylesheet';
+            cssLink.href = '/ocean-scraped.css';
+            document.head.appendChild(cssLink);
+        }
+    } else {
+        if (cssLink) {
+            cssLink.remove();
+        }
+    }
+
     const app = document.getElementById('app');
     if (!app) return;
 
