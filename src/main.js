@@ -87,7 +87,7 @@ const state = {
     activeSimulation: null,
     simChatHistory: [],
     isIngesting: false,
-    roiInputs: { branches: 1, transactions: 100 },
+    roiInputs: { transactions: 5000, financeStaff: 3, manualHours: 4 },
     selectedSector: 'Retail',
     productSearchQuery: '',
     productSelectedSector: 'Semua',
@@ -2184,71 +2184,110 @@ const SandboxPage = () => {
     `;
 };
 
-const ROICalculatorPage = () => `
-    <div class="public-layout fade-in" style="background:#f1f5f9;">
-        <div class="roi-hero">
-            <h1>ROI Calculator</h1>
-            <p>Estimasi seberapa besar penghematan waktu dan efisiensi operasional yang bisa dicapai bisnis Anda dengan Ocean by BCA.</p>
-        </div>
-
-        <div class="roi-dashboard">
-            <div class="roi-panel">
-                <div class="roi-panel-title">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
-                    Parameter Bisnis
+const ROICalculatorPage = () => {
+    const tx = state.roiInputs.transactions || 5000;
+    const staff = state.roiInputs.financeStaff || 3;
+    const hours = state.roiInputs.manualHours || 4;
+    
+    const hourlyRate = 85000;
+    const monthlyHoursWasted = staff * hours * 22;
+    const savings = monthlyHoursWasted * hourlyRate;
+    const oceanSavings = savings * 0.85; 
+    const timeSaved = monthlyHoursWasted * 0.85;
+    
+    return `
+    <div class="roi-container fade-in">
+        <div class="roi-hero-bg"></div>
+        <div class="roi-content-wrapper">
+            <div class="roi-header">
+                <h2>Kalkulator Efisiensi B2B</h2>
+                <p>Simulasikan potensi penghematan biaya dan optimalisasi jam kerja perusahaan Anda setelah menggunakan solusi Cash Management Ocean by BCA.</p>
+            </div>
+            
+            <div class="roi-grid">
+                <!-- Left: Inputs -->
+                <div class="roi-input-panel">
+                    <h3>Parameter Bisnis Anda</h3>
+                    
+                    <div class="roi-form-group">
+                        <label>Volume Transaksi per Bulan</label>
+                        <div class="roi-range-display">
+                            <span class="range-val" id="roi-val-tx">${tx.toLocaleString('id-ID')}</span> <span class="range-unit">Transaksi</span>
+                        </div>
+                        <input type="range" id="roi-tx" min="1000" max="100000" step="1000" value="${tx}" class="roi-slider">
+                    </div>
+                    
+                    <div class="roi-form-group">
+                        <label>Jumlah Staf Finance / Operasional</label>
+                        <div class="roi-range-display">
+                            <span class="range-val" id="roi-val-staff">${staff}</span> <span class="range-unit">Orang</span>
+                        </div>
+                        <input type="range" id="roi-staff" min="1" max="50" step="1" value="${staff}" class="roi-slider">
+                    </div>
+                    
+                    <div class="roi-form-group">
+                        <label>Waktu Manual Rekonsiliasi (per staf/hari)</label>
+                        <div class="roi-range-display">
+                            <span class="range-val" id="roi-val-hours">${hours}</span> <span class="range-unit">Jam</span>
+                        </div>
+                        <input type="range" id="roi-hours" min="1" max="8" step="1" value="${hours}" class="roi-slider">
+                    </div>
+                    
+                    <div class="roi-disclaimer">
+                        <p>* Kalkulasi menggunakan standar rata-rata UMR/Gaji Staf Rp 15.000.000/bln dan peningkatan STP (Straight-Through Processing) hingga 85%.</p>
+                    </div>
                 </div>
                 
-                <div class="roi-form-group">
-                    <label>Jumlah Cabang / Titik Lokasi</label>
-                    <div class="roi-input-wrapper">
-                        <svg class="roi-input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                        <input type="number" id="roi-branches" value="${state.roiInputs.branches || 5}">
+                <!-- Right: Results -->
+                <div class="roi-result-panel">
+                    <div class="roi-result-glass">
+                        <h3>Estimasi Nilai ROI Bulanan</h3>
+                        
+                        <div class="roi-metric-card highlight-metric">
+                            <div class="metric-icon"><img src="https://ocean.bca.co.id/images/icons/icon--layanan-bantuan.png" style="width:32px; filter: hue-rotate(180deg);" alt="money"></div>
+                            <div class="metric-info">
+                                <div class="metric-title">Potensi Penghematan Biaya</div>
+                                <div class="metric-val" id="roi-res-savings">Rp ${oceanSavings.toLocaleString('id-ID')}</div>
+                                <div class="metric-sub">Mengurangi beban biaya lembur & inefisiensi manual.</div>
+                            </div>
+                        </div>
+                        
+                        <div class="roi-metric-card">
+                            <div class="metric-icon"><img src="https://ocean.bca.co.id/icons/clock.svg" style="width:32px;" alt="clock"></div>
+                            <div class="metric-info">
+                                <div class="metric-title">Produktivitas Waktu Ekstra</div>
+                                <div class="metric-val"><span id="roi-res-time">${Math.round(timeSaved)} Jam</span></div>
+                                <div class="metric-sub">Waktu yang dapat dialihkan untuk analisis strategis.</div>
+                            </div>
+                        </div>
+                        
+                        <div class="roi-chart-box">
+                            <div class="chart-title">Perbandingan Durasi Rekonsiliasi (Bulan)</div>
+                            <div class="chart-bars">
+                                <div class="bar-group">
+                                    <div class="bar-label">Sistem Lama</div>
+                                    <div class="bar-track">
+                                        <div class="bar-fill old-way" style="width: 100%;"></div>
+                                    </div>
+                                </div>
+                                <div class="bar-group">
+                                    <div class="bar-label">Dengan Ocean</div>
+                                    <div class="bar-track">
+                                        <div class="bar-fill new-way" style="width: 15%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="roi-cta-btn" onclick="state.currentPage='product'; render();">Pelajari Solusi Cash Management</button>
                     </div>
-                </div>
-
-                <div class="roi-form-group">
-                    <label>Rata-rata Transaksi Bulanan per Cabang</label>
-                    <div class="roi-input-wrapper">
-                        <svg class="roi-input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M7 15h0M2 9.5h20"></path></svg>
-                        <input type="number" id="roi-transactions" value="${state.roiInputs.transactions || 1000}">
-                    </div>
-                </div>
-
-                <div class="roi-form-group">
-                    <label>Waktu Rekonsiliasi Manual Saat Ini (Jam/Hari)</label>
-                    <div class="roi-input-wrapper">
-                        <svg class="roi-input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                        <input type="number" id="roi-time" value="4">
-                    </div>
-                </div>
-
-                <button class="roi-btn" id="calc-roi">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                    Kalkulasi Estimasi
-                </button>
-            </div>
-
-            <div class="roi-panel" style="background: transparent; box-shadow: none; border: none; padding: 0;">
-                <div class="roi-result-card highlight">
-                    <div class="roi-result-label">Efisiensi Biaya Operasional</div>
-                    <div class="roi-result-val">Rp ${ ((state.roiInputs.branches || 5) * 1500000).toLocaleString('id-ID') } / Bulan</div>
-                    <div class="roi-result-desc">Potensi penghematan dari pengurangan biaya manual error, lembur administrasi, dan rekonsiliasi yang terotomatisasi secara end-to-end.</div>
-                    
-                    <div class="roi-chart-placeholder">
-                        <div class="roi-bar" style="height: 40%;" title="Tanpa Ocean"></div>
-                        <div class="roi-bar" style="height: 100%;" title="Dengan Ocean"></div>
-                    </div>
-                </div>
-
-                <div class="roi-result-card" style="background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
-                    <div class="roi-result-label">Penghematan Waktu Produktif</div>
-                    <div class="roi-result-val">${Math.round((state.roiInputs.branches || 5) * 2.5)} Jam / Hari</div>
-                    <div class="roi-result-desc">Otomasi dashboard myBCA Bisnis dan ERP terintegrasi memotong 70% waktu tim finance dari proses manual tiap harinya.</div>
                 </div>
             </div>
         </div>
+        ${PublicFooter()}
     </div>
-`;
+    `;
+};
 
 const HelpCenterPage = () => `
     <div class="public-layout fade-in" style="min-height: 100vh; display: flex; flex-direction: column;">
@@ -4652,14 +4691,38 @@ const attachEventListeners = () => {
         });
     });
 
-    // ROI Calc
-    const calcBtn = document.getElementById('calc-roi');
-    if (calcBtn) {
-        calcBtn.addEventListener('click', () => {
-            state.roiInputs.branches = parseInt(document.getElementById('roi-branches').value) || 1;
-            state.roiInputs.transactions = parseInt(document.getElementById('roi-transactions').value) || 100;
-            render();
-        });
+        // ROI Calculator Realtime Interactivity
+    const roiTx = document.getElementById('roi-tx');
+    const roiStaff = document.getElementById('roi-staff');
+    const roiHours = document.getElementById('roi-hours');
+    
+    if (roiTx && roiStaff && roiHours) {
+        const updateROI = () => {
+            const tx = parseInt(roiTx.value);
+            const staff = parseInt(roiStaff.value);
+            const hours = parseInt(roiHours.value);
+            
+            state.roiInputs.transactions = tx;
+            state.roiInputs.financeStaff = staff;
+            state.roiInputs.manualHours = hours;
+            
+            document.getElementById('roi-val-tx').textContent = tx.toLocaleString('id-ID');
+            document.getElementById('roi-val-staff').textContent = staff;
+            document.getElementById('roi-val-hours').textContent = hours;
+            
+            const hourlyRate = 85000;
+            const monthlyHoursWasted = staff * hours * 22;
+            const savings = monthlyHoursWasted * hourlyRate;
+            const oceanSavings = savings * 0.85; 
+            const timeSaved = monthlyHoursWasted * 0.85;
+            
+            document.getElementById('roi-res-savings').textContent = 'Rp ' + oceanSavings.toLocaleString('id-ID');
+            document.getElementById('roi-res-time').textContent = Math.round(timeSaved) + ' Jam';
+        };
+        
+        roiTx.addEventListener('input', updateROI);
+        roiStaff.addEventListener('input', updateROI);
+        roiHours.addEventListener('input', updateROI);
     }
 
     // TRY OCEAN NOW SECTION (Product Matcher)
