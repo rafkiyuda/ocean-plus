@@ -1417,53 +1417,28 @@ const LandingPage = () => `
                         <h3>99% Transaksi Berbasis Digital</h3>
                         <p>Adaptasi digital untuk mengakomodasi kebiasaan baru customer.</p>
                     </div>
-                    
-                    <!-- Footer Note -->
-                    <p class="mengapa-disclaimer">*Data dihimpun di tahun 2025</p>
-                </div>
 
-                <!-- Trust and Security Extension -->
-                <div class="mengapa-trust-intro">
-                    <p>Untuk meningkatkan trust dan adopsi, Ocean by BCA menekankan dua hal utama: keamanan data dan kemudahan penggunaan. Dari sisi keamanan, Ocean telah memenuhi standar perbankan seperti ISO 27001 dan PDP compliance, sehingga data nasabah terlindungi secara optimal. Dari sisi pengalaman, Ocean dirancang sebagai upgrade dari KlikBCA Bisnis dengan fitur yang lebih modern dan terintegrasi, sehingga nasabah dapat beradaptasi dengan mudah tanpa kompleksitas tambahan.</p>
-                </div>
-                
-                <div class="trust-cards-grid">
-                    <!-- Trust Card 1 -->
-                    <div class="trust-card">
-                        <div class="trust-card-header">
-                            <div class="trust-icon">
-                                🛡️
-                            </div>
-                            <span class="trust-badge">CERTIFIED</span>
-                        </div>
-                        <h3>ISO 27001</h3>
+                    <!-- Card 4 -->
+                    <div class="mengapa-card">
+                        <h3>ISO 27001 Certified</h3>
                         <p>Standar internasional untuk sistem manajemen keamanan informasi (ISMS).</p>
                     </div>
 
-                    <!-- Trust Card 2 -->
-                    <div class="trust-card">
-                        <div class="trust-card-header">
-                            <div class="trust-icon">
-                                ⚖️
-                            </div>
-                            <span class="trust-badge">COMPLIANT</span>
-                        </div>
-                        <h3>PDP Law</h3>
+                    <!-- Card 5 -->
+                    <div class="mengapa-card">
+                        <h3>PDP Law Compliant</h3>
                         <p>Kepatuhan penuh terhadap regulasi Perlindungan Data Pribadi di Indonesia.</p>
                     </div>
 
-                    <!-- Trust Card 3 -->
-                    <div class="trust-card">
-                        <div class="trust-card-header">
-                            <div class="trust-icon">
-                                💎
-                            </div>
-                            <span class="trust-badge">ISOLATED</span>
-                        </div>
+                    <!-- Card 6 -->
+                    <div class="mengapa-card">
                         <h3>Enterprise Isolation</h3>
                         <p>Data sandbox 100% terisolasi menggunakan enkripsi tingkat tinggi AES-256.</p>
                     </div>
                 </div>
+                
+                <!-- Footer Note -->
+                <p class="mengapa-disclaimer" style="margin-top: 16px; text-align: right;">*Data dihimpun di tahun 2025</p>
             </div>
         </section>
 
