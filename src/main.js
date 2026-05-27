@@ -1120,10 +1120,19 @@ const PublicNavbar = () => `
             <div class="nav-links-public">
                 <a href="#" class="nav-link-p ${state.currentPage === 'landing' ? 'active' : ''}" data-page="landing">Home</a>
                 <a href="#" class="nav-link-p ${state.currentPage === 'how-it-works' ? 'active' : ''}" data-page="how-it-works">Produk</a>
-                <a href="#" class="nav-link-p ${state.currentPage === 'sandbox' ? 'active' : ''}" data-page="sandbox">
-                    myEcosystem
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-chevron-down"><path d="m6 9 6 6 6-6"></path></svg>
-                </a>
+                <div class="nav-dropdown-wrapper">
+                    <button class="nav-link-p nav-dropdown-trigger">
+                        myEcosystem
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-chevron-down"><path d="m6 9 6 6 6-6"></path></svg>
+                    </button>
+                    <div class="nav-dropdown-menu">
+                        <a href="#" class="nav-dropdown-item">Invoicing</a>
+                        <a href="#" class="nav-dropdown-item">Financing</a>
+                        <a href="#" class="nav-dropdown-item">HR & Payroll</a>
+                        <a href="#" class="nav-dropdown-item">Manajemen Pajak</a>
+                    </div>
+                </div>
+                <a href="#" class="nav-link-p ${state.currentPage === 'sandbox' ? 'active' : ''}" data-page="sandbox">Sandbox Demo</a>
                 <div class="nav-dropdown-wrapper">
                     <button class="nav-link-p nav-dropdown-trigger">
                         Quick Access
@@ -1182,10 +1191,17 @@ const PublicNavbar = () => `
         <div class="mobile-menu-links">
             <a href="#" class="mobile-menu-link ${state.currentPage === 'landing' ? 'active' : ''}" data-page="landing">Home</a>
             <a href="#" class="mobile-menu-link ${state.currentPage === 'how-it-works' ? 'active' : ''}" data-page="how-it-works">Produk</a>
-            <div class="mobile-menu-dropdown-trigger">
+            <div class="mobile-menu-dropdown-trigger" id="mobile-myecosystem-btn">
                 <span>myEcosystem</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mobile-nav-chevron-down"><path d="m6 9 6 6 6-6"></path></svg>
             </div>
+            <div class="mobile-nav-dropdown-menu" id="mobile-myecosystem-menu" style="display: none;">
+                <a href="#" class="mobile-dropdown-item">Invoicing</a>
+                <a href="#" class="mobile-dropdown-item">Financing</a>
+                <a href="#" class="mobile-dropdown-item">HR & Payroll</a>
+                <a href="#" class="mobile-dropdown-item">Manajemen Pajak</a>
+            </div>
+            <a href="#" class="mobile-menu-link ${state.currentPage === 'sandbox' ? 'active' : ''}" data-page="sandbox">Sandbox Demo</a>
             <div class="mobile-menu-dropdown-trigger" id="mobile-quick-access-btn">
                 <span>Quick Access</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mobile-nav-chevron-down"><path d="m6 9 6 6 6-6"></path></svg>
@@ -2169,45 +2185,65 @@ const SandboxPage = () => {
 };
 
 const ROICalculatorPage = () => `
-    <div class="public-layout fade-in">
-        <header class="page-header-p">
+    <div class="public-layout fade-in" style="background:#f1f5f9;">
+        <div class="roi-hero">
             <h1>ROI Calculator</h1>
-            <p>Estimasi penghematan waktu dan biaya operasional dengan Ocean.</p>
-        </header>
+            <p>Estimasi seberapa besar penghematan waktu dan efisiensi operasional yang bisa dicapai bisnis Anda dengan Ocean by BCA.</p>
+        </div>
 
-        <div class="roi-container">
-            <div class="roi-form card-premium">
-                <h3>Input Bisnis Anda</h3>
-                <div class="input-group">
-                    <label>Jumlah Cabang / Lokasi</label>
-                    <input type="number" id="roi-branches" value="${state.roiInputs.branches}">
+        <div class="roi-dashboard">
+            <div class="roi-panel">
+                <div class="roi-panel-title">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                    Parameter Bisnis
                 </div>
-                <div class="input-group">
+                
+                <div class="roi-form-group">
+                    <label>Jumlah Cabang / Titik Lokasi</label>
+                    <div class="roi-input-wrapper">
+                        <svg class="roi-input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                        <input type="number" id="roi-branches" value="${state.roiInputs.branches || 5}">
+                    </div>
+                </div>
+
+                <div class="roi-form-group">
                     <label>Rata-rata Transaksi Bulanan per Cabang</label>
-                    <input type="number" id="roi-transactions" value="${state.roiInputs.transactions}">
+                    <div class="roi-input-wrapper">
+                        <svg class="roi-input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M7 15h0M2 9.5h20"></path></svg>
+                        <input type="number" id="roi-transactions" value="${state.roiInputs.transactions || 1000}">
+                    </div>
                 </div>
-                <div class="input-group">
-                    <label>Waktu Rekonsiliasi Manual (Jam/Hari)</label>
-                    <input type="number" id="roi-time" value="4">
+
+                <div class="roi-form-group">
+                    <label>Waktu Rekonsiliasi Manual Saat Ini (Jam/Hari)</label>
+                    <div class="roi-input-wrapper">
+                        <svg class="roi-input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        <input type="number" id="roi-time" value="4">
+                    </div>
                 </div>
-                <button class="btn-primary" style="width: 100%;" id="calc-roi">Hitung Estimasi</button>
+
+                <button class="roi-btn" id="calc-roi">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    Kalkulasi Estimasi
+                </button>
             </div>
-            <div class="roi-results card-premium">
-                <h3>Estimasi Manfaat Ocean</h3>
-                <div class="roi-grid">
-                    <div class="roi-res-card">
-                        <div class="label">Penghematan Waktu</div>
-                        <div class="val">${Math.round(state.roiInputs.branches * 2.5)} Jam / Hari</div>
-                        <p>Otomasi rekonsiliasi menghemat 70% waktu tim finance.</p>
-                    </div>
-                    <div class="roi-res-card highlight">
-                        <div class="label">Efisiensi Biaya Operasional</div>
-                    <div class="val">Rp ${ (state.roiInputs.branches * 1500000).toLocaleString('id-ID') } / Bulan</div>
-                        <p>Pengurangan biaya manual error dan administrasi.</p>
+
+            <div class="roi-panel" style="background: transparent; box-shadow: none; border: none; padding: 0;">
+                <div class="roi-result-card highlight">
+                    <div class="roi-result-label">Efisiensi Biaya Operasional</div>
+                    <div class="roi-result-val">Rp ${ ((state.roiInputs.branches || 5) * 1500000).toLocaleString('id-ID') } / Bulan</div>
+                    <div class="roi-result-desc">Potensi penghematan dari pengurangan biaya manual error, lembur administrasi, dan rekonsiliasi yang terotomatisasi secara end-to-end.</div>
+                    
+                    <div class="roi-chart-placeholder">
+                        <div class="roi-bar" style="height: 40%;" title="Tanpa Ocean"></div>
+                        <div class="roi-bar" style="height: 100%;" title="Dengan Ocean"></div>
                     </div>
                 </div>
-                <div class="roi-summary">
-                    <p>Estimasi ini berdasarkan data rata-rata nasabah Ocean di sektor sejenis.</p>
+
+                <div class="roi-result-card" style="background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                    <div class="roi-result-label">Penghematan Waktu Produktif</div>
+                    <div class="roi-result-val">${Math.round((state.roiInputs.branches || 5) * 2.5)} Jam / Hari</div>
+                    <div class="roi-result-desc">Otomasi dashboard myBCA Bisnis dan ERP terintegrasi memotong 70% waktu tim finance dari proses manual tiap harinya.</div>
                 </div>
             </div>
         </div>
@@ -4160,6 +4196,22 @@ const attachEventListeners = () => {
             state.viewMode = 'internal';
             state.currentPage = 'dashboard';
             render();
+        });
+    }
+
+    // Mobile myEcosystem Dropdown Toggle
+    const mobileMyEcosystemBtn = document.getElementById('mobile-myecosystem-btn');
+    const mobileMyEcosystemMenu = document.getElementById('mobile-myecosystem-menu');
+    if (mobileMyEcosystemBtn && mobileMyEcosystemMenu) {
+        mobileMyEcosystemBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const isHidden = mobileMyEcosystemMenu.style.display === 'none';
+            mobileMyEcosystemMenu.style.display = isHidden ? 'flex' : 'none';
+            const chevron = mobileMyEcosystemBtn.querySelector('svg');
+            if (chevron) {
+                chevron.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
+                chevron.style.transition = 'transform 0.3s ease';
+            }
         });
     }
 
