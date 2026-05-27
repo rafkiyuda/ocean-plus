@@ -2275,70 +2275,174 @@ const HelpCenterPage = () => `
             </div>
         </div>
         
-        <div style="max-width: 1200px; margin: 60px auto; padding: 0 24px; width: 100%; display: flex; flex-direction: column; gap: 60px;">
-            <!-- KATEGORI SECTION -->
-            <section>
-                <h2 style="font-size: 24px; font-weight: 700; color: #00213D; margin-bottom: 24px; border-left: 4px solid #00A4AD; padding-left: 12px;">Kategori</h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px;">
-                    <!-- Category Card 1 -->
-                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: all 0.2s ease-in-out; box-shadow: 0 4px 6px rgba(0,0,0,0.02);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 20px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.02)';">
-                        <div style="width: 48px; height: 48px; background: #f0f9ff; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #0284c7;">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M7 15h0M2 9h20"></path></svg>
-                        </div>
-                        <div style="font-weight: 600; font-size: 16px; color: #1e293b;">Transaksi & Pembayaran</div>
-                    </div>
-                    <!-- Category Card 2 -->
-                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: all 0.2s ease-in-out; box-shadow: 0 4px 6px rgba(0,0,0,0.02);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 20px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.02)';">
-                        <div style="width: 48px; height: 48px; background: #f0f9ff; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #0284c7;">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                        </div>
-                        <div style="font-weight: 600; font-size: 16px; color: #1e293b;">Akun & Keamanan</div>
-                    </div>
-                    <!-- Category Card 3 -->
-                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: all 0.2s ease-in-out; box-shadow: 0 4px 6px rgba(0,0,0,0.02);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 20px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.02)';">
-                        <div style="width: 48px; height: 48px; background: #f0f9ff; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #0284c7;">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                        </div>
-                        <div style="font-weight: 600; font-size: 16px; color: #1e293b;">Laporan & Mutasi</div>
-                    </div>
-                    <!-- Category Card 4 -->
-                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: all 0.2s ease-in-out; box-shadow: 0 4px 6px rgba(0,0,0,0.02);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 20px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.02)';">
-                        <div style="width: 48px; height: 48px; background: #f0f9ff; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #0284c7;">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
-                        </div>
-                        <div style="font-weight: 600; font-size: 16px; color: #1e293b;">API & Integrasi</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ARTIKEL PILIHAN SECTION -->
-            <section>
-                <h2 style="font-size: 24px; font-weight: 700; color: #00213D; margin-bottom: 24px; border-left: 4px solid #00A4AD; padding-left: 12px;">Artikel Pilihan</h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
-                    
-                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; cursor: pointer; transition: all 0.2s ease-in-out; box-shadow: 0 4px 6px rgba(0,0,0,0.02);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 20px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.02)';">
-                        <div style="color: #00A4AD; font-size: 12px; font-weight: 600; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Akun & Keamanan</div>
-                        <h3 style="font-size: 18px; font-weight: 600; color: #0f172a; margin-bottom: 12px; line-height: 1.4;">Cara Mengaktifkan Akun myBCA Bisnis Anda</h3>
-                        <p style="color: #64748b; font-size: 14px; line-height: 1.6; margin-bottom: 16px;">Panduan langkah demi langkah untuk melakukan aktivasi akun myBCA Bisnis pertama kali setelah pendaftaran disetujui.</p>
-                        <div style="display: flex; align-items: center; color: #0284c7; font-weight: 500; font-size: 14px; gap: 4px;">Baca selengkapnya <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></div>
+        <div style="display: flex; flex-direction: column; align-items: center; width: 100%; padding: 40px 24px;">
+            <div style="width: 100%; max-width: 1140px; display: flex; flex-direction: column; gap: 56px;">
+                
+                <!-- KATEGORI SECTION -->
+                <section style="display: flex; flex-direction: column; gap: 24px;">
+                    <div style="display: flex; gap: 12px; align-items: center; font-weight: 700; color: #00213D; font-size: 24px;">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" style="color: #00213D;">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M23 12C23 18.0749 18.0749 23 12 23C5.92512 23 1 18.0749 1 12C1 5.92511 5.92512 0.999999 12 0.999999C18.0749 1 23 5.92512 23 12ZM12 21C16.9703 21 21 16.9703 21 12C21 7.02968 16.9703 3 12 3C7.02969 3 3 7.02968 3 12C3 16.9703 7.02968 21 12 21ZM10.8445 16.3003L10.8445 11.7221C10.8445 11.0846 11.3617 10.5667 12 10.5667C12.6383 10.5667 13.1555 11.0846 13.1555 11.7221L13.1555 16.3003C13.1555 16.9386 12.6383 17.4558 12 17.4558C11.3617 17.4558 10.8445 16.9386 10.8445 16.3003ZM12 9.30563C11.4383 9.30563 10.932 8.96735 10.7172 8.44859C10.5015 7.92983 10.6203 7.33219 11.0179 6.93531C11.4148 6.53765 12.0125 6.41891 12.5312 6.63375C13.0508 6.84859 13.389 7.35563 13.389 7.91735C13.389 8.28531 13.2422 8.63845 12.982 8.89939C12.7218 9.15955 12.3679 9.30563 12 9.30563L12 9.30563Z" fill="currentColor"></path>
+                        </svg>
+                        <span>Kategori</span>
                     </div>
 
-                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; cursor: pointer; transition: all 0.2s ease-in-out; box-shadow: 0 4px 6px rgba(0,0,0,0.02);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 20px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.02)';">
-                        <div style="color: #00A4AD; font-size: 12px; font-weight: 600; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Transaksi & Pembayaran</div>
-                        <h3 style="font-size: 18px; font-weight: 600; color: #0f172a; margin-bottom: 12px; line-height: 1.4;">Limit Transaksi Harian di Ocean by BCA</h3>
-                        <p style="color: #64748b; font-size: 14px; line-height: 1.6; margin-bottom: 16px;">Pelajari batasan limit transfer dan transaksi harian untuk berbagai tipe akun bisnis Anda di platform Ocean.</p>
-                        <div style="display: flex; align-items: center; color: #0284c7; font-weight: 500; font-size: 14px; gap: 4px;">Baca selengkapnya <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
+                        
+                        <!-- CARD 1: Ocean by BCA -->
+                        <div style="background: white; border-radius: 12px; border: 1px solid #e2e8f0; padding: 32px 24px; min-height: 440px; display: flex; flex-direction: column; gap: 24px;">
+                            <div style="display: flex; flex-direction: column; gap: 24px;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="position: relative; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center;">
+                                        <img src="https://main.ocean.bca.co.id/help-center/images/base-icon-category.svg?w=128&q=75" style="position: absolute; width: 56px; height: 56px;" />
+                                        <img src="https://pustaka.bca.co.id/Ocean/Assets/Icon/Ocean.svg" style="position: relative; width: 35px; object-fit: contain;" />
+                                    </div>
+                                    <span style="font-size: 20px; font-weight: 700; color: #00213D;">Ocean by BCA</span>
+                                </div>
+                                <span style="font-size: 16px; color: #475569; line-height: 1.5;">Platform bisnis yang dilengkapi dengan berbagai layanan digital yang optimalkan perkembangan bisnis Anda.</span>
+                            </div>
+                            <div style="display: flex; flex-direction: column; justify-content: space-between; height: 100%; margin-top: auto;">
+                                <div style="display: grid; gap: 12px;">
+                                    <a href="#" style="font-size: 16px; font-weight: 600; color: #005b9f; text-decoration: none;">BCA ID Bisnis</a>
+                                    <a href="#" style="font-size: 16px; font-weight: 600; color: #005b9f; text-decoration: none;">Business Dashboard</a>
+                                    <a href="#" style="font-size: 16px; font-weight: 600; color: #005b9f; text-decoration: none;">Form Leave Contact</a>
+                                </div>
+                                <a href="#" style="margin-top: 20px; display: flex; align-items: center; font-size: 16px; font-weight: 600; color: #005b9f; text-decoration: none; gap: 4px;">
+                                    Selengkapnya <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- CARD 2: myBCA Bisnis -->
+                        <div style="background: white; border-radius: 12px; border: 1px solid #e2e8f0; padding: 32px 24px; min-height: 440px; display: flex; flex-direction: column; gap: 24px;">
+                            <div style="display: flex; flex-direction: column; gap: 24px;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="position: relative; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center;">
+                                        <img src="https://main.ocean.bca.co.id/help-center/images/base-icon-category.svg?w=128&q=75" style="position: absolute; width: 56px; height: 56px;" />
+                                        <img src="https://pustaka.bca.co.id/Ocean/Assets/Icon/MBB.svg" style="position: relative; width: 35px; object-fit: contain;" />
+                                    </div>
+                                    <span style="font-size: 20px; font-weight: 700; color: #00213D;">myBCA Bisnis</span>
+                                </div>
+                                <span style="font-size: 16px; color: #475569; line-height: 1.5;">Internet banking yang dapat diakses melalui berbagai perangkat untuk melakukan transaksi perbankan kebutuhan bisnis Anda.</span>
+                            </div>
+                            <div style="display: flex; flex-direction: column; justify-content: space-between; height: 100%; margin-top: auto;">
+                                <div style="display: grid; gap: 12px;">
+                                    <a href="#" style="font-size: 16px; font-weight: 600; color: #005b9f; text-decoration: none;">Aktivitas</a>
+                                    <a href="#" style="font-size: 16px; font-weight: 600; color: #005b9f; text-decoration: none;">Host-to-Host</a>
+                                    <a href="#" style="font-size: 16px; font-weight: 600; color: #005b9f; text-decoration: none;">Kenali Produk</a>
+                                </div>
+                                <a href="#" style="margin-top: 20px; display: flex; align-items: center; font-size: 16px; font-weight: 600; color: #005b9f; text-decoration: none; gap: 4px;">
+                                    Selengkapnya <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- CARD 3: Client Trade -->
+                        <div style="background: white; border-radius: 12px; border: 1px solid #e2e8f0; padding: 32px 24px; min-height: 440px; display: flex; flex-direction: column; gap: 24px;">
+                            <div style="display: flex; flex-direction: column; gap: 24px;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="position: relative; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center;">
+                                        <img src="https://main.ocean.bca.co.id/help-center/images/base-icon-category.svg?w=128&q=75" style="position: absolute; width: 56px; height: 56px;" />
+                                        <img src="https://pustaka.bca.co.id/Ocean/Assets/Icon/Logo-Client-Trade.svg" style="position: relative; width: 35px; object-fit: contain;" />
+                                    </div>
+                                    <span style="font-size: 20px; font-weight: 700; color: #00213D;">Client Trade</span>
+                                </div>
+                                <span style="font-size: 16px; color: #475569; line-height: 1.5;">Platform digital yang menyediakan keleluasaan dalam melakukan transaksi Trade untuk keperluan bisnis Anda.</span>
+                            </div>
+                            <div style="display: flex; flex-direction: column; justify-content: space-between; height: 100%; margin-top: auto;">
+                                <div style="display: grid; gap: 12px;">
+                                    <a href="#" style="font-size: 16px; font-weight: 600; color: #005b9f; text-decoration: none;">Monitoring</a>
+                                    <a href="#" style="font-size: 16px; font-weight: 600; color: #005b9f; text-decoration: none;">Proses</a>
+                                    <a href="#" style="font-size: 16px; font-weight: 600; color: #005b9f; text-decoration: none;">Temukan Produk</a>
+                                </div>
+                                <a href="#" style="margin-top: 20px; display: flex; align-items: center; font-size: 16px; font-weight: 600; color: #005b9f; text-decoration: none; gap: 4px;">
+                                    Selengkapnya <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- CARD 4: EDC Layar Sentuh -->
+                        <div style="background: white; border-radius: 12px; border: 1px solid #e2e8f0; padding: 32px 24px; min-height: 440px; display: flex; flex-direction: column; gap: 24px;">
+                            <div style="display: flex; flex-direction: column; gap: 24px;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="position: relative; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center;">
+                                        <img src="https://main.ocean.bca.co.id/help-center/images/base-icon-category.svg?w=128&q=75" style="position: absolute; width: 56px; height: 56px;" />
+                                        <img src="https://pustaka.bca.co.id/Ocean/Assets/Icon/Logo-EDC-Layar-Sentuh.svg" style="position: relative; width: 35px; object-fit: contain;" />
+                                    </div>
+                                    <span style="font-size: 20px; font-weight: 700; color: #00213D;">EDC Layar Sentuh</span>
+                                </div>
+                                <span style="font-size: 16px; color: #475569; line-height: 1.5;">Perangkat pintar yang mengakomodasi semua metode pembayaran, mulai dari kartu, QRIS, hingga e-wallet sebagai solusi transaksi bisnis Anda.</span>
+                            </div>
+                            <div style="display: flex; flex-direction: column; justify-content: space-between; height: 100%; margin-top: auto;">
+                                <div style="display: grid; gap: 12px;">
+                                    <a href="#" style="font-size: 16px; font-weight: 600; color: #005b9f; text-decoration: none;">Device</a>
+                                    <a href="#" style="font-size: 16px; font-weight: 600; color: #005b9f; text-decoration: none;">Operasional</a>
+                                    <a href="#" style="font-size: 16px; font-weight: 600; color: #005b9f; text-decoration: none;">QRIS</a>
+                                </div>
+                                <a href="#" style="margin-top: 20px; display: flex; align-items: center; font-size: 16px; font-weight: 600; color: #005b9f; text-decoration: none; gap: 4px;">
+                                    Selengkapnya <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- CARD 5: myBCA Bisnis Lite -->
+                        <div style="background: white; border-radius: 12px; border: 1px solid #e2e8f0; padding: 32px 24px; min-height: 440px; display: flex; flex-direction: column; gap: 24px;">
+                            <div style="display: flex; flex-direction: column; gap: 24px;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="position: relative; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center;">
+                                        <img src="https://main.ocean.bca.co.id/help-center/images/base-icon-category.svg?w=128&q=75" style="position: absolute; width: 56px; height: 56px;" />
+                                        <img src="https://pustaka.bca.co.id/Ocean/Assets/Icon/Icon_MBB_lite.png" style="position: relative; width: 35px; object-fit: contain;" />
+                                    </div>
+                                    <span style="font-size: 20px; font-weight: 700; color: #00213D;">myBCA Bisnis Lite</span>
+                                </div>
+                                <span style="font-size: 16px; color: #475569; line-height: 1.5;">myBCA Bisnis Lite adalah aplikasi <i>complementary</i> dari myBCA Bisnis untuk nasabah bisnis BCA melakukan aktivitas otorisasi dan menggunakan layanan token digital.</span>
+                            </div>
+                            <div style="display: flex; flex-direction: column; justify-content: space-between; height: 100%; margin-top: auto;">
+                                <div style="display: grid; gap: 12px;">
+                                    <a href="#" style="font-size: 16px; font-weight: 600; color: #005b9f; text-decoration: none;">Aktivasi</a>
+                                    <a href="#" style="font-size: 16px; font-weight: 600; color: #005b9f; text-decoration: none;">Otorisasi</a>
+                                    <a href="#" style="font-size: 16px; font-weight: 600; color: #005b9f; text-decoration: none;">Soft Token</a>
+                                </div>
+                                <a href="#" style="margin-top: 20px; display: flex; align-items: center; font-size: 16px; font-weight: 600; color: #005b9f; text-decoration: none; gap: 4px;">
+                                    Selengkapnya <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- ARTIKEL PILIHAN SECTION -->
+                <section style="display: flex; flex-direction: column; gap: 24px;">
+                    <div style="display: flex; gap: 12px; align-items: center; font-weight: 700; color: #00213D; font-size: 24px;">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" style="color: #00213D;">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M17 20.2H7C6.33726 20.2 5.8 19.6627 5.8 19V5C5.8 4.33726 6.33726 3.8 7 3.8H12.1V7C12.1 8.60163 13.3984 9.9 15 9.9H18.2V19C18.2 19.6627 17.6627 20.2 17 20.2ZM17.5544 8.1L15.7272 6.27279L13.9 4.44559V7C13.9 7.60751 14.3925 8.1 15 8.1H17.5544ZM4 5C4 3.34315 5.34315 2 7 2H13.1716C13.702 2 14.2107 2.21071 14.5858 2.58579L17 5L19.4142 7.41421C19.7893 7.78929 20 8.29799 20 8.82843V19C20 20.6569 18.6569 22 17 22H7C5.34315 22 4 20.6569 4 19V5ZM8.1 13C8.1 12.5029 8.50295 12.1 9 12.1H15C15.4971 12.1 15.9 12.5029 15.9 13C15.9 13.4971 15.4971 13.9 15 13.9H9C8.50295 13.9 8.1 13.4971 8.1 13ZM9 16.1C8.50295 16.1 8.1 16.5029 8.1 17C8.1 17.4971 8.50295 17.9 9 17.9H15C15.4971 17.9 15.9 17.4971 15.9 17C15.9 16.5029 15.4971 16.1 15 16.1H9Z" fill="currentColor"></path>
+                        </svg>
+                        <span>Artikel Pilihan</span>
                     </div>
 
-                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; cursor: pointer; transition: all 0.2s ease-in-out; box-shadow: 0 4px 6px rgba(0,0,0,0.02);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 20px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.02)';">
-                        <div style="color: #00A4AD; font-size: 12px; font-weight: 600; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">API & Integrasi</div>
-                        <h3 style="font-size: 18px; font-weight: 600; color: #0f172a; margin-bottom: 12px; line-height: 1.4;">Mengintegrasikan ERP Perusahaan dengan BCA API</h3>
-                        <p style="color: #64748b; font-size: 14px; line-height: 1.6; margin-bottom: 16px;">Dokumentasi untuk tim IT terkait cara menyambungkan sistem ERP internal Anda dengan layanan API perbankan BCA.</p>
-                        <div style="display: flex; align-items: center; color: #0284c7; font-weight: 500; font-size: 14px; gap: 4px;">Baca selengkapnya <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></div>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        ${[
+                            "Apa saja dokumen yang dibutuhkan untuk pendaftaran myBCA Bisnis",
+                            "Syarat untuk menjadi Nasabah myBCA Bisnis",
+                            "Bagaimana cara menggunakan fitur Rekomendasi Produk",
+                            "Kapan saya akan dihubungi oleh pihak BCA",
+                            "Pengaturan Workflow oleh Sysadmin",
+                            "Cara membuka pemblokiran pada User ID",
+                            "Apa itu myBCA Bisnis",
+                            "Apa itu BCA ID Bisnis",
+                            "Bagaimana cara mendapatkan BCA ID Bisnis"
+                        ].map(q => `
+                        <div style="background: white;">
+                            <button style="width: 100%; display: flex; align-items: center; justify-content: space-between; text-align: left; padding: 20px 32px; border: none; background: transparent; border-bottom: 2px solid #e2e8f0; cursor: pointer; color: #475569; font-size: 20px; font-weight: 600;" onmouseover="this.style.color='#00213D';" onmouseout="this.style.color='#475569';">
+                                <span>${q}</span>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="color: #005b9f;"><path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path><path d="M12 5V19" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+                            </button>
+                        </div>
+                        `).join('')}
                     </div>
-
-                </div>
-            </section>
+                </section>
+            </div>
         </div>
         
         <div style="flex-grow: 1;"></div>
