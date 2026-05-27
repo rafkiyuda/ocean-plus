@@ -1124,10 +1124,22 @@ const PublicNavbar = () => `
                     myEcosystem
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-chevron-down"><path d="m6 9 6 6 6-6"></path></svg>
                 </a>
-                <a href="#" class="nav-link-p ${state.currentPage === 'roi' ? 'active' : ''}" data-page="roi">
-                    Quick Access
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-chevron-down"><path d="m6 9 6 6 6-6"></path></svg>
-                </a>
+                <div class="nav-dropdown-wrapper">
+                    <button class="nav-link-p nav-dropdown-trigger">
+                        Quick Access
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-chevron-down"><path d="m6 9 6 6 6-6"></path></svg>
+                    </button>
+                    <div class="nav-dropdown-menu">
+                        <a href="https://ocean.bca.co.id/id/produk/transaksi/ocean-by-bca/mybca-bisnis" target="_blank" class="nav-dropdown-item">myBCA Bisnis</a>
+                        <a href="https://ibank.klikbca.com/bisnis" target="_blank" class="nav-dropdown-item">KlikBCA Bisnis</a>
+                        <a href="https://www.bca.co.id/id/bisnis/produk/transaksi-bisnis/merchant-bca" target="_blank" class="nav-dropdown-item">Merchant BCA</a>
+                        <a href="https://emp.klikbca.com/bca-emp" target="_blank" class="nav-dropdown-item">e-Commerce Merchant Portal</a>
+                        <a href="https://trade.klikbca.com/" target="_blank" class="nav-dropdown-item">Client Trade</a>
+                        <a href="https://bagio.bca.co.id/" target="_blank" class="nav-dropdown-item">BAGIO</a>
+                        <a href="https://developer.bca.co.id/" target="_blank" class="nav-dropdown-item">Developer API BCA</a>
+                    </div>
+                </div>
+                <a href="#" class="nav-link-p ${state.currentPage === 'roi' ? 'active' : ''}" data-page="roi">ROI Calculator</a>
                 <a href="#" class="nav-link-p ${state.currentPage === 'security' ? 'active' : ''}" data-page="security">Artikel</a>
                 <a href="#" class="nav-link-p" id="btn-direct-internal">Pusat Bantuan</a>
             </div>
@@ -1174,10 +1186,20 @@ const PublicNavbar = () => `
                 <span>myEcosystem</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
             </div>
-            <div class="mobile-menu-dropdown-trigger">
+            <div class="mobile-menu-dropdown-trigger" id="mobile-quick-access-btn">
                 <span>Quick Access</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mobile-nav-chevron-down"><path d="m6 9 6 6 6-6"></path></svg>
             </div>
+            <div class="mobile-nav-dropdown-menu" id="mobile-quick-access-menu" style="display: none;">
+                <a href="https://ocean.bca.co.id/id/produk/transaksi/ocean-by-bca/mybca-bisnis" target="_blank" class="mobile-dropdown-item">myBCA Bisnis</a>
+                <a href="https://ibank.klikbca.com/bisnis" target="_blank" class="mobile-dropdown-item">KlikBCA Bisnis</a>
+                <a href="https://www.bca.co.id/id/bisnis/produk/transaksi-bisnis/merchant-bca" target="_blank" class="mobile-dropdown-item">Merchant BCA</a>
+                <a href="https://emp.klikbca.com/bca-emp" target="_blank" class="mobile-dropdown-item">e-Commerce Merchant Portal</a>
+                <a href="https://trade.klikbca.com/" target="_blank" class="mobile-dropdown-item">Client Trade</a>
+                <a href="https://bagio.bca.co.id/" target="_blank" class="mobile-dropdown-item">BAGIO</a>
+                <a href="https://developer.bca.co.id/" target="_blank" class="mobile-dropdown-item">Developer API BCA</a>
+            </div>
+            <a href="#" class="mobile-menu-link ${state.currentPage === 'roi' ? 'active' : ''}" data-page="roi">ROI Calculator</a>
             <a href="#" class="mobile-menu-link ${state.currentPage === 'security' ? 'active' : ''}" data-page="security">Artikel</a>
             <a href="#" class="mobile-menu-link" id="btn-mobile-help">Pusat Bantuan</a>
         </div>
@@ -4140,6 +4162,25 @@ const attachEventListeners = () => {
             render();
         });
     }
+
+    // Mobile Quick Access Dropdown Toggle
+    const mobileQuickAccessBtn = document.getElementById('mobile-quick-access-btn');
+    const mobileQuickAccessMenu = document.getElementById('mobile-quick-access-menu');
+    if (mobileQuickAccessBtn && mobileQuickAccessMenu) {
+        mobileQuickAccessBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const isHidden = mobileQuickAccessMenu.style.display === 'none';
+            mobileQuickAccessMenu.style.display = isHidden ? 'flex' : 'none';
+            // Optionally rotate chevron
+            const chevron = mobileQuickAccessBtn.querySelector('svg');
+            if (chevron) {
+                chevron.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
+                chevron.style.transition = 'transform 0.3s ease';
+            }
+        });
+    }
+
+    // Auth Flows
 
     document.querySelectorAll('.start-module').forEach(btn => {
         btn.addEventListener('click', (e) => {
