@@ -2250,6 +2250,56 @@ const ROICalculatorPage = () => `
     </div>
 `;
 
+const HelpCenterPage = () => `
+    <div class="public-layout fade-in" style="background:#f8fafc; min-height: 100vh;">
+        <div style="background-color: #00213D; background-image: url('https://main.ocean.bca.co.id/images/ocean-help-center-header-logo.svg'); background-size: cover; background-position: center; background-blend-mode: difference; padding: 60px 24px; text-align: center; color: white;">
+            <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 24px; color: white;">Ada yang bisa kami bantu?</h1>
+            <div style="max-width: 800px; margin: 0 auto; position: relative;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="position: absolute; left: 16px; top: 16px; color: #64748b;"><path d="M10.3958 15.2917C13.0997 15.2917 15.2917 13.0997 15.2917 10.3958C15.2917 7.69194 13.0997 5.5 10.3958 5.5C7.69194 5.5 5.5 7.69194 5.5 10.3958C5.5 13.0997 7.69194 15.2917 10.3958 15.2917ZM15.9135 14.5327C16.7789 13.3803 17.2917 11.948 17.2917 10.3958C17.2917 6.58737 14.2043 3.5 10.3958 3.5C6.58737 3.5 3.5 6.58737 3.5 10.3958C3.5 14.2043 6.58737 17.2917 10.3958 17.2917C11.9308 17.2917 13.3486 16.7902 14.4944 15.942L18.2721 19.7198C18.6627 20.1103 19.2958 20.1103 19.6864 19.7198C20.0769 19.3293 20.0769 18.6961 19.6864 18.3056L15.9135 14.5327ZM8.29175 8.9868C8.14054 9.21261 8.02685 9.46103 7.95476 9.72225C7.93307 9.80085 7.90219 9.87698 7.86329 9.94805C7.72252 10.2052 7.47677 10.3958 7.18177 10.3958C6.80524 10.3958 6.49393 10.0883 6.55949 9.71751C6.58084 9.59674 6.60785 9.47728 6.64035 9.35951C6.733 9.0238 6.87031 8.70183 7.04862 8.4024C7.21243 8.12732 7.41085 7.87127 7.64106 7.64106C7.87127 7.41085 8.12732 7.21243 8.4024 7.04862C8.70183 6.87031 9.0238 6.733 9.35952 6.64035C9.47728 6.60785 9.59674 6.58084 9.71751 6.55949C10.0883 6.49393 10.3958 6.80524 10.3958 7.18177C10.3958 7.47677 10.2052 7.72252 9.94805 7.86329C9.87699 7.90219 9.80085 7.93307 9.72225 7.95476C9.46103 8.02685 9.21261 8.14054 8.9868 8.29175C8.85068 8.3829 8.72277 8.48769 8.60523 8.60523C8.48769 8.72277 8.3829 8.85068 8.29175 8.9868Z" fill="currentColor"></path></svg>
+                <input type="text" placeholder="Tulis kata kunci" style="width: 100%; height: 56px; padding: 12px 16px 12px 48px; border-radius: 12px; border: 1px solid #cbd5e1; background: #f1f5f9; outline: none; font-size: 1rem; color: #1e293b; box-shadow: 0 4px 6px rgba(0,0,0,0.05);" />
+            </div>
+        </div>
+
+        <div style="max-width: 1100px; margin: 40px auto; padding: 0 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+            <!-- Card 1 -->
+            <div style="background: white; border-radius: 16px; padding: 32px 24px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='none'">
+                <div style="width: 64px; height: 64px; background: #eff6ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; color: #00A4AD;">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                </div>
+                <h3 style="font-size: 1.1rem; font-weight: 700; color: #0f172a; margin-bottom: 12px;">Kantor Pusat</h3>
+                <p style="color: #64748b; font-size: 0.95rem; line-height: 1.6;">Menara BCA, Grand Indonesia,<br/>Jl. MH Thamrin No. 1<br/>Jakarta 10310</p>
+            </div>
+
+            <!-- Card 2 -->
+            <a href="tel:1500998" style="text-decoration: none; background: white; border-radius: 16px; padding: 32px 24px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; transition: transform 0.3s; display: block;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='none'">
+                <div style="width: 64px; height: 64px; background: #eff6ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; color: #00A4AD;">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                </div>
+                <h3 style="font-size: 1.1rem; font-weight: 700; color: #0f172a; margin-bottom: 12px;">Halo BCA Bisnis</h3>
+                <p style="color: #64748b; font-size: 0.95rem; line-height: 1.6;">1500998</p>
+            </a>
+
+            <!-- Card 3 -->
+            <a href="mailto:halobca@bca.co.id" style="text-decoration: none; background: white; border-radius: 16px; padding: 32px 24px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; transition: transform 0.3s; display: block;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='none'">
+                <div style="width: 64px; height: 64px; background: #eff6ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; color: #00A4AD;">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                </div>
+                <h3 style="font-size: 1.1rem; font-weight: 700; color: #0f172a; margin-bottom: 12px;">Email</h3>
+                <p style="color: #64748b; font-size: 0.95rem; line-height: 1.6;">halobca@bca.co.id</p>
+            </a>
+
+            <!-- Card 4 -->
+            <a href="https://wa.me/628111500998" target="_blank" style="text-decoration: none; background: white; border-radius: 16px; padding: 32px 24px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; transition: transform 0.3s; display: block;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='none'">
+                <div style="width: 64px; height: 64px; background: #eff6ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; color: #00A4AD;">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                </div>
+                <h3 style="font-size: 1.1rem; font-weight: 700; color: #0f172a; margin-bottom: 12px;">Whatsapp</h3>
+                <p style="color: #64748b; font-size: 0.95rem; line-height: 1.6;">62 811 1500 998</p>
+            </a>
+        </div>
+    </div>
+`;
+
 const PRODUCTS = [
     {
         "id": "rekening/edeposito",
@@ -3863,6 +3913,7 @@ const render = () => {
             case 'roi': content = ROICalculatorPage(); break;
             case 'how-it-works': content = HowItWorksPage(); break;
             case 'security': content = SecurityPage(); break;
+            case 'help': content = HelpCenterPage(); break;
             default: content = LandingPage();
         }
 
@@ -4193,8 +4244,8 @@ const attachEventListeners = () => {
         mobileHelpBtn.addEventListener('click', (e) => {
             e.preventDefault();
             mobileDrawer.classList.remove('open');
-            state.viewMode = 'internal';
-            state.currentPage = 'dashboard';
+            state.viewMode = 'public';
+            state.currentPage = 'help';
             render();
         });
     }
@@ -4264,7 +4315,7 @@ const attachEventListeners = () => {
 
     if (adminBtn) adminBtn.addEventListener('click', () => { state.role = 'admin'; state.currentPage = 'ingestion'; render(); });
     if (staffBtn) staffBtn.addEventListener('click', () => { state.role = 'staff'; state.currentPage = 'dashboard'; render(); });
-    if (directInternalBtn) directInternalBtn.addEventListener('click', () => { state.viewMode = 'internal'; state.currentPage = 'dashboard'; render(); });
+    if (directInternalBtn) directInternalBtn.addEventListener('click', () => { state.viewMode = 'public'; state.currentPage = 'help'; render(); });
     if (loginTriggerBtn) loginTriggerBtn.addEventListener('click', () => { state.viewMode = 'auth'; state.authStep = 'login'; render(); });
     if (homeBtn) homeBtn.addEventListener('click', () => { state.viewMode = 'public'; state.currentPage = 'landing'; render(); });
 
