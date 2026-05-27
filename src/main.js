@@ -100,7 +100,45 @@ const state = {
     ragUploadProgress: { step: 0, message: '' },
     ragUploadError: null,
     ragActiveType: 'doc',
-    ragLoaded: false
+    ragLoaded: false,
+    sandboxTab: 'dashboard',
+    sandbox: {
+        totalBalance: 12450000000,
+        incomingToday: 450200000,
+        outgoingToday: 120500000,
+        pendingApprovalCount: 3,
+        transactions: [
+            { date: '26 May 2026', desc: 'Transfer Incoming - PT Retail Jaya', amount: 25000000, type: 'in', status: 'Success' },
+            { date: '26 May 2026', desc: 'Vendor Payment - Logistik Abadi', amount: -12500000, type: 'out', status: 'Success' },
+            { date: '25 May 2026', desc: 'Payroll Disbursement (45 karyawan)', amount: -120000000, type: 'out', status: 'Success' },
+            { date: '25 May 2026', desc: 'VA Collection - INV-2026-0045', amount: 8750000, type: 'in', status: 'Success' },
+            { date: '24 May 2026', desc: 'Auto-Debit Listrik PLN', amount: -4200000, type: 'out', status: 'Pending' }
+        ],
+        invoices: [
+            { id: 'INV-2026-0051', customer: 'PT Retail Jaya', amount: 25000000, due: '30 Jun 2026', status: 'Lunas' },
+            { id: 'INV-2026-0050', customer: 'CV Logistik Abadi', amount: 12500000, due: '15 Jun 2026', status: 'Menunggu' },
+            { id: 'INV-2026-0049', customer: 'PT Mitra Teknologi', amount: 7500000, due: '20 May 2026', status: 'Jatuh Tempo' },
+            { id: 'INV-2026-0048', customer: 'Koperasi Sejahtera', amount: 35000000, due: '10 Jun 2026', status: 'Lunas' },
+            { id: 'INV-2026-0047', customer: 'PT Distribusi Nasional', amount: 18000000, due: '05 Jun 2026', status: 'Menunggu' }
+        ],
+        apiLogs: [
+            { time: '16:20:31', status: 200, method: 'POST', endpoint: '/v1/transfer', duration: '124ms' },
+            { time: '16:20:28', status: 200, method: 'GET', endpoint: '/v1/balance', duration: '89ms' },
+            { time: '16:20:25', status: 200, method: 'POST', endpoint: '/v1/va/create', duration: '156ms' },
+            { time: '16:20:20', status: 202, method: 'POST', endpoint: '/v1/disbursement/batch', duration: '1204ms' },
+            { time: '16:20:15', status: 401, method: 'GET', endpoint: '/v1/statement', duration: '45ms' }
+        ],
+        apiSimulation: {
+            activeEndpoint: 'get-balance',
+            executing: false
+        },
+        integrations: [
+            { id: 'eco-ecommerce', icon: '🏪', name: 'E-Commerce Gateway', desc: 'Shopee, Tokopedia, Lazada', trx: 1240, uptime: '99.8%', apiKey: 'oc_live_8f2d93b827e', active: true },
+            { id: 'eco-erp', icon: '🏢', name: 'ERP Integration (SAP)', desc: 'Auto-Reconciliation Module', trx: 350, uptime: '99.5%', apiKey: 'oc_live_a1c937bb459', active: true },
+            { id: 'eco-mbb', icon: '📱', name: 'Mobile Banking Bridge', desc: 'myBCA Bisnis SDK', trx: 820, uptime: '100%', apiKey: 'oc_live_7e44cd1d3aa', active: true },
+            { id: 'eco-scf', icon: '🔗', name: 'Supply Chain Finance', desc: 'Belum Diaktifkan', trx: 0, uptime: '0%', apiKey: 'oc_live_scf37e44ab', active: false }
+        ]
+    }
 };
 
 // --- Components ---
@@ -1348,6 +1386,149 @@ const LandingPage = () => `
             </div>
         </section>
 
+        <!-- TRY OCEAN NOW (Self-Service Discovery) SECTION -->
+        <section class="try-ocean-section">
+            <div class="try-ocean-header">
+                <h2>Try Ocean Now</h2>
+                <p>Temukan solusi yang tepat untuk bisnis Anda dan eksplorasi integrasi API kami secara instan tanpa perlu login.</p>
+            </div>
+            
+            <div class="try-ocean-grid">
+                <!-- Product Matcher -->
+                <div class="to-card to-matcher card-premium">
+                    <div class="to-card-header">
+                        <span class="to-icon">🎯</span>
+                        <h3>Product Matcher</h3>
+                    </div>
+                    <p class="to-desc">Jawab 3 pertanyaan singkat dan temukan produk Ocean yang paling cocok untuk bisnis Anda.</p>
+                    
+                    <div class="to-matcher-form">
+                        <div class="input-group">
+                            <label>Apa peran Anda di perusahaan?</label>
+                            <select id="to-role-select" class="to-select">
+                                <option value="" disabled selected>Pilih Peran...</option>
+                                <option value="ceo_cfo">CEO / CFO / Pemilik Bisnis</option>
+                                <option value="ops">Manajer Operasional / Finance</option>
+                                <option value="developer">Developer / IT</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Apa industri bisnis Anda?</label>
+                            <select id="to-industry-select" class="to-select">
+                                <option value="" disabled selected>Pilih Industri...</option>
+                                <option value="ecommerce">E-Commerce & Retail</option>
+                                <option value="b2b">B2B & Korporasi</option>
+                                <option value="fintech">Fintech & Layanan Keuangan</option>
+                                <option value="fnb">F&B dan Hospitality</option>
+                                <option value="logistics">Logistik & Distribusi</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Kebutuhan utama Anda?</label>
+                            <select id="to-need-select" class="to-select">
+                                <option value="" disabled selected>Pilih Kebutuhan...</option>
+                                <option value="collection">Penerimaan Pembayaran</option>
+                                <option value="disbursement">Pembayaran & Payroll</option>
+                                <option value="cash_management">Manajemen Kas & Rekening</option>
+                                <option value="financing">Pembiayaan & Kredit</option>
+                                <option value="integration">Integrasi Sistem (API)</option>
+                            </select>
+                        </div>
+                        <button id="btn-match-product" class="btn-primary" style="width:100%; margin-top:0.5rem;">Temukan Solusi</button>
+                    </div>
+                    
+                    <div id="to-match-result" class="to-result hidden">
+                        <div class="match-badge" id="to-match-badge">Rekomendasi untuk CEO/CFO</div>
+                        <div id="to-match-cards"></div>
+                        <button id="btn-go-sandbox" class="btn-primary" style="width:100%; margin-top:1.25rem;">🚀 Coba Langsung di Ocean Sandbox Demo</button>
+                    </div>
+                </div>
+
+                <!-- API Sandbox Simulator -->
+                <div class="to-card to-sandbox card-premium">
+                    <div class="to-card-header">
+                        <span class="to-icon">💻</span>
+                        <h3>API Sandbox Preview</h3>
+                    </div>
+                    <p class="to-desc">Lihat bagaimana mudahnya mengintegrasikan Ocean API ke dalam sistem Anda.</p>
+                    
+                    <div class="api-terminal">
+                        <div class="api-term-header">
+                            <div class="mac-btns"><span class="red"></span><span class="yellow"></span><span class="green"></span></div>
+                            <div class="api-tabs">
+                                <span class="api-tab active">Request (cURL)</span>
+                                <span class="api-tab">Response (JSON)</span>
+                            </div>
+                        </div>
+                        <div class="api-term-body">
+<pre id="api-req-code" class="api-code active"><code>curl -X POST https://sandbox.ocean.bca.co.id/v1/transfer \\
+  -H "Authorization: Bearer YOUR_TOKEN" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "amount": 1000000,
+    "beneficiaryAccount": "1234567890",
+    "currency": "IDR",
+    "remark": "Pembayaran Invoice INV-2025-10"
+  }'</code></pre>
+<pre id="api-res-code" class="api-code hidden"><code>{
+  "status": "SUCCESS",
+  "transactionId": "TRX9988776655",
+  "timestamp": "2026-05-26T14:30:00Z",
+  "data": {
+    "amount": 1000000,
+    "status": "COMPLETED",
+    "receipt": "https://ocean.bca.co.id/receipt/TRX9988776655"
+  }
+}</code></pre>
+                        </div>
+                    </div>
+                    <button id="btn-run-api" class="btn-outline" style="width:100%; margin-top:1rem;">Simulasi Eksekusi API</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- MODAL PENGAJUAN AKSES SANDBOX -->
+        <div id="sandbox-req-modal" class="sb-modal-overlay hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(5px);">
+            <div class="sb-modal-card card-premium" style="background: white; border-radius: 20px; width: 100%; max-width: 500px; padding: 2.5rem; text-align: left; box-shadow: 0 20px 50px rgba(0,0,0,0.15); animation: fadeIn 0.3s ease; box-sizing: border-box;">
+                <h3 style="margin-bottom: 0.5rem; color: var(--bca-blue-dark); font-weight: 800; font-size: 1.4rem;">Pengajuan Akses Sandbox</h3>
+                <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1.5rem; line-height: 1.4;">Silakan lengkapi formulir pendaftaran di bawah ini untuk mengajukan akses khusus ke kunci API simulasi Ocean Sandbox.</p>
+                
+                <div class="sb-req-form" id="sb-req-fields">
+                    <div class="input-group" style="margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.4rem;">
+                        <label style="font-size: 0.8rem; font-weight: 700; color: var(--bca-blue-primary);">Nama Lengkap</label>
+                        <input type="text" id="sb-req-name" class="to-select" placeholder="Masukkan nama lengkap Anda" style="margin-bottom: 0;" required>
+                    </div>
+                    <div class="input-group" style="margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.4rem;">
+                        <label style="font-size: 0.8rem; font-weight: 700; color: var(--bca-blue-primary);">Email Perusahaan</label>
+                        <input type="email" id="sb-req-email" class="to-select" placeholder="Masukkan email korporat/kerja Anda" style="margin-bottom: 0;" required>
+                    </div>
+                    <div class="input-group" style="margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.4rem;">
+                        <label style="font-size: 0.8rem; font-weight: 700; color: var(--bca-blue-primary);">Nama Perusahaan</label>
+                        <input type="text" id="sb-req-company" class="to-select" placeholder="Masukkan nama badan usaha/PT Anda" style="margin-bottom: 0;" required>
+                    </div>
+                    <div class="input-group" style="margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 0.4rem;">
+                        <label style="font-size: 0.8rem; font-weight: 700; color: var(--bca-blue-primary);">Nomor Handphone / WhatsApp</label>
+                        <input type="text" id="sb-req-phone" class="to-select" placeholder="Masukkan nomor handphone aktif" style="margin-bottom: 0;" required>
+                    </div>
+                    
+                    <div class="modal-buttons" style="display: flex; gap: 1rem; justify-content: flex-end;">
+                        <button class="btn-outline" id="btn-sb-req-cancel" style="padding: 0.6rem 1.5rem; border-radius: 50px; border: 1px solid #cbd5e1; font-weight: 700; cursor: pointer; background: transparent;">Batal</button>
+                        <button class="btn-primary" id="btn-sb-req-submit" style="padding: 0.6rem 1.5rem; border-radius: 50px; font-weight: 700; cursor: pointer;">Kirim Pengajuan</button>
+                    </div>
+                </div>
+
+                <div class="sb-req-success hidden" id="sb-req-success-view" style="text-align: center;">
+                    <div style="font-size: 3.5rem; margin-bottom: 1rem; animation: bounce 1s infinite;">📩</div>
+                    <h4 style="color: #16a34a; font-weight: 800; font-size: 1.25rem; margin-bottom: 0.5rem;">Pengajuan Berhasil Dikirim!</h4>
+                    <p style="font-size: 0.85rem; color: #475569; margin-bottom: 1.5rem; line-height: 1.5;">
+                        Terima kasih. Permohonan Anda telah masuk ke sistem kami untuk ditinjau oleh tim Ocean by BCA. <br>
+                        <strong style="color: var(--bca-blue-dark);">Namun untuk kemudahan demo simulasi ini, Anda dapat langsung mengeksplorasi Sandbox sekarang!</strong>
+                    </p>
+                    <button class="btn-primary" id="btn-sb-req-sandbox-direct" style="width: 100%; padding: 0.8rem; border-radius: 50px; font-weight: 700;">Buka Sandbox Demo 🚀</button>
+                </div>
+            </div>
+        </div>
+
         <!-- FITUR UNGGULAN SECTION (Interactive Slideshow) -->
         <section class="fitur-unggulan-section">
             <div class="fitur-unggulan-container">
@@ -1524,72 +1705,446 @@ const LandingPage = () => `
     </div>
 `;
 
-const SandboxPage = () => `
-    <div class="public-layout fade-in">
-        <header class="page-header-p">
-            <h1>Ocean Sandbox Demo</h1>
-            <p>Eksplorasi dashboard interaktif tanpa menggunakan data asli Anda.</p>
+const SandboxPage = () => {
+    const tab = state.sandboxTab;
+
+    // Calculate Invoicing stats dynamically
+    let paidSum = 0;
+    let pendingSum = 0;
+    let overdueSum = 0;
+    state.sandbox.invoices.forEach(inv => {
+        if (inv.status === 'Lunas') paidSum += inv.amount;
+        else if (inv.status === 'Menunggu') pendingSum += inv.amount;
+        else if (inv.status === 'Jatuh Tempo') overdueSum += inv.amount;
+    });
+
+    const totalInv = paidSum + pendingSum + overdueSum;
+    const paidPct = totalInv > 0 ? Math.round((paidSum / totalInv) * 100) : 0;
+    const pendingPct = totalInv > 0 ? Math.round((pendingSum / totalInv) * 100) : 0;
+    const overduePct = totalInv > 0 ? Math.round((overdueSum / totalInv) * 100) : 0;
+
+    const dashboardContent = `
+        <div class="sb-stats">
+            <div class="sb-stat" style="border-left: 4px solid var(--bca-blue-primary);">
+                <label>💵 Total Saldo (5 Rekening)</label>
+                <div class="val">Rp ${state.sandbox.totalBalance.toLocaleString('id-ID')}</div>
+                <span class="trend up">▲ 12% vs bulan lalu</span>
+            </div>
+            <div class="sb-stat" style="border-left: 4px solid #16a34a;">
+                <label>📥 Incoming Today</label>
+                <div class="val" style="color: #16a34a;">Rp ${state.sandbox.incomingToday.toLocaleString('id-ID')}</div>
+                <span class="trend up">▲ 8% vs kemarin</span>
+            </div>
+            <div class="sb-stat" style="border-left: 4px solid #dc2626;">
+                <label>📤 Outgoing Today</label>
+                <div class="val" style="color: #dc2626;">Rp ${state.sandbox.outgoingToday.toLocaleString('id-ID')}</div>
+                <span class="trend down">▼ 3% vs kemarin</span>
+            </div>
+            <div class="sb-stat" style="border-left: 4px solid #d97706;">
+                <label>⚠️ Pending Approval</label>
+                <div class="val sb-val-warning">${state.sandbox.pendingApprovalCount} Transaksi</div>
+                <span class="trend" style="color: #cbd5e1;">Menunggu review</span>
+            </div>
+        </div>
+        
+        <div class="sb-chart-placeholder">
+            <div class="chart-header">
+                <span style="font-weight: 700; color: var(--bca-blue-dark);">Cash Flow Trend (6 Bulan Terakhir)</span>
+                <div class="chart-legend">
+                    <span class="in">Inflow</span>
+                    <span class="out">Outflow</span>
+                </div>
+            </div>
+            <div class="fake-chart-visual">
+                <div class="bar-group">
+                    <div class="bar bar-in" style="height: 40%" data-tooltip="Inflow Jan: Rp 2.4M"></div>
+                    <div class="bar bar-out" style="height: 25%" data-tooltip="Outflow Jan: Rp 1.5M"></div>
+                    <span class="bar-label">Jan</span>
+                </div>
+                <div class="bar-group">
+                    <div class="bar bar-in" style="height: 60%" data-tooltip="Inflow Feb: Rp 3.6M"></div>
+                    <div class="bar bar-out" style="height: 35%" data-tooltip="Outflow Feb: Rp 2.1M"></div>
+                    <span class="bar-label">Feb</span>
+                </div>
+                <div class="bar-group">
+                    <div class="bar bar-in" style="height: 45%" data-tooltip="Inflow Mar: Rp 2.7M"></div>
+                    <div class="bar bar-out" style="height: 30%" data-tooltip="Outflow Mar: Rp 1.8M"></div>
+                    <span class="bar-label">Mar</span>
+                </div>
+                <div class="bar-group">
+                    <div class="bar bar-in" style="height: 80%" data-tooltip="Inflow Apr: Rp 4.8M"></div>
+                    <div class="bar bar-out" style="height: 50%" data-tooltip="Outflow Apr: Rp 3.0M"></div>
+                    <span class="bar-label">Apr</span>
+                </div>
+                <div class="bar-group">
+                    <div class="bar bar-in" style="height: 55%" data-tooltip="Inflow Mei: Rp 3.3M"></div>
+                    <div class="bar bar-out" style="height: 40%" data-tooltip="Outflow Mei: Rp 2.4M"></div>
+                    <span class="bar-label">Mei</span>
+                </div>
+                <div class="bar-group">
+                    <div class="bar bar-in" style="height: 90%" data-tooltip="Inflow Jun: Rp 5.4M"></div>
+                    <div class="bar bar-out" style="height: 45%" data-tooltip="Outflow Jun: Rp 2.7M"></div>
+                    <span class="bar-label">Jun</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="sb-recent">
+            <h4 style="color: var(--bca-blue-dark); font-weight:700; margin-bottom:1rem;">Transaksi Terbaru</h4>
+            <table class="sb-table">
+                <thead>
+                    <tr><th>Tanggal</th><th>Deskripsi</th><th>Nominal</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                    ${state.sandbox.transactions.map(t => {
+                        const isOut = t.amount < 0;
+                        const amountStr = (isOut ? '- ' : '+ ') + 'Rp ' + Math.abs(t.amount).toLocaleString('id-ID');
+                        const classAmount = isOut ? 'sb-amount-out' : 'sb-amount-in';
+                        const classTag = t.status === 'Success' ? 'tag-s' : (t.status === 'Pending' ? 'tag-pending' : 'tag-overdue');
+                        return `
+                            <tr>
+                                <td>${t.date}</td>
+                                <td>${t.desc}</td>
+                                <td class="${classAmount}">${amountStr}</td>
+                                <td><span class="${classTag}">${t.status}</span></td>
+                            </tr>
+                        `;
+                    }).join('')}
+                </tbody>
+            </table>
+        </div>
+    `;
+
+    const analyticsContent = `
+        <div class="sb-analytics-header">
+            <h3 style="color: var(--bca-blue-dark); font-weight:700;">📊 Business Analytics Dashboard</h3>
+            <div class="sb-filter-row">
+                <select id="sb-analytics-period" class="branch-filter">
+                    <option value="monthly" selected>Bulanan</option>
+                    <option value="weekly">Mingguan</option>
+                    <option value="daily">Harian</option>
+                </select>
+                <select id="sb-analytics-account" class="branch-filter">
+                    <option value="all" selected>Semua Rekening</option>
+                    <option value="giro">Giro Utama</option>
+                    <option value="va">Virtual Account</option>
+                </select>
+            </div>
+        </div>
+        <div class="sb-analytics-grid">
+            <div class="sb-metric-card">
+                <div class="sb-metric-icon" style="background:#eff6ff;color:#1d4ed8;">📈</div>
+                <div class="sb-metric-info">
+                    <label>Total Volume Transaksi</label>
+                    <div class="val">1.245</div>
+                    <span class="trend up">▲ 18% dari periode sebelumnya</span>
+                </div>
+            </div>
+            <div class="sb-metric-card">
+                <div class="sb-metric-icon" style="background:#f0fdf4;color:#16a34a;">💰</div>
+                <div class="sb-metric-info">
+                    <label>Rata-Rata Nilai Transaksi</label>
+                    <div class="val">Rp 15.200.000</div>
+                    <span class="trend up">▲ 5% dari periode sebelumnya</span>
+                </div>
+            </div>
+            <div class="sb-metric-card">
+                <div class="sb-metric-icon" style="background:#fef3c7;color:#d97706;">⏱️</div>
+                <div class="sb-metric-info">
+                    <label>Waktu Settlement Rata-Rata</label>
+                    <div class="val">2.3 Detik</div>
+                    <span class="trend up">▲ 40% lebih cepat</span>
+                </div>
+            </div>
+            <div class="sb-metric-card">
+                <div class="sb-metric-icon" style="background:#fdf2f8;color:#db2777;">🔄</div>
+                <div class="sb-metric-info">
+                    <label>Tingkat Rekonsiliasi Otomatis</label>
+                    <div class="val">98.7%</div>
+                    <span class="trend up">Match rate sangat tinggi</span>
+                </div>
+            </div>
+        </div>
+        <div class="sb-chart-placeholder" style="margin-top:1.5rem;">
+            <div class="chart-header">
+                <span style="font-weight: 700; color: var(--bca-blue-dark);">Tren Volume Transaksi per Kategori</span>
+                <div class="chart-legend">
+                    <span class="in">Collection</span>
+                    <span class="out">Disbursement</span>
+                </div>
+            </div>
+            <div class="fake-chart-visual">
+                <div class="bar-group">
+                    <div class="bar bar-in" style="height: 55%" data-tooltip="Collection W1: 550 Trx"></div>
+                    <div class="bar bar-out" style="height: 30%" data-tooltip="Disbursement W1: 300 Trx"></div>
+                    <span class="bar-label">W1</span>
+                </div>
+                <div class="bar-group">
+                    <div class="bar bar-in" style="height: 70%" data-tooltip="Collection W2: 700 Trx"></div>
+                    <div class="bar bar-out" style="height: 45%" data-tooltip="Disbursement W2: 450 Trx"></div>
+                    <span class="bar-label">W2</span>
+                </div>
+                <div class="bar-group">
+                    <div class="bar bar-in" style="height: 65%" data-tooltip="Collection W3: 650 Trx"></div>
+                    <div class="bar bar-out" style="height: 50%" data-tooltip="Disbursement W3: 500 Trx"></div>
+                    <span class="bar-label">W3</span>
+                </div>
+                <div class="bar-group">
+                    <div class="bar bar-in" style="height: 85%" data-tooltip="Collection W4: 850 Trx"></div>
+                    <div class="bar bar-out" style="height: 40%" data-tooltip="Disbursement W4: 400 Trx"></div>
+                    <span class="bar-label">W4</span>
+                </div>
+            </div>
+        </div>
+        <div class="sb-top-counterparties">
+            <h4 style="color: var(--bca-blue-dark); font-weight:700; margin-bottom:1rem;">Top 5 Counterparty (Berdasarkan Volume)</h4>
+            <table class="sb-table">
+                <thead><tr><th>#</th><th>Nama Perusahaan</th><th>Jumlah Trx</th><th>Total Volume</th><th>Tren</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>PT Retail Jaya Sentosa</td><td>124</td><td>Rp 3.2 Milyar</td><td><span class="trend up">▲ 22%</span></td></tr>
+                    <tr><td>2</td><td>CV Logistik Abadi</td><td>98</td><td>Rp 2.1 Milyar</td><td><span class="trend up">▲ 15%</span></td></tr>
+                    <tr><td>3</td><td>PT Mitra Teknologi</td><td>76</td><td>Rp 1.8 Milyar</td><td><span class="trend down">▼ 3%</span></td></tr>
+                    <tr><td>4</td><td>Koperasi Sejahtera</td><td>65</td><td>Rp 980 Juta</td><td><span class="trend up">▲ 8%</span></td></tr>
+                    <tr><td>5</td><td>PT Distribusi Nasional</td><td>52</td><td>Rp 750 Juta</td><td><span class="trend up">▲ 31%</span></td></tr>
+                </tbody>
+            </table>
+        </div>
+    `;
+
+    const invoicingContent = `
+        <div class="sb-invoicing-header">
+            <h3 style="color: var(--bca-blue-dark); font-weight:700;">📑 Invoice & Collection Manager</h3>
+            <button id="btn-sb-create-invoice" class="btn-primary">+ Buat Invoice Baru</button>
+        </div>
+        <div class="sb-invoice-stats">
+            <div class="sb-inv-stat" style="border-top: 4px solid #16a34a;">
+                <div class="sb-inv-stat-val" style="color:#16a34a;">Rp ${paidSum.toLocaleString('id-ID')}</div>
+                <div class="sb-inv-stat-label">Sudah Dibayar</div>
+                <div class="sb-inv-stat-bar"><div style="width:${paidPct}%; background:#16a34a;"></div></div>
+            </div>
+            <div class="sb-inv-stat" style="border-top: 4px solid #d97706;">
+                <div class="sb-inv-stat-val" style="color:#d97706;">Rp ${pendingSum.toLocaleString('id-ID')}</div>
+                <div class="sb-inv-stat-label">Menunggu Pembayaran</div>
+                <div class="sb-inv-stat-bar"><div style="width:${pendingPct}%; background:#d97706;"></div></div>
+            </div>
+            <div class="sb-inv-stat" style="border-top: 4px solid #dc2626;">
+                <div class="sb-inv-stat-val" style="color:#dc2626;">Rp ${overdueSum.toLocaleString('id-ID')}</div>
+                <div class="sb-inv-stat-label">Jatuh Tempo</div>
+                <div class="sb-inv-stat-bar"><div style="width:${overduePct}%; background:#dc2626;"></div></div>
+            </div>
+        </div>
+        
+        <div id="sb-invoice-form" class="sb-invoice-form hidden">
+            <h4 style="color: var(--bca-blue-dark); font-weight:700; margin-bottom:1rem;">Buat Invoice Baru (Demo)</h4>
+            <div class="sb-inv-form-grid">
+                <div class="input-group" style="display:flex; flex-direction:column; gap:0.4rem; margin-bottom:0.75rem;">
+                    <label style="font-weight:700; font-size:0.8rem; color:var(--bca-blue-primary);">Nama Pelanggan</label>
+                    <input type="text" id="sb-inv-customer" placeholder="PT Contoh Perusahaan" class="to-select" style="margin-bottom:0;">
+                </div>
+                <div class="input-group" style="display:flex; flex-direction:column; gap:0.4rem; margin-bottom:0.75rem;">
+                    <label style="font-weight:700; font-size:0.8rem; color:var(--bca-blue-primary);">Nominal (Rp)</label>
+                    <input type="number" id="sb-inv-amount" placeholder="10000000" class="to-select" style="margin-bottom:0;">
+                </div>
+                <div class="input-group" style="display:flex; flex-direction:column; gap:0.4rem; margin-bottom:0.75rem;">
+                    <label style="font-weight:700; font-size:0.8rem; color:var(--bca-blue-primary);">Jatuh Tempo</label>
+                    <input type="date" id="sb-inv-due" class="to-select" style="margin-bottom:0;">
+                </div>
+                <div class="input-group" style="display:flex; flex-direction:column; gap:0.4rem; margin-bottom:0.75rem;">
+                    <label style="font-weight:700; font-size:0.8rem; color:var(--bca-blue-primary);">Metode Pembayaran</label>
+                    <select id="sb-inv-method" class="to-select" style="margin-bottom:0;">
+                        <option value="va">Virtual Account</option>
+                        <option value="transfer">Transfer Manual</option>
+                        <option value="qris">QRIS</option>
+                    </select>
+                </div>
+            </div>
+            <div style="display:flex; gap:1rem; justify-content:flex-end; margin-top:1.25rem;">
+                <button id="btn-sb-cancel-invoice" class="btn-outline" style="border:1px solid #cbd5e1; padding:0.6rem 1.5rem; border-radius:50px; font-weight:700;">Batal</button>
+                <button id="btn-sb-submit-invoice" class="btn-primary" style="padding:0.6rem 1.5rem; border-radius:50px; font-weight:700;">Kirim Invoice</button>
+            </div>
+        </div>
+
+        <div class="sb-recent" style="margin-top:1.5rem;">
+            <h4 style="color: var(--bca-blue-dark); font-weight:700; margin-bottom:1rem;">Daftar Invoice</h4>
+            <table class="sb-table">
+                <thead><tr><th>No. Invoice</th><th>Pelanggan</th><th>Nominal</th><th>Jatuh Tempo</th><th>Status</th><th>Aksi</th></tr></thead>
+                <tbody id="sb-invoice-table-body">
+                    ${state.sandbox.invoices.map(inv => {
+                        const classTag = inv.status === 'Lunas' ? 'tag-s' : (inv.status === 'Menunggu' ? 'tag-pending' : 'tag-overdue');
+                        const isPending = inv.status === 'Menunggu' || inv.status === 'Jatuh Tempo';
+                        const actionBtn = isPending 
+                            ? `<button class="sb-btn-sm sb-btn-pay" data-inv-id="${inv.id}" style="background:#16a34a; color:white; border:none; border-radius:6px; font-weight:700; cursor:pointer;">Bayar</button>
+                               <button class="sb-btn-sm sb-btn-remind" data-inv-id="${inv.id}" style="margin-left:4px; cursor:pointer;">Ingatkan</button>`
+                            : `<button class="sb-btn-sm" style="opacity:0.5; cursor:not-allowed;" disabled>Lunas</button>`;
+                        return `
+                            <tr>
+                                <td>${inv.id}</td>
+                                <td>${inv.customer}</td>
+                                <td style="font-weight: 700;">Rp ${inv.amount.toLocaleString('id-ID')}</td>
+                                <td>${inv.due}</td>
+                                <td><span class="${classTag}">${inv.status}</span></td>
+                                <td>${actionBtn}</td>
+                            </tr>
+                        `;
+                    }).join('')}
+                </tbody>
+            </table>
+        </div>
+    `;
+
+    const activeSimulation = state.sandbox.apiSimulation;
+    let simulatedReqPayload = '';
+    let simulatedResPayload = 'Klik "Kirim Request" untuk memulai.';
+    
+    if (activeSimulation.activeEndpoint === 'get-balance') {
+        simulatedReqPayload = `GET /v1/balance HTTP/1.1\nHost: api.ocean.bca.co.id\nAuthorization: Bearer oc_live_***8f2d\nAccept: application/json`;
+        if (activeSimulation.response) {
+            simulatedResPayload = JSON.stringify(activeSimulation.response, null, 2);
+        }
+    } else if (activeSimulation.activeEndpoint === 'create-va') {
+        simulatedReqPayload = `POST /v1/va/create HTTP/1.1\nHost: api.ocean.bca.co.id\nContent-Type: application/json\nAuthorization: Bearer oc_live_***8f2d\n\n{\n  "amount": 15000000,\n  "customer_name": "PT Cipta Karya",\n  "due_date": "2026-06-30",\n  "description": "Invoice Pembayaran"\n}`;
+        if (activeSimulation.response) {
+            simulatedResPayload = JSON.stringify(activeSimulation.response, null, 2);
+        }
+    } else if (activeSimulation.activeEndpoint === 'transfer') {
+        simulatedReqPayload = `POST /v1/transfer HTTP/1.1\nHost: api.ocean.bca.co.id\nContent-Type: application/json\nAuthorization: Bearer oc_live_***8f2d\n\n{\n  "beneficiary_account": "0123456789",\n  "amount": 25000000,\n  "remark": "Disbursement Gaji"\n}`;
+        if (activeSimulation.response) {
+            simulatedResPayload = JSON.stringify(activeSimulation.response, null, 2);
+        }
+    }
+
+    const ecosystemContent = `
+        <div class="sb-eco-header">
+            <h3 style="color: var(--bca-blue-dark); font-weight:700;">🤝 Ecosystem & API Integration</h3>
+            <p class="sb-eco-subtitle">Pantau semua koneksi API dan partner yang terintegrasi dengan Ocean secara real-time.</p>
+        </div>
+        <div class="sb-eco-grid">
+            ${state.sandbox.integrations.map(item => {
+                const activeClass = item.active ? '' : 'sb-eco-inactive';
+                const statusClass = item.active ? 'sb-eco-active' : '';
+                const btnLabel = item.active ? 'Deaktifkan' : 'Aktifkan Sekarang';
+                const btnClass = item.active ? 'btn-outline sb-btn-deactivate' : 'btn-primary sb-btn-activate';
+                return `
+                    <div class="sb-eco-card ${activeClass}" id="card-${item.id}">
+                        <div class="sb-eco-status ${statusClass}"></div>
+                        <div class="sb-eco-icon">${item.icon}</div>
+                        <h4 style="color: var(--bca-blue-dark); font-weight:700;">${item.name}</h4>
+                        <p>${item.desc}</p>
+                        <div class="sb-eco-stats-row">
+                            <div><span class="sb-eco-num">${item.active ? item.trx.toLocaleString('id-ID') : '-'}</span><br><small>Trx/Hari</small></div>
+                            <div><span class="sb-eco-num">${item.active ? item.uptime : '-'}</span><br><small>Uptime</small></div>
+                        </div>
+                        <div class="sb-eco-api-key" style="display:flex; justify-content:space-between; align-items:center; background:#f8fafc; border:1px solid #e2e8f0;">
+                            <span style="font-size:0.7rem; font-family:monospace; color:#475569;">Key: <code>${item.apiKey.substring(0, 10)}...</code></span>
+                            <button class="sb-copy-btn" data-key="${item.apiKey}" style="background:transparent; border:none; cursor:pointer; font-size:0.85rem; padding:0; display:flex; align-items:center;" title="Salin API Key">📋</button>
+                        </div>
+                        <button class="${btnClass}" data-eco-id="${item.id}" style="width:100%; margin-top:0.75rem; font-size:0.8rem; padding:0.4rem 0.8rem; border-radius:50px; font-weight:700;">${btnLabel}</button>
+                    </div>
+                `;
+            }).join('')}
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.5rem; margin-top: 2rem; align-items: flex-start;">
+            <div class="sb-eco-logs">
+                <h4 style="color: var(--bca-blue-dark); font-weight:700; margin-bottom:1rem; display:flex; align-items:center; gap:8px;">
+                    <span>📊 API Call Logs (Live Traffic)</span>
+                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#22c55e; animation: pulse 1.5s infinite;"></span>
+                </h4>
+                <div class="sb-log-list" id="sb-log-list">
+                    ${state.sandbox.apiLogs.map(log => {
+                        const statusColorClass = (log.status >= 200 && log.status < 300) ? 'status-200' : 'status-401';
+                        const methodClass = log.method.toLowerCase();
+                        return `
+                            <div class="sb-log-entry" style="border-bottom:1px solid #1e293b; padding:10px 0;">
+                                <span class="sb-log-time" style="color: #64748b; font-family:'Fira Code',monospace;">${log.time}</span>
+                                <span class="sb-log-method ${methodClass}">${log.method}</span>
+                                <span class="sb-log-status ${statusColorClass}">${log.status}</span>
+                                <code style="color:#e2e8f0; font-family:'Fira Code',monospace; flex:1; overflow-x:auto;">${log.endpoint}</code>
+                                <span class="sb-log-dur" style="color:#64748b;">${log.duration}</span>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            </div>
+            
+            <div class="sb-api-client card-premium" style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 1.5rem; color: #e2e8f0;">
+                <h4 style="margin-top:0; margin-bottom:0.75rem; color: #38bdf8; display:flex; align-items:center; gap:8px; font-size:1rem; font-weight:800;">
+                    <span>💻 Interactive API Request Console</span>
+                </h4>
+                <p style="font-size:0.75rem; color:#94a3b8; margin-bottom:1.25rem; line-height:1.4; text-align:left;">Pilih salah satu endpoint untuk mensimulasikan panggilan API Ocean secara langsung dan lihat hasilnya.</p>
+                
+                <div style="display:flex; gap:0.5rem; margin-bottom:1.25rem;">
+                    <select id="sb-api-endpoint" class="to-select" style="margin-bottom:0; background:#1e293b; color:white; border-color:#334155; font-size:0.85rem; padding:0.5rem; flex:1; outline:none;">
+                        <option value="get-balance" ${activeSimulation.activeEndpoint === 'get-balance' ? 'selected' : ''}>GET /v1/balance (Cek Saldo)</option>
+                        <option value="create-va" ${activeSimulation.activeEndpoint === 'create-va' ? 'selected' : ''}>POST /v1/va/create (Buat VA)</option>
+                        <option value="transfer" ${activeSimulation.activeEndpoint === 'transfer' ? 'selected' : ''}>POST /v1/transfer (Disbursement)</option>
+                    </select>
+                    <button id="btn-sb-send-api" class="btn-primary" style="padding:0 1.25rem; font-size:0.85rem; white-space:nowrap; border-radius:8px; font-weight:700; ${activeSimulation.executing ? 'background:#64748b; cursor:not-allowed;' : ''}" ${activeSimulation.executing ? 'disabled' : ''}>
+                        ${activeSimulation.executing ? 'Mengirim...' : 'Kirim Request'}
+                    </button>
+                </div>
+                
+                <div style="display:grid; grid-template-columns: 1fr; gap:1.25rem;">
+                    <div>
+                        <div style="font-size:0.7rem; color:#94a3b8; text-transform:uppercase; font-weight:700; margin-bottom:0.35rem; text-align:left;">Request Headers & Payload</div>
+                        <pre id="sb-api-req-payload" style="background:#1e293b; padding:0.75rem; border-radius:8px; margin:0; font-family:'Fira Code',monospace; font-size:0.7rem; overflow-x:auto; height:110px; border:1px solid #334155; color:#cbd5e1; text-align:left; white-space:pre; border-left:3px solid #38bdf8;">${simulatedReqPayload}</pre>
+                    </div>
+                    <div>
+                        <div style="font-size:0.7rem; color:#94a3b8; text-transform:uppercase; font-weight:700; margin-bottom:0.35rem; text-align:left;">Response (Simulasi JSON)</div>
+                        <pre id="sb-api-res-payload" style="background:#1e293b; padding:0.75rem; border-radius:8px; margin:0; font-family:'Fira Code',monospace; font-size:0.7rem; overflow-x:auto; height:120px; border:1px solid #334155; color:#a7f3d0; text-align:left; white-space:pre; border-left:3px solid #34d399;">${simulatedResPayload}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    const contents = { dashboard: dashboardContent, analytics: analyticsContent, invoicing: invoicingContent, ecosystem: ecosystemContent };
+    const menuLabels = { dashboard: '🏠 Dashboard', analytics: '📊 Analytics', invoicing: '📑 Invoicing', ecosystem: '🤝 Ecosystem' };
+
+    return `
+    <div class="public-layout fade-in" style="max-width:1200px; margin:0 auto; padding:2rem 1.5rem;">
+        <header class="page-header-p" style="margin-bottom:2rem; text-align:left; border-bottom: 2px solid #e2e8f0; padding-bottom: 1.5rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h1 style="color: var(--bca-blue-dark); font-weight:800; font-size:2rem; margin-bottom:0.5rem;">Ocean Sandbox Demo</h1>
+                    <p style="color:#64748b; font-size:0.95rem; margin:0;">Eksplorasi dashboard interaktif dan simulasi API tanpa menggunakan data asli Anda.</p>
+                </div>
+                <div style="background:#dcfce7; border:1px solid #bbf7d0; color:#15803d; padding:0.5rem 1rem; border-radius:50px; font-size:0.78rem; font-weight:700; display:flex; align-items:center; gap:8px;">
+                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#22c55e; animation: pulse 1.5s infinite;"></span>
+                    Sandbox Connected
+                </div>
+            </div>
         </header>
 
-        <div class="sandbox-container card-premium">
-            <aside class="sandbox-sidebar">
-                <div class="sb-menu active">🏠 Dashboard</div>
-                <div class="sb-menu">📊 Analytics</div>
-                <div class="sb-menu">📑 Invoicing</div>
-                <div class="sb-menu">🤝 Ecosystem</div>
-            </aside>
-            <main class="sandbox-main">
-                <div class="sb-stats">
-                    <div class="sb-stat">
-                        <label>Total Saldo (5 Rekening)</label>
-                        <div class="val">Rp 12.450.000.000</div>
-                        <span class="trend up">▲ 12% vs bulan lalu</span>
-                    </div>
-                    <div class="sb-stat">
-                        <label>Incoming Today</label>
-                        <div class="val">Rp 450.200.000</div>
-                    </div>
-                </div>
-                <div class="sb-chart-placeholder">
-                    <div class="chart-header">
-                        <span>Cash Flow Trend</span>
-                        <div class="chart-legend">
-                            <span class="in">Inflow</span>
-                            <span class="out">Outflow</span>
+        <div class="sandbox-container card-premium" style="background:white; border-radius:16px; border:1px solid #e2e8f0; box-shadow:var(--shadow-premium);">
+            <aside class="sandbox-sidebar" style="border-right:1px solid #e2e8f0; background:#f8fafc; padding:2rem 1.25rem;">
+                <div style="display:flex; flex-direction:column; gap:0.25rem; flex:1;">
+                    ${Object.keys(menuLabels).map(key => `
+                        <div class="sb-menu ${tab === key ? 'active' : ''}" data-sb-tab="${key}" style="padding:12px 16px; border-radius:8px; font-weight:700; font-size:0.9rem; color:#64748b; cursor:pointer; display:flex; align-items:center; gap:10px; transition:all 0.2s;">
+                            ${menuLabels[key]}
                         </div>
-                    </div>
-                    <div class="fake-chart-visual">
-                        <div class="bar" style="height: 40%"></div>
-                        <div class="bar" style="height: 60%"></div>
-                        <div class="bar" style="height: 45%"></div>
-                        <div class="bar" style="height: 80%"></div>
-                        <div class="bar" style="height: 55%"></div>
-                        <div class="bar" style="height: 90%"></div>
-                        <div class="bar" style="height: 75%"></div>
-                    </div>
+                    `).join('')}
                 </div>
-                <div class="sb-recent">
-                    <h4>Transaksi Terbaru (Dummy Data)</h4>
-                    <table class="sb-table">
-                        <thead>
-                            <tr><th>Tanggal</th><th>Deskripsi</th><th>Nominal</th><th>Status</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>02 May 2026</td><td>Transfer Incoming - PT Retail Jaya</td><td>Rp 25.000.000</td><td><span class="tag-s">Success</span></td></tr>
-                            <tr><td>02 May 2026</td><td>Vendor Payment - Logistik Abadi</td><td>Rp 12.500.000</td><td><span class="tag-s">Success</span></td></tr>
-                            <tr><td>01 May 2026</td><td>Payroll Disbursement</td><td>Rp 120.000.000</td><td><span class="tag-s">Success</span></td></tr>
-                        </tbody>
-                    </table>
+                <div class="sb-sidebar-divider" style="height:1px; background:#e2e8f0; margin:1.5rem 0;"></div>
+                <div class="sb-sidebar-info" style="background: white; border: 1px solid #e2e8f0; padding: 1rem; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                    <div class="sb-sidebar-label" style="font-size:0.65rem; color:#94a3b8; font-weight:800; letter-spacing:1px; margin-bottom:0.35rem;">COMPANY ACCOUNT</div>
+                    <div class="sb-sidebar-company" style="font-weight:800; font-size:0.85rem; color:var(--bca-blue-dark);">${state.corporateId ? state.corporateId : 'PT Demo Sejahtera'}</div>
+                    <div class="sb-sidebar-id" style="font-size:0.7rem; color:#94a3b8; margin-top:0.25rem;">ID: OCN-DEMO-2026</div>
                 </div>
+            </aside>
+            <main class="sandbox-main" style="padding:2.5rem; background:#ffffff;">
+                ${contents[tab] || contents.dashboard}
             </main>
         </div>
         
-        <div class="sandbox-footer">
-            <p>Puas dengan simulasinya? Hubungi RO kami untuk implementasi nyata.</p>
-            <button class="btn-primary btn-lg">Tinggalkan Kontak</button>
+        <div class="sandbox-footer" style="margin-top:2.5rem; text-align:center; background:linear-gradient(135deg, var(--bca-blue-dark), var(--bca-blue-primary)); color:white; padding:3.5rem 2rem; border-radius:16px; box-shadow:var(--shadow-premium);">
+            <h2 style="font-weight:800; font-size:1.6rem; margin-bottom:0.75rem;">Ingin Menggunakan Solusi Asli untuk Bisnis Anda?</h2>
+            <p style="font-size:0.95rem; color:#bfdbfe; margin-bottom:2rem; max-width:600px; margin-left:auto; margin-right:auto;">Hubungi Relationship Officer kami untuk mendiskusikan integrasi nyata dengan rekening korporasi BCA Anda.</p>
+            <button class="btn-primary btn-lg" id="btn-sb-contact" style="background:#00a4ad; color:white; border:none; padding:0.8rem 2.5rem; border-radius:50px; font-weight:700; cursor:pointer; font-size:1rem; box-shadow:0 10px 20px rgba(0, 164, 173, 0.3);">Tinggalkan Kontak / Hubungi Kami</button>
         </div>
     </div>
-`;
+    `;
+};
 
 const ROICalculatorPage = () => `
     <div class="public-layout fade-in">
@@ -1639,131 +2194,1042 @@ const ROICalculatorPage = () => `
 
 const PRODUCTS = [
     {
-        id: 'mybca-bisnis',
-        name: 'myBCA Bisnis',
-        subtitle: 'Kelola Keuangan Bisnis',
-        category: 'Rekening',
-        sectors: ['Umum', 'Logistik', 'Institusi Finansial', 'Kesehatan', 'Lainnya'],
-        desc: 'Satu platform perbankan digital untuk memantau saldo, mutasi, dan transaksi bisnis Anda kapan saja secara real-time.',
-        icon: '/images/mbb-icon-quick.svg',
-        link: 'https://ocean.bca.co.id/id/produk/transaksi/ocean-by-bca/mybca-bisnis'
+        "id": "rekening/edeposito",
+        "name": "e-Deposito",
+        "subtitle": "Simpanan berjangka yang mudah dan fleksibel",
+        "category": "Rekening",
+        "sectors": [
+            "Umum",
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Kesehatan",
+            "Logistik",
+            "Manufaktur",
+            "Migas",
+            "Multifinance",
+            "Otomotif dan Transportasi",
+            "Pariwisata dan Perhotelan",
+            "Pendidikan",
+            "Perdagangan",
+            "Properti"
+        ],
+        "desc": "Deposito Rupiah yang dapat dibuka nasabah melalui KlikBCA Bisnis (KBB)",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/01438506-7542-4444-80CB-719E2A5E0520/Logo/asuransi-savings.svg",
+        "link": "https://ocean.bca.co.id/id/produk/rekening/edeposito"
     },
     {
-        id: 'edc-bca',
-        name: 'EDC BCA',
-        subtitle: 'Menerima Pembayaran Kartu',
-        category: 'Transaksi',
-        sectors: ['Umum', 'Fashion & Beauty', 'Food & Beverages', 'Lainnya'],
-        desc: 'Satu mesin EDC untuk menerima pembayaran Kartu Debit, Kredit (BCA, Visa, Mastercard, JCB, Amex), Flazz, dan QRIS.',
-        icon: '/images/e-commerce-merchant-portal.svg',
-        link: 'https://ocean.bca.co.id/id/produk/transaksi/edc-bca'
+        "id": "rekening/deposito-berjangka",
+        "name": "Deposito Berjangka",
+        "subtitle": "Pengelolaan dana minim risiko dengan return yang pasti",
+        "category": "Rekening",
+        "sectors": [
+            "Umum",
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Kesehatan",
+            "Logistik",
+            "Manufaktur",
+            "Migas",
+            "Multifinance",
+            "Otomotif dan Transportasi",
+            "Pariwisata dan Perhotelan",
+            "Pendidikan",
+            "Perdagangan",
+            "Properti"
+        ],
+        "desc": "Deposito dengan berbagai pilihan mata uang dan jangka waktu",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/22C86F77-871C-4ED0-B07D-99B15EF01BEA/Logo/asuransi-savings.svg",
+        "link": "https://ocean.bca.co.id/id/produk/rekening/deposito-berjangka"
     },
     {
-        id: 'qris-bca',
-        name: 'QRIS BCA',
-        subtitle: 'Satu QR untuk Semua E-Wallet',
-        category: 'Transaksi',
-        sectors: ['Umum', 'Fashion & Beauty', 'Food & Beverages', 'Lainnya'],
-        desc: 'Terima pembayaran digital secara praktis dan real-time menggunakan satu kode QR standar nasional untuk semua e-wallet.',
-        icon: '/images/e-commerce-merchant-portal.svg',
-        link: 'https://ocean.bca.co.id/id/produk/transaksi/qris-bisnis'
+        "id": "rekening/giro",
+        "name": "Giro",
+        "subtitle": "Dana perusahaan disimpan dengan aman",
+        "category": "Rekening",
+        "sectors": [
+            "Umum",
+            "Asuransi",
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Kesehatan",
+            "Logistik",
+            "Manufaktur",
+            "Migas",
+            "Multifinance",
+            "Otomotif dan Transportasi",
+            "Pariwisata dan Perhotelan",
+            "Pendidikan",
+            "Perdagangan",
+            "Perusahaan Efek",
+            "Properti"
+        ],
+        "desc": "Apply Giro untuk tingkatkan produktivitas transaksi jual beli dengan aman",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/AB2A53C7-8C95-4EB9-BE7E-1705198CFF30/Logo/icon-giro.svg",
+        "link": "https://ocean.bca.co.id/id/produk/rekening/giro"
     },
     {
-        id: 'virtual-account',
-        name: 'Virtual Account',
-        subtitle: 'Identifikasi Pembayaran Otomatis',
-        category: 'Transaksi',
-        sectors: ['Umum', 'Logistik', 'Kesehatan', 'Lainnya'],
-        desc: 'Identifikasi pembayaran dari setiap pelanggan secara cepat dan akurat tanpa perlu konfirmasi pembayaran manual.',
-        icon: '/images/klikbcabisnis.svg',
-        link: 'https://ocean.bca.co.id/id/produk/transaksi/virtual-account'
+        "id": "rekening/tahapan-gold",
+        "name": "Tahapan Gold",
+        "subtitle": "Pantau transaksi secara rinci",
+        "category": "Rekening",
+        "sectors": [
+            "Umum",
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Kesehatan",
+            "Logistik",
+            "Manufaktur",
+            "Otomotif dan Transportasi",
+            "Pariwisata dan Perhotelan",
+            "Pendidikan",
+            "Perdagangan"
+        ],
+        "desc": "Rekening khusus bisnis dengan fitur detail mutasi dari Tahapan Gold",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/E3BFCE4C-6D47-449D-B1C0-13C730F097C9/Logo/tahaka.svg",
+        "link": "https://ocean.bca.co.id/id/produk/rekening/tahapan-gold"
     },
     {
-        id: 'e-deposito',
-        name: 'e-Deposito',
-        subtitle: 'Investasi Dana Efisien',
-        category: 'Investasi',
-        sectors: ['Umum', 'Institusi Finansial'],
-        desc: 'Penempatan deposito berjangka secara online di myBCA Bisnis dengan opsi perpanjangan otomatis dan bunga bersaing.',
-        icon: '/images/mbb-icon-quick.svg',
-        link: 'https://ocean.bca.co.id/id/produk/rekening/e-deposito'
+        "id": "transaksi/ocean-by-bca",
+        "name": "Ocean by BCA",
+        "subtitle": "Integrasi bisnis dalam satu ekosistem digital",
+        "category": "Transaksi",
+        "sectors": [
+            "Umum",
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Institusi Finansial",
+            "Kesehatan"
+        ],
+        "desc": "Seluruh aktivitas bisnis terorganisir dengan rapi dalam satu platform ",
+        "icon": "https://pustaka.bca.co.id/Ocean/Assets/Icon/Ocean.svg",
+        "link": "https://ocean.bca.co.id/id/produk/transaksi/ocean-by-bca"
     },
     {
-        id: 'giro-bca',
-        name: 'Giro BCA',
-        subtitle: 'Transaksi Bisnis Fleksibel',
-        category: 'Rekening',
-        sectors: ['Umum', 'Institusi Finansial'],
-        desc: 'Kemudahan transaksi pembayaran bisnis menggunakan Cek, Bilyet Giro, atau sarana perbankan elektronik lainnya.',
-        icon: '/images/klikbcabisnis.svg',
-        link: 'https://ocean.bca.co.id/id/produk/rekening/giro'
+        "id": "transaksi/ocean-by-bca/mybca-bisnis",
+        "name": "myBCA Bisnis",
+        "subtitle": "Bertransaksi dengan mudah dan nyaman",
+        "category": "Transaksi",
+        "sectors": [
+            "Umum",
+            "Asuransi",
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Institusi Finansial",
+            "Kesehatan",
+            "Logistik",
+            "Manufaktur",
+            "Migas",
+            "Multifinance",
+            "Otomotif dan Transportasi",
+            "Pariwisata dan Perhotelan",
+            "Pendidikan",
+            "Perdagangan",
+            "Perusahaan Efek",
+            "Properti"
+        ],
+        "desc": "Temukan berbagai solusi bertransaksi untuk kebutuhan Bisnis Anda di myBCA Bisnis.",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/12759FA7-753B-4E55-B28E-76C5D2ED115E/Logo/Logo myBCA Bisnis_Type 3_Color.png",
+        "link": "https://ocean.bca.co.id/id/produk/transaksi/ocean-by-bca/mybca-bisnis"
     },
     {
-        id: 'tahapan-gold',
-        name: 'Tahapan Gold',
-        subtitle: 'Tabungan Bisnis Praktis',
-        category: 'Rekening',
-        sectors: ['Umum', 'Fashion & Beauty', 'Food & Beverages', 'Lainnya'],
-        desc: 'Tabungan khusus bisnis dengan limit transaksi yang besar, informasi mutasi lebih detail, dan layanan autodebet.',
-        icon: '/images/mbb-icon-quick.svg',
-        link: 'https://ocean.bca.co.id/id/produk/rekening/tahapan-gold'
+        "id": "transaksi/virtual-account",
+        "name": "Virtual Account",
+        "subtitle": "Apapun usahanya, terima pembayaran jadi mudah dan lancar",
+        "category": "Transaksi",
+        "sectors": [
+            "Umum",
+            "Asuransi",
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Institusi Finansial",
+            "Kesehatan",
+            "Logistik",
+            "Manufaktur",
+            "Migas",
+            "Multifinance",
+            "Otomotif dan Transportasi",
+            "Pariwisata dan Perhotelan",
+            "Pendidikan",
+            "Perdagangan",
+            "Properti"
+        ],
+        "desc": "Solusi untuk membantu nasabah bisnis dalam mengidentifikasi pembayaran dari pelanggan",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/6C20F9A8-917C-4EC2-A9EF-54F373986CAF/Logo/icon-virtual-account.svg",
+        "link": "https://ocean.bca.co.id/id/produk/transaksi/virtual-account"
     },
     {
-        id: 'bca-api',
-        name: 'BCA API',
-        subtitle: 'Integrasi Finansial Real-time',
-        category: 'Solusi Digital',
-        sectors: ['Logistik', 'Institusi Finansial', 'Kesehatan', 'Lainnya'],
-        desc: 'Integrasikan sistem ERP atau aplikasi internal bisnis Anda langsung dengan sistem perbankan BCA untuk transaksi otomatis.',
-        icon: '/images/developer-api-bca.svg',
-        link: 'https://ocean.bca.co.id/id/produk/solusi-digital/bca-api'
+        "id": "transaksi/edc-bca",
+        "name": "EDC BCA",
+        "subtitle": "Terima pembayaran langsung dengan berbagai metode",
+        "category": "Transaksi",
+        "sectors": [
+            "Umum",
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Kesehatan",
+            "Logistik",
+            "Otomotif dan Transportasi",
+            "Pariwisata dan Perhotelan",
+            "Perdagangan"
+        ],
+        "desc": "Bisa terima pembayaran dengan kartu debit, kartu kredit, dan QR di EDC BCA",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/85FE58F8-A2FE-45CF-8788-2ECFDDFA9F52/Logo/icon-edc.svg",
+        "link": "https://ocean.bca.co.id/id/produk/transaksi/edc-bca"
     },
     {
-        id: 'kur-bca',
-        name: 'Kredit Usaha Rakyat (KUR)',
-        subtitle: 'Pembiayaan Modal Kerja',
-        category: 'Pinjaman',
-        sectors: ['Umum', 'Fashion & Beauty', 'Food & Beverages', 'Lainnya'],
-        desc: 'Pembiayaan modal kerja atau investasi untuk pelaku UMKM dengan bunga subsidi dan syarat yang mudah.',
-        icon: '/images/client-trade.svg',
-        link: 'https://ocean.bca.co.id/id/produk/pinjaman/kur'
+        "id": "transaksi/api",
+        "name": "API BCA",
+        "subtitle": "Jalankan instruksi transaksi keuangan melalui platform Anda",
+        "category": "Transaksi",
+        "sectors": [
+            "Umum"
+        ],
+        "desc": "Kemudahan dalam menjalankan berbagai instruksi transaksi keuangan, langsung dari platform Anda",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/87E5FD00-623F-4373-AB21-A18F51128CE8/Logo/icon-API.svg",
+        "link": "https://ocean.bca.co.id/id/produk/transaksi/api"
     },
     {
-        id: 'kredit-lokal',
-        name: 'Kredit Lokal',
-        subtitle: 'Kebutuhan Modal Kerja Dinamis',
-        category: 'Pinjaman',
-        sectors: ['Umum', 'Logistik', 'Lainnya'],
-        desc: 'Fasilitas kredit modal kerja dengan penarikan fleksibel menggunakan Cek/Bilyet Giro sesuai kebutuhan bisnis Anda.',
-        icon: '/images/client-trade.svg',
-        link: 'https://ocean.bca.co.id/id/produk/pinjaman/kredit-lokal'
+        "id": "transaksi/qris-bisnis",
+        "name": "QRIS",
+        "subtitle": "Terima pembayaran secara digital",
+        "category": "Transaksi",
+        "sectors": [
+            "Umum",
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Kesehatan",
+            "Logistik",
+            "Perdagangan"
+        ],
+        "desc": "Pembayaran lebih mudah melalui QRIS dan pantau transaksi dengan aplikasi merchant BCA",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/EF39500A-38BC-4792-B139-8F2B2808077A/Logo/icon-QRIS (1).svg",
+        "link": "https://ocean.bca.co.id/id/produk/transaksi/qris-bisnis"
     },
     {
-        id: 'asuransi-kebakaran',
-        name: 'Asuransi Kebakaran Bisnis',
-        subtitle: 'Proteksi Aset Fisik',
-        category: 'Asuransi',
-        sectors: ['Umum', 'Logistik', 'Kesehatan', 'Lainnya'],
-        desc: 'Perlindungan tempat usaha, mesin, persediaan barang dagangan, dan aset fisik lainnya dari risiko kebakaran.',
-        icon: '/images/bagio.svg',
-        link: 'https://ocean.bca.co.id/id/produk/asuransi/kebakaran-bisnis'
+        "id": "pinjaman/kredit-investasi",
+        "name": "Kredit Investasi",
+        "subtitle": "Miliki aset tetap bisnis Anda",
+        "category": "Pinjaman",
+        "sectors": [
+            "Umum",
+            "Asuransi",
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Institusi Finansial",
+            "Kesehatan",
+            "Logistik",
+            "Manufaktur",
+            "Migas",
+            "Multifinance",
+            "Otomotif dan Transportasi",
+            "Pariwisata dan Perhotelan",
+            "Pendidikan",
+            "Perdagangan",
+            "Properti"
+        ],
+        "desc": "Dapatkan pembiayaan dengan bunga kompetitif dari Kredit Investasi BCA",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/5B64A84A-6DA6-46EF-8349-D0CAF96E2A30/Logo/kredit-usaha-kredit-usaha-rakyat.svg",
+        "link": "https://ocean.bca.co.id/id/produk/pinjaman/kredit-investasi"
+    },
+    {
+        "id": "pinjaman/kredit-multiguna-usaha",
+        "name": "Kredit Multiguna Usaha",
+        "subtitle": "Pembiayaan modal usaha untuk lengkapi kebutuhan bisnis Anda",
+        "category": "Pinjaman",
+        "sectors": [
+            "Umum",
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Kesehatan",
+            "Logistik",
+            "Manufaktur",
+            "Migas",
+            "Otomotif dan Transportasi",
+            "Pariwisata dan Perhotelan",
+            "Pendidikan",
+            "Perdagangan",
+            "Properti"
+        ],
+        "desc": "Penuhi berbagai kebutuhan usaha seperti modal kerja, investasi aktiva tetap, dan berbagai biaya lain",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/82EDFBAF-EE04-4039-B680-C2729BB0F851/Logo/kpr-kredit-multiguna.svg",
+        "link": "https://ocean.bca.co.id/id/produk/pinjaman/kredit-multiguna-usaha"
+    },
+    {
+        "id": "pinjaman/kredit-sepeda-motor",
+        "name": "Kredit Sepeda Motor",
+        "subtitle": "Miliki kendaraan operasional untuk bisnis Anda",
+        "category": "Pinjaman",
+        "sectors": [
+            "Umum",
+            "Logistik",
+            "Otomotif dan Transportasi"
+        ],
+        "desc": "Aktivitas bisnis jadi lebih produktif dengan memiliki sepeda motor melalui Kredit Sepeda Motor BCA",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/C4973BF8-1E5C-4AA2-AC6B-BBF52BCED7D7/Logo/kkb-mobil-refinancing.svg",
+        "link": "https://ocean.bca.co.id/id/produk/pinjaman/kredit-sepeda-motor"
+    },
+    {
+        "id": "pinjaman/kredit-usaha",
+        "name": "Kredit Usaha",
+        "subtitle": "Jadikan perputaran usaha lebih lancar",
+        "category": "Pinjaman",
+        "sectors": [
+            "Umum",
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Kesehatan",
+            "Logistik",
+            "Manufaktur",
+            "Migas",
+            "Otomotif dan Transportasi",
+            "Pariwisata dan Perhotelan",
+            "Pendidikan",
+            "Perdagangan"
+        ],
+        "desc": "Kredit Usaha memberikan modal pembiayaan perputaran usaha guna menciptakan kelancaran bisnis Anda",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/CE8063DA-0661-4CF5-BE78-5877C113B587/Logo/kredit-usaha-kredit-usaha-rakyat.svg",
+        "link": "https://ocean.bca.co.id/id/produk/pinjaman/kredit-usaha"
+    },
+    {
+        "id": "pinjaman/bca-visa-corporate",
+        "name": "BCA Visa Corporate",
+        "subtitle": "Pembiayaan transaksi bisnis mudah dan fleksibel",
+        "category": "Pinjaman",
+        "sectors": [
+            "Umum",
+            "Asuransi",
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Institusi Finansial",
+            "Kesehatan",
+            "Logistik",
+            "Manufaktur",
+            "Migas",
+            "Multifinance",
+            "Otomotif dan Transportasi",
+            "Pariwisata dan Perhotelan",
+            "Pendidikan",
+            "Perdagangan",
+            "Properti"
+        ],
+        "desc": "Penuhi kebutuhan transaksi bisnis perusahaan dengan Kartu Kredit BCA Visa Corporate",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/D34ADEA7-C46B-4D17-9167-6E3630913D51/Logo/icon-visa-corporate.svg",
+        "link": "https://ocean.bca.co.id/id/produk/pinjaman/bca-visa-corporate"
+    },
+    {
+        "id": "pinjaman/kkb",
+        "name": "KKB BCA",
+        "subtitle": "Miliki kendaraan operasional untuk pengadaan",
+        "category": "Pinjaman",
+        "sectors": [
+            "Umum",
+            "Logistik",
+            "Pariwisata dan Perhotelan",
+            "Perdagangan"
+        ],
+        "desc": "Tingkatkan produktivitas operasional bisnis Anda dengan kendaraan operasional ",
+        "icon": "https://pustaka.bca.co.id/Ocean/Assets/Icon/finance.svg",
+        "link": "https://ocean.bca.co.id/id/produk/pinjaman/kkb"
+    },
+    {
+        "id": "investasi/investasi-bisnis/reksa-dana",
+        "name": "Reksa Dana",
+        "subtitle": "Tanam dana tertimbun di perusahaan dengan minim risiko",
+        "category": "Investasi",
+        "sectors": [
+            "Umum",
+            "Asuransi",
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Institusi Finansial",
+            "Kesehatan",
+            "Logistik",
+            "Manufaktur",
+            "Migas",
+            "Multifinance",
+            "Otomotif dan Transportasi",
+            "Pariwisata dan Perhotelan",
+            "Pendidikan",
+            "Perdagangan",
+            "Perusahaan Efek",
+            "Properti"
+        ],
+        "desc": "Perluas portofolio investasi bisnis dengan pilihan Reksa Dana dari manajer investasi yang kredibel",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/85704A7C-A3B4-4CDA-BFAB-C93DA650D69E/Logo/investasi-reksadana.svg",
+        "link": "https://ocean.bca.co.id/id/produk/investasi/investasi-bisnis/reksa-dana"
+    },
+    {
+        "id": "investasi/investasi-bisnis/obligasi-sbn",
+        "name": "Obligasi & SBN",
+        "subtitle": "Hasilkan arus kas dari dana menganggur",
+        "category": "Investasi",
+        "sectors": [
+            "Umum",
+            "Asuransi",
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Institusi Finansial",
+            "Kesehatan",
+            "Logistik",
+            "Manufaktur",
+            "Migas",
+            "Multifinance",
+            "Otomotif dan Transportasi",
+            "Pariwisata dan Perhotelan",
+            "Pendidikan",
+            "Perdagangan",
+            "Perusahaan Efek",
+            "Properti"
+        ],
+        "desc": "Mulai investasikan dana berlebih di perusahaan Anda ke Obligasi dan SBN, dapatkan imbalan kompetitif",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/2BF4B6D2-8D2B-4C1D-9353-5069C4C47993/Logo/investasi-obligasi.svg",
+        "link": "https://ocean.bca.co.id/id/produk/investasi/investasi-bisnis/obligasi-sbn"
+    },
+    {
+        "id": "asuransi/asuransi-property-all-risks",
+        "name": "Asuransi Property All Risks",
+        "subtitle": "Perlindungan menyeluruh untuk tempat usaha Anda",
+        "category": "Asuransi",
+        "sectors": [
+            "Umum",
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Institusi Finansial",
+            "Kesehatan",
+            "Logistik",
+            "Manufaktur",
+            "Migas",
+            "Multifinance",
+            "Otomotif dan Transportasi",
+            "Pariwisata dan Perhotelan",
+            "Pendidikan",
+            "Perdagangan",
+            "Perusahaan Efek",
+            "Properti"
+        ],
+        "desc": "Asuransi BCAinsurance yang memberikan perlindungan menyeluruh dari risiko kerusakan tempat usaha ",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/98FBA4CE-3E11-4688-BCAD-CC326F21EBC2/Logo/icon-asuransi-property-all-risks.svg",
+        "link": "https://ocean.bca.co.id/id/produk/asuransi/asuransi-property-all-risks"
+    },
+    {
+        "id": "asuransi/asuransi-kendaraan-bermotor",
+        "name": "Asuransi Kendaraan Bermotor",
+        "subtitle": "Lindungi kendaraan operasional bisnis dari kerusakan",
+        "category": "Asuransi",
+        "sectors": [
+            "Umum",
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Institusi Finansial",
+            "Kesehatan",
+            "Logistik",
+            "Manufaktur",
+            "Migas",
+            "Multifinance",
+            "Otomotif dan Transportasi",
+            "Pariwisata dan Perhotelan",
+            "Pendidikan",
+            "Perdagangan",
+            "Perusahaan Efek",
+            "Properti"
+        ],
+        "desc": "Asuransi BCAinsurance yang memberikan perlindungan optimal untuk kendaraan operasional bisnis",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/99224291-720B-402B-93F8-AFBE4ACFAE2B/Logo/icon-asuransi-kendaraan-bermotor (1).svg",
+        "link": "https://ocean.bca.co.id/id/produk/asuransi/asuransi-kendaraan-bermotor"
+    },
+    {
+        "id": "asuransi/asuransi-kebakaran",
+        "name": "Asuransi Kebakaran",
+        "subtitle": "Lindungi tempat usaha dari risiko kerugian akibat kebakaran",
+        "category": "Asuransi",
+        "sectors": [
+            "Umum",
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Institusi Finansial",
+            "Kesehatan",
+            "Logistik",
+            "Manufaktur",
+            "Migas",
+            "Multifinance",
+            "Otomotif dan Transportasi",
+            "Pariwisata dan Perhotelan",
+            "Pendidikan",
+            "Perdagangan",
+            "Perusahaan Efek",
+            "Properti"
+        ],
+        "desc": "Asuransi BCAinsurance yang memberikan perlindungan bagi tempat usaha dan persediaan barang",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/ED5C5DA6-2A6E-464F-AE98-D15E5BFD7728/Logo/icon-asuransi-kebakaran (1).svg",
+        "link": "https://ocean.bca.co.id/id/produk/asuransi/asuransi-kebakaran"
+    },
+    {
+        "id": "solusi-digital/stream-b2b",
+        "name": "Stream B2B",
+        "subtitle": "Rantai pasok efisien dengan sistem transparan end-to-end",
+        "category": "Solusi Digital",
+        "sectors": [
+            "Umum",
+            "Food & Beverages",
+            "Manufaktur",
+            "Perdagangan"
+        ],
+        "desc": "Temukan produk, ajukan RFQ, kelola PO, DO, invoicing dalam satu platform",
+        "icon": "https://pustaka.bca.co.id/Ocean/MyEcosystem/Stream-B2B/Stream-B2B.png",
+        "link": "https://ocean.bca.co.id/id/produk/solusi-digital/stream-b2b"
+    },
+    {
+        "id": "solusi-digital/catapa",
+        "name": "CATAPA",
+        "subtitle": "Proses payroll cepat, mudah, dan aman",
+        "category": "Solusi Digital",
+        "sectors": [
+            "Umum",
+            "Asuransi",
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Institusi Finansial",
+            "Kesehatan",
+            "Logistik",
+            "Manufaktur",
+            "Migas",
+            "Multifinance",
+            "Otomotif dan Transportasi",
+            "Pariwisata dan Perhotelan",
+            "Pendidikan",
+            "Perdagangan",
+            "Perusahaan Efek",
+            "Properti"
+        ],
+        "desc": "Platform HR CATAPA yang dapat diotorisasi langsung di Business Assistant KlikBCA Bisnis",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/2A00C2FD-D51E-485A-A5F2-8F778C23B5F6/Logo/catapa logo_vertical-color (2).png",
+        "link": "https://ocean.bca.co.id/id/produk/solusi-digital/catapa"
+    },
+    {
+        "id": "solusi-digital/Jejakin",
+        "name": "Jejakin",
+        "subtitle": "Mulai langkah nyata dekarbonisasi bisnis Anda",
+        "category": "Solusi Digital",
+        "sectors": [
+            "Umum",
+            "Institusi Finansial",
+            "Kesehatan"
+        ],
+        "desc": "Pantau dan implementasikan bisnis ramah lingkungan dengan hitung emisi secara transparan",
+        "icon": "https://pustaka.bca.co.id/Ocean/MyEcosystem/Jejakin/Logo_Jejakin.png",
+        "link": "https://ocean.bca.co.id/id/produk/solusi-digital/Jejakin"
+    },
+    {
+        "id": "solusi-digital/matchmade",
+        "name": "Matchmade",
+        "subtitle": "Rekonsiliasi data secara otomatis tanpa selisih ",
+        "category": "Solusi Digital",
+        "sectors": [
+            "Umum",
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Institusi Finansial",
+            "Kesehatan"
+        ],
+        "desc": "Solusi rekonsiliasi data perusahaan dari berbagai sumber",
+        "icon": "https://pustaka.bca.co.id/Ocean/MyEcosystem/Matchmade/Logo_Matchmade.png",
+        "link": "https://ocean.bca.co.id/id/produk/solusi-digital/matchmade"
+    },
+    {
+        "id": "op-business-banking",
+        "name": "OP Business Banking",
+        "subtitle": "Pembayaran invoice dan pajak terintegrasi",
+        "category": "Solusi Digital",
+        "sectors": [
+            "Umum",
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Manufaktur",
+            "Perdagangan"
+        ],
+        "desc": "Alur pembayaran invoice dan pajak yang lengkap dengan e-faktur, bupot, dan rekonsiliasi otomatis",
+        "icon": "https://pustaka.bca.co.id/Ocean/MyEcosystem/OBB/Logo-OBB.png",
+        "link": "https://ocean.bca.co.id/id/produk/invoicing/op-business-banking"
+    },
+    {
+        "id": "solusi-digital/Paper",
+        "name": "Paper",
+        "subtitle": "Kelola invoice  pembayaran bisnis Anda secara digital",
+        "category": "Solusi Digital",
+        "sectors": [
+            "Umum",
+            "Fashion & Beauty",
+            "Food & Beverages"
+        ],
+        "desc": "Buat invoice digital dengan mudah dan bayar dengan kartu kredit BCA untuk biaya transaksi khusus",
+        "icon": "https://pustaka.bca.co.id/Ocean/MyEcosystem/PaperID/Paper_Logogram.png",
+        "link": "https://ocean.bca.co.id/id/produk/solusi-digital/Paper"
+    },
+    {
+        "id": "solusi-digital/Pawoon",
+        "name": "Pawoon",
+        "subtitle": "Transaksi lebih nyaman, manajemen stok lebih mudah",
+        "category": "Solusi Digital",
+        "sectors": [
+            "Umum",
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Kesehatan"
+        ],
+        "desc": "Manajemen stok hingga proses transaksi lebih sederhana dengan POS cloud dari Pawoon",
+        "icon": "https://pustaka.bca.co.id/Ocean/MyEcosystem/Pawoon/Logo%20Pawoon%20Color.svg?v=1766132712121",
+        "link": "https://ocean.bca.co.id/id/produk/solusi-digital/Pawoon"
+    },
+    {
+        "id": "solusi-digital/stream-hris",
+        "name": "Stream HRIS",
+        "subtitle": "Kelola seluruh data karyawan dalam satu sistem terpusat",
+        "category": "Solusi Digital",
+        "sectors": [
+            "Umum",
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Institusi Finansial",
+            "Kesehatan"
+        ],
+        "desc": "Mulai modernisasi pekerjaan HR dari absensi hingga gaji karyawan dengan Stream HRIS",
+        "icon": "https://pustaka.bca.co.id/Ocean/Assets/image/Logo_Stream%20HRIS.svg?v=1766482497099",
+        "link": "https://ocean.bca.co.id/id/produk/solusi-digital/stream-hris"
+    },
+    {
+        "id": "solusi-digital/pajakku",
+        "name": "Pajakku",
+        "subtitle": "Layanan end-to-end solution untuk kebutuhan perpajakan",
+        "category": "Solusi Digital",
+        "sectors": [
+            "Umum",
+            "Asuransi",
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Institusi Finansial",
+            "Kesehatan",
+            "Logistik",
+            "Manufaktur",
+            "Migas",
+            "Multifinance",
+            "Otomotif dan Transportasi",
+            "Pariwisata dan Perhotelan",
+            "Pendidikan",
+            "Perdagangan",
+            "Perusahaan Efek",
+            "Properti"
+        ],
+        "desc": "Hitung pajak melalui aplikasi Pajakku dan otorisasi di Business Assistant KlikBCA Bisnis.",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/F3EBC4ED-4DA8-458D-8252-BD93A757EEC5/Logo/Logo Kotak Pajakku.png",
+        "link": "https://ocean.bca.co.id/id/produk/solusi-digital/pajakku"
+    },
+    {
+        "id": "api-transfer",
+        "name": "API Transfer",
+        "subtitle": "Lakukan pembayaran ke vendor dengan lebih cepat dan mudah",
+        "category": "Transaksi",
+        "sectors": [
+            "Asuransi",
+            "Kesehatan",
+            "Logistik",
+            "Manufaktur",
+            "Multifinance",
+            "Pendidikan",
+            "Perdagangan",
+            "Perusahaan Efek"
+        ],
+        "desc": "Kirimkan instruksi pembayaran dari platform Anda melalui API Transfer BCA",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/14295A15-FE24-43C2-AA27-CDF25F0421E3/Logo/icon-API.svg",
+        "link": "https://developer.bca.co.id/id/Fitur-API#:~:text=Baca%20Dokumentasi-,Transfer%20Dana,-Notifikasi%20Tolakan%20Transfer"
+    },
+    {
+        "id": "api-account-debiting-consent",
+        "name": "API SKPR",
+        "subtitle": "Dapatkan kuasa debet dari nasabah dengan mudah",
+        "category": "Transaksi",
+        "sectors": [
+            "Asuransi"
+        ],
+        "desc": "Nasabah dapat mengirimkan kuasa pendebetan rekening secara real time melalui platform Anda",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/43D36CA2-534A-4E02-836A-0F5A926B0781/Logo/icon-API.svg",
+        "link": "https://developer.bca.co.id/id/Fitur-API#:~:text=Baca%20Dokumentasi-,Collection,-Inquiry%20Status%20Kuasa"
+    },
+    {
+        "id": "transaksi/business-debit-card",
+        "name": "Business Debit Card",
+        "subtitle": "Untuk kemudahan pengelolaan keuangan perusahaan Anda",
+        "category": "Transaksi",
+        "sectors": [
+            "Asuransi",
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Institusi Finansial",
+            "Kesehatan",
+            "Logistik",
+            "Manufaktur",
+            "Migas",
+            "Multifinance",
+            "Otomotif dan Transportasi",
+            "Pariwisata dan Perhotelan",
+            "Pendidikan",
+            "Perdagangan",
+            "Properti"
+        ],
+        "desc": "Solusi kartu debit bagi nasabah demi operasional bisnis mudah ataupun pemberian reward/loyalty",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/70C5B77C-E173-48BD-BF23-5B6E62B9E416/Logo/corporate-card-bca-card.svg",
+        "link": "https://ocean.bca.co.id/id/produk/transaksi/business-debit-card"
+    },
+    {
+        "id": "api-collection",
+        "name": "API Collection",
+        "subtitle": "Pembayaran premi asuransi lebih mudah",
+        "category": "Transaksi",
+        "sectors": [
+            "Asuransi"
+        ],
+        "desc": "Debet pembayaran premi asuransi secara otomatis dengan API Collection dari BCA",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/B8767540-BDE1-44D1-8332-F6D19AAFE34B/Logo/icon-API.svg",
+        "link": "https://developer.bca.co.id/id/Fitur-API#:~:text=Baca%20Dokumentasi-,Collection,-Inquiry%20Status%20Kuasa"
+    },
+    {
+        "id": "transaksi/payment-link",
+        "name": "Payment Link",
+        "subtitle": "Cara mudah membuat link pembayaran",
+        "category": "Transaksi",
+        "sectors": [
+            "Asuransi",
+            "Fashion & Beauty",
+            "Manufaktur",
+            "Pariwisata dan Perhotelan",
+            "Pendidikan",
+            "Perdagangan"
+        ],
+        "desc": "Payment Link BCA memudahkan pelanggan untuk bayar dengan kartu tanpa harus ke lokasi",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/C878E7D5-38EF-4B1F-A85C-30316E24C8DA/Logo/reward-bca-daftar-merchant.svg",
+        "link": "https://ocean.bca.co.id/id/produk/transaksi/payment-link"
+    },
+    {
+        "id": "api-account-information",
+        "name": "API Info Saldo & Mutasi Rekening",
+        "subtitle": "Rekonsiliasi transaksi dengan lebih mudah dan cepat",
+        "category": "Transaksi",
+        "sectors": [
+            "Asuransi",
+            "Food & Beverages",
+            "Kesehatan",
+            "Multifinance",
+            "Otomotif dan Transportasi",
+            "Pariwisata dan Perhotelan",
+            "Perusahaan Efek"
+        ],
+        "desc": "Menyediakan informasi saldo dan mutasi rekening untuk mempermudah rekonsiliasi transaksi",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/E07DE635-15FB-43D5-ADB3-9DE27BCD7327/Logo/icon-API.svg",
+        "link": "https://developer.bca.co.id/id/Fitur-API#:~:text=Baca%20Dokumentasi-,Informasi%20Rekening,-Mutasi%20Rekening"
+    },
+    {
+        "id": "transaksi/klikbca-bisnis/multi-transaksi",
+        "name": "Multi Transaksi (MAT & MP)",
+        "subtitle": "Dapatkan kemudahan transaksi payroll dan transfer",
+        "category": "Transaksi",
+        "sectors": [
+            "Asuransi",
+            "Food & Beverages",
+            "Migas",
+            "Multifinance",
+            "Otomotif dan Transportasi",
+            "Pendidikan",
+            "Properti"
+        ],
+        "desc": "Tingkatkan efisiensi operasional perusahaan dengan fitur Multi Transaksi KlikBCA Bisnis",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/F386592D-1E33-48B4-9499-DF502CCAA615/Logo/Multi Transaksi.svg",
+        "link": "https://ocean.bca.co.id/id/produk/transaksi/klikbca-bisnis/multi-transaksi"
+    },
+    {
+        "id": "transaksi/oneklik",
+        "name": "OneKlik",
+        "subtitle": "Berikan kemudahan belanja online bagi pelanggan",
+        "category": "Transaksi",
+        "sectors": [
+            "Fashion & Beauty",
+            "Pariwisata dan Perhotelan"
+        ],
+        "desc": "Permudah pembayaran online pelanggan di platform dengan OneKlik",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/02C125D7-354D-4E06-BF0E-349A24EEF3B1/Logo/icon-oneklik.svg",
+        "link": "https://ocean.bca.co.id/id/produk/transaksi/oneklik"
+    },
+    {
+        "id": "transaksi/remittance",
+        "name": "Remittance BCA",
+        "subtitle": "Layanan pengiriman dan penerimaan valas dalam  luar negeri",
+        "category": "Transaksi",
+        "sectors": [
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Institusi Finansial",
+            "Migas",
+            "Otomotif dan Transportasi",
+            "Pariwisata dan Perhotelan",
+            "Perdagangan"
+        ],
+        "desc": "Nikmati layanan pengiriman dan penerimaan valas dengan jaringan korespondensi yang luas",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/E113E6C4-DE35-45C5-90FE-06FBF62B5660/Logo/remittance-outward.svg",
+        "link": "https://ocean.bca.co.id/id/produk/transaksi/remittance"
+    },
+    {
+        "id": "pinjaman/kredit-tempat-usaha",
+        "name": "Kredit Tempat Usaha",
+        "subtitle": "Penyediaan dana untuk properti bisnis",
+        "category": "Pinjaman",
+        "sectors": [
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Kesehatan",
+            "Logistik",
+            "Multifinance",
+            "Otomotif dan Transportasi",
+            "Pendidikan",
+            "Perdagangan",
+            "Properti"
+        ],
+        "desc": "Wujudkan kepemilikan tempat usaha sesuai bisnis Anda dengan Kredit Tempat Usaha BCA",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/1DEFE94F-7BCC-4746-9684-382D638300FE/Logo/kpr-pembelian-pertama.svg",
+        "link": "https://ocean.bca.co.id/id/produk/pinjaman/kredit-tempat-usaha"
+    },
+    {
+        "id": "pinjaman/bca-smartcash",
+        "name": "BCA Smartcash",
+        "subtitle": "Modal pinjaman untuk penuhi keperluan individu bisnis",
+        "category": "Pinjaman",
+        "sectors": [
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Kesehatan",
+            "Logistik",
+            "Manufaktur",
+            "Otomotif dan Transportasi",
+            "Pariwisata dan Perhotelan",
+            "Pendidikan",
+            "Perdagangan"
+        ],
+        "desc": "Transaksi bisnis dan tarik tunai untuk kebutuhan individu bisnis lebih mudah dengan Kartu Kredit BCA",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/7320131B-D1D6-41A4-B655-1F405F642668/Logo/icon-smartcash.svg",
+        "link": "https://ocean.bca.co.id/id/produk/pinjaman/bca-smartcash"
+    },
+    {
+        "id": "pinjaman/kredit-usaha-rakyat",
+        "name": "Kredit Usaha Rakyat",
+        "subtitle": "Penuhi keperluan dana untuk bisnis skala kecil dan mikro",
+        "category": "Pinjaman",
+        "sectors": [
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Perdagangan"
+        ],
+        "desc": "Nikmati akses pembiayaan dengan bunga rendah untuk UMKM melalui Kredit Usaha Rakyat BCA",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/856BEA34-4947-413F-94B3-5397483DE31E/Logo/kredit-usaha-kredit-usaha-rakyat.svg",
+        "link": "https://ocean.bca.co.id/id/produk/pinjaman/kredit-usaha-rakyat"
+    },
+    {
+        "id": "solusi-digital/program-promosi-bca",
+        "name": "Program Promosi BCA",
+        "subtitle": "Kenalkan Usaha Anda untuk jangkauan lebih luas",
+        "category": "Solusi Digital",
+        "sectors": [
+            "Fashion & Beauty",
+            "Food & Beverages",
+            "Kesehatan",
+            "Logistik",
+            "Otomotif dan Transportasi",
+            "Pariwisata dan Perhotelan",
+            "Pendidikan",
+            "Perdagangan"
+        ],
+        "desc": "Kenalkan Usaha Anda untuk jangkauan lebih luas bersama Program Promosi BCA (khusus area JADETABEK)",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/3D63CAB9-2FA4-4BD9-8A26-03CF754D825F/Logo/shakehand.svg",
+        "link": "https://ocean.bca.co.id/id/produk/solusi-digital/program-promosi-bca"
+    },
+    {
+        "id": "rekening/giro-vostro",
+        "name": "Giro Vostro",
+        "subtitle": "Simpan dana perusahaan secara aman",
+        "category": "Rekening",
+        "sectors": [
+            "Institusi Finansial"
+        ],
+        "desc": "Gunakan layanan Giro untuk mendukung kelancaran dan kecepatan transaksi bisnis dengan aman",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/900FD94C-5DDA-4CD8-AA7B-3BE7AD054676/Logo/asuransi-savings.svg",
+        "link": "https://ocean.bca.co.id/id/produk/rekening/giro-vostro"
+    },
+    {
+        "id": "transaksi/fire-cash-bca",
+        "name": "Fire Cash BCA",
+        "subtitle": "Solusi bisnis transfer dana yang cepat, mudah dan aman",
+        "category": "Transaksi",
+        "sectors": [
+            "Institusi Finansial"
+        ],
+        "desc": "Pengiriman dan penerimaan valas lebih cepat dan aman",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/36A85F62-11A0-4693-B94F-4A5C77E64C2F/Logo/usp.svg",
+        "link": "https://ocean.bca.co.id/id/produk/transaksi/fire-cash-bca"
+    },
+    {
+        "id": "transaksi/fire-cash-bca/fire-untuk-mitra",
+        "name": "Fire untuk Mitra",
+        "subtitle": "Solusi untuk Institusi keungan dengan bisnis transfer",
+        "category": "Transaksi",
+        "sectors": [
+            "Institusi Finansial"
+        ],
+        "desc": "Pengiriman dan penerimaan valas lebih cepat dan aman",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/3D63CAB9-2FA4-4BD9-8A26-03CF754D825F/Logo/shakehand.svg",
+        "link": "https://ocean.bca.co.id/id/produk/transaksi/fire-cash-bca/fire-untuk-mitra"
+    },
+    {
+        "id": "transaksi/cash-pick-up",
+        "name": "Cash Pick Up",
+        "subtitle": "Kelola pengiriman dan penukaran uang tunai dengan mudah",
+        "category": "Transaksi",
+        "sectors": [
+            "Kesehatan",
+            "Logistik"
+        ],
+        "desc": "Layanan pengiriman dan penerimaan uang tunai sesuai lokasi dan waktu yang ditentukan nasabah",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/A5A1CE01-2007-4719-8034-DAEFA1A3D4E6/Logo/icon-cash-pickup.svg",
+        "link": "https://ocean.bca.co.id/id/produk/transaksi/cash-pick-up"
+    },
+    {
+        "id": "transaksi/fleet-card",
+        "name": "Fleet Card",
+        "subtitle": "Kelola biaya operasional transportasi dengan mudah",
+        "category": "Transaksi",
+        "sectors": [
+            "Logistik",
+            "Manufaktur",
+            "Migas",
+            "Otomotif dan Transportasi"
+        ],
+        "desc": "Dapatkan kartu Fleet untuk dapat mengelola biaya operasional transportasi secara lebih mudah",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/E808AF71-A1EC-4CEE-9897-CB0D32F65B69/Logo/corporate-card-bca-card.svg",
+        "link": "https://ocean.bca.co.id/id/produk/transaksi/fleet-card"
+    },
+    {
+        "id": "transaksi/pembukaan-rekening-kolektif",
+        "name": "Pembukaan Rekening Kolektif",
+        "subtitle": "Pembukaan rekening banyak karyawan perusahaan sekaligus",
+        "category": "Transaksi",
+        "sectors": [
+            "Manufaktur"
+        ],
+        "desc": "Pembukaan rekening bagi karyawan secara serentak untuk mudahkan kebutuhan pembayaran payroll",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/2897CF0A-D13B-4C72-A77C-E6A36ABBE9FE/Logo/asuransi-savings.svg",
+        "link": "https://ocean.bca.co.id/id/produk/transaksi/pembukaan-rekening-kolektif"
+    },
+    {
+        "id": "forex",
+        "name": "Forex",
+        "subtitle": "Dapatkan valuta asing untuk transaksi bisnis Anda",
+        "category": "Transaksi",
+        "sectors": [
+            "Manufaktur",
+            "Perusahaan Efek"
+        ],
+        "desc": "Transaksi valuta asing dengan harga kompetitif dan beragam mata uang dengan Forex BCA",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/493F7623-ED9C-4588-A3D7-0D9E17454761/Logo/icon-forex.svg",
+        "link": null
+    },
+    {
+        "id": "instruksi-bayar-elektronik-(ibe)",
+        "name": "Instruksi Bayar Elektronik (IBE)",
+        "subtitle": "Kemudahan untuk memonitor arus kas",
+        "category": "Transaksi",
+        "sectors": [
+            "Manufaktur",
+            "Multifinance",
+            "Perdagangan"
+        ],
+        "desc": "Instruksi transfer untuk dijalankan pada tanggal efektif tertentu",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/73FA43A4-2E9C-4B65-887A-7398BE6BDEDB/Logo/icon-instruksi-bayar-elektronik.svg",
+        "link": null
+    },
+    {
+        "id": "transaksi/klikbca-bisnis/b2b-pertamina",
+        "name": "B2B Pertamina",
+        "subtitle": "Beli produk Pertamina dengan mudah",
+        "category": "Transaksi",
+        "sectors": [
+            "Migas"
+        ],
+        "desc": "Gunakan fitur B2B Pertamina untuk pembelian bahan bakar, pelumas, LPG, dll. di KlikBCA Bisnis",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/1660729F-073B-43C5-93B2-AEAA1DAEBADC/Logo/icon-b2b-pertamina (1).svg",
+        "link": "https://ocean.bca.co.id/id/produk/transaksi/klikbca-bisnis/b2b-pertamina"
+    },
+    {
+        "id": "transaksi/trade-bca/bank-garansi-BCA",
+        "name": "Bank Garansi BCA",
+        "subtitle": "Mitra terpercaya untuk penyelesaian proyek anda ",
+        "category": "Pinjaman",
+        "sectors": [
+            "Migas",
+            "Properti"
+        ],
+        "desc": "Berikan jaminan pembelian kepada lawan transaksi Anda dengan Bank Garansi dari BCA",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/0A8CE012-2382-494A-AA24-98C4047A42D5/Logo/icon-bank-garansi.svg",
+        "link": "https://ocean.bca.co.id/id/produk/transaksi/trade-bca/bank-garansi-BCA"
+    },
+    {
+        "id": "forex-line",
+        "name": "Forex Line",
+        "subtitle": "Pembiayaan untuk transaksi jual beli valas",
+        "category": "Pinjaman",
+        "sectors": [
+            "Otomotif dan Transportasi"
+        ],
+        "desc": "Dapatkan plafond kredit untuk permudah transaksi jual beli valas di kemudian hari dengan Forex Line ",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/E834FDD3-3B98-4698-80FD-6A4EEA4A5586/Logo/icon-forex line.svg",
+        "link": null
+    },
+    {
+        "id": "transaksi/rdn",
+        "name": "Rekening Dana Nasabah (RDN)",
+        "subtitle": "Berikan kemudahan penyelesaian transaksi efek untuk nasabah ",
+        "category": "Transaksi",
+        "sectors": [
+            "Perusahaan Efek"
+        ],
+        "desc": "Permudah penyelesaian transaksi efek untuk nasabah perorangan dan korporasi dengan RDN BCA",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/814D8768-D750-422E-AD22-1C3E40D8E1EB/Logo/icon-RDN.svg",
+        "link": "https://ocean.bca.co.id/id/produk/transaksi/rdn"
+    },
+    {
+        "id": "api-customer-fund-account-notification",
+        "name": "API Notifikasi RDN",
+        "subtitle": "Notifikasi aktivitas transaksi RDN secara real time",
+        "category": "Transaksi",
+        "sectors": [
+            "Perusahaan Efek"
+        ],
+        "desc": "Dapatkan notifikasi aktivitas transaksi rekening dana nasabah dengan API Notifikasi RDN dari BCA",
+        "icon": "https://pustaka.bca.co.id/Ocean/Product/833576E3-8CAD-4B22-BDE3-BCD20D03E32E/Logo/icon-API.svg",
+        "link": "https://developer.bca.co.id/id/Fitur-API#:~:text=Baca%20Dokumentasi-,Informasi%20Rekening,-Mutasi%20Rekening"
     }
 ];
 
-const getCategoryIcon = (category) => {
+const getCategoryIcon = (category, isActive) => {
+    const suffix = isActive ? '-selected.png' : '.png';
+    const baseUrl = 'https://pustaka.bca.co.id/Ocean/Product/Categories/';
     switch(category) {
         case 'Rekening':
-            return `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9"></path><path d="M16 14h.01"></path></svg>`;
+            return `<img src="${baseUrl}Rekening${suffix}" class="category-icon-img" alt="Rekening">`;
         case 'Transaksi':
-            return `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-repeat"><path d="m17 2 4 4-4 4"></path><path d="M3 11v-1a4 4 0 0 1 4-4h14"></path><path d="m7 22-4-4 4-4"></path><path d="M21 13v1a4 4 0 0 1-4 4H3"></path></svg>`;
+            return `<img src="${baseUrl}Transaksi${suffix}" class="category-icon-img" alt="Transaksi">`;
         case 'Pinjaman':
-            return `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-helping-hand"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 22v-4a2 2 0 0 0-2-2H9"></path><path d="M19 14h2a2 2 0 0 1 2 2v1.5a2.5 2.5 0 0 1-5 0v-2.5"></path></svg>`;
+            return `<img src="${baseUrl}Pinjaman${suffix}" class="category-icon-img" alt="Pinjaman">`;
         case 'Investasi':
-            return `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>`;
+            return `<img src="${baseUrl}Investasi${suffix}" class="category-icon-img" alt="Investasi">`;
         case 'Asuransi':
-            return `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 11 2 2 4-4"></path></svg>`;
+            return `<img src="${baseUrl}Asuransi${suffix}" class="category-icon-img" alt="Asuransi">`;
         case 'Solusi Digital':
-            return `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cpu"><rect width="16" height="16" x="4" y="4" rx="2"></rect><rect width="6" height="6" x="9" y="9" rx="1"></rect><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 15h3M1 9h3M1 15h3"></path></svg>`;
+            return `<img src="${baseUrl}Solusi%20Digital${suffix}" class="category-icon-img" alt="Solusi Digital">`;
         default:
             return '';
     }
@@ -1780,23 +3246,18 @@ const HowItWorksPage = () => {
         return matchesSector && matchesCategory && matchesSearch;
     });
 
-    const sectors = ['Semua', 'Umum', 'Fashion & Beauty', 'Food & Beverages', 'Logistik', 'Kesehatan', 'Institusi Finansial', 'Lainnya'];
+    const sectors = ['Semua', 'Umum', 'Asuransi', 'Fashion & Beauty', 'Food & Beverages', 'Institusi Finansial', 'Kesehatan', 'Logistik', 'Manufaktur', 'Migas', 'Multifinance', 'Otomotif dan Transportasi', 'Pariwisata dan Perhotelan', 'Pendidikan', 'Perdagangan', 'Perusahaan Efek', 'Properti'];
     const categories = ['Rekening', 'Transaksi', 'Pinjaman', 'Investasi', 'Asuransi', 'Solusi Digital'];
 
     return `
         <div class="product-page-layout fade-in">
-            <div id="product-big-header" class="product-hero-header">
-                <div class="product-hero-content">
-                    <h1>Produk BCA</h1>
-                    <p>untuk Kemudahan Bisnis Anda</p>
-                </div>
-            </div>
+            <div id="product-big-header" class="product-hero-header"></div>
             
             <div class="product-container-wrap">
                 <div class="product-content-card-wrap">
                     <div class="product-card-title-row">
                         <div class="title-icon-container">
-                            <img src="/images/checklist-icon.png" class="title-icon-img" alt="Checklist Icon">
+                            <img src="/images/request.svg" class="title-icon-img" alt="Request Icon">
                         </div>
                         <h2 class="product-card-main-title">Produk BCA untuk Kemudahan Bisnis Anda</h2>
                     </div>
@@ -1846,7 +3307,7 @@ const HowItWorksPage = () => {
                                     return `
                                         <div class="category-item ${isActive ? 'active' : ''}" data-category="${cat}">
                                             <div class="category-icon-circle">
-                                                ${getCategoryIcon(cat)}
+                                                ${getCategoryIcon(cat, isActive)}
                                             </div>
                                             <span class="category-label">${cat}</span>
                                         </div>
@@ -1944,13 +3405,13 @@ const HowItWorksPage = () => {
 
                 <div class="riwayat-pengajuan-card">
                     <div class="riwayat-left">
-                        <div class="riwayat-icon-clock">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="clock-icon-svg">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <polyline points="12 6 12 12 16 14"></polyline>
-                            </svg>
+                        <div class="riwayat-icon-container">
+                            <img src="/images/history.svg" class="riwayat-icon-img" alt="History Icon">
                         </div>
-                        <span class="riwayat-title-text">Riwayat Pengajuan</span>
+                        <div class="riwayat-text-col">
+                            <span class="riwayat-title-text">Riwayat Pengajuan</span>
+                            <p class="riwayat-sub-text">Cek pengajuan sebelumnya dan lanjutkan proses pengajuan.</p>
+                        </div>
                     </div>
                     <a href="#" class="btn-lihat-riwayat" id="btn-lihat-riwayat">
                         <span>Lihat Riwayat Pengajuan</span>
@@ -2088,38 +3549,56 @@ const PublicAIChatbot = () => `
 const OceanAuth = () => {
     const renderLogin = () => `
         <div class="fade-in">
-            <h2 class="auth-title" style="margin-bottom: 2rem;">Halo, Selamat Datang!</h2>
+            <h2 class="ocean-login-form-title">Halo, Selamat Datang!</h2>
             
-            <div class="login-form" style="text-align: left;">
-                <label class="auth-label">BCA ID Bisnis</label>
-                <div class="input-group-auth">
-                    <span class="input-tag">Corporate ID</span>
-                    <input type="text" class="auth-field" id="corp-id" placeholder="Masukkan Corporate ID" value="${state.corporateId}">
+            <div class="ocean-login-form-group">
+                <label class="ocean-login-form-label">BCA ID Bisnis</label>
+                <div class="ocean-login-form-group" style="margin-bottom: 1rem;">
+                    <span style="font-size: 0.8rem; font-weight: 600; color: var(--bca-blue-primary);">Corporate ID</span>
+                    <div class="ocean-login-input-wrapper">
+                        <input type="text" class="ocean-login-field" id="corp-id" placeholder="Masukkan Corporate ID" value="${state.corporateId || ''}">
+                    </div>
                 </div>
-                <div class="input-group-auth" style="margin-bottom: 2rem;">
-                    <span class="input-tag">User ID</span>
-                    <input type="text" class="auth-field" id="user-id" placeholder="Masukkan User ID" value="${state.userId}">
+                <div class="ocean-login-form-group" style="margin-bottom: 0.5rem;">
+                    <span style="font-size: 0.8rem; font-weight: 600; color: var(--bca-blue-primary);">User ID</span>
+                    <div class="ocean-login-input-wrapper">
+                        <input type="text" class="ocean-login-field" id="user-id" placeholder="Masukkan User ID" value="${state.userId || ''}">
+                    </div>
                 </div>
-
-                <label class="auth-label">KeyBCA Response <span class="help-icon">?</span></label>
-                <div class="input-group-auth">
-                    <input type="text" class="auth-field" id="key-response" placeholder="Masukkan KeyBCA Response" value="${state.keyBcaResponse}">
-                </div>
-
-                <button class="btn-primary" id="btn-login-submit" style="width: 100%; margin-top: 2rem; padding: 16px; border-radius: 50px; background: #ccc; cursor: not-allowed;" disabled>Masuk</button>
-                
-                <div style="margin-top: 1.5rem; text-align: center;">
-                    <a href="#" class="auth-link">Buka Blokir User</a>
+                <div class="ocean-login-info-row" style="display: flex; align-items: center; justify-content: flex-end; gap: 0.25rem; margin-top: 0.25rem; margin-bottom: 1rem;">
+                    <img alt="BCA ID Card" loading="lazy" width="18" height="18" decoding="async" style="color:transparent;" src="https://main.ocean.bca.co.id/images/bca-id-card.svg"/>
+                    <a href="https://main.ocean.bca.co.id/help-center/ocean/BCA-ID-Bisnis/apa-itu-bca-id-bisnis" target="_blank" class="ocean-login-info-link" style="font-size: 0.75rem; color: #0284c7; text-decoration: none;">Apa itu BCA ID Bisnis?</a>
                 </div>
             </div>
-            <div class="back-link" id="cancel-auth" style="margin-top: 2rem;">Kembali ke Beranda</div>
+
+            <div class="ocean-login-form-group" style="margin-top: 1.5rem;">
+                <label class="ocean-login-form-label" style="display: flex; align-items: center; gap: 0.25rem;">
+                    <span>KeyBCA Response</span>
+                    <button type="button" style="border: none; background: transparent; cursor: help; color: var(--bca-blue-primary); font-size: 1rem; padding: 0; line-height: 1;">❓</button>
+                </label>
+                <div class="ocean-login-input-wrapper">
+                    <input type="password" class="ocean-login-field" id="key-response" placeholder="Masukkan KeyBCA Response" value="${state.keyBcaResponse || ''}">
+                    <img alt="Show Password" loading="lazy" width="20" height="20" decoding="async" class="cursor-pointer" style="color:transparent; cursor: pointer; opacity: 0.5;" src="https://main.ocean.bca.co.id/images/eye-close.svg"/>
+                </div>
+            </div>
+
+            <button class="ocean-login-submit-btn" id="btn-login-submit" disabled>Masuk</button>
+            
+            <div class="ocean-login-action-link-row">
+                <a href="#" class="ocean-login-action-link">Buka Blokir User</a>
+            </div>
+            
+            <div style="margin-top: 1.5rem; text-align: center;">
+                <a href="#" class="ocean-login-action-link btn-cancel-auth" style="font-size: 0.8rem; opacity: 0.7;">Kembali ke Beranda</a>
+            </div>
         </div>
     `;
 
     const renderSelect = () => `
         <div class="fade-in">
-            <h2 class="auth-title">Ocean Auth</h2>
-            <p class="auth-subtitle">Pilih metode verifikasi untuk mengakses portal internal.</p>
+            <h2 class="ocean-login-form-title">Pilih Verifikasi</h2>
+            <p style="font-size: 0.85rem; color: #64748b; text-align: center; margin-bottom: 2rem;">Pilih metode verifikasi tambahan untuk masuk ke portal internal.</p>
+            
             <div class="method-grid">
                 <button class="method-btn" data-auth="pin">
                     <div class="method-icon">🔑</div>
@@ -2143,14 +3622,17 @@ const OceanAuth = () => {
                     </div>
                 </button>
             </div>
-            <div class="back-link" id="cancel-auth">Kembali ke Beranda</div>
+            
+            <div style="margin-top: 2rem; text-align: center;">
+                <a href="#" class="ocean-login-action-link btn-cancel-auth">Kembali ke Beranda</a>
+            </div>
         </div>
     `;
 
     const renderPin = () => `
         <div class="fade-in">
-            <h2 class="auth-title">Masukkan PIN</h2>
-            <p class="auth-subtitle">Silakan masukkan 6 digit PIN Ocean Anda.</p>
+            <h2 class="ocean-login-form-title">Masukkan PIN</h2>
+            <p style="font-size: 0.85rem; color: #64748b; text-align: center; margin-bottom: 2rem;">Silakan masukkan 6 digit PIN Ocean Anda.</p>
             <div class="pin-display">
                 ${[...Array(6)].map((_, i) => `<div class="pin-dot ${state.pin.length > i ? 'filled' : ''}"></div>`).join('')}
             </div>
@@ -2160,34 +3642,42 @@ const OceanAuth = () => {
                 <button class="key-btn" data-key="0">0</button>
                 <button class="key-btn" style="font-size: 1rem; color: var(--ocean-accent);" data-key="del">DEL</button>
             </div>
-            <div class="back-link" data-auth="select">Ganti Metode Verifikasi</div>
+            <div class="ocean-login-action-link-row" style="margin-top: 2rem;">
+                <a href="#" class="ocean-login-action-link" data-auth="select">Ganti Metode Verifikasi</a>
+            </div>
         </div>
     `;
 
     const renderBiometric = () => `
-        <div class="fade-in">
-            <h2 class="auth-title">Verifikasi Biometrik</h2>
-            <p class="auth-subtitle">Memindai wajah atau sidik jari Anda...</p>
-            <div class="biometric-visual">
+        <div class="fade-in" style="text-align: center;">
+            <h2 class="ocean-login-form-title">Verifikasi Biometrik</h2>
+            <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 2rem;">Memindai wajah atau sidik jari Anda...</p>
+            <div class="biometric-visual" style="margin: 2rem auto;">
                 <div class="scan-line"></div>
-                ${state.isAuthenticating ? '✅' : '👤'}
+                <div style="font-size: 3rem; display: flex; align-items: center; justify-content: center; height: 100%;">${state.isAuthenticating ? '✅' : '👤'}</div>
             </div>
-            <p style="font-size: 0.8rem; color: var(--text-muted);">${state.isAuthenticating ? 'Berhasil diverifikasi!' : 'Posisikan wajah Anda pada layar'}</p>
-            <div class="back-link" data-auth="select">Ganti Metode Verifikasi</div>
+            <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 2rem;">
+                ${state.isAuthenticating ? 'Berhasil diverifikasi!' : 'Posisikan wajah Anda pada layar'}
+            </p>
+            <div class="ocean-login-action-link-row">
+                <a href="#" class="ocean-login-action-link" data-auth="select">Ganti Metode Verifikasi</a>
+            </div>
         </div>
     `;
 
     const renderOtp = () => `
         <div class="fade-in">
-            <h2 class="auth-title">Verifikasi OTP</h2>
-            <p class="auth-subtitle">Kami telah mengirimkan kode ke an***@bca.co.id</p>
-            <div class="otp-grid">
-                ${state.otp.map((v, i) => `<input type="text" class="otp-input" value="${v}" maxlength="1" data-otp-idx="${i}">`).join('')}
+            <h2 class="ocean-login-form-title">Verifikasi OTP</h2>
+            <p style="font-size: 0.85rem; color: #64748b; text-align: center; margin-bottom: 2rem;">Kami telah mengirimkan kode ke an***@bca.co.id</p>
+            <div class="otp-grid" style="display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 2rem;">
+                ${state.otp.map((v, i) => `<input type="text" class="otp-input" value="${v}" maxlength="1" data-otp-idx="${i}" style="width: 45px; height: 45px; text-align: center; font-size: 1.25rem; font-weight: 700; border: 2px solid #cbd5e1; border-radius: 8px; outline: none; transition: border-color 0.2s;">`).join('')}
             </div>
-            <div class="resend-timer">
-                Tidak menerima kode? <span class="resend-link">Kirim Ulang (59s)</span>
+            <div style="text-align: center; font-size: 0.8rem; color: #64748b; margin-bottom: 2rem;">
+                Tidak menerima kode? <span style="color: var(--bca-blue-primary); font-weight: 700; cursor: pointer;">Kirim Ulang (59s)</span>
             </div>
-            <div class="back-link" data-auth="select">Ganti Metode Verifikasi</div>
+            <div class="ocean-login-action-link-row">
+                <a href="#" class="ocean-login-action-link" data-auth="select">Ganti Metode Verifikasi</a>
+            </div>
         </div>
     `;
 
@@ -2202,12 +3692,92 @@ const OceanAuth = () => {
     }
 
     return `
-        <div class="auth-overlay">
-            <div class="auth-card">
-                <div class="auth-logo">
-                    <img src="https://pustaka.bca.co.id/Ocean/Assets/Icon/Logo-Ocean-by-BCA-white.png" alt="Ocean by BCA Logo" style="height: 36px; width: auto; object-fit: contain; filter: brightness(0) saturate(100%) invert(12%) sepia(87%) saturate(2222%) hue-rotate(198deg) brightness(92%) contrast(105%);">
+        <div class="ocean-login-page">
+            <div class="ocean-login-top-banner" style="background: #00213d url('https://main.ocean.bca.co.id/images/headline-bg.png') no-repeat center/cover !important; height: 244px; width: 100%; display: block; position: relative;"></div>
+            
+            <div class="ocean-login-main">
+                <div class="ocean-login-header-container">
+                    <a href="#" class="ocean-login-logo-link btn-cancel-auth">
+                        <img src="https://pustaka.bca.co.id/Ocean/Assets/Icon/Logo-Ocean-by-BCA-white.svg" alt="Ocean by BCA Logo">
+                    </a>
+                    <div class="h-10 w-[68px] items-center rounded-full border border-[#5D879F] bg-transparent p-2 text-white z-10 ml-auto flex" style="display: flex; align-items: center; gap: 0.5rem; border: 1px solid #5D879F; background: transparent; padding: 0.4rem 0.5rem; border-radius: 50px; cursor: pointer; color: white;">
+                        <div class="h-6 w-6 overflow-hidden rounded-full" style="width: 24px; height: 24px; border-radius: 50%; overflow: hidden; display: flex; flex-direction: column;">
+                            <div style="height: 50%; background: #FF0000; width: 100%;"></div>
+                            <div style="height: 50%; background: #FFFFFF; width: 100%;"></div>
+                        </div>
+                        <span class="font-bold text-white" style="font-weight: 700; font-size: 0.85rem;">ID</span>
+                    </div>
                 </div>
-                ${stepContent}
+                
+                <div class="ocean-login-body-grid">
+                    <!-- Left promo column -->
+                    <div class="ocean-login-promo-container">
+                        <a href="https://ocean.bca.co.id/id/produk/transaksi/ocean-by-bca/mybca-bisnis" target="_blank" class="ocean-login-promo-banner" style="padding: 0;">
+                            <div class="ocean-login-promo-banner-inner">
+                                <img alt="MBB Banner" style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;object-fit:cover;object-position:left center;" src="https://main.ocean.bca.co.id/images/mbb-banner.png"/>
+                                <img alt="BCA Logo Banner" class="absolute right-0 top-0 hidden rounded-r-xl sm:block" style="position: absolute; right: 0; top: 0; height: 100%; width: auto; object-fit: contain;" src="https://main.ocean.bca.co.id/images/logo-bca-mbb-banner.png"/>
+                                
+                                <div class="absolute left-0 top-0 flex flex-col justify-center gap-2 px-5" style="position: absolute; left: 0; top: 0; display: flex; flex-direction: column; justify-content: center; height: 100%; width: 60%; padding-left: 2rem; box-sizing: border-box;">
+                                    <div class="text-base font-bold leading-4 sm:text-xl sm:leading-none md:text-2xl lg:text-lg xl:text-2xl" style="color: #00213d; font-weight: 800; font-size: 1.5rem; text-align: left; line-height: 1.2;">Nikmati Kemudahan Bertransaksi Dengan</div>
+                                    <div class="relative h-5 w-28 sm:h-7 sm:w-36" style="height: 28px; width: 144px;">
+                                        <img alt="MBB Logo" style="height: 100%; width: auto; object-fit: contain;" src="https://main.ocean.bca.co.id/images/logo-mbb-text.png"/>
+                                    </div>
+                                    <div class="text-[8px] sm:text-xs" style="color: #475569; font-size: 0.8rem; text-align: left; margin-top: 0.25rem;">Solusi yang aman dan terpercaya untuk berbagai kebutuhan bisnis Anda.</div>
+                                </div>
+                            </div>
+                        </a>
+                        
+                        <div class="ocean-login-articles-grid">
+                            <div class="ocean-login-article-card">
+                                <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem;">
+                                    <img alt="Eduka Tips Logo" style="height: 32px; width: auto; object-fit: contain;" src="https://main.ocean.bca.co.id/images/edukatips.png"/>
+                                </div>
+                                <a href="https://www.bca.co.id/id/informasi/Edukatips/2024/05/28/08/04/cara-registrasi-dan-tips-seputar-login-mybca-bisnis" target="_blank" class="ocean-login-article-title">
+                                    Cara Registrasi dan Tips Seputar Login myBCA Bisnis
+                                </a>
+                                <p class="ocean-login-article-desc">
+                                    Layanan myBCA Bisnis hadir untuk membantu nasabah pebisnis dalam melakukan segala aktivitas perbankan bisnis, termasuk mengatur alur kas perusahaan.
+                                </p>
+                            </div>
+                            <div class="ocean-login-article-card">
+                                <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem;">
+                                    <img alt="Awas Modus Logo" style="height: 32px; width: auto; object-fit: contain;" src="https://main.ocean.bca.co.id/images/awasmodus.png"/>
+                                </div>
+                                <a href="https://ocean.bca.co.id/id/artikel/transaksi-aman-untuk-menunjang-kelancaran-bisnis" target="_blank" class="ocean-login-article-title">
+                                    Transaksi Aman untuk Menunjang Kelancaran Bisnis
+                                </a>
+                                <p class="ocean-login-article-desc">
+                                    Salah satu cara menjaga keberlangsungan aktivitas bisnis adalah dengan memastikan seluruh transaksi digital dilakukan secara aman untuk menghindari phishing.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right login card column -->
+                    <div class="ocean-login-card-container">
+                        ${stepContent}
+                    </div>
+                </div>
+                
+                <!-- Footer -->
+                <footer class="ocean-login-footer">
+                    <div class="ocean-login-footer-row">
+                        <span>© 2026 PT Bank Central Asia Tbk, All Rights Reserved.</span>
+                        <div class="ocean-login-footer-links">
+                            <a href="https://bca.co.id/id/" target="_blank" class="ocean-login-footer-link">bca.co.id</a>
+                            <a href="https://www.bca.co.id/id/informasi/Kebijakan" target="_blank" class="ocean-login-footer-link">Kebijakan</a>
+                            <a href="https://www.bca.co.id/id/Syarat-dan-Ketentuan" target="_blank" class="ocean-login-footer-link">Syarat & Ketentuan</a>
+                            <div class="ocean-login-footer-tel">
+                                📞 Halo BCA Bisnis 1500998
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ocean-login-footer-disclaimer">
+                        <span>BCA berizin dan diawasi oleh Otoritas Jasa Keuangan & Bank Indonesia</span>
+                        <span>BCA merupakan peserta penjaminan LPS. Maksimum nilai simpanan yang dijamin LPS per nasabah per bank adalah Rp2 miliar.</span>
+                    </div>
+                </footer>
             </div>
         </div>
     `;
@@ -2277,6 +3847,138 @@ const render = () => {
     attachEventListeners();
 };
 
+const showToast = (title, message, type = 'success') => {
+    let container = document.getElementById('toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'toast-container';
+        container.style.cssText = `
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            pointer-events: none;
+        `;
+        document.body.appendChild(container);
+    }
+    
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.style.cssText = `
+        background: white;
+        color: var(--text-main);
+        padding: 16px 20px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        border-left: 4px solid ${type === 'success' ? '#16a34a' : (type === 'warning' ? '#d97706' : '#dc2626')};
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        width: 320px;
+        pointer-events: auto;
+        transform: translateX(120%);
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
+        opacity: 0;
+        box-sizing: border-box;
+    `;
+    
+    toast.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <strong style="font-size:0.9rem; font-weight:700; color:var(--bca-blue-dark);">${title}</strong>
+            <span style="cursor:pointer; font-size:1.1rem; line-height:1; color:#94a3b8;" onclick="this.closest('.toast').remove()">×</span>
+        </div>
+        <p style="font-size:0.8rem; color:#64748b; margin:0; line-height:1.4; text-align:left;">${message}</p>
+    `;
+    
+    container.appendChild(toast);
+    
+    // Animate in
+    requestAnimationFrame(() => {
+        toast.style.transform = 'translateX(0)';
+        toast.style.opacity = '1';
+    });
+    
+    // Auto remove
+    setTimeout(() => {
+        toast.style.transform = 'translateX(120%)';
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+    }, 4000);
+};
+
+let logInterval = null;
+const startLogSimulator = () => {
+    if (logInterval) return;
+    
+    const endpoints = [
+        { method: 'GET', endpoint: '/v1/balance', statuses: [200, 200, 200, 401] },
+        { method: 'POST', endpoint: '/v1/va/create', statuses: [200, 200, 200, 400] },
+        { method: 'POST', endpoint: '/v1/transfer', statuses: [200, 200, 202, 500] },
+        { method: 'GET', endpoint: '/v1/statement', statuses: [200, 200, 200] },
+        { method: 'POST', endpoint: '/v1/disbursement/batch', statuses: [202, 202, 200] }
+    ];
+
+    logInterval = setInterval(() => {
+        if (state.currentPage !== 'sandbox') return;
+        
+        // Pick random endpoint
+        const ep = endpoints[Math.floor(Math.random() * endpoints.length)];
+        const status = ep.statuses[Math.floor(Math.random() * ep.statuses.length)];
+        const now = new Date();
+        const timeStr = now.toTimeString().split(' ')[0];
+        const duration = status === 202 ? (Math.floor(Math.random() * 800) + 800) + 'ms' : (Math.floor(Math.random() * 150) + 30) + 'ms';
+        
+        const newLog = {
+            time: timeStr,
+            status: status,
+            method: ep.method,
+            endpoint: ep.endpoint,
+            duration: duration
+        };
+        
+        // Add to state
+        state.sandbox.apiLogs.unshift(newLog);
+        if (state.sandbox.apiLogs.length > 20) {
+            state.sandbox.apiLogs.pop();
+        }
+        
+        // 20% chance to add a simulated transaction
+        if (Math.random() < 0.2) {
+            const amount = Math.floor(Math.random() * 4500000) + 500000; // 500k to 5M
+            const isIncoming = Math.random() < 0.7; // 70% incoming
+            
+            const trx = {
+                date: 'Hari Ini',
+                desc: isIncoming ? 'Simulasi VA Collection - Auto Trx' : 'Simulasi Pembayaran Vendor - Auto Trx',
+                amount: isIncoming ? amount : -amount,
+                type: isIncoming ? 'in' : 'out',
+                status: 'Success'
+            };
+            
+            state.sandbox.transactions.unshift(trx);
+            if (state.sandbox.transactions.length > 10) {
+                state.sandbox.transactions.pop();
+            }
+            
+            if (isIncoming) {
+                state.sandbox.totalBalance += amount;
+                state.sandbox.incomingToday += amount;
+            } else {
+                state.sandbox.totalBalance -= amount;
+                state.sandbox.outgoingToday += amount;
+            }
+        }
+        
+        // Only re-render if active sandbox tab is dashboard or ecosystem
+        if (state.currentPage === 'sandbox' && (state.sandboxTab === 'dashboard' || state.sandboxTab === 'ecosystem')) {
+            render();
+        }
+    }, 7000);
+};
+
 const attachEventListeners = () => {
     // --- Auth Listeners ---
     if (state.viewMode === 'auth') {
@@ -2304,8 +4006,7 @@ const attachEventListeners = () => {
 
         if (loginBtn) loginBtn.addEventListener('click', () => {
             if (state.corporateId && state.userId && state.keyBcaResponse) {
-                state.viewMode = 'internal';
-                state.currentPage = 'dashboard';
+                state.authStep = 'select';
                 render();
             }
         });
@@ -2332,11 +4033,13 @@ const attachEventListeners = () => {
             });
         });
 
-        const cancelBtn = document.getElementById('cancel-auth');
-        if (cancelBtn) cancelBtn.addEventListener('click', () => {
-            state.viewMode = 'public';
-            state.currentPage = 'landing';
-            render();
+        document.querySelectorAll('.btn-cancel-auth').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                state.viewMode = 'public';
+                state.currentPage = 'landing';
+                render();
+            });
         });
 
         // PIN Keypad
@@ -2676,6 +4379,484 @@ const attachEventListeners = () => {
             state.roiInputs.branches = parseInt(document.getElementById('roi-branches').value) || 1;
             state.roiInputs.transactions = parseInt(document.getElementById('roi-transactions').value) || 100;
             render();
+        });
+    }
+
+    // TRY OCEAN NOW SECTION (Product Matcher)
+    const btnMatchProduct = document.getElementById('btn-match-product');
+    const toMatchResult = document.getElementById('to-match-result');
+    if (btnMatchProduct && toMatchResult) {
+        btnMatchProduct.addEventListener('click', () => {
+            const role = document.getElementById('to-role-select').value;
+            const industry = document.getElementById('to-industry-select').value;
+            const need = document.getElementById('to-need-select').value;
+            
+            if (!role || !industry || !need) {
+                alert('Silakan pilih peran, industri, dan kebutuhan Anda terlebih dahulu.');
+                return;
+            }
+            
+            let selectedProducts = [];
+            let badgeText = '';
+
+            if (role === 'ceo_cfo') {
+                badgeText = 'Rekomendasi Strategis untuk CEO / CFO';
+                if (need === 'collection') {
+                    selectedProducts = [
+                        { id: 'virtual-account', name: 'Virtual Account', category: 'Transaksi', subtitle: 'Identifikasi Pembayaran Otomatis', desc: 'Sangat cocok untuk CEO/CFO dalam memantau arus kas masuk secara instan tanpa verifikasi manual.', link: 'https://ocean.bca.co.id/id/produk/transaksi/virtual-account' },
+                        { id: 'qris-bca', name: 'QRIS BCA', category: 'Transaksi', subtitle: 'Satu QR untuk Semua E-Wallet', desc: 'Solusi penerimaan dana cepat di semua ritel/online untuk mengoptimalkan working capital.', link: 'https://ocean.bca.co.id/id/produk/transaksi/qris-bisnis' }
+                    ];
+                } else if (need === 'disbursement') {
+                    selectedProducts = [
+                        { id: 'mybca-bisnis', name: 'myBCA Bisnis', category: 'Rekening', subtitle: 'Kelola Keuangan Bisnis Terpadu', desc: 'Platform single sign-on untuk otorisasi pembayaran bulk transfer dan payroll karyawan secara aman dan efisien.', link: 'https://ocean.bca.co.id/id/produk/transaksi/ocean-by-bca/mybca-bisnis' }
+                    ];
+                } else if (need === 'cash_management') {
+                    selectedProducts = [
+                        { id: 'mybca-bisnis', name: 'myBCA Bisnis', category: 'Rekening', subtitle: 'Kelola Keuangan Bisnis Terpadu', desc: 'Pantau saldo konsolidasi dari seluruh rekening cabang Anda dalam satu dashboard eksekutif.', link: 'https://ocean.bca.co.id/id/produk/transaksi/ocean-by-bca/mybca-bisnis' },
+                        { id: 'e-deposito', name: 'e-Deposito', category: 'Investasi', subtitle: 'Investasi Dana Efisien', desc: 'Tempatkan kelebihan likuiditas perusahaan secara online dengan bunga deposito kompetitif.', link: 'https://ocean.bca.co.id/id/produk/rekening/e-deposito' }
+                    ];
+                } else if (need === 'financing') {
+                    selectedProducts = [
+                        { id: 'kur-bca', name: 'Kredit Usaha Rakyat (KUR)', category: 'Pinjaman', subtitle: 'Pembiayaan Modal Kerja Subsidi', desc: 'Pembiayaan bunga murah bersubsidi untuk mendukung ekspansi bisnis skala menengah Anda.', link: 'https://ocean.bca.co.id/id/produk/pinjaman/kur' },
+                        { id: 'kredit-lokal', name: 'Kredit Lokal', category: 'Pinjaman', subtitle: 'Kebutuhan Modal Kerja Dinamis', desc: 'Fasilitas pinjaman fleksibel yang dapat ditarik sewaktu-waktu sesuai kebutuhan perputaran kas.', link: 'https://ocean.bca.co.id/id/produk/pinjaman/kredit-lokal' }
+                    ];
+                } else {
+                    selectedProducts = [
+                        { id: 'bca-api', name: 'BCA API', category: 'Solusi Digital', subtitle: 'Integrasi Finansial Real-time', desc: 'Maksimalkan otomatisasi rekonsiliasi keuangan dengan menghubungkan sistem ERP internal langsung ke core banking BCA.', link: 'https://ocean.bca.co.id/id/produk/solusi-digital/bca-api' }
+                    ];
+                }
+            } else if (role === 'ops') {
+                badgeText = 'Rekomendasi Operasional untuk Finance & Ops';
+                if (need === 'collection') {
+                    selectedProducts = [
+                        { id: 'virtual-account', name: 'Virtual Account', category: 'Transaksi', subtitle: 'Rekonsiliasi Otomatis', desc: 'Eliminasi proses pengecekan mutasi manual. Setiap transaksi teridentifikasi otomatis berdasarkan ID pelanggan.', link: 'https://ocean.bca.co.id/id/produk/transaksi/virtual-account' },
+                        { id: 'edc-bca', name: 'EDC BCA', category: 'Transaksi', subtitle: 'Menerima Pembayaran Kartu', desc: 'Menerima berbagai jenis kartu debit/kredit dan metode QRIS di toko fisik secara andal.', link: 'https://ocean.bca.co.id/id/produk/transaksi/edc-bca' }
+                    ];
+                } else if (need === 'disbursement') {
+                    selectedProducts = [
+                        { id: 'mybca-bisnis', name: 'myBCA Bisnis', category: 'Rekening', subtitle: 'Bulk Transfer & Payroll', desc: 'Kirim dana ke ribuan vendor atau karyawan sekaligus dalam sekali upload file excel/CSV.', link: 'https://ocean.bca.co.id/id/produk/transaksi/ocean-by-bca/mybca-bisnis' }
+                    ];
+                } else if (need === 'cash_management') {
+                    selectedProducts = [
+                        { id: 'tahapan-gold', name: 'Tahapan Gold', category: 'Rekening', subtitle: 'Tabungan Bisnis Praktis', desc: 'Tabungan operasional dengan mutasi detail, limit transaksi harian besar, dan info SMS/Email berita.', link: 'https://ocean.bca.co.id/id/produk/rekening/tahapan-gold' },
+                        { id: 'giro-bca', name: 'Giro BCA', category: 'Rekening', subtitle: 'Kemudahan Cek & Bilyet Giro', desc: 'Fasilitas rekening koran dengan penarikan via Cek atau Bilyet Giro untuk operasional B2B sehari-hari.', link: 'https://ocean.bca.co.id/id/produk/rekening/giro' }
+                    ];
+                } else if (need === 'financing') {
+                    selectedProducts = [
+                        { id: 'kredit-lokal', name: 'Kredit Lokal', category: 'Pinjaman', subtitle: 'Working Capital', desc: 'Bantu operasional dengan tambahan modal kerja siap pakai saat piutang pelanggan belum cair.', link: 'https://ocean.bca.co.id/id/produk/pinjaman/kredit-lokal' }
+                    ];
+                } else {
+                    selectedProducts = [
+                        { id: 'bca-api', name: 'BCA API', category: 'Solusi Digital', subtitle: 'Integrasi Finansial Real-time', desc: 'Hubungkan mutasi rekening koran langsung ke dashboard operasional divisi keuangan Anda secara real-time.', link: 'https://ocean.bca.co.id/id/produk/solusi-digital/bca-api' }
+                    ];
+                }
+            } else {
+                badgeText = 'Rekomendasi Integrasi & Tech untuk Developer / IT';
+                if (need === 'collection') {
+                    selectedProducts = [
+                        { id: 'bca-api', name: 'BCA API (Virtual Account)', category: 'Solusi Digital', subtitle: 'API VA Integration', desc: 'Webhook notifikasi pembayaran VA instan untuk mengupdate status invoice di database Anda secara realtime.', link: 'https://ocean.bca.co.id/id/produk/solusi-digital/bca-api' }
+                    ];
+                } else if (need === 'disbursement') {
+                    selectedProducts = [
+                        { id: 'bca-api', name: 'BCA API (Transfer Dana)', category: 'Solusi Digital', subtitle: 'API Transfer Integration', desc: 'Otomatisasi pengiriman dana massal (payroll/vendor payment) terintegrasi langsung dari ERP internal.', link: 'https://ocean.bca.co.id/id/produk/solusi-digital/bca-api' }
+                    ];
+                } else if (need === 'cash_management') {
+                    selectedProducts = [
+                        { id: 'bca-api', name: 'BCA API (Mutasi & Saldo)', category: 'Solusi Digital', subtitle: 'Inquiry API Integration', desc: 'API mutasi dan cek saldo otomatis untuk ditarik ke dalam dashboard pelaporan finance internal.', link: 'https://ocean.bca.co.id/id/produk/solusi-digital/bca-api' }
+                    ];
+                } else if (need === 'financing') {
+                    selectedProducts = [
+                        { id: 'bca-api', name: 'BCA API (E-Kredit)', category: 'Solusi Digital', subtitle: 'API Credit Request', desc: 'Integrasi pengajuan fasilitas kredit merchant langsung dari dashboard backend e-commerce Anda.', link: 'https://ocean.bca.co.id/id/produk/solusi-digital/bca-api' }
+                    ];
+                } else {
+                    selectedProducts = [
+                        { id: 'bca-api', name: 'BCA API (Developer Portal)', category: 'Solusi Digital', subtitle: 'Sandboxed API Testing', desc: 'Akses instan ke credentials sandbox, API docs lengkap, dan simulator transaksi di Portal Developer BCA.', link: 'https://ocean.bca.co.id/id/produk/solusi-digital/bca-api' }
+                    ];
+                }
+            }
+
+            // Render output
+            const badgeEl = document.getElementById('to-match-badge');
+            if (badgeEl) badgeEl.textContent = badgeText;
+
+            const cardsContainer = document.getElementById('to-match-cards');
+            if (cardsContainer) {
+                cardsContainer.className = 'to-product-cards-container';
+                cardsContainer.innerHTML = selectedProducts.map(p => `
+                    <div class="to-product-card">
+                        <div class="to-product-card-header">
+                            <h4 class="to-product-card-title">${p.name}</h4>
+                            <span class="to-product-card-category">${p.category}</span>
+                        </div>
+                        <div class="to-product-card-subtitle">${p.subtitle}</div>
+                        <p class="to-product-card-desc">${p.desc}</p>
+                        <a href="${p.link}" target="_blank" class="to-product-card-action">
+                            Lihat Detail Produk ↗
+                        </a>
+                    </div>
+                `).join('');
+            }
+            
+            toMatchResult.classList.remove('hidden');
+        });
+    }
+
+    // Go to Sandbox button (from Try Ocean Now section) - Opens Request Access Modal
+    const btnGoSandbox = document.getElementById('btn-go-sandbox');
+    const reqModal = document.getElementById('sandbox-req-modal');
+    if (btnGoSandbox && reqModal) {
+        btnGoSandbox.addEventListener('click', () => {
+            reqModal.classList.remove('hidden');
+            // reset modal views
+            document.getElementById('sb-req-fields').classList.remove('hidden');
+            document.getElementById('sb-req-success-view').classList.add('hidden');
+            document.getElementById('sb-req-name').value = '';
+            document.getElementById('sb-req-email').value = '';
+            document.getElementById('sb-req-company').value = '';
+            document.getElementById('sb-req-phone').value = '';
+        });
+    }
+
+    // Modal Cancel Button
+    const btnSbReqCancel = document.getElementById('btn-sb-req-cancel');
+    if (btnSbReqCancel && reqModal) {
+        btnSbReqCancel.addEventListener('click', () => {
+            reqModal.classList.add('hidden');
+        });
+    }
+
+    // Modal Submit Form
+    const btnSbReqSubmit = document.getElementById('btn-sb-req-submit');
+    if (btnSbReqSubmit) {
+        btnSbReqSubmit.addEventListener('click', () => {
+            const name = document.getElementById('sb-req-name').value.trim();
+            const email = document.getElementById('sb-req-email').value.trim();
+            const company = document.getElementById('sb-req-company').value.trim();
+            const phone = document.getElementById('sb-req-phone').value.trim();
+
+            if (!name || !email || !company || !phone) {
+                alert('Mohon lengkapi seluruh kolom pendaftaran.');
+                return;
+            }
+
+            // Transition to success screen
+            document.getElementById('sb-req-fields').classList.add('hidden');
+            document.getElementById('sb-req-success-view').classList.remove('hidden');
+        });
+    }
+
+    // Modal Success - Redirect to Sandbox
+    const btnSbReqSandboxDirect = document.getElementById('btn-sb-req-sandbox-direct');
+    if (btnSbReqSandboxDirect && reqModal) {
+        btnSbReqSandboxDirect.addEventListener('click', () => {
+            reqModal.classList.add('hidden');
+            state.currentPage = 'sandbox';
+            state.sandboxTab = 'dashboard';
+            render();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    // Sandbox tab navigation
+    document.querySelectorAll('[data-sb-tab]').forEach(tab => {
+        tab.addEventListener('click', () => {
+            state.sandboxTab = tab.getAttribute('data-sb-tab');
+            render();
+        });
+    });
+
+    // Sandbox: Invoice create form toggle
+    const btnCreateInvoice = document.getElementById('btn-sb-create-invoice');
+    const invoiceForm = document.getElementById('sb-invoice-form');
+    if (btnCreateInvoice && invoiceForm) {
+        btnCreateInvoice.addEventListener('click', () => {
+            invoiceForm.classList.remove('hidden');
+        });
+    }
+
+    const btnCancelInvoice = document.getElementById('btn-sb-cancel-invoice');
+    if (btnCancelInvoice && invoiceForm) {
+        btnCancelInvoice.addEventListener('click', () => {
+            invoiceForm.classList.add('hidden');
+        });
+    }
+
+    // Sandbox: Submit Invoice
+    const btnSubmitInvoice = document.getElementById('btn-sb-submit-invoice');
+    if (btnSubmitInvoice) {
+        btnSubmitInvoice.addEventListener('click', () => {
+            const customer = document.getElementById('sb-inv-customer')?.value.trim();
+            const amountStr = document.getElementById('sb-inv-amount')?.value;
+            const dueStr = document.getElementById('sb-inv-due')?.value;
+            
+            if (!customer || !amountStr || !dueStr) {
+                showToast('Gagal Membuat Invoice', 'Mohon lengkapi semua field invoice.', 'error');
+                return;
+            }
+
+            const amount = parseInt(amountStr);
+            const due = new Date(dueStr).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+            const invNo = 'INV-2026-' + String(Math.floor(Math.random() * 9000) + 1000);
+
+            // Add to state
+            state.sandbox.invoices.unshift({
+                id: invNo,
+                customer: customer,
+                amount: amount,
+                due: due,
+                status: 'Menunggu'
+            });
+
+            // Add api log
+            const now = new Date();
+            const timeStr = now.toTimeString().split(' ')[0];
+            state.sandbox.apiLogs.unshift({
+                time: timeStr,
+                status: 200,
+                method: 'POST',
+                endpoint: `/v1/va/create`,
+                duration: '115ms'
+            });
+
+            showToast('Invoice Terkirim', `Invoice ${invNo} untuk ${customer} berhasil dibuat!`, 'success');
+            render();
+        });
+    }
+
+    // Sandbox: Remind button
+    document.querySelectorAll('.sb-btn-remind').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const invId = e.target.getAttribute('data-inv-id');
+            const origText = e.target.textContent;
+            e.target.textContent = '✓ Terkirim!';
+            e.target.disabled = true;
+            e.target.style.background = '#16a34a';
+            e.target.style.color = 'white';
+            
+            showToast('Pengingat Terkirim', `Email pengingat pembayaran untuk invoice ${invId} telah dikirim ke pelanggan.`, 'success');
+
+            // Add api log
+            const now = new Date();
+            const timeStr = now.toTimeString().split(' ')[0];
+            state.sandbox.apiLogs.unshift({
+                time: timeStr,
+                status: 200,
+                method: 'POST',
+                endpoint: `/v1/va/remind`,
+                duration: '95ms'
+            });
+
+            setTimeout(() => {
+                e.target.textContent = origText;
+                e.target.disabled = false;
+                e.target.style.background = '';
+                e.target.style.color = '';
+            }, 2000);
+        });
+    });
+
+    // Sandbox: Pay button (Simulated customer payment)
+    document.querySelectorAll('.sb-btn-pay').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const invId = e.target.getAttribute('data-inv-id');
+            const invoice = state.sandbox.invoices.find(inv => inv.id === invId);
+            
+            if (invoice) {
+                invoice.status = 'Lunas';
+                state.sandbox.totalBalance += invoice.amount;
+                state.sandbox.incomingToday += invoice.amount;
+
+                // Add to transactions
+                state.sandbox.transactions.unshift({
+                    date: 'Hari Ini',
+                    desc: `VA Payment - ${invoice.customer} (${invoice.id})`,
+                    amount: invoice.amount,
+                    type: 'in',
+                    status: 'Success'
+                });
+
+                // Add api log
+                const now = new Date();
+                const timeStr = now.toTimeString().split(' ')[0];
+                state.sandbox.apiLogs.unshift({
+                    time: timeStr,
+                    status: 200,
+                    method: 'POST',
+                    endpoint: `/v1/va/callback (${invoice.id})`,
+                    duration: '142ms'
+                });
+
+                showToast('Pembayaran Berhasil', `Simulasi pembayaran untuk ${invoice.id} sebesar Rp ${invoice.amount.toLocaleString('id-ID')} telah diterima!`, 'success');
+                render();
+            }
+        });
+    });
+
+    // Sandbox: Copy API key
+    document.querySelectorAll('.sb-copy-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const key = e.target.getAttribute('data-key');
+            navigator.clipboard.writeText(key).then(() => {
+                showToast('Disalin', 'Kunci API berhasil disalin ke clipboard.', 'success');
+                e.target.textContent = '✓';
+                setTimeout(() => e.target.textContent = '📋', 1500);
+            });
+        });
+    });
+
+    // Sandbox: Activate ecosystem card
+    document.querySelectorAll('.sb-btn-activate').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const ecoId = e.target.getAttribute('data-eco-id');
+            const integration = state.sandbox.integrations.find(item => item.id === ecoId);
+            if (integration) {
+                integration.active = true;
+                integration.trx = Math.floor(Math.random() * 500) + 100;
+                integration.uptime = '99.' + (Math.floor(Math.random() * 9) + 1) + '%';
+                
+                // Add api log
+                const now = new Date();
+                const timeStr = now.toTimeString().split(' ')[0];
+                state.sandbox.apiLogs.unshift({
+                    time: timeStr,
+                    status: 200,
+                    method: 'POST',
+                    endpoint: `/v1/keys/activate (${integration.id})`,
+                    duration: '105ms'
+                });
+
+                showToast('Koneksi Diaktifkan', `Integrasi untuk ${integration.name} berhasil diaktifkan.`, 'success');
+                render();
+            }
+        });
+    });
+
+    // Sandbox: Deactivate ecosystem card
+    document.querySelectorAll('.sb-btn-deactivate').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const ecoId = e.target.getAttribute('data-eco-id');
+            const integration = state.sandbox.integrations.find(item => item.id === ecoId);
+            if (integration) {
+                integration.active = false;
+                
+                // Add api log
+                const now = new Date();
+                const timeStr = now.toTimeString().split(' ')[0];
+                state.sandbox.apiLogs.unshift({
+                    time: timeStr,
+                    status: 200,
+                    method: 'POST',
+                    endpoint: `/v1/keys/deactivate (${integration.id})`,
+                    duration: '85ms'
+                });
+
+                showToast('Koneksi Dinonaktifkan', `Integrasi untuk ${integration.name} dinonaktifkan.`, 'warning');
+                render();
+            }
+        });
+    });
+
+    // API Console Endpoint Selection change
+    const apiEndpointSelect = document.getElementById('sb-api-endpoint');
+    if (apiEndpointSelect) {
+        apiEndpointSelect.addEventListener('change', (e) => {
+            state.sandbox.apiSimulation.activeEndpoint = e.target.value;
+            state.sandbox.apiSimulation.response = null;
+            render();
+        });
+    }
+
+    // API Console Run Simulation
+    const btnSbSendApi = document.getElementById('btn-sb-send-api');
+    if (btnSbSendApi) {
+        btnSbSendApi.addEventListener('click', () => {
+            state.sandbox.apiSimulation.executing = true;
+            render();
+
+            setTimeout(() => {
+                const endpoint = state.sandbox.apiSimulation.activeEndpoint;
+                let response = {};
+
+                if (endpoint === 'get-balance') {
+                    response = {
+                        status: "success",
+                        account_number: "1234567890",
+                        balance: state.sandbox.totalBalance,
+                        currency: "IDR",
+                        timestamp: new Date().toISOString()
+                    };
+                } else if (endpoint === 'create-va') {
+                    response = {
+                        status: "created",
+                        va_number: "988776655102",
+                        amount: 15000000,
+                        customer_name: "PT Cipta Karya",
+                        trx_id: "VA-" + Math.floor(Math.random() * 900000 + 100000),
+                        timestamp: new Date().toISOString()
+                    };
+                } else if (endpoint === 'transfer') {
+                    response = {
+                        status: "success",
+                        reference_number: "TRX-" + Math.floor(Math.random() * 90000000 + 10000000),
+                        amount: 25000000,
+                        beneficiary: "CV Logistik Abadi",
+                        timestamp: new Date().toISOString()
+                    };
+                }
+
+                state.sandbox.apiSimulation.executing = false;
+                state.sandbox.apiSimulation.response = response;
+
+                // Add to api logs
+                const now = new Date();
+                const timeStr = now.toTimeString().split(' ')[0];
+                state.sandbox.apiLogs.unshift({
+                    time: timeStr,
+                    status: 200,
+                    method: endpoint === 'get-balance' ? 'GET' : 'POST',
+                    endpoint: endpoint === 'get-balance' ? '/v1/balance' : (endpoint === 'create-va' ? '/v1/va/create' : '/v1/transfer'),
+                    duration: (Math.floor(Math.random() * 80) + 40) + 'ms'
+                });
+
+                showToast('API Executed', 'Ocean API Simulator berhasil mengembalikan response JSON.', 'success');
+                render();
+            }, 800);
+        });
+    }
+
+    // TRY OCEAN NOW SECTION (API Sandbox)
+    const btnRunApi = document.getElementById('btn-run-api');
+    const apiTabs = document.querySelectorAll('.api-tab');
+    const reqCode = document.getElementById('api-req-code');
+    const resCode = document.getElementById('api-res-code');
+    
+    if (btnRunApi) {
+        btnRunApi.addEventListener('click', () => {
+            reqCode.classList.add('hidden');
+            resCode.classList.remove('hidden');
+            apiTabs[0].classList.remove('active');
+            apiTabs[1].classList.add('active');
+            btnRunApi.textContent = 'API Berhasil Dieksekusi!';
+            btnRunApi.disabled = true;
+            setTimeout(() => {
+                btnRunApi.textContent = 'Simulasi Eksekusi API';
+                btnRunApi.disabled = false;
+            }, 3000);
+        });
+    }
+    
+    if (apiTabs.length >= 2) {
+        apiTabs[0].addEventListener('click', () => {
+            apiTabs[1].classList.remove('active');
+            apiTabs[0].classList.add('active');
+            resCode.classList.add('hidden');
+            reqCode.classList.remove('hidden');
+        });
+        apiTabs[1].addEventListener('click', () => {
+            apiTabs[0].classList.remove('active');
+            apiTabs[1].classList.add('active');
+            reqCode.classList.add('hidden');
+            resCode.classList.remove('hidden');
         });
     }
 
@@ -3182,3 +5363,4 @@ const attachEventListeners = () => {
 };
 
 render();
+startLogSimulator();
