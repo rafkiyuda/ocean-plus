@@ -3201,7 +3201,8 @@ input:checked + .slider:before { transform: translateX(22px); }
 ========================================== */
 .mengapa-ocean-section {
   position: relative;
-  height: 800px;
+  min-height: 800px;
+  height: auto;
   background-image: url('https://pustaka.bca.co.id/Ocean/Homepage/why-section.jpg');
   background-size: cover;
   background-position: center;
@@ -3209,7 +3210,6 @@ input:checked + .slider:before { transform: translateX(22px); }
   display: flex;
   align-items: flex-end;
   color: white;
-  overflow: hidden;
   font-family: 'Inter', sans-serif;
   margin-top: 4rem;
 }
@@ -3231,7 +3231,8 @@ input:checked + .slider:before { transform: translateX(22px); }
   max-width: 1200px;
   margin: 0 auto;
   padding: 4rem 2rem;
-  height: 100%;
+  height: auto;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -7211,7 +7212,7 @@ a.roi-page__cta {
 .mengapa-trust-intro {
     margin-top: 48px;
     font-size: 1rem;
-    color: #475569;
+    color: rgba(255, 255, 255, 0.9);
     line-height: 1.6;
     margin-bottom: 32px;
 }
