@@ -2189,20 +2189,25 @@ const ROICalculatorPage = () => {
     const staff = state.roiInputs.financeStaff || 3;
     const hours = state.roiInputs.manualHours || 4;
 
-    const hourlyRate = 85000;
-    const monthlyHoursWasted = staff * hours * 22;
-    const costSavings = Math.round(monthlyHoursWasted * hourlyRate * 0.85);
-    const timeSaved = Math.round(monthlyHoursWasted * 0.85);
-    const errorReduction = Math.min(95, Math.round(60 + (tx / 100000) * 35));
-    const stpRate = Math.min(98, Math.round(75 + (tx / 100000) * 23));
+    const workingDays = 22;
+    const monthlySalary = 15000000;
+    const hourlyRate = Math.round(monthlySalary / (workingDays * 8));
+    const automationRate = 0.70;
+
+    const totalManualHours = staff * hours * workingDays;
+    const automatedHours = Math.round(totalManualHours * automationRate);
+    const remainingHours = totalManualHours - automatedHours;
+    const costSavings = automatedHours * hourlyRate;
+    const annualSavings = costSavings * 12;
+
     const oldBarPct = 100;
-    const newBarPct = Math.max(5, Math.round(100 - (timeSaved / monthlyHoursWasted) * 100));
+    const newBarPct = Math.max(8, Math.round((remainingHours / totalManualHours) * 100));
 
     return `
     <div class="roi-page fade-in">
         <div class="roi-page__hero">
             <h1>Kalkulator ROI Bisnis</h1>
-            <p>Hitung potensi penghematan biaya operasional dan peningkatan produktivitas perusahaan Anda dengan solusi Cash Management Ocean by BCA.</p>
+            <p>Simulasikan estimasi penghematan operasional perusahaan Anda dengan otomatisasi Cash Management. Semua angka dapat disesuaikan &mdash; hasilnya bersifat proyeksi.</p>
             <div class="roi-page__trust">
                 <span class="roi-page__trust-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
@@ -2210,7 +2215,7 @@ const ROICalculatorPage = () => {
                 </span>
                 <span class="roi-page__trust-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                    Diawasi OJK & BI
+                    Diawasi OJK &amp; BI
                 </span>
                 <span class="roi-page__trust-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
@@ -2222,10 +2227,9 @@ const ROICalculatorPage = () => {
         <div class="roi-page__body">
             <div class="roi-page__card">
                 <div class="roi-page__columns">
-                    <!-- LEFT: Inputs -->
                     <div class="roi-page__inputs">
                         <h3 class="roi-page__inputs-title">Parameter Bisnis Anda</h3>
-                        <p class="roi-page__inputs-sub">Sesuaikan parameter di bawah untuk melihat estimasi penghematan secara real-time.</p>
+                        <p class="roi-page__inputs-sub">Geser slider untuk menyesuaikan dengan kondisi aktual perusahaan Anda.</p>
 
                         <div class="roi-field">
                             <div class="roi-field__header">
@@ -2250,21 +2254,34 @@ const ROICalculatorPage = () => {
                             </div>
                             <input type="range" id="roi-hours" min="1" max="8" step="1" value="${hours}" class="roi-field__slider">
                         </div>
+
+                        <div class="roi-methodology">
+                            <div class="roi-methodology__title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                                Cara Kami Menghitung
+                            </div>
+                            <div class="roi-methodology__body">
+                                <div class="roi-methodology__row"><span>Hari kerja / bulan</span><span>${workingDays} hari</span></div>
+                                <div class="roi-methodology__row"><span>Gaji rata-rata staf finance</span><span>Rp ${monthlySalary.toLocaleString('id-ID')}/bln</span></div>
+                                <div class="roi-methodology__row"><span>Biaya per jam kerja</span><span>Rp ${hourlyRate.toLocaleString('id-ID')}/jam</span></div>
+                                <div class="roi-methodology__row"><span>Estimasi otomatisasi</span><span>${Math.round(automationRate * 100)}% proses</span></div>
+                                <p class="roi-methodology__note">Angka otomatisasi 70% merupakan estimasi konservatif. Hasil aktual bervariasi sesuai kondisi perusahaan.</p>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- RIGHT: Results -->
                     <div class="roi-page__results">
-                        <h3 class="roi-page__results-title">Estimasi Penghematan Bulanan</h3>
-                        <p class="roi-page__results-sub">Berdasarkan standar gaji staf Rp 15 juta/bulan dan tingkat otomatisasi STP 85%.</p>
+                        <h3 class="roi-page__results-title">Proyeksi Penghematan</h3>
+                        <p class="roi-page__results-sub">Estimasi berdasarkan parameter yang Anda masukkan.</p>
 
                         <div class="roi-result-item roi-result-item--highlight">
                             <div class="roi-result-icon">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
                             </div>
                             <div class="roi-result-info">
-                                <div class="roi-result-label">Penghematan Biaya Operasional</div>
+                                <div class="roi-result-label">Penghematan Biaya / Bulan</div>
                                 <div class="roi-result-value" id="roi-res-savings">Rp ${costSavings.toLocaleString('id-ID')}</div>
-                                <div class="roi-result-desc">Estimasi pengurangan biaya lembur, error manual, dan administrasi berulang per bulan.</div>
+                                <div class="roi-result-desc" id="roi-res-savings-desc">${automatedHours} jam terotomatisasi x Rp ${hourlyRate.toLocaleString('id-ID')}/jam</div>
                             </div>
                         </div>
 
@@ -2273,47 +2290,48 @@ const ROICalculatorPage = () => {
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                             </div>
                             <div class="roi-result-info">
-                                <div class="roi-result-label">Waktu Produktif yang Dikembalikan</div>
-                                <div class="roi-result-value" id="roi-res-time">${timeSaved} Jam</div>
-                                <div class="roi-result-desc">Jam kerja yang dialihkan dari rekonsiliasi manual ke analisis strategis.</div>
+                                <div class="roi-result-label">Jam Kerja yang Dapat Dialihkan</div>
+                                <div class="roi-result-value" id="roi-res-time">${automatedHours} Jam / Bulan</div>
+                                <div class="roi-result-desc" id="roi-res-time-desc">Dari total ${totalManualHours} jam proses manual, ~${automatedHours} jam dapat diotomatisasi.</div>
                             </div>
                         </div>
 
                         <div class="roi-result-item">
                             <div class="roi-result-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                             </div>
                             <div class="roi-result-info">
-                                <div class="roi-result-label">Tingkat STP (Straight-Through Processing)</div>
-                                <div class="roi-result-value" id="roi-res-stp">${stpRate}%</div>
-                                <div class="roi-result-desc">Persentase transaksi yang diproses otomatis tanpa intervensi manual.</div>
+                                <div class="roi-result-label">Proyeksi Penghematan / Tahun</div>
+                                <div class="roi-result-value" id="roi-res-annual">Rp ${annualSavings.toLocaleString('id-ID')}</div>
+                                <div class="roi-result-desc">Penghematan bulanan x 12 bulan. Belum termasuk pengurangan error dan re-work.</div>
                             </div>
                         </div>
 
                         <div class="roi-chart">
-                            <div class="roi-chart__title">Perbandingan Waktu Rekonsiliasi per Bulan</div>
+                            <div class="roi-chart__title">Durasi Rekonsiliasi per Bulan</div>
                             <div class="roi-chart__row">
-                                <span class="roi-chart__label">Sistem Lama</span>
+                                <span class="roi-chart__label">Proses Manual</span>
                                 <div class="roi-chart__track">
-                                    <div class="roi-chart__bar roi-chart__bar--old" style="width: ${oldBarPct}%;">${monthlyHoursWasted} jam</div>
+                                    <div class="roi-chart__bar roi-chart__bar--old" id="roi-bar-old" style="width: ${oldBarPct}%;"><span id="roi-bar-old-text">${totalManualHours} jam</span></div>
                                 </div>
                             </div>
                             <div class="roi-chart__row">
                                 <span class="roi-chart__label">Dengan Ocean</span>
                                 <div class="roi-chart__track">
-                                    <div class="roi-chart__bar roi-chart__bar--new" id="roi-bar-new" style="width: ${newBarPct}%;">${monthlyHoursWasted - timeSaved} jam</div>
+                                    <div class="roi-chart__bar roi-chart__bar--new" id="roi-bar-new" style="width: ${newBarPct}%;"><span id="roi-bar-new-text">${remainingHours} jam</span></div>
                                 </div>
                             </div>
+                            <p class="roi-chart__note" id="roi-chart-note">"Proses Manual" = ${staff} staf x ${hours} jam/hari x ${workingDays} hari = ${totalManualHours} jam. "Dengan Ocean" = sisa setelah ~${Math.round(automationRate * 100)}% diotomatisasi = ${remainingHours} jam.</p>
                         </div>
 
-                        <button class="roi-page__cta" onclick="state.currentPage='how-it-works'; render();">
+                        <a href="#" class="roi-page__cta" data-page="how-it-works">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                             Pelajari Solusi Cash Management
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
-            <p class="roi-page__disclaimer">* Kalkulasi bersifat estimasi berdasarkan rata-rata industri. Angka aktual dapat bervariasi tergantung skala operasi, kompleksitas proses, dan tingkat adopsi digital perusahaan Anda.</p>
+            <p class="roi-page__disclaimer">* Semua angka bersifat estimasi dan proyeksi. Hasil aktual bergantung pada skala operasi, kompleksitas proses, tingkat adopsi digital, dan kondisi spesifik perusahaan Anda. Hubungi tim kami untuk analisis yang disesuaikan.</p>
         </div>
 
         ${PublicFooter()}
@@ -4742,22 +4760,34 @@ const attachEventListeners = () => {
             document.getElementById('roi-val-staff').textContent = staff;
             document.getElementById('roi-val-hours').textContent = hours;
             
-            const hourlyRate = 85000;
-            const monthlyHoursWasted = staff * hours * 22;
-            const costSavings = Math.round(monthlyHoursWasted * hourlyRate * 0.85);
-            const timeSaved = Math.round(monthlyHoursWasted * 0.85);
-            const stpRate = Math.min(98, Math.round(75 + (tx / 100000) * 23));
-            const newBarPct = Math.max(5, Math.round(100 - (timeSaved / monthlyHoursWasted) * 100));
+            const workingDays = 22;
+            const monthlySalary = 15000000;
+            const hourlyRate = Math.round(monthlySalary / (workingDays * 8));
+            const automationRate = 0.70;
+            
+            const totalManualHours = staff * hours * workingDays;
+            const automatedHours = Math.round(totalManualHours * automationRate);
+            const remainingHours = totalManualHours - automatedHours;
+            const costSavings = automatedHours * hourlyRate;
+            const annualSavings = costSavings * 12;
+            const newBarPct = Math.max(8, Math.round((remainingHours / totalManualHours) * 100));
             
             document.getElementById('roi-res-savings').textContent = 'Rp ' + costSavings.toLocaleString('id-ID');
-            document.getElementById('roi-res-time').textContent = timeSaved + ' Jam';
-            document.getElementById('roi-res-stp').textContent = stpRate + '%';
+            document.getElementById('roi-res-savings-desc').textContent = automatedHours + ' jam terotomatisasi x Rp ' + hourlyRate.toLocaleString('id-ID') + '/jam';
+            document.getElementById('roi-res-time').textContent = automatedHours + ' Jam / Bulan';
+            document.getElementById('roi-res-time-desc').textContent = 'Dari total ' + totalManualHours + ' jam proses manual, ~' + automatedHours + ' jam dapat diotomatisasi.';
+            document.getElementById('roi-res-annual').textContent = 'Rp ' + annualSavings.toLocaleString('id-ID');
+            
+            const barOld = document.getElementById('roi-bar-old-text');
+            if (barOld) barOld.textContent = totalManualHours + ' jam';
             
             const barNew = document.getElementById('roi-bar-new');
-            if (barNew) {
-                barNew.style.width = newBarPct + '%';
-                barNew.textContent = (monthlyHoursWasted - timeSaved) + ' jam';
-            }
+            const barNewText = document.getElementById('roi-bar-new-text');
+            if (barNew) barNew.style.width = newBarPct + '%';
+            if (barNewText) barNewText.textContent = remainingHours + ' jam';
+            
+            const chartNote = document.getElementById('roi-chart-note');
+            if (chartNote) chartNote.textContent = '"Proses Manual" = ' + staff + ' staf x ' + hours + ' jam/hari x ' + workingDays + ' hari = ' + totalManualHours + ' jam. "Dengan Ocean" = sisa setelah ~' + Math.round(automationRate * 100) + '% diotomatisasi = ' + remainingHours + ' jam.';
         };
         
         roiTx.addEventListener('input', updateROI);
