@@ -27,3 +27,20 @@ dist-ssr
 scratch/
 /scratch/
 
+
+# Scratch/temp files
+*.py
+screenshot*.cjs
+scrape*.cjs
+check_*.cjs
+check_*.py
+fix_*.cjs
+fix_*.py
+get_*.cjs
+inject_*.py
+cleanup_*.py
+patch_*.py
+add_*.py
+ocean_*.html
+cleaned_*.html
+scraped_*.css
