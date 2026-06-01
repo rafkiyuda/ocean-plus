@@ -8,11 +8,13 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-// ── Config (not exposed in UI) ──────────────────────────────────────────────
+// ── Config ────────────────────────────────────────────────────────────────────
+// Supabase anon key is safe to expose in frontend (it's public by design)
 const SUPABASE_URL = 'https://lypocldjhixbgazuewqu.supabase.co';
 const SUPABASE_ANON = 'sb_publishable_3muKJv8Ib-_1OVITZJ5BSg_84uGD5K5';
-const GEMINI_KEY = 'AIzaSyCM9si2M59tVRS-VX90Gom-Sq3QzzoP4R4';
-const GEMINI_MODEL = 'gemini-3.5-flash';
+// Gemini key: load from .env file (VITE_GEMINI_KEY=...)
+const GEMINI_KEY = import.meta.env.VITE_GEMINI_KEY || '';
+const GEMINI_MODEL = 'gemini-2.5-flash-lite';
 const EMBED_MODEL = 'gemini-embedding-2';
 const GEMINI_BASE = 'https://generativelanguage.googleapis.com/v1beta';
 

@@ -23,6 +23,11 @@ dist-ssr
 *.sln
 *.sw?
 
+# Environment variables (API keys - NEVER commit these!)
+.env
+.env.*
+!.env.example
+
 # Scratch directories
 scratch/
 /scratch/

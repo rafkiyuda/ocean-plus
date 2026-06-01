@@ -4934,9 +4934,10 @@ const attachEventListeners = () => {
                         : '')
                 };
             } catch (err) {
+                console.error('[Ocean AI] chatWithRAG error:', err);
                 state.chatHistory[state.chatHistory.length - 1] = {
                     role: 'ai',
-                    content: 'Maaf, terjadi kesalahan saat menghubungi AI. Coba lagi.'
+                    content: 'Maaf, terjadi kesalahan: ' + err.message
                 };
             } finally {
                 sendBtn.disabled = false;
