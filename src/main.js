@@ -1177,51 +1177,7 @@ const PublicFooter = () => `
                         </div>
                     </div>
 
-                    <!-- CARDS: BOTTOM GRID -->
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
-                        
-                        <!-- Card 1 -->
-                        <div class="card-premium fade-in" style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 2rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.02); display: flex; flex-direction: column;">
-                            <div style="width: 48px; height: 48px; background: #eff6ff; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.5rem; border: 1px solid #bfdbfe;">🧠</div>
-                            <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem; line-height:1.4;">Smart Ecosystem Matching & Auto-Suggestion</h3>
-                            <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1.5rem; line-height: 1.6;">AI menganalisis pola operasional nasabah (seperti volume transaksi, frekuensi invoicing, dan aktivitas payroll) untuk merekomendasikan kombinasi mitra ekosistem yang paling optimal, otomatis.</p>
-                            <div style="margin-top: auto; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 1.25rem;">
-                                <div style="font-size: 0.75rem; font-weight: 800; color: #b45309; margin-bottom: 8px; display:flex; align-items:center; gap:6px;"><span style="width:6px;height:6px;background:#f59e0b;border-radius:50%;display:inline-block;animation:pulse 2s infinite;"></span> AI Auto-Suggestion</div>
-                                <div style="font-size: 0.8rem; color: #334155; font-style: italic; line-height: 1.5;">"Dalam 18 hari mendatang, cash flow berpotensi defisit Rp 850 juta karena pola pembayaran pelanggan. Rekomendasi: Akses fasilitas KKB BCA senilai Rp 1 Miliar dengan suku bunga 2%."</div>
-                            </div>
-                        </div>
-
-                        <!-- Card 2 -->
-                        <div class="card-premium fade-in" style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 2rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.02); display: flex; flex-direction: column; animation-delay: 0.1s;">
-                            <div style="width: 48px; height: 48px; background: #f0fdf4; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.5rem; border: 1px solid #bbf7d0;">🔗</div>
-                            <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem; line-height:1.4;">Predictive Supply Chain Finance Recommendation</h3>
-                            <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1.5rem; line-height: 1.6;">AI menganalisis pola transaksi serta hubungan supplier, customer untuk mengidentifikasi kebutuhan pembiayaan dalam supply chain, lalu secara proaktif merekomendasikan solusi seperti invoice financing atau working capital loan.</p>
-                            <div style="margin-top: auto; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 1.25rem;">
-                                <div style="font-size: 0.75rem; font-weight: 800; color: #0369a1; margin-bottom: 8px; display:flex; align-items:center; gap:6px;"><span style="width:6px;height:6px;background:#0ea5e9;border-radius:50%;display:inline-block;animation:pulse 2s infinite;"></span> AI Recommendation</div>
-                                <div style="font-size: 0.8rem; color: #334155; font-style: italic; line-height: 1.5;">"Terdeteksi keterlambatan pembayaran dari pelanggan utama hingga 20 hari. Ocean merekomendasikan Invoice Financing Rp 2 Miliar untuk menjaga likuiditas dalam 30 hari ke depan."</div>
-                            </div>
-                        </div>
-
-                        <!-- Card 3 -->
-                        <div class="card-premium fade-in" style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 2rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.02); display: flex; flex-direction: column; animation-delay: 0.2s;">
-                            <div style="width: 48px; height: 48px; background: #fff1f2; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.5rem; border: 1px solid #fecdd3;">🛡️</div>
-                            <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem; line-height:1.4;">Anomaly Detection & Business Health Scoring</h3>
-                            <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1.5rem; line-height: 1.6;">AI mendeteksi anomali atau potensi risiko dalam aktivitas bisnis serta memberikan skor kesehatan bisnis secara real-time sehingga nasabah dapat mengambil tindakan preventif lebih cepat.</p>
-                            
-                            <div style="margin-top: auto; background: linear-gradient(135deg, #f0fdf4, #dcfce7); border: 1px solid #bbf7d0; border-radius: 8px; padding: 1.25rem; display:flex; align-items:center; gap: 15px;">
-                                <div style="width: 65px; height: 65px; background: white; border-radius: 50%; border: 4px solid #22c55e; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900; color: #16a34a; box-shadow: 0 4px 6px rgba(34,197,94,0.2);">78</div>
-                                <div>
-                                    <div style="font-size: 0.75rem; font-weight: 800; color: #166534; text-transform:uppercase; letter-spacing:0.5px;">Business Health Score</div>
-                                    <div style="font-size: 0.95rem; font-weight: 800; color: #15803d; margin-top:6px; display:flex; align-items:center; gap:6px;">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                        Status: Good
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
+                    
             </div>
         </section>
 
@@ -2146,51 +2102,7 @@ const LandingPage = () => `
                         </div>
                     </div>
 
-                    <!-- CARDS: BOTTOM GRID -->
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
-                        
-                        <!-- Card 1 -->
-                        <div class="card-premium fade-in" style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 2rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.02); display: flex; flex-direction: column;">
-                            <div style="width: 48px; height: 48px; background: #eff6ff; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.5rem; border: 1px solid #bfdbfe;">🧠</div>
-                            <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem; line-height:1.4;">Smart Ecosystem Matching & Auto-Suggestion</h3>
-                            <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1.5rem; line-height: 1.6;">AI menganalisis pola operasional nasabah (seperti volume transaksi, frekuensi invoicing, dan aktivitas payroll) untuk merekomendasikan kombinasi mitra ekosistem yang paling optimal, otomatis.</p>
-                            <div style="margin-top: auto; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 1.25rem;">
-                                <div style="font-size: 0.75rem; font-weight: 800; color: #b45309; margin-bottom: 8px; display:flex; align-items:center; gap:6px;"><span style="width:6px;height:6px;background:#f59e0b;border-radius:50%;display:inline-block;animation:pulse 2s infinite;"></span> AI Auto-Suggestion</div>
-                                <div style="font-size: 0.8rem; color: #334155; font-style: italic; line-height: 1.5;">"Dalam 18 hari mendatang, cash flow berpotensi defisit Rp 850 juta karena pola pembayaran pelanggan. Rekomendasi: Akses fasilitas KKB BCA senilai Rp 1 Miliar dengan suku bunga 2%."</div>
-                            </div>
-                        </div>
-
-                        <!-- Card 2 -->
-                        <div class="card-premium fade-in" style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 2rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.02); display: flex; flex-direction: column; animation-delay: 0.1s;">
-                            <div style="width: 48px; height: 48px; background: #f0fdf4; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.5rem; border: 1px solid #bbf7d0;">🔗</div>
-                            <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem; line-height:1.4;">Predictive Supply Chain Finance Recommendation</h3>
-                            <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1.5rem; line-height: 1.6;">AI menganalisis pola transaksi serta hubungan supplier, customer untuk mengidentifikasi kebutuhan pembiayaan dalam supply chain, lalu secara proaktif merekomendasikan solusi seperti invoice financing atau working capital loan.</p>
-                            <div style="margin-top: auto; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 1.25rem;">
-                                <div style="font-size: 0.75rem; font-weight: 800; color: #0369a1; margin-bottom: 8px; display:flex; align-items:center; gap:6px;"><span style="width:6px;height:6px;background:#0ea5e9;border-radius:50%;display:inline-block;animation:pulse 2s infinite;"></span> AI Recommendation</div>
-                                <div style="font-size: 0.8rem; color: #334155; font-style: italic; line-height: 1.5;">"Terdeteksi keterlambatan pembayaran dari pelanggan utama hingga 20 hari. Ocean merekomendasikan Invoice Financing Rp 2 Miliar untuk menjaga likuiditas dalam 30 hari ke depan."</div>
-                            </div>
-                        </div>
-
-                        <!-- Card 3 -->
-                        <div class="card-premium fade-in" style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 2rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.02); display: flex; flex-direction: column; animation-delay: 0.2s;">
-                            <div style="width: 48px; height: 48px; background: #fff1f2; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.5rem; border: 1px solid #fecdd3;">🛡️</div>
-                            <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem; line-height:1.4;">Anomaly Detection & Business Health Scoring</h3>
-                            <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1.5rem; line-height: 1.6;">AI mendeteksi anomali atau potensi risiko dalam aktivitas bisnis serta memberikan skor kesehatan bisnis secara real-time sehingga nasabah dapat mengambil tindakan preventif lebih cepat.</p>
-                            
-                            <div style="margin-top: auto; background: linear-gradient(135deg, #f0fdf4, #dcfce7); border: 1px solid #bbf7d0; border-radius: 8px; padding: 1.25rem; display:flex; align-items:center; gap: 15px;">
-                                <div style="width: 65px; height: 65px; background: white; border-radius: 50%; border: 4px solid #22c55e; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900; color: #16a34a; box-shadow: 0 4px 6px rgba(34,197,94,0.2);">78</div>
-                                <div>
-                                    <div style="font-size: 0.75rem; font-weight: 800; color: #166534; text-transform:uppercase; letter-spacing:0.5px;">Business Health Score</div>
-                                    <div style="font-size: 0.95rem; font-weight: 800; color: #15803d; margin-top:6px; display:flex; align-items:center; gap:6px;">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                        Status: Good
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
+                    
             </div>
         </section>
 
@@ -2632,20 +2544,16 @@ const SandboxPage = () => {
             <div style="width:260px; flex-shrink:0; background:white; border-radius:16px; border:1px solid #e2e8f0; padding:1.5rem; display:flex; flex-direction:column; gap:8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);" class="ai-sidebar">
                 <div style="font-size:0.75rem; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">AI Modules</div>
                 
-                <button class="ai-tab-btn active" data-target="tab-optimizer" style="display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:14px 16px; border-radius:12px; border:none; background:#eff6ff; color:#1e40af; font-weight:800; font-size:0.85rem; cursor:pointer; transition:all 0.2s;">
-                    <span style="font-size:1.25rem;">🚀</span> Ecosystem Optimizer
+                <button class="ai-tab-btn active" data-target="tab-smart-matching" style="display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:14px 16px; border-radius:12px; border:none; background:#eff6ff; color:#1e40af; font-weight:800; font-size:0.85rem; cursor:pointer; transition:all 0.2s;">
+                    <span style="font-size:1.25rem;">🚀</span> Smart Ecosystem Matching
                 </button>
                 
-                <button class="ai-tab-btn" data-target="tab-cashflow" style="display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:14px 16px; border-radius:12px; border:none; background:transparent; color:#64748b; font-weight:800; font-size:0.85rem; cursor:pointer; transition:all 0.2s;">
-                    <span style="font-size:1.25rem;">📈</span> Cash Flow & Alerts
-                </button>
-                
-                <button class="ai-tab-btn" data-target="tab-simulator" style="display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:14px 16px; border-radius:12px; border:none; background:transparent; color:#64748b; font-weight:800; font-size:0.85rem; cursor:pointer; transition:all 0.2s;">
-                    <span style="font-size:1.25rem;">🕹️</span> Scenario Simulator
+                <button class="ai-tab-btn" data-target="tab-supply-chain" style="display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:14px 16px; border-radius:12px; border:none; background:transparent; color:#64748b; font-weight:800; font-size:0.85rem; cursor:pointer; transition:all 0.2s;">
+                    <span style="font-size:1.25rem;">🔗</span> Predictive Supply Chain
                 </button>
                 
                 <button class="ai-tab-btn" data-target="tab-health" style="display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:14px 16px; border-radius:12px; border:none; background:transparent; color:#64748b; font-weight:800; font-size:0.85rem; cursor:pointer; transition:all 0.2s;">
-                    <span style="font-size:1.25rem;">❤️</span> Health & Benchmark
+                    <span style="font-size:1.25rem;">❤️</span> Business Health Scoring
                 </button>
                 
                 <div style="margin-top:auto; background:#f8fafc; padding:1.25rem; border-radius:12px; border:1px solid #e2e8f0;">
@@ -2659,67 +2567,69 @@ const SandboxPage = () => {
             <!-- RIGHT WORKSPACE -->
             <div style="flex:1; background:#f8fafc; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; overflow-y:auto; box-shadow: inset 0 2px 10px rgba(0,0,0,0.02);" class="ai-workspace">
 
-        <div id="tab-optimizer" class="ai-tab-content fade-in" style="display:block;">
-        <!-- OCEAN-CLASS ECOSYSTEM OPTIMIZER -->
+        <div id="tab-smart-matching" class="ai-tab-content fade-in" style="display:block;">
         <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
             <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
                 <div>
-                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">B2B Supply Chain & Value Network Simulator</h4>
-                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">Pemetaan ekosistem end-to-end untuk mengidentifikasi inefisiensi treasury, bottleneck likuiditas, dan risiko nilai tukar.</p>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🧠 Smart Ecosystem Matching & Auto-Suggestion</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI menganalisis pola operasional nasabah (volume transaksi, frekuensi invoicing, aktivitas payroll) untuk rekomendasi mitra ekosistem optimal.</p>
                 </div>
-                <button id="btn-ai-optimize" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0f172a; border:none; box-shadow: 0 4px 6px rgba(15,23,42,0.2);">Generate Strategic Blueprint</button>
+                <button id="btn-smart-matching" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0f172a; border:none; box-shadow: 0 4px 6px rgba(15,23,42,0.2);">Run Auto-Suggestion</button>
             </div>
             
             <div style="display:flex; gap:2rem;">
-                <!-- NETWORK TOPOLOGY PARAMS -->
                 <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
-                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Network Topology Parameters</div>
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Operation Parameters</div>
                     
                     <div style="margin-bottom:1.2rem;">
-                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Model Bisnis Utama</label>
-                        <select id="eco-bizmodel" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
-                            <option>Heavy Manufacturing (Import Oriented)</option>
-                            <option>FMCG Nationwide Distribution</option>
-                            <option>Export-Oriented Commodities</option>
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Volume Transaksi Bulanan</label>
+                        <select id="sm-volume" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>> Rp 10 Miliar</option>
+                            <option>Rp 1 M - Rp 10 M</option>
+                            <option>< Rp 1 Miliar</option>
                         </select>
                     </div>
                     
                     <div style="margin-bottom:1.2rem;">
-                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Ketergantungan Tier-1 Suppliers</label>
-                        <select id="eco-suppliers" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
-                            <option>Terkonsentrasi (1-3 Supplier Utama)</option>
-                            <option>Tersebar (>10 Supplier Menengah)</option>
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Frekuensi Invoicing</label>
+                        <select id="sm-invoice" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Harian (Volume Tinggi)</option>
+                            <option>Mingguan</option>
+                            <option>Bulanan</option>
                         </select>
                     </div>
                     
                     <div style="margin-bottom:1.2rem;">
-                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Eksposur FX / Valas</label>
-                        <select id="eco-fx" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
-                            <option>Tinggi (>50% COGS dalam USD)</option>
-                            <option>Rendah (Hanya OPEX domestik)</option>
-                        </select>
-                    </div>
-                    
-                    <div style="margin-bottom:1rem;">
-                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Metode Koleksi Piutang</label>
-                        <select id="eco-collection" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
-                            <option>Giro/Bilyet (Manual, Risiko Tolakan)</option>
-                            <option>Transfer Bank (Rekonsiliasi Manual)</option>
-                            <option>Virtual Account BCA</option>
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Aktivitas Payroll</label>
+                        <select id="sm-payroll" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>> 500 Karyawan</option>
+                            <option>50 - 500 Karyawan</option>
+                            <option>< 50 Karyawan</option>
                         </select>
                     </div>
                 </div>
                 
-                <!-- BLUEPRINT CONTAINER -->
                 <div style="flex:1;">
-                    <div id="ai-opt-result-container" style="display:block; background:white; border:1px solid #e2e8f0; border-radius:12px; padding:2rem; min-height:400px; font-size:0.9rem; line-height:1.6; color:#1e293b; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);">
-                        <div id="ai-opt-loading" style="display:none; align-items:center; justify-content:center; gap:15px; color:#3b82f6; font-size:1rem; font-weight:800; height:100%; margin-top: 150px;">
-                            <div class="spinner" style="width:30px; height:30px; border:4px solid #e2e8f0; border-top-color:#3b82f6; border-radius:50%; animation:spin 1s linear infinite;"></div>
-                            Generating Strategic Blueprint...
+                    <div id="sm-result" style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; min-height:400px; font-size:0.85rem; line-height:1.5; color:#0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); overflow:hidden;">
+                        <div style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="font-family:monospace; font-weight:800; color:#475569; font-size:0.75rem; letter-spacing:1px;">OCEAN // SMART ECOSYSTEM MATCHING</div>
                         </div>
-                        <div id="ai-opt-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; color:#94a3b8; text-align:center; padding-top: 100px;">
-                            <div style="font-size:3rem; margin-bottom:1rem;">🌐</div>
-                            <div>Petakan parameter jaringan suplai Anda di sebelah kiri, lalu klik <b>Generate Strategic Blueprint</b>.</div>
+                        <div style="padding:2rem; min-height: 350px; display:flex; flex-direction:column;">
+                            <div id="sm-loading" style="display:none; flex-direction:column; gap:15px; color:#334155; width:100%;">
+                                <div style="font-family:monospace; font-weight:800; color:#0f172a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+                                    <div class="spinner" style="width:16px; height:16px; border:2px solid #e2e8f0; border-top-color:#1e40af; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                                    > ANALYZING OPERATIONAL PATTERNS...
+                                </div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:100%; animation: pulse 1.5s infinite 0.1s;"></div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:95%; animation: pulse 1.5s infinite 0.2s;"></div>
+                            </div>
+
+                            <div id="sm-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:#64748b; text-align:center;">
+                                <div style="font-family:monospace; font-size:0.85rem; padding:15px 30px; background:#f8fafc; border:1px dashed #cbd5e1; color:#475569; border-radius:6px;">
+                                    <div style="margin-bottom:8px; font-weight:800;">AWAITING EXECUTION</div>
+                                    Klik "Run Auto-Suggestion" untuk memunculkan rekomendasi AI.
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2727,143 +2637,64 @@ const SandboxPage = () => {
         </div>
         </div>
 
-        <div id="tab-cashflow" class="ai-tab-content fade-in" style="display:none;">
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem;">
+        <div id="tab-supply-chain" class="ai-tab-content fade-in" style="display:none;">
+        <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🔗 Predictive Supply Chain Finance</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI menganalisis pola transaksi & hubungan supplier untuk merekomendasikan solusi pembiayaan rantai pasok secara proaktif.</p>
+                </div>
+                <button id="btn-supply-chain" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0284c7; border:none; box-shadow: 0 4px 6px rgba(2,132,199,0.2);">Analyze Supply Chain Risk</button>
+            </div>
             
-            <!-- Card 1: Enterprise Cash Flow Forecasting -->
-            <div class="card-premium fade-in" style="grid-column: 1 / -1; background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; display:flex; flex-direction:column; animation-delay: 0.1s; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
-                <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
-                    <div>
-                        <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">Corporate Liquidity Forecast & Mitigation</h4>
-                        <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI memproyeksikan arus kas 30 hari ke depan dengan mengkalkulasi 24 variabel makro dan mikro ekonomi.</p>
-                    </div>
-                    <div style="display:flex; gap:10px;">
-                        <button style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:700; border-radius:8px; background:#f1f5f9; color:#475569; border:1px solid #cbd5e1; cursor:pointer; display:flex; align-items:center; gap:6px;">📥 Export PDF</button>
-                        <button id="btn-cash-forecast" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0f172a; border:none; box-shadow: 0 4px 6px rgba(15,23,42,0.2);">Generate Executive Brief</button>
-                    </div>
-                </div>
-                
-                <div style="display:flex; gap:2rem;">
-                    <!-- LEFT: Data Parameters -->
-                    <div style="width: 300px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0;">
-                        <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1rem; text-transform:uppercase;">Macro Parameters</div>
-                        
-                        <div style="margin-bottom:1rem;">
-                            <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:4px;">Asumsi BI Rate (%)</label>
-                            <input type="range" id="param-birate" min="5" max="8" step="0.25" value="6.25" style="width:100%;">
-                            <div style="text-align:right; font-size:0.75rem; font-weight:800; color:#2563eb;" id="val-birate">6.25%</div>
-                        </div>
-                        
-                        <div style="margin-bottom:1rem;">
-                            <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:4px;">Estimasi Keterlambatan AR (Hari)</label>
-                            <input type="number" id="param-ardelay" value="14" style="width:100%; padding:0.5rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem;">
-                        </div>
-                        
-                        <div style="margin-top:2rem; padding-top:1rem; border-top:1px dashed #cbd5e1;">
-                            <div style="font-size:0.7rem; color:#64748b; margin-bottom:4px;">Data Source Integration</div>
-                            <div style="display:flex; align-items:center; justify-content:space-between; background:white; padding:8px 12px; border:1px solid #e2e8f0; border-radius:6px;">
-                                <span style="font-size:0.8rem; font-weight:700; color:#0f172a;">SAP S/4HANA</span>
-                                <span style="font-size:0.7rem; font-weight:800; color:#16a34a;">Connected</span>
-                            </div>
-                        </div>
+            <div style="display:flex; gap:2rem;">
+                <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Transaction Data</div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Target Analisis</label>
+                        <select id="sc-target" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Pelanggan Utama (Customer)</option>
+                            <option>Supplier Utama</option>
+                        </select>
                     </div>
                     
-                    <!-- RIGHT: AI Report Output -->
-                    <div style="flex:1;">
-                        <div id="cash-forecast-result" style="background:white; border:1px solid #e2e8f0; border-radius:12px; padding:2rem; min-height: 300px; font-size:0.9rem; line-height:1.6; color:#1e293b; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);">
-                            <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; color:#94a3b8; text-align:center;">
-                                <div style="font-size:3rem; margin-bottom:1rem;">📊</div>
-                                <div>Sesuaikan parameter makro di sebelah kiri lalu klik <b>Generate Executive Brief</b> untuk memulai kalkulasi AI.</div>
-                            </div>
-                        </div>
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Periode Evaluasi Historis</label>
+                        <select id="sc-period" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>6 Bulan Terakhir</option>
+                            <option>12 Bulan Terakhir</option>
+                        </select>
                     </div>
-                </div>
-            </div>
-
-            <!-- Card 2: Enterprise Early Alert -->
-            <div class="card-premium fade-in" style="grid-column: 1 / -1; background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; display:flex; flex-direction:column; animation-delay: 0.2s;">
-                <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
-                    <div>
-                        <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem;">⚡ Anomaly Detection & Early Warning System</h4>
-                        <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">Pemindaian AI secara mendalam terhadap ribuan titik data transaksi untuk menemukan anomali fraud, liquidity drop, dan supplier risk.</p>
-                    </div>
-                    <button id="btn-early-alert" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#b91c1c; border:none; box-shadow: 0 4px 6px rgba(185,28,28,0.2);">Run Full Deep-Scan</button>
                 </div>
                 
-                <div id="early-alert-result" style="width:100%; overflow-x:auto;">
-                    <table style="width:100%; border-collapse:collapse; font-size:0.85rem; text-align:left;">
-                        <thead style="background:#f8fafc; border-bottom:2px solid #e2e8f0;">
-                            <tr>
-                                <th style="padding:12px 16px; color:#475569;">Risk Identifier</th>
-                                <th style="padding:12px 16px; color:#475569;">Severity</th>
-                                <th style="padding:12px 16px; color:#475569;">Impact Analysis</th>
-                                <th style="padding:12px 16px; color:#475569;">BCA Action Plan</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td colspan="4" style="padding:3rem; text-align:center; color:#94a3b8;">
-                                    <div style="font-size:2rem; margin-bottom:10px;">🛡️</div>
-                                    Klik "Run Full Deep-Scan" untuk memindai anomali sistem.
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-</div>
-</div>
-
-<div id="tab-simulator" class="ai-tab-content fade-in" style="display:none;">
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem;">
-            <!-- Card 3: Enterprise Simulator -->
-            <div class="card-premium fade-in" style="grid-column: 1 / -1; background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; display:flex; flex-direction:column; animation-delay: 0.3s; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
-                <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
-                    <div>
-                        <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem;">🕹️ Advanced Financial Stress Test Simulator</h4>
-                        <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">Mensimulasikan krisis makroekonomi (What-If) untuk menguji ketahanan solvabilitas korporasi.</p>
-                    </div>
-                    <button id="btn-run-scenario" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#4f46e5; border:none; box-shadow: 0 4px 6px rgba(79,70,229,0.2);">Execute Simulation</button>
-                </div>
-                
-                <div style="display:flex; gap:2rem; flex-wrap:wrap;">
-                    <div style="flex:1; min-width:300px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0;">
-                        <div style="font-size:0.8rem; font-weight:800; color:#475569; margin-bottom:1rem;">Scenario Parameters</div>
-                        
-                        <div style="margin-bottom:1rem;">
-                            <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:4px;">Tipe Krisis</label>
-                            <select id="sim-type" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem;">
-                                <option>Geopolitical Supply Chain Shock</option>
-                                <option>Sudden IDR Depreciation (Kurs Drop)</option>
-                                <option>Massive Client Default (Gagal Bayar Masal)</option>
-                            </select>
+                <div style="flex:1;">
+                    <div id="sc-result" style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; min-height:400px; font-size:0.85rem; line-height:1.5; color:#0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); overflow:hidden;">
+                        <div style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="font-family:monospace; font-weight:800; color:#475569; font-size:0.75rem; letter-spacing:1px;">OCEAN // SUPPLY CHAIN PREDICTIVE AI</div>
                         </div>
-                        
-                        <div style="display:flex; gap:1rem;">
-                            <div style="flex:1;">
-                                <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:4px;">Severity Impact (%)</label>
-                                <input type="number" id="sim-severity" value="25" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem;">
+                        <div style="padding:2rem; min-height: 350px; display:flex; flex-direction:column;">
+                            <div id="sc-loading" style="display:none; flex-direction:column; gap:15px; color:#334155; width:100%;">
+                                <div style="font-family:monospace; font-weight:800; color:#0f172a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+                                    <div class="spinner" style="width:16px; height:16px; border:2px solid #e2e8f0; border-top-color:#1e40af; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                                    > DEEP SCANNING PAYMENT BEHAVIOR...
+                                </div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:100%; animation: pulse 1.5s infinite 0.1s;"></div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:95%; animation: pulse 1.5s infinite 0.2s;"></div>
                             </div>
-                            <div style="flex:1;">
-                                <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:4px;">Duration (Bulan)</label>
-                                <input type="number" id="sim-duration" value="6" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem;">
+
+                            <div id="sc-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:#64748b; text-align:center;">
+                                <div style="font-family:monospace; font-size:0.85rem; padding:15px 30px; background:#f8fafc; border:1px dashed #cbd5e1; color:#475569; border-radius:6px;">
+                                    <div style="margin-bottom:8px; font-weight:800;">AWAITING EXECUTION</div>
+                                    Klik "Analyze Supply Chain Risk" untuk memindai pola transaksi.
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <div id="scenario-result" style="flex:2; min-width:400px; background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:2rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);">
-                        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; color:#94a3b8; text-align:center;">
-                            <div style="font-size:2.5rem; margin-bottom:1rem;">🌩️</div>
-                            <div>Pilih parameter di samping dan jalankan simulasi untuk melihat <b>Impact Analysis Report</b>.</div>
                         </div>
                     </div>
                 </div>
             </div>
-
-</div>
-</div>
-
+        </div>
+        </div>
 <div id="tab-health" class="ai-tab-content fade-in" style="display:none;">
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem;">
 <!-- Card 4: Business Health Score -->
@@ -6524,6 +6355,66 @@ const attachEventListeners = () => {
                     contentDiv.innerHTML = '<div style="color:red; text-align:center;">Gagal menghitung benchmark. Silakan coba lagi.</div>';
                 }
             }
+        });
+    }
+
+    // Smart Ecosystem Matching Listener
+    const btnSmartMatching = document.getElementById('btn-smart-matching');
+    if (btnSmartMatching) {
+        btnSmartMatching.addEventListener('click', () => {
+            document.getElementById('sm-loading').style.display = 'flex';
+            document.getElementById('sm-content').style.display = 'none';
+            setTimeout(() => {
+                document.getElementById('sm-loading').style.display = 'none';
+                document.getElementById('sm-content').style.display = 'block';
+                document.getElementById('sm-content').style.textAlign = 'left';
+                document.getElementById('sm-content').innerHTML = `
+                    <div style="font-family:monospace; font-weight:800; color:#16a34a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:15px;">
+                        > ANALYSIS COMPLETE. CASH FLOW DEFICIT PREDICTED.
+                    </div>
+                    <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:1.25rem;">
+                        <div style="font-size: 0.75rem; font-weight: 800; color: #b45309; margin-bottom: 8px; display:flex; align-items:center; gap:6px;">
+                            <span style="width:6px;height:6px;background:#f59e0b;border-radius:50%;display:inline-block;animation:pulse 2s infinite;"></span> AI Auto-Suggestion
+                        </div>
+                        <div style="font-size: 0.95rem; font-weight:700; color: #1e293b; line-height: 1.5; margin-bottom:1rem;">
+                            "Dalam 18 hari mendatang, cash flow berpotensi defisit Rp 850 juta karena pola pembayaran pelanggan."
+                        </div>
+                        <div style="font-size: 0.85rem; color: #334155; line-height: 1.5;">
+                            <b>Rekomendasi Actionable:</b> Akses fasilitas KKB BCA senilai Rp 1 Miliar dengan suku bunga 2%. Fasilitas ini direkomendasikan karena *match* dengan riwayat kredit positif Anda.
+                        </div>
+                    </div>
+                `;
+            }, 1500);
+        });
+    }
+
+    // Predictive Supply Chain Listener
+    const btnSupplyChain = document.getElementById('btn-supply-chain');
+    if (btnSupplyChain) {
+        btnSupplyChain.addEventListener('click', () => {
+            document.getElementById('sc-loading').style.display = 'flex';
+            document.getElementById('sc-content').style.display = 'none';
+            setTimeout(() => {
+                document.getElementById('sc-loading').style.display = 'none';
+                document.getElementById('sc-content').style.display = 'block';
+                document.getElementById('sc-content').style.textAlign = 'left';
+                document.getElementById('sc-content').innerHTML = `
+                    <div style="font-family:monospace; font-weight:800; color:#0284c7; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:15px;">
+                        > SUPPLY CHAIN RISK DETECTED.
+                    </div>
+                    <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:1.25rem;">
+                        <div style="font-size: 0.75rem; font-weight: 800; color: #0369a1; margin-bottom: 8px; display:flex; align-items:center; gap:6px;">
+                            <span style="width:6px;height:6px;background:#0ea5e9;border-radius:50%;display:inline-block;animation:pulse 2s infinite;"></span> AI Recommendation
+                        </div>
+                        <div style="font-size: 0.95rem; font-weight:700; color: #1e293b; line-height: 1.5; margin-bottom:1rem;">
+                            "Terdeteksi keterlambatan pembayaran dari pelanggan utama hingga 20 hari. Hal ini berdampak langsung pada modal kerja Anda minggu depan."
+                        </div>
+                        <div style="font-size: 0.85rem; color: #334155; line-height: 1.5;">
+                            <b>Rekomendasi Solusi:</b> Ocean merekomendasikan Invoice Financing Rp 2 Miliar untuk menjaga likuiditas dalam 30 hari ke depan, dapat dicairkan seketika via e-Channel BCA.
+                        </div>
+                    </div>
+                `;
+            }, 1800);
         });
     }
 
