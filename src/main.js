@@ -8099,36 +8099,150 @@ const attachEventListeners = () => {
                 }
             ];
         } else if (currentTab === 'predictiveAi') {
-            steps = [
-                {
-                    targetQuery: '.ai-sidebar',
-                    title: "Ocean AI Engine",
-                    desc: "Pilih salah satu dari 4 modul AI (Ecosystem Matching, Supply Chain, Cash Flow, atau Simulator).",
-                    tip: "Tip: Klik setiap modul untuk mengeksplorasi kecerdasan buatan Ocean!",
-                    pos: "right"
-                },
-                {
-                    targetQuery: '#sm-volume',
-                    title: "Input Parameter Operasional",
-                    desc: "Sebelum menjalankan analisis, atur variabel bisnis Anda di sini (seperti volume transaksi atau aktivitas payroll).",
-                    tip: "Tip: Ubah parameter ini untuk melihat bagaimana rekomendasi AI berubah!",
-                    pos: "right"
-                },
-                {
-                    targetQuery: '#btn-smart-matching',
-                    title: "Eksekusi AI",
-                    desc: "Klik tombol eksekusi untuk mengirim parameter Anda ke mesin AI (Ocean LLM) dan memulai kalkulasi.",
-                    tip: "Tip: Analisis AI diproses seketika dalam hitungan detik!",
-                    pos: "bottom"
-                },
-                {
-                    targetQuery: '#sm-result',
-                    title: "AI Analysis Blueprint",
-                    desc: "Hasil analisis komprehensif, mendeteksi risiko dan memberikan rekomendasi solusi konkrit (e.g. KKB atau Invoice Financing).",
-                    tip: "Tip: Rekomendasi dijamin cocok dengan profil keuangan Anda!",
-                    pos: "top"
-                }
-            ];
+            const activeAiBtn = document.querySelector('.ai-tab-btn.active');
+            const activeAiTarget = activeAiBtn ? activeAiBtn.getAttribute('data-target') : 'tab-smart-matching';
+
+            if (activeAiTarget === 'tab-smart-matching') {
+                steps = [
+                    {
+                        targetQuery: '#sm-volume',
+                        title: "Input Parameter Operasional",
+                        desc: "Sebelum menjalankan analisis, atur variabel bisnis Anda di sini (seperti volume transaksi atau aktivitas payroll).",
+                        tip: "Tip: Ubah parameter ini untuk melihat bagaimana rekomendasi AI berubah!",
+                        pos: "right"
+                    },
+                    {
+                        targetQuery: '#btn-smart-matching',
+                        title: "Eksekusi Auto-Suggestion",
+                        desc: "Klik tombol eksekusi untuk mengirim parameter Anda ke mesin AI (Ocean LLM) dan memulai kalkulasi.",
+                        tip: "Tip: Analisis AI diproses seketika dalam hitungan detik!",
+                        pos: "bottom"
+                    },
+                    {
+                        targetQuery: '#sm-result',
+                        title: "AI Analysis Blueprint",
+                        desc: "Hasil analisis komprehensif, mendeteksi risiko dan memberikan rekomendasi solusi konkrit.",
+                        tip: "Tip: Rekomendasi dijamin cocok dengan profil keuangan Anda!",
+                        pos: "top"
+                    }
+                ];
+            } else if (activeAiTarget === 'tab-supply-chain') {
+                steps = [
+                    {
+                        targetQuery: '#sc-target',
+                        title: "Target Analisis",
+                        desc: "Pilih apakah Anda ingin menganalisis risiko dari sisi pelanggan (Customer) atau Pemasok (Supplier).",
+                        tip: "Tip: Pilih sesuai dengan masalah utama rantai pasok Anda!",
+                        pos: "right"
+                    },
+                    {
+                        targetQuery: '#btn-supply-chain',
+                        title: "Analyze Supply Chain Risk",
+                        desc: "Jalankan algoritma prediktif untuk memindai pola transaksi dan mendeteksi potensi masalah likuiditas.",
+                        tip: "Tip: Klik ini untuk melihat rekomendasi mitigasi!",
+                        pos: "bottom"
+                    },
+                    {
+                        targetQuery: '#sc-result',
+                        title: "Hasil Prediksi Supply Chain",
+                        desc: "Laporan AI akan memunculkan rekomendasi spesifik seperti Invoice Financing atau Supply Chain Financing.",
+                        tip: "Tip: Rekomendasi bisa langsung dieksekusi via e-Channel BCA!",
+                        pos: "top"
+                    }
+                ];
+            } else if (activeAiTarget === 'tab-optimizer') {
+                steps = [
+                    {
+                        targetQuery: '#eco-bizmodel',
+                        title: "Model Bisnis",
+                        desc: "Sesuaikan model bisnis perusahaan Anda agar AI dapat memetakan ekosistem yang paling cocok.",
+                        tip: "Tip: Parameter ini sangat krusial untuk akurasi rekomendasi!",
+                        pos: "right"
+                    },
+                    {
+                        targetQuery: '#btn-ai-optimize',
+                        title: "Generate Strategic Blueprint",
+                        desc: "Simulasikan ekosistem B2B Anda dan cari celah efisiensi treasury.",
+                        tip: "Tip: Sangat berguna untuk mengidentifikasi bottleneck likuiditas!",
+                        pos: "bottom"
+                    },
+                    {
+                        targetQuery: '#ai-opt-result-container',
+                        title: "Hasil Optimasi",
+                        desc: "Cetak biru strategis dari AI yang menunjukkan letak inefisiensi dan solusi konkrit.",
+                        tip: "Tip: Terapkan saran ini untuk meningkatkan margin operasional!",
+                        pos: "top"
+                    }
+                ];
+            } else if (activeAiTarget === 'tab-cashflow') {
+                steps = [
+                    {
+                        targetQuery: '#param-birate',
+                        title: "Asumsi BI Rate",
+                        desc: "Geser slider untuk mensimulasikan dampak perubahan suku bunga terhadap beban bunga perusahaan Anda.",
+                        tip: "Tip: Lihat secara real-time bagaimana arus kas terpengaruh!",
+                        pos: "right"
+                    },
+                    {
+                        targetQuery: '#btn-cash-forecast',
+                        title: "Generate Executive Brief",
+                        desc: "Dapatkan ramalan likuiditas korporat Anda dalam 30 hari ke depan.",
+                        tip: "Tip: Analisis didukung 24 variabel makro & mikro ekonomi!",
+                        pos: "bottom"
+                    },
+                    {
+                        targetQuery: '#cash-forecast-result',
+                        title: "Forecast Result",
+                        desc: "Laporan mitigasi risiko arus kas yang dapat diekspor menjadi dokumen eksekutif.",
+                        tip: "Tip: Langsung siap dilaporkan ke jajaran Direksi!",
+                        pos: "top"
+                    }
+                ];
+            } else if (activeAiTarget === 'tab-simulator') {
+                steps = [
+                    {
+                        targetQuery: '#sim-type',
+                        title: "Tipe Krisis",
+                        desc: "Pilih skenario stres finansial (seperti Gagal Bayar Massal atau Depresiasi Kurs) untuk menguji ketahanan solvabilitas.",
+                        tip: "Tip: Lakukan stress-test ini secara berkala!",
+                        pos: "right"
+                    },
+                    {
+                        targetQuery: '#btn-run-scenario',
+                        title: "Execute Simulation",
+                        desc: "Jalankan simulasi krisis dan biarkan AI menghitung dampak finansial ke neraca Anda.",
+                        tip: "Tip: Siap hadapi krisis sebelum terjadi!",
+                        pos: "bottom"
+                    },
+                    {
+                        targetQuery: '#scenario-result',
+                        title: "Impact Analysis",
+                        desc: "Laporan analisa dampak skenario krisis dan ketahanan modal kerja korporasi.",
+                        tip: "Tip: Jadikan ini patokan buffer dana cadangan Anda!",
+                        pos: "top"
+                    }
+                ];
+            } else if (activeAiTarget === 'tab-health') {
+                steps = [
+                    {
+                        targetQuery: '#btn-run-benchmark',
+                        title: "Run Deep Benchmark",
+                        desc: "Jalankan algoritma benchmark untuk membandingkan metrik keuangan Anda dengan standar industri sejenis.",
+                        tip: "Tip: Ketahui posisi daya saing bisnis Anda!",
+                        pos: "bottom"
+                    }
+                ];
+            } else {
+                steps = [
+                    {
+                        targetQuery: '.ai-sidebar',
+                        title: "Ocean AI Engine",
+                        desc: "Pilih salah satu dari 6 modul AI di sebelah kiri untuk melihat fungsionalitasnya.",
+                        tip: "Tip: Klik setiap modul untuk mengeksplorasi kecerdasan buatan Ocean!",
+                        pos: "right"
+                    }
+                ];
+            }
         } else {
             steps = [
                 {
