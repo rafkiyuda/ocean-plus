@@ -1,5 +1,5 @@
 import './style.css'
-import { uploadDocument, importFromUrl, fetchDocuments, fetchStats, deleteDocument, chatWithRAG, chatSimulation, generateEcosystemOptimizer, generateCashFlowForecast, generateEarlyAlerts, runScenarioSimulation, calculateBusinessHealthScore } from './rag-service.js'
+import { uploadDocument, importFromUrl, fetchDocuments, fetchStats, deleteDocument, chatWithRAG, chatSimulation, generateEcosystemOptimizer, generateCashFlowForecast, generateEarlyAlerts, runScenarioSimulation, calculateBusinessHealthScore, calculateDeepBenchmark } from './rag-service.js'
 
 // ── Markdown renderer (lightweight, no deps) ────────────────────────────────
 function renderMarkdown(text) {
@@ -6141,7 +6141,7 @@ const attachEventListeners = () => {
                         revenue: document.getElementById('bm-revenue')?.value || 'Mid',
                         region: document.getElementById('bm-region')?.value || 'National'
                     };
-                    const resultHtml = await calculateDeepBenchmark(params, window.state.sandbox);
+                    const resultHtml = await calculateDeepBenchmark(params, state.sandbox);
                     
                     contentDiv.innerHTML = resultHtml;
                     
