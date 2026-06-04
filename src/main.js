@@ -600,6 +600,8 @@ const SimulationPage = () => {
         </div>
 </div>
 </div>
+            </div> <!-- Close RIGHT WORKSPACE -->
+        </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
     `;
 };
 
@@ -1939,6 +1941,8 @@ const SandboxPage = () => {
         </div>
 </div>
 </div>
+            </div> <!-- Close RIGHT WORKSPACE -->
+        </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
     `;
 
     const analyticsContent = `
@@ -2037,6 +2041,8 @@ const SandboxPage = () => {
         </div>
 </div>
 </div>
+            </div> <!-- Close RIGHT WORKSPACE -->
+        </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
     `;
 
     const invoicingContent = `
@@ -2120,6 +2126,8 @@ const SandboxPage = () => {
         </div>
 </div>
 </div>
+            </div> <!-- Close RIGHT WORKSPACE -->
+        </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
     `;
 
     const activeSimulation = state.sandbox.apiSimulation;
@@ -2228,6 +2236,8 @@ const SandboxPage = () => {
         </div>
 </div>
 </div>
+            </div> <!-- Close RIGHT WORKSPACE -->
+        </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
     `;
 
     
@@ -2247,13 +2257,39 @@ const SandboxPage = () => {
         </div>
 
         
-        <!-- TAB NAVIGATION -->
-        <div style="display:flex; gap:10px; margin-bottom:1.5rem; border-bottom:2px solid #e2e8f0; padding-bottom:0; overflow-x:auto;" class="ai-tabs-container">
-            <button class="ai-tab-btn active" data-target="tab-optimizer" style="padding:10px 16px; font-weight:700; font-size:0.9rem; color:#2563eb; background:transparent; border:none; border-bottom:3px solid #2563eb; cursor:pointer; white-space:nowrap; transition:all 0.3s;">🚀 Ecosystem Optimizer</button>
-            <button class="ai-tab-btn" data-target="tab-cashflow" style="padding:10px 16px; font-weight:700; font-size:0.9rem; color:#64748b; background:transparent; border:none; border-bottom:3px solid transparent; cursor:pointer; white-space:nowrap; transition:all 0.3s;">📈 Cash Flow & Alerts</button>
-            <button class="ai-tab-btn" data-target="tab-simulator" style="padding:10px 16px; font-weight:700; font-size:0.9rem; color:#64748b; background:transparent; border:none; border-bottom:3px solid transparent; cursor:pointer; white-space:nowrap; transition:all 0.3s;">🕹️ Scenario Simulator</button>
-            <button class="ai-tab-btn" data-target="tab-health" style="padding:10px 16px; font-weight:700; font-size:0.9rem; color:#64748b; background:transparent; border:none; border-bottom:3px solid transparent; cursor:pointer; white-space:nowrap; transition:all 0.3s;">❤️ Health Score & Benchmark</button>
-        </div>
+        <!-- ENTERPRISE SPLIT-PANE LAYOUT -->
+        <div style="display:flex; gap:1.5rem; min-height: 700px; align-items: stretch;">
+            
+            <!-- LEFT SIDEBAR -->
+            <div style="width:260px; flex-shrink:0; background:white; border-radius:16px; border:1px solid #e2e8f0; padding:1.5rem; display:flex; flex-direction:column; gap:8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);" class="ai-sidebar">
+                <div style="font-size:0.75rem; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">AI Modules</div>
+                
+                <button class="ai-tab-btn active" data-target="tab-optimizer" style="display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:14px 16px; border-radius:12px; border:none; background:#eff6ff; color:#1e40af; font-weight:800; font-size:0.85rem; cursor:pointer; transition:all 0.2s;">
+                    <span style="font-size:1.25rem;">🚀</span> Ecosystem Optimizer
+                </button>
+                
+                <button class="ai-tab-btn" data-target="tab-cashflow" style="display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:14px 16px; border-radius:12px; border:none; background:transparent; color:#64748b; font-weight:800; font-size:0.85rem; cursor:pointer; transition:all 0.2s;">
+                    <span style="font-size:1.25rem;">📈</span> Cash Flow & Alerts
+                </button>
+                
+                <button class="ai-tab-btn" data-target="tab-simulator" style="display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:14px 16px; border-radius:12px; border:none; background:transparent; color:#64748b; font-weight:800; font-size:0.85rem; cursor:pointer; transition:all 0.2s;">
+                    <span style="font-size:1.25rem;">🕹️</span> Scenario Simulator
+                </button>
+                
+                <button class="ai-tab-btn" data-target="tab-health" style="display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:14px 16px; border-radius:12px; border:none; background:transparent; color:#64748b; font-weight:800; font-size:0.85rem; cursor:pointer; transition:all 0.2s;">
+                    <span style="font-size:1.25rem;">❤️</span> Health & Benchmark
+                </button>
+                
+                <div style="margin-top:auto; background:#f8fafc; padding:1.25rem; border-radius:12px; border:1px solid #e2e8f0;">
+                    <div style="font-size:0.7rem; font-weight:800; color:#475569; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">System Status</div>
+                    <div style="display:flex; align-items:center; gap:8px; font-size:0.8rem; font-weight:800; color:#16a34a;">
+                        <span style="width:10px; height:10px; background:#22c55e; border-radius:50%; display:inline-block; animation:pulse 1.5s infinite; box-shadow: 0 0 8px #22c55e;"></span> All Models Optimal
+                    </div>
+                </div>
+            </div>
+            
+            <!-- RIGHT WORKSPACE -->
+            <div style="flex:1; background:#f8fafc; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; overflow-y:auto; box-shadow: inset 0 2px 10px rgba(0,0,0,0.02);" class="ai-workspace">
 
         <div id="tab-optimizer" class="ai-tab-content fade-in" style="display:block;">
         <!-- LIVE AI ECOSYSTEM OPTIMIZER FORM -->
@@ -2527,6 +2563,8 @@ const SandboxPage = () => {
         </div>
 </div>
 </div>
+            </div> <!-- Close RIGHT WORKSPACE -->
+        </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
     `;
 
 const contents = { dashboard: dashboardContent, analytics: analyticsContent, invoicing: invoicingContent, ecosystem: ecosystemContent, predictiveAi: predictiveAiContent };
@@ -4225,6 +4263,8 @@ const HowItWorksPage = () => {
         </div>
 </div>
 </div>
+            </div> <!-- Close RIGHT WORKSPACE -->
+        </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
     `;
 };
 
@@ -4305,6 +4345,8 @@ const OceanAuth = () => {
         </div>
 </div>
 </div>
+            </div> <!-- Close RIGHT WORKSPACE -->
+        </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
     `;
 
     const renderSelect = () => `
@@ -4342,6 +4384,8 @@ const OceanAuth = () => {
         </div>
 </div>
 </div>
+            </div> <!-- Close RIGHT WORKSPACE -->
+        </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
     `;
 
     const renderPin = () => `
@@ -4363,6 +4407,8 @@ const OceanAuth = () => {
         </div>
 </div>
 </div>
+            </div> <!-- Close RIGHT WORKSPACE -->
+        </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
     `;
 
     const renderBiometric = () => `
@@ -4382,6 +4428,8 @@ const OceanAuth = () => {
         </div>
 </div>
 </div>
+            </div> <!-- Close RIGHT WORKSPACE -->
+        </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
     `;
 
     const renderOtp = () => `
@@ -4400,6 +4448,8 @@ const OceanAuth = () => {
         </div>
 </div>
 </div>
+            </div> <!-- Close RIGHT WORKSPACE -->
+        </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
     `;
 
     let stepContent = '';
@@ -4503,6 +4553,8 @@ const OceanAuth = () => {
         </div>
 </div>
 </div>
+            </div> <!-- Close RIGHT WORKSPACE -->
+        </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
     `;
 };
 
@@ -5996,19 +6048,23 @@ const attachEventListeners = () => {
     if (aiTabBtns.length > 0) {
         aiTabBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
-                const targetId = e.target.getAttribute('data-target');
+                const targetId = e.target.closest('.ai-tab-btn').getAttribute('data-target');
                 
-                // Reset buttons
+                // Reset buttons (Sidebar style)
                 aiTabBtns.forEach(b => {
                     b.classList.remove('active');
+                    b.style.background = 'transparent';
                     b.style.color = '#64748b';
-                    b.style.borderBottom = '3px solid transparent';
                 });
                 
                 // Set active button
-                e.target.classList.add('active');
-                e.target.style.color = '#2563eb';
-                e.target.style.borderBottom = '3px solid #2563eb';
+                // Because button can have span children, we use closest('.ai-tab-btn') to ensure we get the button
+                const btn = e.target.closest('.ai-tab-btn');
+                if(btn) {
+                    btn.classList.add('active');
+                    btn.style.background = '#eff6ff';
+                    btn.style.color = '#1e40af';
+                }
                 
                 // Reset contents
                 aiTabContents.forEach(content => {
