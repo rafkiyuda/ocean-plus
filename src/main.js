@@ -101,7 +101,7 @@ const state = {
     ragUploadError: null,
     ragActiveType: 'doc',
     ragLoaded: false,
-    sandboxTab: 'predictiveAi',
+    sandboxTab: 'dashboard',
     sandbox: {
         totalBalance: 12450000000,
         incomingToday: 450200000,
@@ -3467,13 +3467,13 @@ const contents = { dashboard: dashboardContent, analytics: analyticsContent, inv
                 background: white;
                 box-shadow: 0 0 0 4px white, 0 10px 25px rgba(0,0,0,0.2) !important;
                 border-radius: inherit;
-                pointer-events: none; /* Disable clicking during tour */
+                pointer-events: none;
             }
             .tour-tooltip {
                 position: absolute;
-                width: 320px;
-                background: white;
-                border-radius: 12px;
+                width: 360px;
+                background: #38bdf8; /* Light blue like screenshot */
+                border-radius: 16px;
                 box-shadow: 0 20px 40px rgba(0,0,0,0.3);
                 z-index: 10000;
                 opacity: 0;
@@ -3481,59 +3481,77 @@ const contents = { dashboard: dashboardContent, analytics: analyticsContent, inv
                 transition: opacity 0.3s ease, transform 0.3s ease, top 0.3s ease, left 0.3s ease;
                 display: flex;
                 flex-direction: column;
-                overflow: hidden;
+                padding: 1.5rem;
+                color: white;
+                font-family: 'Inter', sans-serif;
             }
             .tour-tooltip.show {
                 opacity: 1;
                 transform: translateY(0);
             }
-            .tour-header {
-                background: #0f172a;
-                color: white;
-                padding: 1.5rem;
-                position: relative;
-            }
-            .tour-close {
-                position: absolute;
-                top: 10px; right: 10px;
-                color: #94a3b8;
-                background: none; border: none; font-size: 1.2rem; cursor: pointer;
-            }
-            .tour-close:hover { color: white; }
-            .tour-title {
-                font-size: 1.1rem;
+            .tour-step-info {
+                font-size: 0.75rem;
                 font-weight: 800;
+                color: rgba(255,255,255,0.7);
+                text-transform: uppercase;
+                letter-spacing: 1px;
                 margin-bottom: 0.5rem;
-                line-height: 1.4;
+            }
+            .tour-title {
+                font-size: 1.4rem;
+                font-weight: 900;
+                color: #0369a1; /* Dark blue title */
+                margin-bottom: 1rem;
+                line-height: 1.3;
             }
             .tour-desc {
+                font-size: 0.95rem;
+                color: #0c4a6e;
+                line-height: 1.6;
+                margin-bottom: 1.25rem;
+                font-weight: 500;
+            }
+            .tour-tip {
+                border: 1px solid #7dd3fc;
+                background: rgba(255,255,255,0.1);
+                border-radius: 8px;
+                padding: 1rem;
+                margin-bottom: 1.5rem;
+            }
+            .tour-tip-text {
                 font-size: 0.85rem;
-                color: #cbd5e1;
+                color: #ea580c;
+                font-weight: 800;
                 line-height: 1.5;
             }
             .tour-footer {
                 display: flex;
-                background: #f1f5f9;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: auto;
             }
-            .tour-btn {
-                flex: 1;
-                padding: 12px 0;
+            .tour-btn-skip {
+                background: none;
                 border: none;
-                font-weight: 800;
-                font-size: 0.9rem;
-                cursor: pointer;
-                transition: all 0.2s;
-            }
-            .tour-btn-back {
-                background: #e2e8f0;
-                color: #475569;
-            }
-            .tour-btn-back:hover { background: #cbd5e1; }
-            .tour-btn-next {
-                background: #f97316; /* Appcues Orange/Red style */
                 color: white;
+                font-weight: 800;
+                font-size: 0.95rem;
+                cursor: pointer;
+                padding: 0;
             }
-            .tour-btn-next:hover { background: #ea580c; }
+            .tour-btn-skip:hover { text-decoration: underline; }
+            .tour-btn-next {
+                background: white;
+                color: #0369a1;
+                border: none;
+                padding: 0.75rem 1.75rem;
+                border-radius: 50px;
+                font-weight: 900;
+                font-size: 0.95rem;
+                cursor: pointer;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+            .tour-btn-next:hover { background: #f8fafc; transform: translateY(-1px); }
             
             /* Caret Arrow */
             .tour-caret {
@@ -3542,24 +3560,24 @@ const contents = { dashboard: dashboardContent, analytics: analyticsContent, inv
                 border-style: solid;
             }
             .tour-caret.top {
-                bottom: -10px; left: 50%; transform: translateX(-50%);
+                bottom: -10px; left: 50px; /* static left for bottom pointer */
                 border-width: 10px 10px 0 10px;
-                border-color: #f1f5f9 transparent transparent transparent; /* Match footer */
+                border-color: #38bdf8 transparent transparent transparent;
             }
             .tour-caret.bottom {
-                top: -10px; left: 50%; transform: translateX(-50%);
+                top: -10px; left: 50px;
                 border-width: 0 10px 10px 10px;
-                border-color: transparent transparent #0f172a transparent; /* Match header */
+                border-color: transparent transparent #38bdf8 transparent;
             }
             .tour-caret.left {
-                right: -10px; top: 50%; transform: translateY(-50%);
+                right: -10px; top: 30px;
                 border-width: 10px 0 10px 10px;
-                border-color: transparent transparent transparent #0f172a;
+                border-color: transparent transparent transparent #38bdf8;
             }
             .tour-caret.right {
-                left: -10px; top: 50%; transform: translateY(-50%);
+                left: -10px; top: 30px;
                 border-width: 10px 10px 10px 0;
-                border-color: transparent #0f172a transparent transparent;
+                border-color: transparent #38bdf8 transparent transparent;
             }
         </style>
 
@@ -8046,120 +8064,130 @@ const attachEventListeners = () => {
 
 
     // --- PRODUCT TOUR LOGIC ---
-    const btnStartTour = document.getElementById('btn-start-tour');
-    if (btnStartTour) {
-        btnStartTour.addEventListener('click', () => {
-            // Define steps
-            const steps = [
-                {
-                    target: document.querySelector('[data-sb-tab="dashboard"]'),
-                    title: "Corporate Dashboard",
-                    desc: "Pantau kesehatan finansial perusahaan dari satu layar. Integrasi real-time 5 rekening giro & virtual account.",
-                    pos: "right"
-                },
-                {
-                    target: document.querySelector('[data-sb-tab="analytics"]'),
-                    title: "Business Analytics",
-                    desc: "Dapatkan insight mendalam tentang tren volume transaksi harian/mingguan dan Top Counterparty bisnis Anda.",
-                    pos: "right"
-                },
-                {
-                    target: document.querySelector('[data-sb-tab="invoicing"]'),
-                    title: "Collection Manager",
-                    desc: "Buat dan pantau invoice dalam hitungan detik. Semua status pembayaran terekonsiliasi otomatis dengan Virtual Account BCA.",
-                    pos: "right"
-                },
-                {
-                    target: document.querySelector('[data-sb-tab="ecosystem"]'),
-                    title: "API Ecosystem",
-                    desc: "Satu gateway untuk menghubungkan ERP/SAP Anda dengan BCA. Atur akses API Key untuk berbagai layanan perbankan.",
-                    pos: "right"
-                },
-                {
-                    target: document.querySelector('[data-sb-tab="predictiveAi"]'),
-                    title: "Ocean AI Engine",
-                    desc: "Klik menu ini untuk melihat kemampuan prediktif AI Ocean: Cashflow Forecasting, Supply Chain Risk, hingga Auto-Suggestion Ekosistem.",
-                    pos: "right",
-                    preAction: () => {
-                        // Ensure we switch to predictiveAi tab
-                        const target = document.querySelector('[data-sb-tab="predictiveAi"]');
-                        if(target) target.click();
-                    }
-                },
-                {
-                    target: document.getElementById('btn-smart-matching'),
-                    title: "Run AI Simulation",
-                    desc: "Eksekusi simulasi ini untuk melihat bagaimana Ocean menganalisis pola operasional dan mencocokkannya dengan produk kredit BCA (KKB/Working Capital).",
-                    pos: "bottom",
-                    waitForElement: true
-                }
-            ];
+    const startSandboxTour = () => {
+        if(document.getElementById('tour-overlay')) return; // already running
+        
+        const steps = [
+            {
+                targetQuery: '.sb-stats',
+                title: "1. Corporate Dashboard",
+                desc: "Pantau kesehatan finansial perusahaan dari satu layar. Integrasi real-time 5 rekening giro & virtual account.",
+                tip: "Tip: Pantau Pending Approval agar tidak ada transaksi yang tertunda!",
+                pos: "bottom",
+                preAction: () => { const t = document.querySelector('[data-sb-tab="dashboard"]'); if(t) t.click(); }
+            },
+            {
+                targetQuery: '.sb-top-counterparties',
+                title: "2. Business Analytics",
+                desc: "Dapatkan insight mendalam tentang Top Counterparty bisnis Anda. Siapa mitra terbesar Anda bulan ini?",
+                tip: "Tip: Gunakan data ini untuk negosiasi term pembayaran dengan supplier!",
+                pos: "top",
+                preAction: () => { const t = document.querySelector('[data-sb-tab="analytics"]'); if(t) t.click(); }
+            },
+            {
+                targetQuery: '#btn-sb-create-invoice',
+                title: "3. Buat Invoice Cepat",
+                desc: "Buat dan kirim invoice dalam hitungan detik. Ocean otomatis membuatkan Virtual Account BCA untuk setiap invoice.",
+                tip: "Tip: Rekonsiliasi otomatis berjalan 24/7!",
+                pos: "left",
+                preAction: () => { const t = document.querySelector('[data-sb-tab="invoicing"]'); if(t) t.click(); }
+            },
+            {
+                targetQuery: '.sb-eco-grid',
+                title: "4. API Ecosystem Gateway",
+                desc: "Kelola semua koneksi API Anda. Aktifkan dan nonaktifkan integrasi ERP/SAP Anda dengan mudah dan aman.",
+                tip: "Tip: Jangan pernah membagikan API Key Anda ke pihak tak bertanggung jawab!",
+                pos: "top",
+                preAction: () => { const t = document.querySelector('[data-sb-tab="ecosystem"]'); if(t) t.click(); }
+            },
+            {
+                targetQuery: '.ai-sidebar',
+                title: "5. Ocean AI Engine",
+                desc: "Pusat kecerdasan buatan Ocean. Di sini Anda bisa memprediksi cashflow, mengevaluasi supply chain, dan simulasi bisnis.",
+                tip: "Tip: Ocean AI belajar dari histori transaksi Anda!",
+                pos: "right",
+                preAction: () => { const t = document.querySelector('[data-sb-tab="predictiveAi"]'); if(t) t.click(); }
+            },
+            {
+                targetQuery: '#btn-smart-matching',
+                title: "6. Eksekusi Simulasi AI",
+                desc: "Klik tombol ini untuk melihat bagaimana Ocean menganalisis pola operasional dan mencocokkannya dengan produk kredit BCA.",
+                tip: "Tip: Dapatkan rekomendasi KKB atau Working Capital otomatis!",
+                pos: "bottom",
+                preAction: () => { const t = document.querySelector('[data-sb-tab="predictiveAi"]'); if(t) t.click(); }
+            }
+        ];
 
-            let currentStep = 0;
+        let currentStep = 0;
+
+        const overlay = document.createElement('div');
+        overlay.id = 'tour-overlay';
+        overlay.className = 'tour-overlay';
+        document.body.appendChild(overlay);
+
+        const tooltip = document.createElement('div');
+        tooltip.id = 'tour-tooltip';
+        tooltip.className = 'tour-tooltip';
+        tooltip.innerHTML = `
+            <div class="tour-step-info" id="tour-step-info">STEP 1 OF 6</div>
+            <div class="tour-title" id="tour-title">Title</div>
+            <div class="tour-desc" id="tour-desc">Desc</div>
+            <div class="tour-tip">
+                <div class="tour-tip-text" id="tour-tip-text">Tip</div>
+            </div>
+            <div class="tour-caret" id="tour-caret"></div>
+            <div class="tour-footer">
+                <button class="tour-btn-skip" id="tour-btn-skip">Skip Tour</button>
+                <button class="tour-btn-next" id="tour-btn-next">Next</button>
+            </div>
+        `;
+        document.body.appendChild(tooltip);
+
+        setTimeout(() => { overlay.style.opacity = '1'; }, 10);
+
+        const closeTour = () => {
+            overlay.style.opacity = '0';
+            tooltip.classList.remove('show');
+            document.querySelectorAll('.tour-highlight').forEach(el => el.classList.remove('tour-highlight'));
+            setTimeout(() => {
+                if (overlay.parentNode) document.body.removeChild(overlay);
+                if (tooltip.parentNode) document.body.removeChild(tooltip);
+            }, 300);
+            sessionStorage.setItem('oceanTourDone', 'true');
+        };
+
+        const renderStep = () => {
+            const step = steps[currentStep];
             
-            // Create DOM elements
-            if(document.getElementById('tour-overlay')) return; // already running
+            document.querySelectorAll('.tour-highlight').forEach(el => el.classList.remove('tour-highlight'));
 
-            const overlay = document.createElement('div');
-            overlay.id = 'tour-overlay';
-            overlay.className = 'tour-overlay';
-            document.body.appendChild(overlay);
+            if(step.preAction) step.preAction();
 
-            const tooltip = document.createElement('div');
-            tooltip.id = 'tour-tooltip';
-            tooltip.className = 'tour-tooltip';
-            tooltip.innerHTML = `
-                <div class="tour-header">
-                    <button class="tour-close" id="tour-close">&times;</button>
-                    <div class="tour-title" id="tour-title"></div>
-                    <div class="tour-desc" id="tour-desc"></div>
-                    <div class="tour-caret" id="tour-caret"></div>
-                </div>
-                <div class="tour-footer">
-                    <button class="tour-btn tour-btn-back" id="tour-btn-back">Back</button>
-                    <button class="tour-btn tour-btn-next" id="tour-btn-next">Next</button>
-                </div>
-            `;
-            document.body.appendChild(tooltip);
+            setTimeout(() => {
+                const target = document.querySelector(step.targetQuery);
+                if (!target) {
+                    console.warn("Tour target not found:", step.targetQuery);
+                    // move to next if possible
+                    if(currentStep < steps.length -1) { currentStep++; renderStep(); } else { closeTour(); }
+                    return;
+                }
 
-            setTimeout(() => { overlay.style.opacity = '1'; }, 10);
+                target.classList.add('tour-highlight');
+                // Scroll target into view smoothly so it doesn't get clipped
+                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-            const renderStep = () => {
-                const step = steps[currentStep];
-                
-                // Clear previous highlights
-                document.querySelectorAll('.tour-highlight').forEach(el => el.classList.remove('tour-highlight'));
+                document.getElementById('tour-step-info').innerText = `STEP ${currentStep + 1} OF ${steps.length}`;
+                document.getElementById('tour-title').innerText = step.title;
+                document.getElementById('tour-desc').innerText = step.desc;
+                document.getElementById('tour-tip-text').innerText = step.tip;
 
-                if(step.preAction) step.preAction();
+                const btnNext = document.getElementById('tour-btn-next');
+                btnNext.innerText = currentStep === steps.length - 1 ? 'Finish' : 'Next';
 
-                // Wait a bit if target needs to be rendered (e.g. after tab switch)
+                // Recalculate after scroll
                 setTimeout(() => {
-                    let target = step.target;
-                    // Re-query if needed
-                    if (step.waitForElement && !target) {
-                        if (currentStep === 5) target = document.getElementById('btn-smart-matching');
-                    }
-
-                    if (!target) {
-                        console.warn("Tour target not found:", step);
-                        return;
-                    }
-
-                    target.classList.add('tour-highlight');
-
-                    document.getElementById('tour-title').innerText = step.title;
-                    document.getElementById('tour-desc').innerText = step.desc;
-
-                    const btnBack = document.getElementById('tour-btn-back');
-                    const btnNext = document.getElementById('tour-btn-next');
-                    
-                    btnBack.style.display = currentStep === 0 ? 'none' : 'block';
-                    btnNext.innerText = currentStep === steps.length - 1 ? 'Finish' : 'Next';
-
-                    // Positioning
                     const rect = target.getBoundingClientRect();
                     const tt = tooltip.getBoundingClientRect();
-                    
                     const caret = document.getElementById('tour-caret');
                     caret.className = 'tour-caret';
 
@@ -8167,57 +8195,61 @@ const attachEventListeners = () => {
                     let left = 0;
 
                     if (step.pos === 'right') {
-                        top = rect.top + (rect.height / 2) - (tt.height / 2);
+                        top = rect.top + (rect.height / 2) - 100;
                         left = rect.right + 20;
                         caret.classList.add('left');
                     } else if (step.pos === 'bottom') {
                         top = rect.bottom + 20;
-                        left = rect.left + (rect.width / 2) - (tt.width / 2);
+                        left = rect.left + (rect.width / 2) - 50;
                         caret.classList.add('top');
+                    } else if (step.pos === 'top') {
+                        top = rect.top - tt.height - 20;
+                        left = rect.left + (rect.width / 2) - 50;
+                        caret.classList.add('bottom');
+                    } else if (step.pos === 'left') {
+                        top = rect.top + (rect.height / 2) - 100;
+                        left = rect.left - tt.width - 20;
+                        caret.classList.add('right');
                     }
 
-                    // Keep inside viewport bounds
-                    if (left + 320 > window.innerWidth) left = window.innerWidth - 340;
+                    // Viewport bounds correction
+                    if (left + tt.width > window.innerWidth) {
+                        left = window.innerWidth - tt.width - 20;
+                    }
+                    if (left < 0) left = 20;
                     if (top < 0) top = 20;
+                    if (top + tt.height > window.innerHeight) {
+                        top = window.innerHeight - tt.height - 20;
+                    }
 
                     tooltip.style.top = top + 'px';
                     tooltip.style.left = left + 'px';
                     tooltip.classList.add('show');
-                }, 150);
-            };
+                }, 400); // wait for scroll to finish
+            }, 150);
+        };
 
-            const closeTour = () => {
-                overlay.style.opacity = '0';
-                tooltip.classList.remove('show');
-                document.querySelectorAll('.tour-highlight').forEach(el => el.classList.remove('tour-highlight'));
-                setTimeout(() => {
-                    if (overlay.parentNode) document.body.removeChild(overlay);
-                    if (tooltip.parentNode) document.body.removeChild(tooltip);
-                }, 300);
-            };
-
-            document.getElementById('tour-close').addEventListener('click', closeTour);
-            
-            document.getElementById('tour-btn-next').addEventListener('click', () => {
-                if (currentStep < steps.length - 1) {
-                    currentStep++;
-                    renderStep();
-                } else {
-                    closeTour();
-                }
-            });
-
-            document.getElementById('tour-btn-back').addEventListener('click', () => {
-                if (currentStep > 0) {
-                    currentStep--;
-                    renderStep();
-                }
-            });
-
-            // Start first step
-            renderStep();
+        document.getElementById('tour-btn-skip').addEventListener('click', closeTour);
+        document.getElementById('tour-btn-next').addEventListener('click', () => {
+            if (currentStep < steps.length - 1) {
+                currentStep++;
+                renderStep();
+            } else {
+                closeTour();
+            }
         });
+
+        renderStep();
+    };
+
+    // Auto start tour on load if not done
+    if(!sessionStorage.getItem('oceanTourDone')) {
+        setTimeout(startSandboxTour, 1000);
     }
+
+    // Attach to button if it exists
+    const btnStartTour = document.getElementById('btn-start-tour');
+    if(btnStartTour) btnStartTour.addEventListener('click', startSandboxTour);
 
     // 6. AI Tabs Navigation
     const aiTabBtns = document.querySelectorAll('.ai-tab-btn');
