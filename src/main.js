@@ -3449,6 +3449,120 @@ const contents = { dashboard: dashboardContent, analytics: analyticsContent, inv
     const menuLabels = { dashboard: '🏠 Dashboard', analytics: '📊 Analytics', invoicing: '📑 Invoicing', ecosystem: '🤝 Ecosystem', predictiveAi: '✨ Ocean AI' };
 
     return `
+    
+        /* OCEAN PRODUCT TOUR CSS */
+        <style>
+            .tour-overlay {
+                position: fixed;
+                top: 0; left: 0; width: 100vw; height: 100vh;
+                background: rgba(15, 23, 42, 0.7);
+                z-index: 9998;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                pointer-events: all;
+            }
+            .tour-highlight {
+                position: relative !important;
+                z-index: 9999 !important;
+                background: white;
+                box-shadow: 0 0 0 4px white, 0 10px 25px rgba(0,0,0,0.2) !important;
+                border-radius: inherit;
+                pointer-events: none; /* Disable clicking during tour */
+            }
+            .tour-tooltip {
+                position: absolute;
+                width: 320px;
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+                z-index: 10000;
+                opacity: 0;
+                transform: translateY(10px);
+                transition: opacity 0.3s ease, transform 0.3s ease, top 0.3s ease, left 0.3s ease;
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+            }
+            .tour-tooltip.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            .tour-header {
+                background: #0f172a;
+                color: white;
+                padding: 1.5rem;
+                position: relative;
+            }
+            .tour-close {
+                position: absolute;
+                top: 10px; right: 10px;
+                color: #94a3b8;
+                background: none; border: none; font-size: 1.2rem; cursor: pointer;
+            }
+            .tour-close:hover { color: white; }
+            .tour-title {
+                font-size: 1.1rem;
+                font-weight: 800;
+                margin-bottom: 0.5rem;
+                line-height: 1.4;
+            }
+            .tour-desc {
+                font-size: 0.85rem;
+                color: #cbd5e1;
+                line-height: 1.5;
+            }
+            .tour-footer {
+                display: flex;
+                background: #f1f5f9;
+            }
+            .tour-btn {
+                flex: 1;
+                padding: 12px 0;
+                border: none;
+                font-weight: 800;
+                font-size: 0.9rem;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+            .tour-btn-back {
+                background: #e2e8f0;
+                color: #475569;
+            }
+            .tour-btn-back:hover { background: #cbd5e1; }
+            .tour-btn-next {
+                background: #f97316; /* Appcues Orange/Red style */
+                color: white;
+            }
+            .tour-btn-next:hover { background: #ea580c; }
+            
+            /* Caret Arrow */
+            .tour-caret {
+                position: absolute;
+                width: 0; height: 0;
+                border-style: solid;
+            }
+            .tour-caret.top {
+                bottom: -10px; left: 50%; transform: translateX(-50%);
+                border-width: 10px 10px 0 10px;
+                border-color: #f1f5f9 transparent transparent transparent; /* Match footer */
+            }
+            .tour-caret.bottom {
+                top: -10px; left: 50%; transform: translateX(-50%);
+                border-width: 0 10px 10px 10px;
+                border-color: transparent transparent #0f172a transparent; /* Match header */
+            }
+            .tour-caret.left {
+                right: -10px; top: 50%; transform: translateY(-50%);
+                border-width: 10px 0 10px 10px;
+                border-color: transparent transparent transparent #0f172a;
+            }
+            .tour-caret.right {
+                left: -10px; top: 50%; transform: translateY(-50%);
+                border-width: 10px 10px 10px 0;
+                border-color: transparent #0f172a transparent transparent;
+            }
+        </style>
+
     <div class="public-layout fade-in" style="width: 100%; max-width: 100%; margin: 0; padding: 2rem 3rem;">
         <header class="page-header-p" style="margin-bottom:2rem; text-align:left; border-bottom: 2px solid #e2e8f0; padding-bottom: 1.5rem;">
             <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -3456,9 +3570,14 @@ const contents = { dashboard: dashboardContent, analytics: analyticsContent, inv
                     <h1 style="color: var(--bca-blue-dark); font-weight:800; font-size:2rem; margin-bottom:0.5rem;">Ocean Sandbox Demo</h1>
                     <p style="color:#64748b; font-size:0.95rem; margin:0;">Eksplorasi dashboard interaktif dan simulasi API tanpa menggunakan data asli Anda.</p>
                 </div>
-                <div style="background:#dcfce7; border:1px solid #bbf7d0; color:#15803d; padding:0.5rem 1rem; border-radius:50px; font-size:0.78rem; font-weight:700; display:flex; align-items:center; gap:8px;">
-                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#22c55e; animation: pulse 1.5s infinite;"></span>
-                    Sandbox Connected
+                <div style="display:flex; gap:12px;">
+                    <button id="btn-start-tour" style="background:#1e40af; border:1px solid #1e3a8a; color:white; padding:0.5rem 1rem; border-radius:50px; font-size:0.78rem; font-weight:800; display:flex; align-items:center; gap:8px; cursor:pointer; box-shadow: 0 4px 6px rgba(30,64,175,0.2);">
+                        <span style="font-size:1rem;">💡</span> Mulai Product Tour
+                    </button>
+                    <div style="background:#dcfce7; border:1px solid #bbf7d0; color:#15803d; padding:0.5rem 1rem; border-radius:50px; font-size:0.78rem; font-weight:700; display:flex; align-items:center; gap:8px;">
+                        <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#22c55e; animation: pulse 1.5s infinite;"></span>
+                        Sandbox Connected
+                    </div>
                 </div>
             </div>
         </header>
@@ -7922,6 +8041,181 @@ const attachEventListeners = () => {
                     </div>
                 `;
             }, 1800);
+        });
+    }
+
+
+    // --- PRODUCT TOUR LOGIC ---
+    const btnStartTour = document.getElementById('btn-start-tour');
+    if (btnStartTour) {
+        btnStartTour.addEventListener('click', () => {
+            // Define steps
+            const steps = [
+                {
+                    target: document.querySelector('[data-sb-tab="dashboard"]'),
+                    title: "Corporate Dashboard",
+                    desc: "Pantau kesehatan finansial perusahaan dari satu layar. Integrasi real-time 5 rekening giro & virtual account.",
+                    pos: "right"
+                },
+                {
+                    target: document.querySelector('[data-sb-tab="analytics"]'),
+                    title: "Business Analytics",
+                    desc: "Dapatkan insight mendalam tentang tren volume transaksi harian/mingguan dan Top Counterparty bisnis Anda.",
+                    pos: "right"
+                },
+                {
+                    target: document.querySelector('[data-sb-tab="invoicing"]'),
+                    title: "Collection Manager",
+                    desc: "Buat dan pantau invoice dalam hitungan detik. Semua status pembayaran terekonsiliasi otomatis dengan Virtual Account BCA.",
+                    pos: "right"
+                },
+                {
+                    target: document.querySelector('[data-sb-tab="ecosystem"]'),
+                    title: "API Ecosystem",
+                    desc: "Satu gateway untuk menghubungkan ERP/SAP Anda dengan BCA. Atur akses API Key untuk berbagai layanan perbankan.",
+                    pos: "right"
+                },
+                {
+                    target: document.querySelector('[data-sb-tab="predictiveAi"]'),
+                    title: "Ocean AI Engine",
+                    desc: "Klik menu ini untuk melihat kemampuan prediktif AI Ocean: Cashflow Forecasting, Supply Chain Risk, hingga Auto-Suggestion Ekosistem.",
+                    pos: "right",
+                    preAction: () => {
+                        // Ensure we switch to predictiveAi tab
+                        const target = document.querySelector('[data-sb-tab="predictiveAi"]');
+                        if(target) target.click();
+                    }
+                },
+                {
+                    target: document.getElementById('btn-smart-matching'),
+                    title: "Run AI Simulation",
+                    desc: "Eksekusi simulasi ini untuk melihat bagaimana Ocean menganalisis pola operasional dan mencocokkannya dengan produk kredit BCA (KKB/Working Capital).",
+                    pos: "bottom",
+                    waitForElement: true
+                }
+            ];
+
+            let currentStep = 0;
+            
+            // Create DOM elements
+            if(document.getElementById('tour-overlay')) return; // already running
+
+            const overlay = document.createElement('div');
+            overlay.id = 'tour-overlay';
+            overlay.className = 'tour-overlay';
+            document.body.appendChild(overlay);
+
+            const tooltip = document.createElement('div');
+            tooltip.id = 'tour-tooltip';
+            tooltip.className = 'tour-tooltip';
+            tooltip.innerHTML = `
+                <div class="tour-header">
+                    <button class="tour-close" id="tour-close">&times;</button>
+                    <div class="tour-title" id="tour-title"></div>
+                    <div class="tour-desc" id="tour-desc"></div>
+                    <div class="tour-caret" id="tour-caret"></div>
+                </div>
+                <div class="tour-footer">
+                    <button class="tour-btn tour-btn-back" id="tour-btn-back">Back</button>
+                    <button class="tour-btn tour-btn-next" id="tour-btn-next">Next</button>
+                </div>
+            `;
+            document.body.appendChild(tooltip);
+
+            setTimeout(() => { overlay.style.opacity = '1'; }, 10);
+
+            const renderStep = () => {
+                const step = steps[currentStep];
+                
+                // Clear previous highlights
+                document.querySelectorAll('.tour-highlight').forEach(el => el.classList.remove('tour-highlight'));
+
+                if(step.preAction) step.preAction();
+
+                // Wait a bit if target needs to be rendered (e.g. after tab switch)
+                setTimeout(() => {
+                    let target = step.target;
+                    // Re-query if needed
+                    if (step.waitForElement && !target) {
+                        if (currentStep === 5) target = document.getElementById('btn-smart-matching');
+                    }
+
+                    if (!target) {
+                        console.warn("Tour target not found:", step);
+                        return;
+                    }
+
+                    target.classList.add('tour-highlight');
+
+                    document.getElementById('tour-title').innerText = step.title;
+                    document.getElementById('tour-desc').innerText = step.desc;
+
+                    const btnBack = document.getElementById('tour-btn-back');
+                    const btnNext = document.getElementById('tour-btn-next');
+                    
+                    btnBack.style.display = currentStep === 0 ? 'none' : 'block';
+                    btnNext.innerText = currentStep === steps.length - 1 ? 'Finish' : 'Next';
+
+                    // Positioning
+                    const rect = target.getBoundingClientRect();
+                    const tt = tooltip.getBoundingClientRect();
+                    
+                    const caret = document.getElementById('tour-caret');
+                    caret.className = 'tour-caret';
+
+                    let top = 0;
+                    let left = 0;
+
+                    if (step.pos === 'right') {
+                        top = rect.top + (rect.height / 2) - (tt.height / 2);
+                        left = rect.right + 20;
+                        caret.classList.add('left');
+                    } else if (step.pos === 'bottom') {
+                        top = rect.bottom + 20;
+                        left = rect.left + (rect.width / 2) - (tt.width / 2);
+                        caret.classList.add('top');
+                    }
+
+                    // Keep inside viewport bounds
+                    if (left + 320 > window.innerWidth) left = window.innerWidth - 340;
+                    if (top < 0) top = 20;
+
+                    tooltip.style.top = top + 'px';
+                    tooltip.style.left = left + 'px';
+                    tooltip.classList.add('show');
+                }, 150);
+            };
+
+            const closeTour = () => {
+                overlay.style.opacity = '0';
+                tooltip.classList.remove('show');
+                document.querySelectorAll('.tour-highlight').forEach(el => el.classList.remove('tour-highlight'));
+                setTimeout(() => {
+                    if (overlay.parentNode) document.body.removeChild(overlay);
+                    if (tooltip.parentNode) document.body.removeChild(tooltip);
+                }, 300);
+            };
+
+            document.getElementById('tour-close').addEventListener('click', closeTour);
+            
+            document.getElementById('tour-btn-next').addEventListener('click', () => {
+                if (currentStep < steps.length - 1) {
+                    currentStep++;
+                    renderStep();
+                } else {
+                    closeTour();
+                }
+            });
+
+            document.getElementById('tour-btn-back').addEventListener('click', () => {
+                if (currentStep > 0) {
+                    currentStep--;
+                    renderStep();
+                }
+            });
+
+            // Start first step
+            renderStep();
         });
     }
 
