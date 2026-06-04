@@ -8342,17 +8342,6 @@ const attachEventListeners = () => {
                 ];
             }
         } else {
-                steps = [
-                    {
-                        targetQuery: '.ai-sidebar',
-                        title: "Ocean AI Engine",
-                        desc: "Pilih salah satu dari 6 modul AI di sebelah kiri untuk melihat fungsionalitasnya.",
-                        tip: "Tip: Klik setiap modul untuk mengeksplorasi kecerdasan buatan Ocean!",
-                        pos: "right"
-                    }
-                ];
-            }
-        } else {
             steps = [
                 {
                     targetQuery: '.sidebar-menu',
