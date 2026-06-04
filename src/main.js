@@ -600,6 +600,136 @@ const SimulationPage = () => {
         </div>
 </div>
 </div>
+
+        <div id="tab-smart-matching" class="ai-tab-content fade-in" style="display:none;">
+        <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🧠 AI-Powered Ecosystem Optimizer</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI menganalisis pola operasional nasabah (volume transaksi, frekuensi invoicing, aktivitas payroll) untuk rekomendasi mitra ekosistem optimal.</p>
+                </div>
+                <button id="btn-smart-matching" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0f172a; border:none; box-shadow: 0 4px 6px rgba(15,23,42,0.2);">Run Auto-Suggestion</button>
+            </div>
+            
+            <div style="display:flex; gap:2rem;">
+                <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Operation Parameters</div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Volume Transaksi Bulanan</label>
+                        <select id="sm-volume" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>> Rp 10 Miliar</option>
+                            <option>Rp 1 M - Rp 10 M</option>
+                            <option>< Rp 1 Miliar</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Frekuensi Invoicing</label>
+                        <select id="sm-invoice" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Harian (Volume Tinggi)</option>
+                            <option>Mingguan</option>
+                            <option>Bulanan</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Aktivitas Payroll</label>
+                        <select id="sm-payroll" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>> 500 Karyawan</option>
+                            <option>50 - 500 Karyawan</option>
+                            <option>< 50 Karyawan</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="flex:1;">
+                    <div id="sm-result" style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; min-height:400px; font-size:0.85rem; line-height:1.5; color:#0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); overflow:hidden;">
+                        <div style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="font-family:monospace; font-weight:800; color:#475569; font-size:0.75rem; letter-spacing:1px;">OCEAN // SMART ECOSYSTEM MATCHING</div>
+                        </div>
+                        <div style="padding:2rem; min-height: 350px; display:flex; flex-direction:column;">
+                            <div id="sm-loading" style="display:none; flex-direction:column; gap:15px; color:#334155; width:100%;">
+                                <div style="font-family:monospace; font-weight:800; color:#0f172a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+                                    <div class="spinner" style="width:16px; height:16px; border:2px solid #e2e8f0; border-top-color:#1e40af; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                                    > ANALYZING OPERATIONAL PATTERNS...
+                                </div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:100%; animation: pulse 1.5s infinite 0.1s;"></div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:95%; animation: pulse 1.5s infinite 0.2s;"></div>
+                            </div>
+
+                            <div id="sm-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:#64748b; text-align:center;">
+                                <div style="font-family:monospace; font-size:0.85rem; padding:15px 30px; background:#f8fafc; border:1px dashed #cbd5e1; color:#475569; border-radius:6px;">
+                                    <div style="margin-bottom:8px; font-weight:800;">AWAITING EXECUTION</div>
+                                    Klik "Run Auto-Suggestion" untuk memunculkan rekomendasi AI.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div id="tab-supply-chain" class="ai-tab-content fade-in" style="display:none;">
+        <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🔗 Predictive Supply Chain Finance</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI menganalisis pola transaksi & hubungan supplier untuk merekomendasikan solusi pembiayaan rantai pasok secara proaktif.</p>
+                </div>
+                <button id="btn-supply-chain" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0284c7; border:none; box-shadow: 0 4px 6px rgba(2,132,199,0.2);">Analyze Supply Chain Risk</button>
+            </div>
+            
+            <div style="display:flex; gap:2rem;">
+                <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Transaction Data</div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Target Analisis</label>
+                        <select id="sc-target" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Pelanggan Utama (Customer)</option>
+                            <option>Supplier Utama</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Periode Evaluasi Historis</label>
+                        <select id="sc-period" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>6 Bulan Terakhir</option>
+                            <option>12 Bulan Terakhir</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="flex:1;">
+                    <div id="sc-result" style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; min-height:400px; font-size:0.85rem; line-height:1.5; color:#0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); overflow:hidden;">
+                        <div style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="font-family:monospace; font-weight:800; color:#475569; font-size:0.75rem; letter-spacing:1px;">OCEAN // SUPPLY CHAIN PREDICTIVE AI</div>
+                        </div>
+                        <div style="padding:2rem; min-height: 350px; display:flex; flex-direction:column;">
+                            <div id="sc-loading" style="display:none; flex-direction:column; gap:15px; color:#334155; width:100%;">
+                                <div style="font-family:monospace; font-weight:800; color:#0f172a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+                                    <div class="spinner" style="width:16px; height:16px; border:2px solid #e2e8f0; border-top-color:#1e40af; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                                    > DEEP SCANNING PAYMENT BEHAVIOR...
+                                </div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:100%; animation: pulse 1.5s infinite 0.1s;"></div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:95%; animation: pulse 1.5s infinite 0.2s;"></div>
+                            </div>
+
+                            <div id="sc-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:#64748b; text-align:center;">
+                                <div style="font-family:monospace; font-size:0.85rem; padding:15px 30px; background:#f8fafc; border:1px dashed #cbd5e1; color:#475569; border-radius:6px;">
+                                    <div style="margin-bottom:8px; font-weight:800;">AWAITING EXECUTION</div>
+                                    Klik "Analyze Supply Chain Risk" untuk memindai pola transaksi.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
             </div> <!-- Close RIGHT WORKSPACE -->
         </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
     `;
@@ -1947,357 +2077,12 @@ const SandboxPage = () => {
         </div>
 </div>
 </div>
-            </div> <!-- Close RIGHT WORKSPACE -->
-        </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
-    `;
 
-    const analyticsContent = `
-        <div class="sb-analytics-header">
-            <h3 style="color: var(--bca-blue-dark); font-weight:700;">📊 Business Analytics Dashboard</h3>
-            <div class="sb-filter-row">
-                <select id="sb-analytics-period" class="branch-filter">
-                    <option value="monthly" selected>Bulanan</option>
-                    <option value="weekly">Mingguan</option>
-                    <option value="daily">Harian</option>
-                </select>
-                <select id="sb-analytics-account" class="branch-filter">
-                    <option value="all" selected>Semua Rekening</option>
-                    <option value="giro">Giro Utama</option>
-                    <option value="va">Virtual Account</option>
-                </select>
-            </div>
-        </div>
-        <div class="sb-analytics-grid">
-            <div class="sb-metric-card">
-                <div class="sb-metric-icon" style="background:#eff6ff;color:#1d4ed8;">📈</div>
-                <div class="sb-metric-info">
-                    <label>Total Volume Transaksi</label>
-                    <div class="val">1.245</div>
-                    <span class="trend up">▲ 18% dari periode sebelumnya</span>
-                </div>
-            </div>
-            <div class="sb-metric-card">
-                <div class="sb-metric-icon" style="background:#f0fdf4;color:#16a34a;">💰</div>
-                <div class="sb-metric-info">
-                    <label>Rata-Rata Nilai Transaksi</label>
-                    <div class="val">Rp 15.200.000</div>
-                    <span class="trend up">▲ 5% dari periode sebelumnya</span>
-                </div>
-            </div>
-            <div class="sb-metric-card">
-                <div class="sb-metric-icon" style="background:#fef3c7;color:#d97706;">⏱️</div>
-                <div class="sb-metric-info">
-                    <label>Waktu Settlement Rata-Rata</label>
-                    <div class="val">2.3 Detik</div>
-                    <span class="trend up">▲ 40% lebih cepat</span>
-                </div>
-            </div>
-            <div class="sb-metric-card">
-                <div class="sb-metric-icon" style="background:#fdf2f8;color:#db2777;">🔄</div>
-                <div class="sb-metric-info">
-                    <label>Tingkat Rekonsiliasi Otomatis</label>
-                    <div class="val">98.7%</div>
-                    <span class="trend up">Match rate sangat tinggi</span>
-                </div>
-            </div>
-        </div>
-        <div class="sb-chart-placeholder" style="margin-top:1.5rem;">
-            <div class="chart-header">
-                <span style="font-weight: 700; color: var(--bca-blue-dark);">Tren Volume Transaksi per Kategori</span>
-                <div class="chart-legend">
-                    <span class="in">Collection</span>
-                    <span class="out">Disbursement</span>
-                </div>
-            </div>
-            <div class="fake-chart-visual">
-                <div class="bar-group">
-                    <div class="bar bar-in" style="height: 55%" data-tooltip="Collection W1: 550 Trx"></div>
-                    <div class="bar bar-out" style="height: 30%" data-tooltip="Disbursement W1: 300 Trx"></div>
-                    <span class="bar-label">W1</span>
-                </div>
-                <div class="bar-group">
-                    <div class="bar bar-in" style="height: 70%" data-tooltip="Collection W2: 700 Trx"></div>
-                    <div class="bar bar-out" style="height: 45%" data-tooltip="Disbursement W2: 450 Trx"></div>
-                    <span class="bar-label">W2</span>
-                </div>
-                <div class="bar-group">
-                    <div class="bar bar-in" style="height: 65%" data-tooltip="Collection W3: 650 Trx"></div>
-                    <div class="bar bar-out" style="height: 50%" data-tooltip="Disbursement W3: 500 Trx"></div>
-                    <span class="bar-label">W3</span>
-                </div>
-                <div class="bar-group">
-                    <div class="bar bar-in" style="height: 85%" data-tooltip="Collection W4: 850 Trx"></div>
-                    <div class="bar bar-out" style="height: 40%" data-tooltip="Disbursement W4: 400 Trx"></div>
-                    <span class="bar-label">W4</span>
-                </div>
-            </div>
-        </div>
-        <div class="sb-top-counterparties">
-            <h4 style="color: var(--bca-blue-dark); font-weight:700; margin-bottom:1rem;">Top 5 Counterparty (Berdasarkan Volume)</h4>
-            <table class="sb-table">
-                <thead><tr><th>#</th><th>Nama Perusahaan</th><th>Jumlah Trx</th><th>Total Volume</th><th>Tren</th></tr></thead>
-                <tbody>
-                    <tr><td>1</td><td>PT Retail Jaya Sentosa</td><td>124</td><td>Rp 3.2 Milyar</td><td><span class="trend up">▲ 22%</span></td></tr>
-                    <tr><td>2</td><td>CV Logistik Abadi</td><td>98</td><td>Rp 2.1 Milyar</td><td><span class="trend up">▲ 15%</span></td></tr>
-                    <tr><td>3</td><td>PT Mitra Teknologi</td><td>76</td><td>Rp 1.8 Milyar</td><td><span class="trend down">▼ 3%</span></td></tr>
-                    <tr><td>4</td><td>Koperasi Sejahtera</td><td>65</td><td>Rp 980 Juta</td><td><span class="trend up">▲ 8%</span></td></tr>
-                    <tr><td>5</td><td>PT Distribusi Nasional</td><td>52</td><td>Rp 750 Juta</td><td><span class="trend up">▲ 31%</span></td></tr>
-                </tbody>
-            </table>
-        </div>
-</div>
-</div>
-            </div> <!-- Close RIGHT WORKSPACE -->
-        </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
-    `;
-
-    const invoicingContent = `
-        <div class="sb-invoicing-header">
-            <h3 style="color: var(--bca-blue-dark); font-weight:700;">📑 Invoice & Collection Manager</h3>
-            <button id="btn-sb-create-invoice" class="btn-primary">+ Buat Invoice Baru</button>
-        </div>
-        <div class="sb-invoice-stats">
-            <div class="sb-inv-stat" style="border-top: 4px solid #16a34a;">
-                <div class="sb-inv-stat-val" style="color:#16a34a;">Rp ${paidSum.toLocaleString('id-ID')}</div>
-                <div class="sb-inv-stat-label">Sudah Dibayar</div>
-                <div class="sb-inv-stat-bar"><div style="width:${paidPct}%; background:#16a34a;"></div></div>
-            </div>
-            <div class="sb-inv-stat" style="border-top: 4px solid #d97706;">
-                <div class="sb-inv-stat-val" style="color:#d97706;">Rp ${pendingSum.toLocaleString('id-ID')}</div>
-                <div class="sb-inv-stat-label">Menunggu Pembayaran</div>
-                <div class="sb-inv-stat-bar"><div style="width:${pendingPct}%; background:#d97706;"></div></div>
-            </div>
-            <div class="sb-inv-stat" style="border-top: 4px solid #dc2626;">
-                <div class="sb-inv-stat-val" style="color:#dc2626;">Rp ${overdueSum.toLocaleString('id-ID')}</div>
-                <div class="sb-inv-stat-label">Jatuh Tempo</div>
-                <div class="sb-inv-stat-bar"><div style="width:${overduePct}%; background:#dc2626;"></div></div>
-            </div>
-        </div>
-        
-        <div id="sb-invoice-form" class="sb-invoice-form hidden">
-            <h4 style="color: var(--bca-blue-dark); font-weight:700; margin-bottom:1rem;">Buat Invoice Baru (Demo)</h4>
-            <div class="sb-inv-form-grid">
-                <div class="input-group" style="display:flex; flex-direction:column; gap:0.4rem; margin-bottom:0.75rem;">
-                    <label style="font-weight:700; font-size:0.8rem; color:var(--bca-blue-primary);">Nama Pelanggan</label>
-                    <input type="text" id="sb-inv-customer" placeholder="PT Contoh Perusahaan" class="to-select" style="margin-bottom:0;">
-                </div>
-                <div class="input-group" style="display:flex; flex-direction:column; gap:0.4rem; margin-bottom:0.75rem;">
-                    <label style="font-weight:700; font-size:0.8rem; color:var(--bca-blue-primary);">Nominal (Rp)</label>
-                    <input type="number" id="sb-inv-amount" placeholder="10000000" class="to-select" style="margin-bottom:0;">
-                </div>
-                <div class="input-group" style="display:flex; flex-direction:column; gap:0.4rem; margin-bottom:0.75rem;">
-                    <label style="font-weight:700; font-size:0.8rem; color:var(--bca-blue-primary);">Jatuh Tempo</label>
-                    <input type="date" id="sb-inv-due" class="to-select" style="margin-bottom:0;">
-                </div>
-                <div class="input-group" style="display:flex; flex-direction:column; gap:0.4rem; margin-bottom:0.75rem;">
-                    <label style="font-weight:700; font-size:0.8rem; color:var(--bca-blue-primary);">Metode Pembayaran</label>
-                    <select id="sb-inv-method" class="to-select" style="margin-bottom:0;">
-                        <option value="va">Virtual Account</option>
-                        <option value="transfer">Transfer Manual</option>
-                        <option value="qris">QRIS</option>
-                    </select>
-                </div>
-            </div>
-            <div style="display:flex; gap:1rem; justify-content:flex-end; margin-top:1.25rem;">
-                <button id="btn-sb-cancel-invoice" class="btn-outline" style="border:1px solid #cbd5e1; padding:0.6rem 1.5rem; border-radius:50px; font-weight:700;">Batal</button>
-                <button id="btn-sb-submit-invoice" class="btn-primary" style="padding:0.6rem 1.5rem; border-radius:50px; font-weight:700;">Kirim Invoice</button>
-            </div>
-        </div>
-
-        <div class="sb-recent" style="margin-top:1.5rem;">
-            <h4 style="color: var(--bca-blue-dark); font-weight:700; margin-bottom:1rem;">Daftar Invoice</h4>
-            <table class="sb-table">
-                <thead><tr><th>No. Invoice</th><th>Pelanggan</th><th>Nominal</th><th>Jatuh Tempo</th><th>Status</th><th>Aksi</th></tr></thead>
-                <tbody id="sb-invoice-table-body">
-                    ${state.sandbox.invoices.map(inv => {
-                        const classTag = inv.status === 'Lunas' ? 'tag-s' : (inv.status === 'Menunggu' ? 'tag-pending' : 'tag-overdue');
-                        const isPending = inv.status === 'Menunggu' || inv.status === 'Jatuh Tempo';
-                        const actionBtn = isPending 
-                            ? `<button class="sb-btn-sm sb-btn-pay" data-inv-id="${inv.id}" style="background:#16a34a; color:white; border:none; border-radius:6px; font-weight:700; cursor:pointer;">Bayar</button>
-                               <button class="sb-btn-sm sb-btn-remind" data-inv-id="${inv.id}" style="margin-left:4px; cursor:pointer;">Ingatkan</button>`
-                            : `<button class="sb-btn-sm" style="opacity:0.5; cursor:not-allowed;" disabled>Lunas</button>`;
-                        return `
-                            <tr>
-                                <td>${inv.id}</td>
-                                <td>${inv.customer}</td>
-                                <td style="font-weight: 700;">Rp ${inv.amount.toLocaleString('id-ID')}</td>
-                                <td>${inv.due}</td>
-                                <td><span class="${classTag}">${inv.status}</span></td>
-                                <td>${actionBtn}</td>
-                            </tr>
-                        `;
-                    }).join('')}
-                </tbody>
-            </table>
-        </div>
-</div>
-</div>
-            </div> <!-- Close RIGHT WORKSPACE -->
-        </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
-    `;
-
-    const activeSimulation = state.sandbox.apiSimulation;
-    let simulatedReqPayload = '';
-    let simulatedResPayload = 'Klik "Kirim Request" untuk memulai.';
-    
-    if (activeSimulation.activeEndpoint === 'get-balance') {
-        simulatedReqPayload = `GET /v1/balance HTTP/1.1\nHost: api.ocean.bca.co.id\nAuthorization: Bearer oc_live_***8f2d\nAccept: application/json`;
-        if (activeSimulation.response) {
-            simulatedResPayload = JSON.stringify(activeSimulation.response, null, 2);
-        }
-    } else if (activeSimulation.activeEndpoint === 'create-va') {
-        simulatedReqPayload = `POST /v1/va/create HTTP/1.1\nHost: api.ocean.bca.co.id\nContent-Type: application/json\nAuthorization: Bearer oc_live_***8f2d\n\n{\n  "amount": 15000000,\n  "customer_name": "PT Cipta Karya",\n  "due_date": "2026-06-30",\n  "description": "Invoice Pembayaran"\n}`;
-        if (activeSimulation.response) {
-            simulatedResPayload = JSON.stringify(activeSimulation.response, null, 2);
-        }
-    } else if (activeSimulation.activeEndpoint === 'transfer') {
-        simulatedReqPayload = `POST /v1/transfer HTTP/1.1\nHost: api.ocean.bca.co.id\nContent-Type: application/json\nAuthorization: Bearer oc_live_***8f2d\n\n{\n  "beneficiary_account": "0123456789",\n  "amount": 25000000,\n  "remark": "Disbursement Gaji"\n}`;
-        if (activeSimulation.response) {
-            simulatedResPayload = JSON.stringify(activeSimulation.response, null, 2);
-        }
-    }
-
-    const ecosystemContent = `
-        <div class="sb-eco-header">
-            <h3 style="color: var(--bca-blue-dark); font-weight:700;">🤝 Ecosystem & API Integration</h3>
-            <p class="sb-eco-subtitle">Pantau semua koneksi API dan partner yang terintegrasi dengan Ocean secara real-time.</p>
-        </div>
-        <div class="sb-eco-grid">
-            ${state.sandbox.integrations.map(item => {
-                const activeClass = item.active ? '' : 'sb-eco-inactive';
-                const statusClass = item.active ? 'sb-eco-active' : '';
-                const btnLabel = item.active ? 'Deaktifkan' : 'Aktifkan Sekarang';
-                const btnClass = item.active ? 'btn-outline sb-btn-deactivate' : 'btn-primary sb-btn-activate';
-                return `
-                    <div class="sb-eco-card ${activeClass}" id="card-${item.id}">
-                        <div class="sb-eco-status ${statusClass}"></div>
-                        <div class="sb-eco-icon">${item.icon}</div>
-                        <h4 style="color: var(--bca-blue-dark); font-weight:700;">${item.name}</h4>
-                        <p>${item.desc}</p>
-                        <div class="sb-eco-stats-row">
-                            <div><span class="sb-eco-num">${item.active ? item.trx.toLocaleString('id-ID') : '-'}</span><br><small>Trx/Hari</small></div>
-                            <div><span class="sb-eco-num">${item.active ? item.uptime : '-'}</span><br><small>Uptime</small></div>
-                        </div>
-                        <div class="sb-eco-api-key" style="display:flex; justify-content:space-between; align-items:center; background:#f8fafc; border:1px solid #e2e8f0;">
-                            <span style="font-size:0.7rem; font-family:monospace; color:#475569;">Key: <code>${item.apiKey.substring(0, 10)}...</code></span>
-                            <button class="sb-copy-btn" data-key="${item.apiKey}" style="background:transparent; border:none; cursor:pointer; font-size:0.85rem; padding:0; display:flex; align-items:center;" title="Salin API Key">📋</button>
-                        </div>
-                        <button class="${btnClass}" data-eco-id="${item.id}" style="width:100%; margin-top:0.75rem; font-size:0.8rem; padding:0.4rem 0.8rem; border-radius:50px; font-weight:700;">${btnLabel}</button>
-                    </div>
-                `;
-            }).join('')}
-        </div>
-        
-        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.5rem; margin-top: 2rem; align-items: flex-start;">
-            <div class="sb-eco-logs">
-                <h4 style="color: var(--bca-blue-dark); font-weight:700; margin-bottom:1rem; display:flex; align-items:center; gap:8px;">
-                    <span>📊 API Call Logs (Live Traffic)</span>
-                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#22c55e; animation: pulse 1.5s infinite;"></span>
-                </h4>
-                <div class="sb-log-list" id="sb-log-list">
-                    ${state.sandbox.apiLogs.map(log => {
-                        const statusColorClass = (log.status >= 200 && log.status < 300) ? 'status-200' : 'status-401';
-                        const methodClass = log.method.toLowerCase();
-                        return `
-                            <div class="sb-log-entry" style="border-bottom:1px solid #1e293b; padding:10px 0;">
-                                <span class="sb-log-time" style="color: #64748b; font-family:'Fira Code',monospace;">${log.time}</span>
-                                <span class="sb-log-method ${methodClass}">${log.method}</span>
-                                <span class="sb-log-status ${statusColorClass}">${log.status}</span>
-                                <code style="color:#e2e8f0; font-family:'Fira Code',monospace; flex:1; overflow-x:auto;">${log.endpoint}</code>
-                                <span class="sb-log-dur" style="color:#64748b;">${log.duration}</span>
-                            </div>
-                        `;
-                    }).join('')}
-                </div>
-            </div>
-            
-            <div class="sb-api-client card-premium" style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 1.5rem; color: #e2e8f0;">
-                <h4 style="margin-top:0; margin-bottom:0.75rem; color: #38bdf8; display:flex; align-items:center; gap:8px; font-size:1rem; font-weight:800;">
-                    <span>💻 Interactive API Request Console</span>
-                </h4>
-                <p style="font-size:0.75rem; color:#94a3b8; margin-bottom:1.25rem; line-height:1.4; text-align:left;">Pilih salah satu endpoint untuk mensimulasikan panggilan API Ocean secara langsung dan lihat hasilnya.</p>
-                
-                <div style="display:flex; gap:0.5rem; margin-bottom:1.25rem;">
-                    <select id="sb-api-endpoint" class="to-select" style="margin-bottom:0; background:#1e293b; color:white; border-color:#334155; font-size:0.85rem; padding:0.5rem; flex:1; outline:none;">
-                        <option value="get-balance" ${activeSimulation.activeEndpoint === 'get-balance' ? 'selected' : ''}>GET /v1/balance (Cek Saldo)</option>
-                        <option value="create-va" ${activeSimulation.activeEndpoint === 'create-va' ? 'selected' : ''}>POST /v1/va/create (Buat VA)</option>
-                        <option value="transfer" ${activeSimulation.activeEndpoint === 'transfer' ? 'selected' : ''}>POST /v1/transfer (Disbursement)</option>
-                    </select>
-                    <button id="btn-sb-send-api" class="btn-primary" style="padding:0 1.25rem; font-size:0.85rem; white-space:nowrap; border-radius:8px; font-weight:700; ${activeSimulation.executing ? 'background:#64748b; cursor:not-allowed;' : ''}" ${activeSimulation.executing ? 'disabled' : ''}>
-                        ${activeSimulation.executing ? 'Mengirim...' : 'Kirim Request'}
-                    </button>
-                </div>
-                
-                <div style="display:grid; grid-template-columns: 1fr; gap:1.25rem;">
-                    <div>
-                        <div style="font-size:0.7rem; color:#94a3b8; text-transform:uppercase; font-weight:700; margin-bottom:0.35rem; text-align:left;">Request Headers & Payload</div>
-                        <pre id="sb-api-req-payload" style="background:#1e293b; padding:0.75rem; border-radius:8px; margin:0; font-family:'Fira Code',monospace; font-size:0.7rem; overflow-x:auto; height:110px; border:1px solid #334155; color:#cbd5e1; text-align:left; white-space:pre; border-left:3px solid #38bdf8;">${simulatedReqPayload}</pre>
-                    </div>
-                    <div>
-                        <div style="font-size:0.7rem; color:#94a3b8; text-transform:uppercase; font-weight:700; margin-bottom:0.35rem; text-align:left;">Response (Simulasi JSON)</div>
-                        <pre id="sb-api-res-payload" style="background:#1e293b; padding:0.75rem; border-radius:8px; margin:0; font-family:'Fira Code',monospace; font-size:0.7rem; overflow-x:auto; height:120px; border:1px solid #334155; color:#a7f3d0; text-align:left; white-space:pre; border-left:3px solid #34d399;">${simulatedResPayload}</pre>
-                    </div>
-                </div>
-            </div>
-        </div>
-</div>
-</div>
-            </div> <!-- Close RIGHT WORKSPACE -->
-        </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
-    `;
-
-    
-    const predictiveAiContent = `
-        <div class="sb-ai-header fade-in" style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom: 2rem;">
-            <div>
-                <h3 style="color: var(--bca-blue-dark); font-weight:800; font-size: 1.5rem; display:flex; align-items:center; gap:8px;">
-                    ✨ Ocean Predictive Intelligence Layer
-                </h3>
-                <p style="color:#64748b; font-size:0.95rem; margin-top:0.5rem; max-width: 800px;">
-                    Sistem inti berbasis AI yang memproses data historis, pola operasional, dan variabel eksternal untuk memberikan proyeksi keuangan. Sebagai nilai tambah (value-added) untuk meningkatkan daya saing, Ocean menghadirkan insight strategis melalui pemanfaatan machine learning dan pattern analysis terhadap data agregat dan pola transaksi. Fitur ini memungkinkan nasabah memahami posisi bisnisnya melalui benchmark industri serta mengidentifikasi peluang secara proaktif, sehingga mendukung pengambilan keputusan yang lebih cepat, akurat, dan berbasis data.
-                </p>
-            </div>
-            <div style="background: linear-gradient(135deg, #0ea5e9, #2563eb); color: white; padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.75rem; font-weight: 700; display:flex; align-items:center; gap: 6px; box-shadow: 0 4px 10px rgba(37,99,235,0.3);">
-                <span style="display:inline-block; width:6px; height:6px; background:#fff; border-radius:50%; animation: pulse 1.5s infinite;"></span> AI Engine Active
-            </div>
-        </div>
-
-        
-        <!-- ENTERPRISE SPLIT-PANE LAYOUT -->
-        <div style="display:flex; gap:1.5rem; min-height: 700px; align-items: stretch;">
-            
-            <!-- LEFT SIDEBAR -->
-            <div style="width:260px; flex-shrink:0; background:white; border-radius:16px; border:1px solid #e2e8f0; padding:1.5rem; display:flex; flex-direction:column; gap:8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);" class="ai-sidebar">
-                <div style="font-size:0.75rem; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">AI Modules</div>
-                
-                <button class="ai-tab-btn active" data-target="tab-smart-matching" style="display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:14px 16px; border-radius:12px; border:none; background:#eff6ff; color:#1e40af; font-weight:800; font-size:0.85rem; cursor:pointer; transition:all 0.2s;">
-                    <span style="font-size:1.25rem;">🚀</span> Smart Ecosystem Matching
-                </button>
-                
-                <button class="ai-tab-btn" data-target="tab-supply-chain" style="display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:14px 16px; border-radius:12px; border:none; background:transparent; color:#64748b; font-weight:800; font-size:0.85rem; cursor:pointer; transition:all 0.2s;">
-                    <span style="font-size:1.25rem;">🔗</span> Predictive Supply Chain
-                </button>
-                
-                <button class="ai-tab-btn" data-target="tab-health" style="display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:14px 16px; border-radius:12px; border:none; background:transparent; color:#64748b; font-weight:800; font-size:0.85rem; cursor:pointer; transition:all 0.2s;">
-                    <span style="font-size:1.25rem;">❤️</span> Business Health Scoring
-                </button>
-                
-                <div style="margin-top:auto; background:#f8fafc; padding:1.25rem; border-radius:12px; border:1px solid #e2e8f0;">
-                    <div style="font-size:0.7rem; font-weight:800; color:#475569; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">System Status</div>
-                    <div style="display:flex; align-items:center; gap:8px; font-size:0.8rem; font-weight:800; color:#16a34a;">
-                        <span style="width:10px; height:10px; background:#22c55e; border-radius:50%; display:inline-block; animation:pulse 1.5s infinite; box-shadow: 0 0 8px #22c55e;"></span> All Models Optimal
-                    </div>
-                </div>
-            </div>
-            
-            <!-- RIGHT WORKSPACE -->
-            <div style="flex:1; background:#f8fafc; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; overflow-y:auto; box-shadow: inset 0 2px 10px rgba(0,0,0,0.02);" class="ai-workspace">
-
-        <div id="tab-smart-matching" class="ai-tab-content fade-in" style="display:block;">
+        <div id="tab-smart-matching" class="ai-tab-content fade-in" style="display:none;">
         <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
             <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
                 <div>
-                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🧠 Smart Ecosystem Matching & Auto-Suggestion</h4>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🧠 AI-Powered Ecosystem Optimizer</h4>
                     <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI menganalisis pola operasional nasabah (volume transaksi, frekuensi invoicing, aktivitas payroll) untuk rekomendasi mitra ekosistem optimal.</p>
                 </div>
                 <button id="btn-smart-matching" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0f172a; border:none; box-shadow: 0 4px 6px rgba(15,23,42,0.2);">Run Auto-Suggestion</button>
@@ -2421,6 +2206,961 @@ const SandboxPage = () => {
             </div>
         </div>
         </div>
+
+            </div> <!-- Close RIGHT WORKSPACE -->
+        </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
+    `;
+
+    const analyticsContent = `
+        <div class="sb-analytics-header">
+            <h3 style="color: var(--bca-blue-dark); font-weight:700;">📊 Business Analytics Dashboard</h3>
+            <div class="sb-filter-row">
+                <select id="sb-analytics-period" class="branch-filter">
+                    <option value="monthly" selected>Bulanan</option>
+                    <option value="weekly">Mingguan</option>
+                    <option value="daily">Harian</option>
+                </select>
+                <select id="sb-analytics-account" class="branch-filter">
+                    <option value="all" selected>Semua Rekening</option>
+                    <option value="giro">Giro Utama</option>
+                    <option value="va">Virtual Account</option>
+                </select>
+            </div>
+        </div>
+        <div class="sb-analytics-grid">
+            <div class="sb-metric-card">
+                <div class="sb-metric-icon" style="background:#eff6ff;color:#1d4ed8;">📈</div>
+                <div class="sb-metric-info">
+                    <label>Total Volume Transaksi</label>
+                    <div class="val">1.245</div>
+                    <span class="trend up">▲ 18% dari periode sebelumnya</span>
+                </div>
+            </div>
+            <div class="sb-metric-card">
+                <div class="sb-metric-icon" style="background:#f0fdf4;color:#16a34a;">💰</div>
+                <div class="sb-metric-info">
+                    <label>Rata-Rata Nilai Transaksi</label>
+                    <div class="val">Rp 15.200.000</div>
+                    <span class="trend up">▲ 5% dari periode sebelumnya</span>
+                </div>
+            </div>
+            <div class="sb-metric-card">
+                <div class="sb-metric-icon" style="background:#fef3c7;color:#d97706;">⏱️</div>
+                <div class="sb-metric-info">
+                    <label>Waktu Settlement Rata-Rata</label>
+                    <div class="val">2.3 Detik</div>
+                    <span class="trend up">▲ 40% lebih cepat</span>
+                </div>
+            </div>
+            <div class="sb-metric-card">
+                <div class="sb-metric-icon" style="background:#fdf2f8;color:#db2777;">🔄</div>
+                <div class="sb-metric-info">
+                    <label>Tingkat Rekonsiliasi Otomatis</label>
+                    <div class="val">98.7%</div>
+                    <span class="trend up">Match rate sangat tinggi</span>
+                </div>
+            </div>
+        </div>
+        <div class="sb-chart-placeholder" style="margin-top:1.5rem;">
+            <div class="chart-header">
+                <span style="font-weight: 700; color: var(--bca-blue-dark);">Tren Volume Transaksi per Kategori</span>
+                <div class="chart-legend">
+                    <span class="in">Collection</span>
+                    <span class="out">Disbursement</span>
+                </div>
+            </div>
+            <div class="fake-chart-visual">
+                <div class="bar-group">
+                    <div class="bar bar-in" style="height: 55%" data-tooltip="Collection W1: 550 Trx"></div>
+                    <div class="bar bar-out" style="height: 30%" data-tooltip="Disbursement W1: 300 Trx"></div>
+                    <span class="bar-label">W1</span>
+                </div>
+                <div class="bar-group">
+                    <div class="bar bar-in" style="height: 70%" data-tooltip="Collection W2: 700 Trx"></div>
+                    <div class="bar bar-out" style="height: 45%" data-tooltip="Disbursement W2: 450 Trx"></div>
+                    <span class="bar-label">W2</span>
+                </div>
+                <div class="bar-group">
+                    <div class="bar bar-in" style="height: 65%" data-tooltip="Collection W3: 650 Trx"></div>
+                    <div class="bar bar-out" style="height: 50%" data-tooltip="Disbursement W3: 500 Trx"></div>
+                    <span class="bar-label">W3</span>
+                </div>
+                <div class="bar-group">
+                    <div class="bar bar-in" style="height: 85%" data-tooltip="Collection W4: 850 Trx"></div>
+                    <div class="bar bar-out" style="height: 40%" data-tooltip="Disbursement W4: 400 Trx"></div>
+                    <span class="bar-label">W4</span>
+                </div>
+            </div>
+        </div>
+        <div class="sb-top-counterparties">
+            <h4 style="color: var(--bca-blue-dark); font-weight:700; margin-bottom:1rem;">Top 5 Counterparty (Berdasarkan Volume)</h4>
+            <table class="sb-table">
+                <thead><tr><th>#</th><th>Nama Perusahaan</th><th>Jumlah Trx</th><th>Total Volume</th><th>Tren</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>PT Retail Jaya Sentosa</td><td>124</td><td>Rp 3.2 Milyar</td><td><span class="trend up">▲ 22%</span></td></tr>
+                    <tr><td>2</td><td>CV Logistik Abadi</td><td>98</td><td>Rp 2.1 Milyar</td><td><span class="trend up">▲ 15%</span></td></tr>
+                    <tr><td>3</td><td>PT Mitra Teknologi</td><td>76</td><td>Rp 1.8 Milyar</td><td><span class="trend down">▼ 3%</span></td></tr>
+                    <tr><td>4</td><td>Koperasi Sejahtera</td><td>65</td><td>Rp 980 Juta</td><td><span class="trend up">▲ 8%</span></td></tr>
+                    <tr><td>5</td><td>PT Distribusi Nasional</td><td>52</td><td>Rp 750 Juta</td><td><span class="trend up">▲ 31%</span></td></tr>
+                </tbody>
+            </table>
+        </div>
+</div>
+</div>
+
+        <div id="tab-smart-matching" class="ai-tab-content fade-in" style="display:none;">
+        <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🧠 AI-Powered Ecosystem Optimizer</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI menganalisis pola operasional nasabah (volume transaksi, frekuensi invoicing, aktivitas payroll) untuk rekomendasi mitra ekosistem optimal.</p>
+                </div>
+                <button id="btn-smart-matching" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0f172a; border:none; box-shadow: 0 4px 6px rgba(15,23,42,0.2);">Run Auto-Suggestion</button>
+            </div>
+            
+            <div style="display:flex; gap:2rem;">
+                <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Operation Parameters</div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Volume Transaksi Bulanan</label>
+                        <select id="sm-volume" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>> Rp 10 Miliar</option>
+                            <option>Rp 1 M - Rp 10 M</option>
+                            <option>< Rp 1 Miliar</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Frekuensi Invoicing</label>
+                        <select id="sm-invoice" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Harian (Volume Tinggi)</option>
+                            <option>Mingguan</option>
+                            <option>Bulanan</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Aktivitas Payroll</label>
+                        <select id="sm-payroll" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>> 500 Karyawan</option>
+                            <option>50 - 500 Karyawan</option>
+                            <option>< 50 Karyawan</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="flex:1;">
+                    <div id="sm-result" style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; min-height:400px; font-size:0.85rem; line-height:1.5; color:#0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); overflow:hidden;">
+                        <div style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="font-family:monospace; font-weight:800; color:#475569; font-size:0.75rem; letter-spacing:1px;">OCEAN // SMART ECOSYSTEM MATCHING</div>
+                        </div>
+                        <div style="padding:2rem; min-height: 350px; display:flex; flex-direction:column;">
+                            <div id="sm-loading" style="display:none; flex-direction:column; gap:15px; color:#334155; width:100%;">
+                                <div style="font-family:monospace; font-weight:800; color:#0f172a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+                                    <div class="spinner" style="width:16px; height:16px; border:2px solid #e2e8f0; border-top-color:#1e40af; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                                    > ANALYZING OPERATIONAL PATTERNS...
+                                </div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:100%; animation: pulse 1.5s infinite 0.1s;"></div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:95%; animation: pulse 1.5s infinite 0.2s;"></div>
+                            </div>
+
+                            <div id="sm-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:#64748b; text-align:center;">
+                                <div style="font-family:monospace; font-size:0.85rem; padding:15px 30px; background:#f8fafc; border:1px dashed #cbd5e1; color:#475569; border-radius:6px;">
+                                    <div style="margin-bottom:8px; font-weight:800;">AWAITING EXECUTION</div>
+                                    Klik "Run Auto-Suggestion" untuk memunculkan rekomendasi AI.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div id="tab-supply-chain" class="ai-tab-content fade-in" style="display:none;">
+        <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🔗 Predictive Supply Chain Finance</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI menganalisis pola transaksi & hubungan supplier untuk merekomendasikan solusi pembiayaan rantai pasok secara proaktif.</p>
+                </div>
+                <button id="btn-supply-chain" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0284c7; border:none; box-shadow: 0 4px 6px rgba(2,132,199,0.2);">Analyze Supply Chain Risk</button>
+            </div>
+            
+            <div style="display:flex; gap:2rem;">
+                <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Transaction Data</div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Target Analisis</label>
+                        <select id="sc-target" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Pelanggan Utama (Customer)</option>
+                            <option>Supplier Utama</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Periode Evaluasi Historis</label>
+                        <select id="sc-period" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>6 Bulan Terakhir</option>
+                            <option>12 Bulan Terakhir</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="flex:1;">
+                    <div id="sc-result" style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; min-height:400px; font-size:0.85rem; line-height:1.5; color:#0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); overflow:hidden;">
+                        <div style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="font-family:monospace; font-weight:800; color:#475569; font-size:0.75rem; letter-spacing:1px;">OCEAN // SUPPLY CHAIN PREDICTIVE AI</div>
+                        </div>
+                        <div style="padding:2rem; min-height: 350px; display:flex; flex-direction:column;">
+                            <div id="sc-loading" style="display:none; flex-direction:column; gap:15px; color:#334155; width:100%;">
+                                <div style="font-family:monospace; font-weight:800; color:#0f172a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+                                    <div class="spinner" style="width:16px; height:16px; border:2px solid #e2e8f0; border-top-color:#1e40af; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                                    > DEEP SCANNING PAYMENT BEHAVIOR...
+                                </div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:100%; animation: pulse 1.5s infinite 0.1s;"></div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:95%; animation: pulse 1.5s infinite 0.2s;"></div>
+                            </div>
+
+                            <div id="sc-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:#64748b; text-align:center;">
+                                <div style="font-family:monospace; font-size:0.85rem; padding:15px 30px; background:#f8fafc; border:1px dashed #cbd5e1; color:#475569; border-radius:6px;">
+                                    <div style="margin-bottom:8px; font-weight:800;">AWAITING EXECUTION</div>
+                                    Klik "Analyze Supply Chain Risk" untuk memindai pola transaksi.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+            </div> <!-- Close RIGHT WORKSPACE -->
+        </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
+    `;
+
+    const invoicingContent = `
+        <div class="sb-invoicing-header">
+            <h3 style="color: var(--bca-blue-dark); font-weight:700;">📑 Invoice & Collection Manager</h3>
+            <button id="btn-sb-create-invoice" class="btn-primary">+ Buat Invoice Baru</button>
+        </div>
+        <div class="sb-invoice-stats">
+            <div class="sb-inv-stat" style="border-top: 4px solid #16a34a;">
+                <div class="sb-inv-stat-val" style="color:#16a34a;">Rp ${paidSum.toLocaleString('id-ID')}</div>
+                <div class="sb-inv-stat-label">Sudah Dibayar</div>
+                <div class="sb-inv-stat-bar"><div style="width:${paidPct}%; background:#16a34a;"></div></div>
+            </div>
+            <div class="sb-inv-stat" style="border-top: 4px solid #d97706;">
+                <div class="sb-inv-stat-val" style="color:#d97706;">Rp ${pendingSum.toLocaleString('id-ID')}</div>
+                <div class="sb-inv-stat-label">Menunggu Pembayaran</div>
+                <div class="sb-inv-stat-bar"><div style="width:${pendingPct}%; background:#d97706;"></div></div>
+            </div>
+            <div class="sb-inv-stat" style="border-top: 4px solid #dc2626;">
+                <div class="sb-inv-stat-val" style="color:#dc2626;">Rp ${overdueSum.toLocaleString('id-ID')}</div>
+                <div class="sb-inv-stat-label">Jatuh Tempo</div>
+                <div class="sb-inv-stat-bar"><div style="width:${overduePct}%; background:#dc2626;"></div></div>
+            </div>
+        </div>
+        
+        <div id="sb-invoice-form" class="sb-invoice-form hidden">
+            <h4 style="color: var(--bca-blue-dark); font-weight:700; margin-bottom:1rem;">Buat Invoice Baru (Demo)</h4>
+            <div class="sb-inv-form-grid">
+                <div class="input-group" style="display:flex; flex-direction:column; gap:0.4rem; margin-bottom:0.75rem;">
+                    <label style="font-weight:700; font-size:0.8rem; color:var(--bca-blue-primary);">Nama Pelanggan</label>
+                    <input type="text" id="sb-inv-customer" placeholder="PT Contoh Perusahaan" class="to-select" style="margin-bottom:0;">
+                </div>
+                <div class="input-group" style="display:flex; flex-direction:column; gap:0.4rem; margin-bottom:0.75rem;">
+                    <label style="font-weight:700; font-size:0.8rem; color:var(--bca-blue-primary);">Nominal (Rp)</label>
+                    <input type="number" id="sb-inv-amount" placeholder="10000000" class="to-select" style="margin-bottom:0;">
+                </div>
+                <div class="input-group" style="display:flex; flex-direction:column; gap:0.4rem; margin-bottom:0.75rem;">
+                    <label style="font-weight:700; font-size:0.8rem; color:var(--bca-blue-primary);">Jatuh Tempo</label>
+                    <input type="date" id="sb-inv-due" class="to-select" style="margin-bottom:0;">
+                </div>
+                <div class="input-group" style="display:flex; flex-direction:column; gap:0.4rem; margin-bottom:0.75rem;">
+                    <label style="font-weight:700; font-size:0.8rem; color:var(--bca-blue-primary);">Metode Pembayaran</label>
+                    <select id="sb-inv-method" class="to-select" style="margin-bottom:0;">
+                        <option value="va">Virtual Account</option>
+                        <option value="transfer">Transfer Manual</option>
+                        <option value="qris">QRIS</option>
+                    </select>
+                </div>
+            </div>
+            <div style="display:flex; gap:1rem; justify-content:flex-end; margin-top:1.25rem;">
+                <button id="btn-sb-cancel-invoice" class="btn-outline" style="border:1px solid #cbd5e1; padding:0.6rem 1.5rem; border-radius:50px; font-weight:700;">Batal</button>
+                <button id="btn-sb-submit-invoice" class="btn-primary" style="padding:0.6rem 1.5rem; border-radius:50px; font-weight:700;">Kirim Invoice</button>
+            </div>
+        </div>
+
+        <div class="sb-recent" style="margin-top:1.5rem;">
+            <h4 style="color: var(--bca-blue-dark); font-weight:700; margin-bottom:1rem;">Daftar Invoice</h4>
+            <table class="sb-table">
+                <thead><tr><th>No. Invoice</th><th>Pelanggan</th><th>Nominal</th><th>Jatuh Tempo</th><th>Status</th><th>Aksi</th></tr></thead>
+                <tbody id="sb-invoice-table-body">
+                    ${state.sandbox.invoices.map(inv => {
+                        const classTag = inv.status === 'Lunas' ? 'tag-s' : (inv.status === 'Menunggu' ? 'tag-pending' : 'tag-overdue');
+                        const isPending = inv.status === 'Menunggu' || inv.status === 'Jatuh Tempo';
+                        const actionBtn = isPending 
+                            ? `<button class="sb-btn-sm sb-btn-pay" data-inv-id="${inv.id}" style="background:#16a34a; color:white; border:none; border-radius:6px; font-weight:700; cursor:pointer;">Bayar</button>
+                               <button class="sb-btn-sm sb-btn-remind" data-inv-id="${inv.id}" style="margin-left:4px; cursor:pointer;">Ingatkan</button>`
+                            : `<button class="sb-btn-sm" style="opacity:0.5; cursor:not-allowed;" disabled>Lunas</button>`;
+                        return `
+                            <tr>
+                                <td>${inv.id}</td>
+                                <td>${inv.customer}</td>
+                                <td style="font-weight: 700;">Rp ${inv.amount.toLocaleString('id-ID')}</td>
+                                <td>${inv.due}</td>
+                                <td><span class="${classTag}">${inv.status}</span></td>
+                                <td>${actionBtn}</td>
+                            </tr>
+                        `;
+                    }).join('')}
+                </tbody>
+            </table>
+        </div>
+</div>
+</div>
+
+        <div id="tab-smart-matching" class="ai-tab-content fade-in" style="display:none;">
+        <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🧠 AI-Powered Ecosystem Optimizer</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI menganalisis pola operasional nasabah (volume transaksi, frekuensi invoicing, aktivitas payroll) untuk rekomendasi mitra ekosistem optimal.</p>
+                </div>
+                <button id="btn-smart-matching" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0f172a; border:none; box-shadow: 0 4px 6px rgba(15,23,42,0.2);">Run Auto-Suggestion</button>
+            </div>
+            
+            <div style="display:flex; gap:2rem;">
+                <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Operation Parameters</div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Volume Transaksi Bulanan</label>
+                        <select id="sm-volume" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>> Rp 10 Miliar</option>
+                            <option>Rp 1 M - Rp 10 M</option>
+                            <option>< Rp 1 Miliar</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Frekuensi Invoicing</label>
+                        <select id="sm-invoice" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Harian (Volume Tinggi)</option>
+                            <option>Mingguan</option>
+                            <option>Bulanan</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Aktivitas Payroll</label>
+                        <select id="sm-payroll" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>> 500 Karyawan</option>
+                            <option>50 - 500 Karyawan</option>
+                            <option>< 50 Karyawan</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="flex:1;">
+                    <div id="sm-result" style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; min-height:400px; font-size:0.85rem; line-height:1.5; color:#0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); overflow:hidden;">
+                        <div style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="font-family:monospace; font-weight:800; color:#475569; font-size:0.75rem; letter-spacing:1px;">OCEAN // SMART ECOSYSTEM MATCHING</div>
+                        </div>
+                        <div style="padding:2rem; min-height: 350px; display:flex; flex-direction:column;">
+                            <div id="sm-loading" style="display:none; flex-direction:column; gap:15px; color:#334155; width:100%;">
+                                <div style="font-family:monospace; font-weight:800; color:#0f172a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+                                    <div class="spinner" style="width:16px; height:16px; border:2px solid #e2e8f0; border-top-color:#1e40af; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                                    > ANALYZING OPERATIONAL PATTERNS...
+                                </div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:100%; animation: pulse 1.5s infinite 0.1s;"></div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:95%; animation: pulse 1.5s infinite 0.2s;"></div>
+                            </div>
+
+                            <div id="sm-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:#64748b; text-align:center;">
+                                <div style="font-family:monospace; font-size:0.85rem; padding:15px 30px; background:#f8fafc; border:1px dashed #cbd5e1; color:#475569; border-radius:6px;">
+                                    <div style="margin-bottom:8px; font-weight:800;">AWAITING EXECUTION</div>
+                                    Klik "Run Auto-Suggestion" untuk memunculkan rekomendasi AI.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div id="tab-supply-chain" class="ai-tab-content fade-in" style="display:none;">
+        <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🔗 Predictive Supply Chain Finance</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI menganalisis pola transaksi & hubungan supplier untuk merekomendasikan solusi pembiayaan rantai pasok secara proaktif.</p>
+                </div>
+                <button id="btn-supply-chain" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0284c7; border:none; box-shadow: 0 4px 6px rgba(2,132,199,0.2);">Analyze Supply Chain Risk</button>
+            </div>
+            
+            <div style="display:flex; gap:2rem;">
+                <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Transaction Data</div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Target Analisis</label>
+                        <select id="sc-target" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Pelanggan Utama (Customer)</option>
+                            <option>Supplier Utama</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Periode Evaluasi Historis</label>
+                        <select id="sc-period" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>6 Bulan Terakhir</option>
+                            <option>12 Bulan Terakhir</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="flex:1;">
+                    <div id="sc-result" style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; min-height:400px; font-size:0.85rem; line-height:1.5; color:#0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); overflow:hidden;">
+                        <div style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="font-family:monospace; font-weight:800; color:#475569; font-size:0.75rem; letter-spacing:1px;">OCEAN // SUPPLY CHAIN PREDICTIVE AI</div>
+                        </div>
+                        <div style="padding:2rem; min-height: 350px; display:flex; flex-direction:column;">
+                            <div id="sc-loading" style="display:none; flex-direction:column; gap:15px; color:#334155; width:100%;">
+                                <div style="font-family:monospace; font-weight:800; color:#0f172a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+                                    <div class="spinner" style="width:16px; height:16px; border:2px solid #e2e8f0; border-top-color:#1e40af; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                                    > DEEP SCANNING PAYMENT BEHAVIOR...
+                                </div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:100%; animation: pulse 1.5s infinite 0.1s;"></div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:95%; animation: pulse 1.5s infinite 0.2s;"></div>
+                            </div>
+
+                            <div id="sc-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:#64748b; text-align:center;">
+                                <div style="font-family:monospace; font-size:0.85rem; padding:15px 30px; background:#f8fafc; border:1px dashed #cbd5e1; color:#475569; border-radius:6px;">
+                                    <div style="margin-bottom:8px; font-weight:800;">AWAITING EXECUTION</div>
+                                    Klik "Analyze Supply Chain Risk" untuk memindai pola transaksi.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+            </div> <!-- Close RIGHT WORKSPACE -->
+        </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
+    `;
+
+    const activeSimulation = state.sandbox.apiSimulation;
+    let simulatedReqPayload = '';
+    let simulatedResPayload = 'Klik "Kirim Request" untuk memulai.';
+    
+    if (activeSimulation.activeEndpoint === 'get-balance') {
+        simulatedReqPayload = `GET /v1/balance HTTP/1.1\nHost: api.ocean.bca.co.id\nAuthorization: Bearer oc_live_***8f2d\nAccept: application/json`;
+        if (activeSimulation.response) {
+            simulatedResPayload = JSON.stringify(activeSimulation.response, null, 2);
+        }
+    } else if (activeSimulation.activeEndpoint === 'create-va') {
+        simulatedReqPayload = `POST /v1/va/create HTTP/1.1\nHost: api.ocean.bca.co.id\nContent-Type: application/json\nAuthorization: Bearer oc_live_***8f2d\n\n{\n  "amount": 15000000,\n  "customer_name": "PT Cipta Karya",\n  "due_date": "2026-06-30",\n  "description": "Invoice Pembayaran"\n}`;
+        if (activeSimulation.response) {
+            simulatedResPayload = JSON.stringify(activeSimulation.response, null, 2);
+        }
+    } else if (activeSimulation.activeEndpoint === 'transfer') {
+        simulatedReqPayload = `POST /v1/transfer HTTP/1.1\nHost: api.ocean.bca.co.id\nContent-Type: application/json\nAuthorization: Bearer oc_live_***8f2d\n\n{\n  "beneficiary_account": "0123456789",\n  "amount": 25000000,\n  "remark": "Disbursement Gaji"\n}`;
+        if (activeSimulation.response) {
+            simulatedResPayload = JSON.stringify(activeSimulation.response, null, 2);
+        }
+    }
+
+    const ecosystemContent = `
+        <div class="sb-eco-header">
+            <h3 style="color: var(--bca-blue-dark); font-weight:700;">🤝 Ecosystem & API Integration</h3>
+            <p class="sb-eco-subtitle">Pantau semua koneksi API dan partner yang terintegrasi dengan Ocean secara real-time.</p>
+        </div>
+        <div class="sb-eco-grid">
+            ${state.sandbox.integrations.map(item => {
+                const activeClass = item.active ? '' : 'sb-eco-inactive';
+                const statusClass = item.active ? 'sb-eco-active' : '';
+                const btnLabel = item.active ? 'Deaktifkan' : 'Aktifkan Sekarang';
+                const btnClass = item.active ? 'btn-outline sb-btn-deactivate' : 'btn-primary sb-btn-activate';
+                return `
+                    <div class="sb-eco-card ${activeClass}" id="card-${item.id}">
+                        <div class="sb-eco-status ${statusClass}"></div>
+                        <div class="sb-eco-icon">${item.icon}</div>
+                        <h4 style="color: var(--bca-blue-dark); font-weight:700;">${item.name}</h4>
+                        <p>${item.desc}</p>
+                        <div class="sb-eco-stats-row">
+                            <div><span class="sb-eco-num">${item.active ? item.trx.toLocaleString('id-ID') : '-'}</span><br><small>Trx/Hari</small></div>
+                            <div><span class="sb-eco-num">${item.active ? item.uptime : '-'}</span><br><small>Uptime</small></div>
+                        </div>
+                        <div class="sb-eco-api-key" style="display:flex; justify-content:space-between; align-items:center; background:#f8fafc; border:1px solid #e2e8f0;">
+                            <span style="font-size:0.7rem; font-family:monospace; color:#475569;">Key: <code>${item.apiKey.substring(0, 10)}...</code></span>
+                            <button class="sb-copy-btn" data-key="${item.apiKey}" style="background:transparent; border:none; cursor:pointer; font-size:0.85rem; padding:0; display:flex; align-items:center;" title="Salin API Key">📋</button>
+                        </div>
+                        <button class="${btnClass}" data-eco-id="${item.id}" style="width:100%; margin-top:0.75rem; font-size:0.8rem; padding:0.4rem 0.8rem; border-radius:50px; font-weight:700;">${btnLabel}</button>
+                    </div>
+                `;
+            }).join('')}
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.5rem; margin-top: 2rem; align-items: flex-start;">
+            <div class="sb-eco-logs">
+                <h4 style="color: var(--bca-blue-dark); font-weight:700; margin-bottom:1rem; display:flex; align-items:center; gap:8px;">
+                    <span>📊 API Call Logs (Live Traffic)</span>
+                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#22c55e; animation: pulse 1.5s infinite;"></span>
+                </h4>
+                <div class="sb-log-list" id="sb-log-list">
+                    ${state.sandbox.apiLogs.map(log => {
+                        const statusColorClass = (log.status >= 200 && log.status < 300) ? 'status-200' : 'status-401';
+                        const methodClass = log.method.toLowerCase();
+                        return `
+                            <div class="sb-log-entry" style="border-bottom:1px solid #1e293b; padding:10px 0;">
+                                <span class="sb-log-time" style="color: #64748b; font-family:'Fira Code',monospace;">${log.time}</span>
+                                <span class="sb-log-method ${methodClass}">${log.method}</span>
+                                <span class="sb-log-status ${statusColorClass}">${log.status}</span>
+                                <code style="color:#e2e8f0; font-family:'Fira Code',monospace; flex:1; overflow-x:auto;">${log.endpoint}</code>
+                                <span class="sb-log-dur" style="color:#64748b;">${log.duration}</span>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            </div>
+            
+            <div class="sb-api-client card-premium" style="background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 1.5rem; color: #e2e8f0;">
+                <h4 style="margin-top:0; margin-bottom:0.75rem; color: #38bdf8; display:flex; align-items:center; gap:8px; font-size:1rem; font-weight:800;">
+                    <span>💻 Interactive API Request Console</span>
+                </h4>
+                <p style="font-size:0.75rem; color:#94a3b8; margin-bottom:1.25rem; line-height:1.4; text-align:left;">Pilih salah satu endpoint untuk mensimulasikan panggilan API Ocean secara langsung dan lihat hasilnya.</p>
+                
+                <div style="display:flex; gap:0.5rem; margin-bottom:1.25rem;">
+                    <select id="sb-api-endpoint" class="to-select" style="margin-bottom:0; background:#1e293b; color:white; border-color:#334155; font-size:0.85rem; padding:0.5rem; flex:1; outline:none;">
+                        <option value="get-balance" ${activeSimulation.activeEndpoint === 'get-balance' ? 'selected' : ''}>GET /v1/balance (Cek Saldo)</option>
+                        <option value="create-va" ${activeSimulation.activeEndpoint === 'create-va' ? 'selected' : ''}>POST /v1/va/create (Buat VA)</option>
+                        <option value="transfer" ${activeSimulation.activeEndpoint === 'transfer' ? 'selected' : ''}>POST /v1/transfer (Disbursement)</option>
+                    </select>
+                    <button id="btn-sb-send-api" class="btn-primary" style="padding:0 1.25rem; font-size:0.85rem; white-space:nowrap; border-radius:8px; font-weight:700; ${activeSimulation.executing ? 'background:#64748b; cursor:not-allowed;' : ''}" ${activeSimulation.executing ? 'disabled' : ''}>
+                        ${activeSimulation.executing ? 'Mengirim...' : 'Kirim Request'}
+                    </button>
+                </div>
+                
+                <div style="display:grid; grid-template-columns: 1fr; gap:1.25rem;">
+                    <div>
+                        <div style="font-size:0.7rem; color:#94a3b8; text-transform:uppercase; font-weight:700; margin-bottom:0.35rem; text-align:left;">Request Headers & Payload</div>
+                        <pre id="sb-api-req-payload" style="background:#1e293b; padding:0.75rem; border-radius:8px; margin:0; font-family:'Fira Code',monospace; font-size:0.7rem; overflow-x:auto; height:110px; border:1px solid #334155; color:#cbd5e1; text-align:left; white-space:pre; border-left:3px solid #38bdf8;">${simulatedReqPayload}</pre>
+                    </div>
+                    <div>
+                        <div style="font-size:0.7rem; color:#94a3b8; text-transform:uppercase; font-weight:700; margin-bottom:0.35rem; text-align:left;">Response (Simulasi JSON)</div>
+                        <pre id="sb-api-res-payload" style="background:#1e293b; padding:0.75rem; border-radius:8px; margin:0; font-family:'Fira Code',monospace; font-size:0.7rem; overflow-x:auto; height:120px; border:1px solid #334155; color:#a7f3d0; text-align:left; white-space:pre; border-left:3px solid #34d399;">${simulatedResPayload}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+</div>
+
+        <div id="tab-smart-matching" class="ai-tab-content fade-in" style="display:none;">
+        <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🧠 AI-Powered Ecosystem Optimizer</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI menganalisis pola operasional nasabah (volume transaksi, frekuensi invoicing, aktivitas payroll) untuk rekomendasi mitra ekosistem optimal.</p>
+                </div>
+                <button id="btn-smart-matching" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0f172a; border:none; box-shadow: 0 4px 6px rgba(15,23,42,0.2);">Run Auto-Suggestion</button>
+            </div>
+            
+            <div style="display:flex; gap:2rem;">
+                <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Operation Parameters</div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Volume Transaksi Bulanan</label>
+                        <select id="sm-volume" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>> Rp 10 Miliar</option>
+                            <option>Rp 1 M - Rp 10 M</option>
+                            <option>< Rp 1 Miliar</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Frekuensi Invoicing</label>
+                        <select id="sm-invoice" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Harian (Volume Tinggi)</option>
+                            <option>Mingguan</option>
+                            <option>Bulanan</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Aktivitas Payroll</label>
+                        <select id="sm-payroll" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>> 500 Karyawan</option>
+                            <option>50 - 500 Karyawan</option>
+                            <option>< 50 Karyawan</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="flex:1;">
+                    <div id="sm-result" style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; min-height:400px; font-size:0.85rem; line-height:1.5; color:#0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); overflow:hidden;">
+                        <div style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="font-family:monospace; font-weight:800; color:#475569; font-size:0.75rem; letter-spacing:1px;">OCEAN // SMART ECOSYSTEM MATCHING</div>
+                        </div>
+                        <div style="padding:2rem; min-height: 350px; display:flex; flex-direction:column;">
+                            <div id="sm-loading" style="display:none; flex-direction:column; gap:15px; color:#334155; width:100%;">
+                                <div style="font-family:monospace; font-weight:800; color:#0f172a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+                                    <div class="spinner" style="width:16px; height:16px; border:2px solid #e2e8f0; border-top-color:#1e40af; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                                    > ANALYZING OPERATIONAL PATTERNS...
+                                </div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:100%; animation: pulse 1.5s infinite 0.1s;"></div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:95%; animation: pulse 1.5s infinite 0.2s;"></div>
+                            </div>
+
+                            <div id="sm-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:#64748b; text-align:center;">
+                                <div style="font-family:monospace; font-size:0.85rem; padding:15px 30px; background:#f8fafc; border:1px dashed #cbd5e1; color:#475569; border-radius:6px;">
+                                    <div style="margin-bottom:8px; font-weight:800;">AWAITING EXECUTION</div>
+                                    Klik "Run Auto-Suggestion" untuk memunculkan rekomendasi AI.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div id="tab-supply-chain" class="ai-tab-content fade-in" style="display:none;">
+        <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🔗 Predictive Supply Chain Finance</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI menganalisis pola transaksi & hubungan supplier untuk merekomendasikan solusi pembiayaan rantai pasok secara proaktif.</p>
+                </div>
+                <button id="btn-supply-chain" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0284c7; border:none; box-shadow: 0 4px 6px rgba(2,132,199,0.2);">Analyze Supply Chain Risk</button>
+            </div>
+            
+            <div style="display:flex; gap:2rem;">
+                <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Transaction Data</div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Target Analisis</label>
+                        <select id="sc-target" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Pelanggan Utama (Customer)</option>
+                            <option>Supplier Utama</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Periode Evaluasi Historis</label>
+                        <select id="sc-period" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>6 Bulan Terakhir</option>
+                            <option>12 Bulan Terakhir</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="flex:1;">
+                    <div id="sc-result" style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; min-height:400px; font-size:0.85rem; line-height:1.5; color:#0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); overflow:hidden;">
+                        <div style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="font-family:monospace; font-weight:800; color:#475569; font-size:0.75rem; letter-spacing:1px;">OCEAN // SUPPLY CHAIN PREDICTIVE AI</div>
+                        </div>
+                        <div style="padding:2rem; min-height: 350px; display:flex; flex-direction:column;">
+                            <div id="sc-loading" style="display:none; flex-direction:column; gap:15px; color:#334155; width:100%;">
+                                <div style="font-family:monospace; font-weight:800; color:#0f172a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+                                    <div class="spinner" style="width:16px; height:16px; border:2px solid #e2e8f0; border-top-color:#1e40af; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                                    > DEEP SCANNING PAYMENT BEHAVIOR...
+                                </div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:100%; animation: pulse 1.5s infinite 0.1s;"></div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:95%; animation: pulse 1.5s infinite 0.2s;"></div>
+                            </div>
+
+                            <div id="sc-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:#64748b; text-align:center;">
+                                <div style="font-family:monospace; font-size:0.85rem; padding:15px 30px; background:#f8fafc; border:1px dashed #cbd5e1; color:#475569; border-radius:6px;">
+                                    <div style="margin-bottom:8px; font-weight:800;">AWAITING EXECUTION</div>
+                                    Klik "Analyze Supply Chain Risk" untuk memindai pola transaksi.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+            </div> <!-- Close RIGHT WORKSPACE -->
+        </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
+    `;
+
+    
+    const predictiveAiContent = `
+        <div class="sb-ai-header fade-in" style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom: 2rem;">
+            <div>
+                <h3 style="color: var(--bca-blue-dark); font-weight:800; font-size: 1.5rem; display:flex; align-items:center; gap:8px;">
+                    ✨ Ocean Predictive Intelligence Layer
+                </h3>
+                <p style="color:#64748b; font-size:0.95rem; margin-top:0.5rem; max-width: 800px;">
+                    Sistem inti berbasis AI yang memproses data historis, pola operasional, dan variabel eksternal untuk memberikan proyeksi keuangan. Sebagai nilai tambah (value-added) untuk meningkatkan daya saing, Ocean menghadirkan insight strategis melalui pemanfaatan machine learning dan pattern analysis terhadap data agregat dan pola transaksi. Fitur ini memungkinkan nasabah memahami posisi bisnisnya melalui benchmark industri serta mengidentifikasi peluang secara proaktif, sehingga mendukung pengambilan keputusan yang lebih cepat, akurat, dan berbasis data.
+                </p>
+            </div>
+            <div style="background: linear-gradient(135deg, #0ea5e9, #2563eb); color: white; padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.75rem; font-weight: 700; display:flex; align-items:center; gap: 6px; box-shadow: 0 4px 10px rgba(37,99,235,0.3);">
+                <span style="display:inline-block; width:6px; height:6px; background:#fff; border-radius:50%; animation: pulse 1.5s infinite;"></span> AI Engine Active
+            </div>
+        </div>
+
+        
+        <!-- ENTERPRISE SPLIT-PANE LAYOUT -->
+        <div style="display:flex; gap:1.5rem; min-height: 700px; align-items: stretch;">
+            
+            <!-- LEFT SIDEBAR -->
+            <div style="width:260px; flex-shrink:0; background:white; border-radius:16px; border:1px solid #e2e8f0; padding:1.5rem; display:flex; flex-direction:column; gap:8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);" class="ai-sidebar">
+                <div style="font-size:0.75rem; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">AI Modules</div>
+                
+                <button class="ai-tab-btn active" data-target="tab-optimizer" style="display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:14px 16px; border-radius:12px; border:none; background:#eff6ff; color:#1e40af; font-weight:800; font-size:0.85rem; cursor:pointer; transition:all 0.2s;">
+                    <span style="font-size:1.25rem;">🚀</span> Ecosystem Optimizer
+                </button>
+                
+                <button class="ai-tab-btn" data-target="tab-cashflow" style="display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:14px 16px; border-radius:12px; border:none; background:transparent; color:#64748b; font-weight:800; font-size:0.85rem; cursor:pointer; transition:all 0.2s;">
+                    <span style="font-size:1.25rem;">📈</span> Cash Flow & Alerts
+                </button>
+                
+                <button class="ai-tab-btn" data-target="tab-simulator" style="display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:14px 16px; border-radius:12px; border:none; background:transparent; color:#64748b; font-weight:800; font-size:0.85rem; cursor:pointer; transition:all 0.2s;">
+                    <span style="font-size:1.25rem;">🕹️</span> Scenario Simulator
+                </button>
+                
+                <button class="ai-tab-btn" data-target="tab-health" style="display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:14px 16px; border-radius:12px; border:none; background:transparent; color:#64748b; font-weight:800; font-size:0.85rem; cursor:pointer; transition:all 0.2s;">
+                    <span style="font-size:1.25rem;">❤️</span> Health & Benchmark
+                </button>
+                
+                
+                <button class="ai-tab-btn" data-target="tab-smart-matching" style="display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:14px 16px; border-radius:12px; border:none; background:transparent; color:#64748b; font-weight:800; font-size:0.85rem; cursor:pointer; transition:all 0.2s;">
+                    <span style="font-size:1.25rem;">🚀</span> AI-Powered Ecosystem Optimizer
+                </button>
+                
+                <button class="ai-tab-btn" data-target="tab-supply-chain" style="display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:14px 16px; border-radius:12px; border:none; background:transparent; color:#64748b; font-weight:800; font-size:0.85rem; cursor:pointer; transition:all 0.2s;">
+                    <span style="font-size:1.25rem;">🔗</span> Predictive Supply Chain
+                </button>
+                
+<div style="margin-top:auto; background:#f8fafc; padding:1.25rem; border-radius:12px; border:1px solid #e2e8f0;">
+                    <div style="font-size:0.7rem; font-weight:800; color:#475569; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">System Status</div>
+                    <div style="display:flex; align-items:center; gap:8px; font-size:0.8rem; font-weight:800; color:#16a34a;">
+                        <span style="width:10px; height:10px; background:#22c55e; border-radius:50%; display:inline-block; animation:pulse 1.5s infinite; box-shadow: 0 0 8px #22c55e;"></span> All Models Optimal
+                    </div>
+                </div>
+            </div>
+            
+            <!-- RIGHT WORKSPACE -->
+            <div style="flex:1; background:#f8fafc; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; overflow-y:auto; box-shadow: inset 0 2px 10px rgba(0,0,0,0.02);" class="ai-workspace">
+
+        <div id="tab-optimizer" class="ai-tab-content fade-in" style="display:block;">
+        <!-- OCEAN-CLASS ECOSYSTEM OPTIMIZER -->
+        <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">B2B Supply Chain & Value Network Simulator</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">Pemetaan ekosistem end-to-end untuk mengidentifikasi inefisiensi treasury, bottleneck likuiditas, dan risiko nilai tukar.</p>
+                </div>
+                <button id="btn-ai-optimize" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0f172a; border:none; box-shadow: 0 4px 6px rgba(15,23,42,0.2);">Generate Strategic Blueprint</button>
+            </div>
+            
+            <div style="display:flex; gap:2rem;">
+                <!-- NETWORK TOPOLOGY PARAMS -->
+                <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Network Topology Parameters</div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Model Bisnis Utama</label>
+                        <select id="eco-bizmodel" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Heavy Manufacturing (Import Oriented)</option>
+                            <option>FMCG Nationwide Distribution</option>
+                            <option>Export-Oriented Commodities</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Ketergantungan Tier-1 Suppliers</label>
+                        <select id="eco-suppliers" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Terkonsentrasi (1-3 Supplier Utama)</option>
+                            <option>Tersebar (>10 Supplier Menengah)</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Eksposur FX / Valas</label>
+                        <select id="eco-fx" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Tinggi (>50% COGS dalam USD)</option>
+                            <option>Rendah (Hanya OPEX domestik)</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Metode Koleksi Piutang</label>
+                        <select id="eco-collection" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Giro/Bilyet (Manual, Risiko Tolakan)</option>
+                            <option>Transfer Bank (Rekonsiliasi Manual)</option>
+                            <option>Virtual Account BCA</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- BLUEPRINT CONTAINER -->
+                <div style="flex:1;">
+                    <div id="ai-opt-result-container" style="display:block; background:white; border:1px solid #e2e8f0; border-radius:12px; padding:2rem; min-height:400px; font-size:0.9rem; line-height:1.6; color:#1e293b; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);">
+                        <div id="ai-opt-loading" style="display:none; align-items:center; justify-content:center; gap:15px; color:#3b82f6; font-size:1rem; font-weight:800; height:100%; margin-top: 150px;">
+                            <div class="spinner" style="width:30px; height:30px; border:4px solid #e2e8f0; border-top-color:#3b82f6; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                            Generating Strategic Blueprint...
+                        </div>
+                        <div id="ai-opt-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; color:#94a3b8; text-align:center; padding-top: 100px;">
+                            <div style="font-size:3rem; margin-bottom:1rem;">🌐</div>
+                            <div>Petakan parameter jaringan suplai Anda di sebelah kiri, lalu klik <b>Generate Strategic Blueprint</b>.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div id="tab-cashflow" class="ai-tab-content fade-in" style="display:none;">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem;">
+            
+            <!-- Card 1: Enterprise Cash Flow Forecasting -->
+            <div class="card-premium fade-in" style="grid-column: 1 / -1; background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; display:flex; flex-direction:column; animation-delay: 0.1s; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+                <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">Corporate Liquidity Forecast & Mitigation</h4>
+                        <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI memproyeksikan arus kas 30 hari ke depan dengan mengkalkulasi 24 variabel makro dan mikro ekonomi.</p>
+                    </div>
+                    <div style="display:flex; gap:10px;">
+                        <button style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:700; border-radius:8px; background:#f1f5f9; color:#475569; border:1px solid #cbd5e1; cursor:pointer; display:flex; align-items:center; gap:6px;">📥 Export PDF</button>
+                        <button id="btn-cash-forecast" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0f172a; border:none; box-shadow: 0 4px 6px rgba(15,23,42,0.2);">Generate Executive Brief</button>
+                    </div>
+                </div>
+                
+                <div style="display:flex; gap:2rem;">
+                    <!-- LEFT: Data Parameters -->
+                    <div style="width: 300px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0;">
+                        <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1rem; text-transform:uppercase;">Macro Parameters</div>
+                        
+                        <div style="margin-bottom:1rem;">
+                            <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:4px;">Asumsi BI Rate (%)</label>
+                            <input type="range" id="param-birate" min="5" max="8" step="0.25" value="6.25" style="width:100%;">
+                            <div style="text-align:right; font-size:0.75rem; font-weight:800; color:#2563eb;" id="val-birate">6.25%</div>
+                        </div>
+                        
+                        <div style="margin-bottom:1rem;">
+                            <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:4px;">Estimasi Keterlambatan AR (Hari)</label>
+                            <input type="number" id="param-ardelay" value="14" style="width:100%; padding:0.5rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem;">
+                        </div>
+                        
+                        <div style="margin-top:2rem; padding-top:1rem; border-top:1px dashed #cbd5e1;">
+                            <div style="font-size:0.7rem; color:#64748b; margin-bottom:4px;">Data Source Integration</div>
+                            <div style="display:flex; align-items:center; justify-content:space-between; background:white; padding:8px 12px; border:1px solid #e2e8f0; border-radius:6px;">
+                                <span style="font-size:0.8rem; font-weight:700; color:#0f172a;">SAP S/4HANA</span>
+                                <span style="font-size:0.7rem; font-weight:800; color:#16a34a;">Connected</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- RIGHT: AI Report Output -->
+                    <div style="flex:1;">
+                        <div id="cash-forecast-result" style="background:white; border:1px solid #e2e8f0; border-radius:12px; padding:2rem; min-height: 300px; font-size:0.9rem; line-height:1.6; color:#1e293b; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);">
+                            <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; color:#94a3b8; text-align:center;">
+                                <div style="font-size:3rem; margin-bottom:1rem;">📊</div>
+                                <div>Sesuaikan parameter makro di sebelah kiri lalu klik <b>Generate Executive Brief</b> untuk memulai kalkulasi AI.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Enterprise Early Alert -->
+            <div class="card-premium fade-in" style="grid-column: 1 / -1; background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; display:flex; flex-direction:column; animation-delay: 0.2s;">
+                <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem;">⚡ Anomaly Detection & Early Warning System</h4>
+                        <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">Pemindaian AI secara mendalam terhadap ribuan titik data transaksi untuk menemukan anomali fraud, liquidity drop, dan supplier risk.</p>
+                    </div>
+                    <button id="btn-early-alert" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#b91c1c; border:none; box-shadow: 0 4px 6px rgba(185,28,28,0.2);">Run Full Deep-Scan</button>
+                </div>
+                
+                <div id="early-alert-result" style="width:100%; overflow-x:auto;">
+                    <table style="width:100%; border-collapse:collapse; font-size:0.85rem; text-align:left;">
+                        <thead style="background:#f8fafc; border-bottom:2px solid #e2e8f0;">
+                            <tr>
+                                <th style="padding:12px 16px; color:#475569;">Risk Identifier</th>
+                                <th style="padding:12px 16px; color:#475569;">Severity</th>
+                                <th style="padding:12px 16px; color:#475569;">Impact Analysis</th>
+                                <th style="padding:12px 16px; color:#475569;">BCA Action Plan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="4" style="padding:3rem; text-align:center; color:#94a3b8;">
+                                    <div style="font-size:2rem; margin-bottom:10px;">🛡️</div>
+                                    Klik "Run Full Deep-Scan" untuk memindai anomali sistem.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+</div>
+</div>
+
+<div id="tab-simulator" class="ai-tab-content fade-in" style="display:none;">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem;">
+            <!-- Card 3: Enterprise Simulator -->
+            <div class="card-premium fade-in" style="grid-column: 1 / -1; background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; display:flex; flex-direction:column; animation-delay: 0.3s; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+                <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem;">🕹️ Advanced Financial Stress Test Simulator</h4>
+                        <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">Mensimulasikan krisis makroekonomi (What-If) untuk menguji ketahanan solvabilitas korporasi.</p>
+                    </div>
+                    <button id="btn-run-scenario" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#4f46e5; border:none; box-shadow: 0 4px 6px rgba(79,70,229,0.2);">Execute Simulation</button>
+                </div>
+                
+                <div style="display:flex; gap:2rem; flex-wrap:wrap;">
+                    <div style="flex:1; min-width:300px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0;">
+                        <div style="font-size:0.8rem; font-weight:800; color:#475569; margin-bottom:1rem;">Scenario Parameters</div>
+                        
+                        <div style="margin-bottom:1rem;">
+                            <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:4px;">Tipe Krisis</label>
+                            <select id="sim-type" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem;">
+                                <option>Geopolitical Supply Chain Shock</option>
+                                <option>Sudden IDR Depreciation (Kurs Drop)</option>
+                                <option>Massive Client Default (Gagal Bayar Masal)</option>
+                            </select>
+                        </div>
+                        
+                        <div style="display:flex; gap:1rem;">
+                            <div style="flex:1;">
+                                <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:4px;">Severity Impact (%)</label>
+                                <input type="number" id="sim-severity" value="25" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem;">
+                            </div>
+                            <div style="flex:1;">
+                                <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:4px;">Duration (Bulan)</label>
+                                <input type="number" id="sim-duration" value="6" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem;">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="scenario-result" style="flex:2; min-width:400px; background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:2rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);">
+                        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; color:#94a3b8; text-align:center;">
+                            <div style="font-size:2.5rem; margin-bottom:1rem;">🌩️</div>
+                            <div>Pilih parameter di samping dan jalankan simulasi untuk melihat <b>Impact Analysis Report</b>.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+</div>
+</div>
+
 <div id="tab-health" class="ai-tab-content fade-in" style="display:none;">
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem;">
 <!-- Card 4: Business Health Score -->
@@ -2571,6 +3311,136 @@ const SandboxPage = () => {
 </div>
 </div>
 </div>
+
+        <div id="tab-smart-matching" class="ai-tab-content fade-in" style="display:none;">
+        <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🧠 AI-Powered Ecosystem Optimizer</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI menganalisis pola operasional nasabah (volume transaksi, frekuensi invoicing, aktivitas payroll) untuk rekomendasi mitra ekosistem optimal.</p>
+                </div>
+                <button id="btn-smart-matching" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0f172a; border:none; box-shadow: 0 4px 6px rgba(15,23,42,0.2);">Run Auto-Suggestion</button>
+            </div>
+            
+            <div style="display:flex; gap:2rem;">
+                <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Operation Parameters</div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Volume Transaksi Bulanan</label>
+                        <select id="sm-volume" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>> Rp 10 Miliar</option>
+                            <option>Rp 1 M - Rp 10 M</option>
+                            <option>< Rp 1 Miliar</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Frekuensi Invoicing</label>
+                        <select id="sm-invoice" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Harian (Volume Tinggi)</option>
+                            <option>Mingguan</option>
+                            <option>Bulanan</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Aktivitas Payroll</label>
+                        <select id="sm-payroll" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>> 500 Karyawan</option>
+                            <option>50 - 500 Karyawan</option>
+                            <option>< 50 Karyawan</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="flex:1;">
+                    <div id="sm-result" style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; min-height:400px; font-size:0.85rem; line-height:1.5; color:#0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); overflow:hidden;">
+                        <div style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="font-family:monospace; font-weight:800; color:#475569; font-size:0.75rem; letter-spacing:1px;">OCEAN // SMART ECOSYSTEM MATCHING</div>
+                        </div>
+                        <div style="padding:2rem; min-height: 350px; display:flex; flex-direction:column;">
+                            <div id="sm-loading" style="display:none; flex-direction:column; gap:15px; color:#334155; width:100%;">
+                                <div style="font-family:monospace; font-weight:800; color:#0f172a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+                                    <div class="spinner" style="width:16px; height:16px; border:2px solid #e2e8f0; border-top-color:#1e40af; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                                    > ANALYZING OPERATIONAL PATTERNS...
+                                </div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:100%; animation: pulse 1.5s infinite 0.1s;"></div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:95%; animation: pulse 1.5s infinite 0.2s;"></div>
+                            </div>
+
+                            <div id="sm-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:#64748b; text-align:center;">
+                                <div style="font-family:monospace; font-size:0.85rem; padding:15px 30px; background:#f8fafc; border:1px dashed #cbd5e1; color:#475569; border-radius:6px;">
+                                    <div style="margin-bottom:8px; font-weight:800;">AWAITING EXECUTION</div>
+                                    Klik "Run Auto-Suggestion" untuk memunculkan rekomendasi AI.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div id="tab-supply-chain" class="ai-tab-content fade-in" style="display:none;">
+        <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🔗 Predictive Supply Chain Finance</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI menganalisis pola transaksi & hubungan supplier untuk merekomendasikan solusi pembiayaan rantai pasok secara proaktif.</p>
+                </div>
+                <button id="btn-supply-chain" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0284c7; border:none; box-shadow: 0 4px 6px rgba(2,132,199,0.2);">Analyze Supply Chain Risk</button>
+            </div>
+            
+            <div style="display:flex; gap:2rem;">
+                <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Transaction Data</div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Target Analisis</label>
+                        <select id="sc-target" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Pelanggan Utama (Customer)</option>
+                            <option>Supplier Utama</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Periode Evaluasi Historis</label>
+                        <select id="sc-period" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>6 Bulan Terakhir</option>
+                            <option>12 Bulan Terakhir</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="flex:1;">
+                    <div id="sc-result" style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; min-height:400px; font-size:0.85rem; line-height:1.5; color:#0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); overflow:hidden;">
+                        <div style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="font-family:monospace; font-weight:800; color:#475569; font-size:0.75rem; letter-spacing:1px;">OCEAN // SUPPLY CHAIN PREDICTIVE AI</div>
+                        </div>
+                        <div style="padding:2rem; min-height: 350px; display:flex; flex-direction:column;">
+                            <div id="sc-loading" style="display:none; flex-direction:column; gap:15px; color:#334155; width:100%;">
+                                <div style="font-family:monospace; font-weight:800; color:#0f172a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+                                    <div class="spinner" style="width:16px; height:16px; border:2px solid #e2e8f0; border-top-color:#1e40af; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                                    > DEEP SCANNING PAYMENT BEHAVIOR...
+                                </div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:100%; animation: pulse 1.5s infinite 0.1s;"></div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:95%; animation: pulse 1.5s infinite 0.2s;"></div>
+                            </div>
+
+                            <div id="sc-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:#64748b; text-align:center;">
+                                <div style="font-family:monospace; font-size:0.85rem; padding:15px 30px; background:#f8fafc; border:1px dashed #cbd5e1; color:#475569; border-radius:6px;">
+                                    <div style="margin-bottom:8px; font-weight:800;">AWAITING EXECUTION</div>
+                                    Klik "Analyze Supply Chain Risk" untuk memindai pola transaksi.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
             </div> <!-- Close RIGHT WORKSPACE -->
         </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
     `;
@@ -4271,6 +5141,136 @@ const HowItWorksPage = () => {
         </div>
 </div>
 </div>
+
+        <div id="tab-smart-matching" class="ai-tab-content fade-in" style="display:none;">
+        <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🧠 AI-Powered Ecosystem Optimizer</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI menganalisis pola operasional nasabah (volume transaksi, frekuensi invoicing, aktivitas payroll) untuk rekomendasi mitra ekosistem optimal.</p>
+                </div>
+                <button id="btn-smart-matching" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0f172a; border:none; box-shadow: 0 4px 6px rgba(15,23,42,0.2);">Run Auto-Suggestion</button>
+            </div>
+            
+            <div style="display:flex; gap:2rem;">
+                <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Operation Parameters</div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Volume Transaksi Bulanan</label>
+                        <select id="sm-volume" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>> Rp 10 Miliar</option>
+                            <option>Rp 1 M - Rp 10 M</option>
+                            <option>< Rp 1 Miliar</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Frekuensi Invoicing</label>
+                        <select id="sm-invoice" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Harian (Volume Tinggi)</option>
+                            <option>Mingguan</option>
+                            <option>Bulanan</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Aktivitas Payroll</label>
+                        <select id="sm-payroll" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>> 500 Karyawan</option>
+                            <option>50 - 500 Karyawan</option>
+                            <option>< 50 Karyawan</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="flex:1;">
+                    <div id="sm-result" style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; min-height:400px; font-size:0.85rem; line-height:1.5; color:#0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); overflow:hidden;">
+                        <div style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="font-family:monospace; font-weight:800; color:#475569; font-size:0.75rem; letter-spacing:1px;">OCEAN // SMART ECOSYSTEM MATCHING</div>
+                        </div>
+                        <div style="padding:2rem; min-height: 350px; display:flex; flex-direction:column;">
+                            <div id="sm-loading" style="display:none; flex-direction:column; gap:15px; color:#334155; width:100%;">
+                                <div style="font-family:monospace; font-weight:800; color:#0f172a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+                                    <div class="spinner" style="width:16px; height:16px; border:2px solid #e2e8f0; border-top-color:#1e40af; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                                    > ANALYZING OPERATIONAL PATTERNS...
+                                </div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:100%; animation: pulse 1.5s infinite 0.1s;"></div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:95%; animation: pulse 1.5s infinite 0.2s;"></div>
+                            </div>
+
+                            <div id="sm-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:#64748b; text-align:center;">
+                                <div style="font-family:monospace; font-size:0.85rem; padding:15px 30px; background:#f8fafc; border:1px dashed #cbd5e1; color:#475569; border-radius:6px;">
+                                    <div style="margin-bottom:8px; font-weight:800;">AWAITING EXECUTION</div>
+                                    Klik "Run Auto-Suggestion" untuk memunculkan rekomendasi AI.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div id="tab-supply-chain" class="ai-tab-content fade-in" style="display:none;">
+        <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🔗 Predictive Supply Chain Finance</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI menganalisis pola transaksi & hubungan supplier untuk merekomendasikan solusi pembiayaan rantai pasok secara proaktif.</p>
+                </div>
+                <button id="btn-supply-chain" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0284c7; border:none; box-shadow: 0 4px 6px rgba(2,132,199,0.2);">Analyze Supply Chain Risk</button>
+            </div>
+            
+            <div style="display:flex; gap:2rem;">
+                <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Transaction Data</div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Target Analisis</label>
+                        <select id="sc-target" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Pelanggan Utama (Customer)</option>
+                            <option>Supplier Utama</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Periode Evaluasi Historis</label>
+                        <select id="sc-period" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>6 Bulan Terakhir</option>
+                            <option>12 Bulan Terakhir</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="flex:1;">
+                    <div id="sc-result" style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; min-height:400px; font-size:0.85rem; line-height:1.5; color:#0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); overflow:hidden;">
+                        <div style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="font-family:monospace; font-weight:800; color:#475569; font-size:0.75rem; letter-spacing:1px;">OCEAN // SUPPLY CHAIN PREDICTIVE AI</div>
+                        </div>
+                        <div style="padding:2rem; min-height: 350px; display:flex; flex-direction:column;">
+                            <div id="sc-loading" style="display:none; flex-direction:column; gap:15px; color:#334155; width:100%;">
+                                <div style="font-family:monospace; font-weight:800; color:#0f172a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+                                    <div class="spinner" style="width:16px; height:16px; border:2px solid #e2e8f0; border-top-color:#1e40af; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                                    > DEEP SCANNING PAYMENT BEHAVIOR...
+                                </div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:100%; animation: pulse 1.5s infinite 0.1s;"></div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:95%; animation: pulse 1.5s infinite 0.2s;"></div>
+                            </div>
+
+                            <div id="sc-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:#64748b; text-align:center;">
+                                <div style="font-family:monospace; font-size:0.85rem; padding:15px 30px; background:#f8fafc; border:1px dashed #cbd5e1; color:#475569; border-radius:6px;">
+                                    <div style="margin-bottom:8px; font-weight:800;">AWAITING EXECUTION</div>
+                                    Klik "Analyze Supply Chain Risk" untuk memindai pola transaksi.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
             </div> <!-- Close RIGHT WORKSPACE -->
         </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
     `;
@@ -4353,6 +5353,136 @@ const OceanAuth = () => {
         </div>
 </div>
 </div>
+
+        <div id="tab-smart-matching" class="ai-tab-content fade-in" style="display:none;">
+        <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🧠 AI-Powered Ecosystem Optimizer</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI menganalisis pola operasional nasabah (volume transaksi, frekuensi invoicing, aktivitas payroll) untuk rekomendasi mitra ekosistem optimal.</p>
+                </div>
+                <button id="btn-smart-matching" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0f172a; border:none; box-shadow: 0 4px 6px rgba(15,23,42,0.2);">Run Auto-Suggestion</button>
+            </div>
+            
+            <div style="display:flex; gap:2rem;">
+                <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Operation Parameters</div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Volume Transaksi Bulanan</label>
+                        <select id="sm-volume" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>> Rp 10 Miliar</option>
+                            <option>Rp 1 M - Rp 10 M</option>
+                            <option>< Rp 1 Miliar</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Frekuensi Invoicing</label>
+                        <select id="sm-invoice" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Harian (Volume Tinggi)</option>
+                            <option>Mingguan</option>
+                            <option>Bulanan</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Aktivitas Payroll</label>
+                        <select id="sm-payroll" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>> 500 Karyawan</option>
+                            <option>50 - 500 Karyawan</option>
+                            <option>< 50 Karyawan</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="flex:1;">
+                    <div id="sm-result" style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; min-height:400px; font-size:0.85rem; line-height:1.5; color:#0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); overflow:hidden;">
+                        <div style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="font-family:monospace; font-weight:800; color:#475569; font-size:0.75rem; letter-spacing:1px;">OCEAN // SMART ECOSYSTEM MATCHING</div>
+                        </div>
+                        <div style="padding:2rem; min-height: 350px; display:flex; flex-direction:column;">
+                            <div id="sm-loading" style="display:none; flex-direction:column; gap:15px; color:#334155; width:100%;">
+                                <div style="font-family:monospace; font-weight:800; color:#0f172a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+                                    <div class="spinner" style="width:16px; height:16px; border:2px solid #e2e8f0; border-top-color:#1e40af; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                                    > ANALYZING OPERATIONAL PATTERNS...
+                                </div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:100%; animation: pulse 1.5s infinite 0.1s;"></div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:95%; animation: pulse 1.5s infinite 0.2s;"></div>
+                            </div>
+
+                            <div id="sm-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:#64748b; text-align:center;">
+                                <div style="font-family:monospace; font-size:0.85rem; padding:15px 30px; background:#f8fafc; border:1px dashed #cbd5e1; color:#475569; border-radius:6px;">
+                                    <div style="margin-bottom:8px; font-weight:800;">AWAITING EXECUTION</div>
+                                    Klik "Run Auto-Suggestion" untuk memunculkan rekomendasi AI.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div id="tab-supply-chain" class="ai-tab-content fade-in" style="display:none;">
+        <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🔗 Predictive Supply Chain Finance</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI menganalisis pola transaksi & hubungan supplier untuk merekomendasikan solusi pembiayaan rantai pasok secara proaktif.</p>
+                </div>
+                <button id="btn-supply-chain" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0284c7; border:none; box-shadow: 0 4px 6px rgba(2,132,199,0.2);">Analyze Supply Chain Risk</button>
+            </div>
+            
+            <div style="display:flex; gap:2rem;">
+                <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Transaction Data</div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Target Analisis</label>
+                        <select id="sc-target" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Pelanggan Utama (Customer)</option>
+                            <option>Supplier Utama</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Periode Evaluasi Historis</label>
+                        <select id="sc-period" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>6 Bulan Terakhir</option>
+                            <option>12 Bulan Terakhir</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="flex:1;">
+                    <div id="sc-result" style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; min-height:400px; font-size:0.85rem; line-height:1.5; color:#0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); overflow:hidden;">
+                        <div style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="font-family:monospace; font-weight:800; color:#475569; font-size:0.75rem; letter-spacing:1px;">OCEAN // SUPPLY CHAIN PREDICTIVE AI</div>
+                        </div>
+                        <div style="padding:2rem; min-height: 350px; display:flex; flex-direction:column;">
+                            <div id="sc-loading" style="display:none; flex-direction:column; gap:15px; color:#334155; width:100%;">
+                                <div style="font-family:monospace; font-weight:800; color:#0f172a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+                                    <div class="spinner" style="width:16px; height:16px; border:2px solid #e2e8f0; border-top-color:#1e40af; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                                    > DEEP SCANNING PAYMENT BEHAVIOR...
+                                </div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:100%; animation: pulse 1.5s infinite 0.1s;"></div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:95%; animation: pulse 1.5s infinite 0.2s;"></div>
+                            </div>
+
+                            <div id="sc-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:#64748b; text-align:center;">
+                                <div style="font-family:monospace; font-size:0.85rem; padding:15px 30px; background:#f8fafc; border:1px dashed #cbd5e1; color:#475569; border-radius:6px;">
+                                    <div style="margin-bottom:8px; font-weight:800;">AWAITING EXECUTION</div>
+                                    Klik "Analyze Supply Chain Risk" untuk memindai pola transaksi.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
             </div> <!-- Close RIGHT WORKSPACE -->
         </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
     `;
@@ -4392,6 +5522,136 @@ const OceanAuth = () => {
         </div>
 </div>
 </div>
+
+        <div id="tab-smart-matching" class="ai-tab-content fade-in" style="display:none;">
+        <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🧠 AI-Powered Ecosystem Optimizer</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI menganalisis pola operasional nasabah (volume transaksi, frekuensi invoicing, aktivitas payroll) untuk rekomendasi mitra ekosistem optimal.</p>
+                </div>
+                <button id="btn-smart-matching" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0f172a; border:none; box-shadow: 0 4px 6px rgba(15,23,42,0.2);">Run Auto-Suggestion</button>
+            </div>
+            
+            <div style="display:flex; gap:2rem;">
+                <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Operation Parameters</div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Volume Transaksi Bulanan</label>
+                        <select id="sm-volume" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>> Rp 10 Miliar</option>
+                            <option>Rp 1 M - Rp 10 M</option>
+                            <option>< Rp 1 Miliar</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Frekuensi Invoicing</label>
+                        <select id="sm-invoice" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Harian (Volume Tinggi)</option>
+                            <option>Mingguan</option>
+                            <option>Bulanan</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Aktivitas Payroll</label>
+                        <select id="sm-payroll" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>> 500 Karyawan</option>
+                            <option>50 - 500 Karyawan</option>
+                            <option>< 50 Karyawan</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="flex:1;">
+                    <div id="sm-result" style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; min-height:400px; font-size:0.85rem; line-height:1.5; color:#0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); overflow:hidden;">
+                        <div style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="font-family:monospace; font-weight:800; color:#475569; font-size:0.75rem; letter-spacing:1px;">OCEAN // SMART ECOSYSTEM MATCHING</div>
+                        </div>
+                        <div style="padding:2rem; min-height: 350px; display:flex; flex-direction:column;">
+                            <div id="sm-loading" style="display:none; flex-direction:column; gap:15px; color:#334155; width:100%;">
+                                <div style="font-family:monospace; font-weight:800; color:#0f172a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+                                    <div class="spinner" style="width:16px; height:16px; border:2px solid #e2e8f0; border-top-color:#1e40af; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                                    > ANALYZING OPERATIONAL PATTERNS...
+                                </div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:100%; animation: pulse 1.5s infinite 0.1s;"></div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:95%; animation: pulse 1.5s infinite 0.2s;"></div>
+                            </div>
+
+                            <div id="sm-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:#64748b; text-align:center;">
+                                <div style="font-family:monospace; font-size:0.85rem; padding:15px 30px; background:#f8fafc; border:1px dashed #cbd5e1; color:#475569; border-radius:6px;">
+                                    <div style="margin-bottom:8px; font-weight:800;">AWAITING EXECUTION</div>
+                                    Klik "Run Auto-Suggestion" untuk memunculkan rekomendasi AI.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div id="tab-supply-chain" class="ai-tab-content fade-in" style="display:none;">
+        <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🔗 Predictive Supply Chain Finance</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI menganalisis pola transaksi & hubungan supplier untuk merekomendasikan solusi pembiayaan rantai pasok secara proaktif.</p>
+                </div>
+                <button id="btn-supply-chain" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0284c7; border:none; box-shadow: 0 4px 6px rgba(2,132,199,0.2);">Analyze Supply Chain Risk</button>
+            </div>
+            
+            <div style="display:flex; gap:2rem;">
+                <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Transaction Data</div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Target Analisis</label>
+                        <select id="sc-target" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Pelanggan Utama (Customer)</option>
+                            <option>Supplier Utama</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Periode Evaluasi Historis</label>
+                        <select id="sc-period" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>6 Bulan Terakhir</option>
+                            <option>12 Bulan Terakhir</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="flex:1;">
+                    <div id="sc-result" style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; min-height:400px; font-size:0.85rem; line-height:1.5; color:#0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); overflow:hidden;">
+                        <div style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="font-family:monospace; font-weight:800; color:#475569; font-size:0.75rem; letter-spacing:1px;">OCEAN // SUPPLY CHAIN PREDICTIVE AI</div>
+                        </div>
+                        <div style="padding:2rem; min-height: 350px; display:flex; flex-direction:column;">
+                            <div id="sc-loading" style="display:none; flex-direction:column; gap:15px; color:#334155; width:100%;">
+                                <div style="font-family:monospace; font-weight:800; color:#0f172a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+                                    <div class="spinner" style="width:16px; height:16px; border:2px solid #e2e8f0; border-top-color:#1e40af; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                                    > DEEP SCANNING PAYMENT BEHAVIOR...
+                                </div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:100%; animation: pulse 1.5s infinite 0.1s;"></div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:95%; animation: pulse 1.5s infinite 0.2s;"></div>
+                            </div>
+
+                            <div id="sc-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:#64748b; text-align:center;">
+                                <div style="font-family:monospace; font-size:0.85rem; padding:15px 30px; background:#f8fafc; border:1px dashed #cbd5e1; color:#475569; border-radius:6px;">
+                                    <div style="margin-bottom:8px; font-weight:800;">AWAITING EXECUTION</div>
+                                    Klik "Analyze Supply Chain Risk" untuk memindai pola transaksi.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
             </div> <!-- Close RIGHT WORKSPACE -->
         </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
     `;
@@ -4415,6 +5675,136 @@ const OceanAuth = () => {
         </div>
 </div>
 </div>
+
+        <div id="tab-smart-matching" class="ai-tab-content fade-in" style="display:none;">
+        <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🧠 AI-Powered Ecosystem Optimizer</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI menganalisis pola operasional nasabah (volume transaksi, frekuensi invoicing, aktivitas payroll) untuk rekomendasi mitra ekosistem optimal.</p>
+                </div>
+                <button id="btn-smart-matching" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0f172a; border:none; box-shadow: 0 4px 6px rgba(15,23,42,0.2);">Run Auto-Suggestion</button>
+            </div>
+            
+            <div style="display:flex; gap:2rem;">
+                <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Operation Parameters</div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Volume Transaksi Bulanan</label>
+                        <select id="sm-volume" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>> Rp 10 Miliar</option>
+                            <option>Rp 1 M - Rp 10 M</option>
+                            <option>< Rp 1 Miliar</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Frekuensi Invoicing</label>
+                        <select id="sm-invoice" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Harian (Volume Tinggi)</option>
+                            <option>Mingguan</option>
+                            <option>Bulanan</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Aktivitas Payroll</label>
+                        <select id="sm-payroll" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>> 500 Karyawan</option>
+                            <option>50 - 500 Karyawan</option>
+                            <option>< 50 Karyawan</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="flex:1;">
+                    <div id="sm-result" style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; min-height:400px; font-size:0.85rem; line-height:1.5; color:#0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); overflow:hidden;">
+                        <div style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="font-family:monospace; font-weight:800; color:#475569; font-size:0.75rem; letter-spacing:1px;">OCEAN // SMART ECOSYSTEM MATCHING</div>
+                        </div>
+                        <div style="padding:2rem; min-height: 350px; display:flex; flex-direction:column;">
+                            <div id="sm-loading" style="display:none; flex-direction:column; gap:15px; color:#334155; width:100%;">
+                                <div style="font-family:monospace; font-weight:800; color:#0f172a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+                                    <div class="spinner" style="width:16px; height:16px; border:2px solid #e2e8f0; border-top-color:#1e40af; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                                    > ANALYZING OPERATIONAL PATTERNS...
+                                </div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:100%; animation: pulse 1.5s infinite 0.1s;"></div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:95%; animation: pulse 1.5s infinite 0.2s;"></div>
+                            </div>
+
+                            <div id="sm-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:#64748b; text-align:center;">
+                                <div style="font-family:monospace; font-size:0.85rem; padding:15px 30px; background:#f8fafc; border:1px dashed #cbd5e1; color:#475569; border-radius:6px;">
+                                    <div style="margin-bottom:8px; font-weight:800;">AWAITING EXECUTION</div>
+                                    Klik "Run Auto-Suggestion" untuk memunculkan rekomendasi AI.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div id="tab-supply-chain" class="ai-tab-content fade-in" style="display:none;">
+        <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🔗 Predictive Supply Chain Finance</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI menganalisis pola transaksi & hubungan supplier untuk merekomendasikan solusi pembiayaan rantai pasok secara proaktif.</p>
+                </div>
+                <button id="btn-supply-chain" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0284c7; border:none; box-shadow: 0 4px 6px rgba(2,132,199,0.2);">Analyze Supply Chain Risk</button>
+            </div>
+            
+            <div style="display:flex; gap:2rem;">
+                <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Transaction Data</div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Target Analisis</label>
+                        <select id="sc-target" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Pelanggan Utama (Customer)</option>
+                            <option>Supplier Utama</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Periode Evaluasi Historis</label>
+                        <select id="sc-period" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>6 Bulan Terakhir</option>
+                            <option>12 Bulan Terakhir</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="flex:1;">
+                    <div id="sc-result" style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; min-height:400px; font-size:0.85rem; line-height:1.5; color:#0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); overflow:hidden;">
+                        <div style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="font-family:monospace; font-weight:800; color:#475569; font-size:0.75rem; letter-spacing:1px;">OCEAN // SUPPLY CHAIN PREDICTIVE AI</div>
+                        </div>
+                        <div style="padding:2rem; min-height: 350px; display:flex; flex-direction:column;">
+                            <div id="sc-loading" style="display:none; flex-direction:column; gap:15px; color:#334155; width:100%;">
+                                <div style="font-family:monospace; font-weight:800; color:#0f172a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+                                    <div class="spinner" style="width:16px; height:16px; border:2px solid #e2e8f0; border-top-color:#1e40af; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                                    > DEEP SCANNING PAYMENT BEHAVIOR...
+                                </div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:100%; animation: pulse 1.5s infinite 0.1s;"></div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:95%; animation: pulse 1.5s infinite 0.2s;"></div>
+                            </div>
+
+                            <div id="sc-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:#64748b; text-align:center;">
+                                <div style="font-family:monospace; font-size:0.85rem; padding:15px 30px; background:#f8fafc; border:1px dashed #cbd5e1; color:#475569; border-radius:6px;">
+                                    <div style="margin-bottom:8px; font-weight:800;">AWAITING EXECUTION</div>
+                                    Klik "Analyze Supply Chain Risk" untuk memindai pola transaksi.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
             </div> <!-- Close RIGHT WORKSPACE -->
         </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
     `;
@@ -4436,6 +5826,136 @@ const OceanAuth = () => {
         </div>
 </div>
 </div>
+
+        <div id="tab-smart-matching" class="ai-tab-content fade-in" style="display:none;">
+        <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🧠 AI-Powered Ecosystem Optimizer</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI menganalisis pola operasional nasabah (volume transaksi, frekuensi invoicing, aktivitas payroll) untuk rekomendasi mitra ekosistem optimal.</p>
+                </div>
+                <button id="btn-smart-matching" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0f172a; border:none; box-shadow: 0 4px 6px rgba(15,23,42,0.2);">Run Auto-Suggestion</button>
+            </div>
+            
+            <div style="display:flex; gap:2rem;">
+                <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Operation Parameters</div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Volume Transaksi Bulanan</label>
+                        <select id="sm-volume" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>> Rp 10 Miliar</option>
+                            <option>Rp 1 M - Rp 10 M</option>
+                            <option>< Rp 1 Miliar</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Frekuensi Invoicing</label>
+                        <select id="sm-invoice" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Harian (Volume Tinggi)</option>
+                            <option>Mingguan</option>
+                            <option>Bulanan</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Aktivitas Payroll</label>
+                        <select id="sm-payroll" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>> 500 Karyawan</option>
+                            <option>50 - 500 Karyawan</option>
+                            <option>< 50 Karyawan</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="flex:1;">
+                    <div id="sm-result" style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; min-height:400px; font-size:0.85rem; line-height:1.5; color:#0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); overflow:hidden;">
+                        <div style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="font-family:monospace; font-weight:800; color:#475569; font-size:0.75rem; letter-spacing:1px;">OCEAN // SMART ECOSYSTEM MATCHING</div>
+                        </div>
+                        <div style="padding:2rem; min-height: 350px; display:flex; flex-direction:column;">
+                            <div id="sm-loading" style="display:none; flex-direction:column; gap:15px; color:#334155; width:100%;">
+                                <div style="font-family:monospace; font-weight:800; color:#0f172a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+                                    <div class="spinner" style="width:16px; height:16px; border:2px solid #e2e8f0; border-top-color:#1e40af; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                                    > ANALYZING OPERATIONAL PATTERNS...
+                                </div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:100%; animation: pulse 1.5s infinite 0.1s;"></div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:95%; animation: pulse 1.5s infinite 0.2s;"></div>
+                            </div>
+
+                            <div id="sm-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:#64748b; text-align:center;">
+                                <div style="font-family:monospace; font-size:0.85rem; padding:15px 30px; background:#f8fafc; border:1px dashed #cbd5e1; color:#475569; border-radius:6px;">
+                                    <div style="margin-bottom:8px; font-weight:800;">AWAITING EXECUTION</div>
+                                    Klik "Run Auto-Suggestion" untuk memunculkan rekomendasi AI.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div id="tab-supply-chain" class="ai-tab-content fade-in" style="display:none;">
+        <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🔗 Predictive Supply Chain Finance</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI menganalisis pola transaksi & hubungan supplier untuk merekomendasikan solusi pembiayaan rantai pasok secara proaktif.</p>
+                </div>
+                <button id="btn-supply-chain" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0284c7; border:none; box-shadow: 0 4px 6px rgba(2,132,199,0.2);">Analyze Supply Chain Risk</button>
+            </div>
+            
+            <div style="display:flex; gap:2rem;">
+                <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Transaction Data</div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Target Analisis</label>
+                        <select id="sc-target" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Pelanggan Utama (Customer)</option>
+                            <option>Supplier Utama</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Periode Evaluasi Historis</label>
+                        <select id="sc-period" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>6 Bulan Terakhir</option>
+                            <option>12 Bulan Terakhir</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="flex:1;">
+                    <div id="sc-result" style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; min-height:400px; font-size:0.85rem; line-height:1.5; color:#0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); overflow:hidden;">
+                        <div style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="font-family:monospace; font-weight:800; color:#475569; font-size:0.75rem; letter-spacing:1px;">OCEAN // SUPPLY CHAIN PREDICTIVE AI</div>
+                        </div>
+                        <div style="padding:2rem; min-height: 350px; display:flex; flex-direction:column;">
+                            <div id="sc-loading" style="display:none; flex-direction:column; gap:15px; color:#334155; width:100%;">
+                                <div style="font-family:monospace; font-weight:800; color:#0f172a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+                                    <div class="spinner" style="width:16px; height:16px; border:2px solid #e2e8f0; border-top-color:#1e40af; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                                    > DEEP SCANNING PAYMENT BEHAVIOR...
+                                </div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:100%; animation: pulse 1.5s infinite 0.1s;"></div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:95%; animation: pulse 1.5s infinite 0.2s;"></div>
+                            </div>
+
+                            <div id="sc-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:#64748b; text-align:center;">
+                                <div style="font-family:monospace; font-size:0.85rem; padding:15px 30px; background:#f8fafc; border:1px dashed #cbd5e1; color:#475569; border-radius:6px;">
+                                    <div style="margin-bottom:8px; font-weight:800;">AWAITING EXECUTION</div>
+                                    Klik "Analyze Supply Chain Risk" untuk memindai pola transaksi.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
             </div> <!-- Close RIGHT WORKSPACE -->
         </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
     `;
@@ -4456,6 +5976,136 @@ const OceanAuth = () => {
         </div>
 </div>
 </div>
+
+        <div id="tab-smart-matching" class="ai-tab-content fade-in" style="display:none;">
+        <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🧠 AI-Powered Ecosystem Optimizer</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI menganalisis pola operasional nasabah (volume transaksi, frekuensi invoicing, aktivitas payroll) untuk rekomendasi mitra ekosistem optimal.</p>
+                </div>
+                <button id="btn-smart-matching" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0f172a; border:none; box-shadow: 0 4px 6px rgba(15,23,42,0.2);">Run Auto-Suggestion</button>
+            </div>
+            
+            <div style="display:flex; gap:2rem;">
+                <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Operation Parameters</div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Volume Transaksi Bulanan</label>
+                        <select id="sm-volume" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>> Rp 10 Miliar</option>
+                            <option>Rp 1 M - Rp 10 M</option>
+                            <option>< Rp 1 Miliar</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Frekuensi Invoicing</label>
+                        <select id="sm-invoice" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Harian (Volume Tinggi)</option>
+                            <option>Mingguan</option>
+                            <option>Bulanan</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Aktivitas Payroll</label>
+                        <select id="sm-payroll" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>> 500 Karyawan</option>
+                            <option>50 - 500 Karyawan</option>
+                            <option>< 50 Karyawan</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="flex:1;">
+                    <div id="sm-result" style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; min-height:400px; font-size:0.85rem; line-height:1.5; color:#0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); overflow:hidden;">
+                        <div style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="font-family:monospace; font-weight:800; color:#475569; font-size:0.75rem; letter-spacing:1px;">OCEAN // SMART ECOSYSTEM MATCHING</div>
+                        </div>
+                        <div style="padding:2rem; min-height: 350px; display:flex; flex-direction:column;">
+                            <div id="sm-loading" style="display:none; flex-direction:column; gap:15px; color:#334155; width:100%;">
+                                <div style="font-family:monospace; font-weight:800; color:#0f172a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+                                    <div class="spinner" style="width:16px; height:16px; border:2px solid #e2e8f0; border-top-color:#1e40af; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                                    > ANALYZING OPERATIONAL PATTERNS...
+                                </div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:100%; animation: pulse 1.5s infinite 0.1s;"></div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:95%; animation: pulse 1.5s infinite 0.2s;"></div>
+                            </div>
+
+                            <div id="sm-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:#64748b; text-align:center;">
+                                <div style="font-family:monospace; font-size:0.85rem; padding:15px 30px; background:#f8fafc; border:1px dashed #cbd5e1; color:#475569; border-radius:6px;">
+                                    <div style="margin-bottom:8px; font-weight:800;">AWAITING EXECUTION</div>
+                                    Klik "Run Auto-Suggestion" untuk memunculkan rekomendasi AI.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div id="tab-supply-chain" class="ai-tab-content fade-in" style="display:none;">
+        <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🔗 Predictive Supply Chain Finance</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI menganalisis pola transaksi & hubungan supplier untuk merekomendasikan solusi pembiayaan rantai pasok secara proaktif.</p>
+                </div>
+                <button id="btn-supply-chain" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0284c7; border:none; box-shadow: 0 4px 6px rgba(2,132,199,0.2);">Analyze Supply Chain Risk</button>
+            </div>
+            
+            <div style="display:flex; gap:2rem;">
+                <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Transaction Data</div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Target Analisis</label>
+                        <select id="sc-target" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Pelanggan Utama (Customer)</option>
+                            <option>Supplier Utama</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Periode Evaluasi Historis</label>
+                        <select id="sc-period" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>6 Bulan Terakhir</option>
+                            <option>12 Bulan Terakhir</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="flex:1;">
+                    <div id="sc-result" style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; min-height:400px; font-size:0.85rem; line-height:1.5; color:#0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); overflow:hidden;">
+                        <div style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="font-family:monospace; font-weight:800; color:#475569; font-size:0.75rem; letter-spacing:1px;">OCEAN // SUPPLY CHAIN PREDICTIVE AI</div>
+                        </div>
+                        <div style="padding:2rem; min-height: 350px; display:flex; flex-direction:column;">
+                            <div id="sc-loading" style="display:none; flex-direction:column; gap:15px; color:#334155; width:100%;">
+                                <div style="font-family:monospace; font-weight:800; color:#0f172a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+                                    <div class="spinner" style="width:16px; height:16px; border:2px solid #e2e8f0; border-top-color:#1e40af; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                                    > DEEP SCANNING PAYMENT BEHAVIOR...
+                                </div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:100%; animation: pulse 1.5s infinite 0.1s;"></div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:95%; animation: pulse 1.5s infinite 0.2s;"></div>
+                            </div>
+
+                            <div id="sc-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:#64748b; text-align:center;">
+                                <div style="font-family:monospace; font-size:0.85rem; padding:15px 30px; background:#f8fafc; border:1px dashed #cbd5e1; color:#475569; border-radius:6px;">
+                                    <div style="margin-bottom:8px; font-weight:800;">AWAITING EXECUTION</div>
+                                    Klik "Analyze Supply Chain Risk" untuk memindai pola transaksi.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
             </div> <!-- Close RIGHT WORKSPACE -->
         </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
     `;
@@ -4561,6 +6211,136 @@ const OceanAuth = () => {
         </div>
 </div>
 </div>
+
+        <div id="tab-smart-matching" class="ai-tab-content fade-in" style="display:none;">
+        <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🧠 AI-Powered Ecosystem Optimizer</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI menganalisis pola operasional nasabah (volume transaksi, frekuensi invoicing, aktivitas payroll) untuk rekomendasi mitra ekosistem optimal.</p>
+                </div>
+                <button id="btn-smart-matching" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0f172a; border:none; box-shadow: 0 4px 6px rgba(15,23,42,0.2);">Run Auto-Suggestion</button>
+            </div>
+            
+            <div style="display:flex; gap:2rem;">
+                <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Operation Parameters</div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Volume Transaksi Bulanan</label>
+                        <select id="sm-volume" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>> Rp 10 Miliar</option>
+                            <option>Rp 1 M - Rp 10 M</option>
+                            <option>< Rp 1 Miliar</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Frekuensi Invoicing</label>
+                        <select id="sm-invoice" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Harian (Volume Tinggi)</option>
+                            <option>Mingguan</option>
+                            <option>Bulanan</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Aktivitas Payroll</label>
+                        <select id="sm-payroll" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>> 500 Karyawan</option>
+                            <option>50 - 500 Karyawan</option>
+                            <option>< 50 Karyawan</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="flex:1;">
+                    <div id="sm-result" style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; min-height:400px; font-size:0.85rem; line-height:1.5; color:#0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); overflow:hidden;">
+                        <div style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="font-family:monospace; font-weight:800; color:#475569; font-size:0.75rem; letter-spacing:1px;">OCEAN // SMART ECOSYSTEM MATCHING</div>
+                        </div>
+                        <div style="padding:2rem; min-height: 350px; display:flex; flex-direction:column;">
+                            <div id="sm-loading" style="display:none; flex-direction:column; gap:15px; color:#334155; width:100%;">
+                                <div style="font-family:monospace; font-weight:800; color:#0f172a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+                                    <div class="spinner" style="width:16px; height:16px; border:2px solid #e2e8f0; border-top-color:#1e40af; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                                    > ANALYZING OPERATIONAL PATTERNS...
+                                </div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:100%; animation: pulse 1.5s infinite 0.1s;"></div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:95%; animation: pulse 1.5s infinite 0.2s;"></div>
+                            </div>
+
+                            <div id="sm-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:#64748b; text-align:center;">
+                                <div style="font-family:monospace; font-size:0.85rem; padding:15px 30px; background:#f8fafc; border:1px dashed #cbd5e1; color:#475569; border-radius:6px;">
+                                    <div style="margin-bottom:8px; font-weight:800;">AWAITING EXECUTION</div>
+                                    Klik "Run Auto-Suggestion" untuk memunculkan rekomendasi AI.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div id="tab-supply-chain" class="ai-tab-content fade-in" style="display:none;">
+        <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">🔗 Predictive Supply Chain Finance</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">AI menganalisis pola transaksi & hubungan supplier untuk merekomendasikan solusi pembiayaan rantai pasok secara proaktif.</p>
+                </div>
+                <button id="btn-supply-chain" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0284c7; border:none; box-shadow: 0 4px 6px rgba(2,132,199,0.2);">Analyze Supply Chain Risk</button>
+            </div>
+            
+            <div style="display:flex; gap:2rem;">
+                <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Transaction Data</div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Target Analisis</label>
+                        <select id="sc-target" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Pelanggan Utama (Customer)</option>
+                            <option>Supplier Utama</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Periode Evaluasi Historis</label>
+                        <select id="sc-period" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>6 Bulan Terakhir</option>
+                            <option>12 Bulan Terakhir</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="flex:1;">
+                    <div id="sc-result" style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; min-height:400px; font-size:0.85rem; line-height:1.5; color:#0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); overflow:hidden;">
+                        <div style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="font-family:monospace; font-weight:800; color:#475569; font-size:0.75rem; letter-spacing:1px;">OCEAN // SUPPLY CHAIN PREDICTIVE AI</div>
+                        </div>
+                        <div style="padding:2rem; min-height: 350px; display:flex; flex-direction:column;">
+                            <div id="sc-loading" style="display:none; flex-direction:column; gap:15px; color:#334155; width:100%;">
+                                <div style="font-family:monospace; font-weight:800; color:#0f172a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+                                    <div class="spinner" style="width:16px; height:16px; border:2px solid #e2e8f0; border-top-color:#1e40af; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                                    > DEEP SCANNING PAYMENT BEHAVIOR...
+                                </div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:100%; animation: pulse 1.5s infinite 0.1s;"></div>
+                                <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:95%; animation: pulse 1.5s infinite 0.2s;"></div>
+                            </div>
+
+                            <div id="sc-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:#64748b; text-align:center;">
+                                <div style="font-family:monospace; font-size:0.85rem; padding:15px 30px; background:#f8fafc; border:1px dashed #cbd5e1; color:#475569; border-radius:6px;">
+                                    <div style="margin-bottom:8px; font-weight:800;">AWAITING EXECUTION</div>
+                                    Klik "Analyze Supply Chain Risk" untuk memindai pola transaksi.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
             </div> <!-- Close RIGHT WORKSPACE -->
         </div> <!-- Close ENTERPRISE SPLIT-PANE LAYOUT -->
     `;
@@ -6083,6 +7863,7 @@ const attachEventListeners = () => {
             }
         });
     }
+
 
     // Smart Ecosystem Matching Listener
     const btnSmartMatching = document.getElementById('btn-smart-matching');
