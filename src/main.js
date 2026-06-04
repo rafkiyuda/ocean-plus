@@ -8245,6 +8245,20 @@ const attachEventListeners = () => {
                         desc: "Laporan mitigasi risiko arus kas yang dapat diekspor menjadi dokumen eksekutif.",
                         tip: "Tip: Langsung siap dilaporkan ke jajaran Direksi!",
                         pos: "top"
+                    },
+                    {
+                        targetQuery: '#btn-early-alert',
+                        title: "Deep-Scan Anomaly",
+                        desc: "Jalankan pemindaian AI mendalam untuk mendeteksi fraud, anomali vendor, dan penurunan likuiditas mendadak.",
+                        tip: "Tip: Fitur keamanan tingkat lanjut untuk CFO!",
+                        pos: "bottom"
+                    },
+                    {
+                        targetQuery: '#early-alert-result',
+                        title: "Early Warning System",
+                        desc: "Tabel mitigasi risiko yang merinci level bahaya beserta aksi pencegahan konkrit dari sistem BCA.",
+                        tip: "Tip: Tangani risiko sebelum berubah menjadi krisis finansial!",
+                        pos: "top"
                     }
                 ];
             } else if (activeAiTarget === 'tab-simulator') {
