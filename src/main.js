@@ -598,6 +598,8 @@ const SimulationPage = () => {
                 </div>
             </div>
         </div>
+</div>
+</div>
     `;
 };
 
@@ -1935,6 +1937,8 @@ const SandboxPage = () => {
                 </tbody>
             </table>
         </div>
+</div>
+</div>
     `;
 
     const analyticsContent = `
@@ -2031,6 +2035,8 @@ const SandboxPage = () => {
                 </tbody>
             </table>
         </div>
+</div>
+</div>
     `;
 
     const invoicingContent = `
@@ -2112,6 +2118,8 @@ const SandboxPage = () => {
                 </tbody>
             </table>
         </div>
+</div>
+</div>
     `;
 
     const activeSimulation = state.sandbox.apiSimulation;
@@ -2218,6 +2226,8 @@ const SandboxPage = () => {
                 </div>
             </div>
         </div>
+</div>
+</div>
     `;
 
     
@@ -2237,6 +2247,15 @@ const SandboxPage = () => {
         </div>
 
         
+        <!-- TAB NAVIGATION -->
+        <div style="display:flex; gap:10px; margin-bottom:1.5rem; border-bottom:2px solid #e2e8f0; padding-bottom:0; overflow-x:auto;" class="ai-tabs-container">
+            <button class="ai-tab-btn active" data-target="tab-optimizer" style="padding:10px 16px; font-weight:700; font-size:0.9rem; color:#2563eb; background:transparent; border:none; border-bottom:3px solid #2563eb; cursor:pointer; white-space:nowrap; transition:all 0.3s;">🚀 Ecosystem Optimizer</button>
+            <button class="ai-tab-btn" data-target="tab-cashflow" style="padding:10px 16px; font-weight:700; font-size:0.9rem; color:#64748b; background:transparent; border:none; border-bottom:3px solid transparent; cursor:pointer; white-space:nowrap; transition:all 0.3s;">📈 Cash Flow & Alerts</button>
+            <button class="ai-tab-btn" data-target="tab-simulator" style="padding:10px 16px; font-weight:700; font-size:0.9rem; color:#64748b; background:transparent; border:none; border-bottom:3px solid transparent; cursor:pointer; white-space:nowrap; transition:all 0.3s;">🕹️ Scenario Simulator</button>
+            <button class="ai-tab-btn" data-target="tab-health" style="padding:10px 16px; font-weight:700; font-size:0.9rem; color:#64748b; background:transparent; border:none; border-bottom:3px solid transparent; cursor:pointer; white-space:nowrap; transition:all 0.3s;">❤️ Health Score & Benchmark</button>
+        </div>
+
+        <div id="tab-optimizer" class="ai-tab-content fade-in" style="display:block;">
         <!-- LIVE AI ECOSYSTEM OPTIMIZER FORM -->
         <div class="card-premium fade-in" style="background:linear-gradient(135deg, #f8fafc, #f1f5f9); border-radius:16px; border:1px solid #bfdbfe; padding:1.5rem; margin-bottom: 1.5rem; box-shadow: 0 4px 6px -1px rgba(59,130,246,0.1);">
             <div style="display:flex; align-items:center; gap:10px; margin-bottom:1rem;">
@@ -2273,7 +2292,9 @@ const SandboxPage = () => {
                 <div id="ai-opt-content" style="display:none; font-size:0.85rem; color:#1e293b; line-height:1.6;"></div>
             </div>
         </div>
+        </div>
 
+        <div id="tab-cashflow" class="ai-tab-content fade-in" style="display:none;">
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem;">
             
             <!-- Card 1: Cash Flow Forecasting -->
@@ -2346,6 +2367,11 @@ const SandboxPage = () => {
                 </div>
             </div>
 
+</div>
+</div>
+
+<div id="tab-simulator" class="ai-tab-content fade-in" style="display:none;">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem;">
             <!-- Card 3: What-If Simulation -->
             <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:1.5rem; display:flex; flex-direction:column; animation-delay: 0.3s;">
                 <div style="border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem; margin-bottom: 1rem;">
@@ -2375,6 +2401,11 @@ const SandboxPage = () => {
                 </div>
             </div>
 
+</div>
+</div>
+
+<div id="tab-health" class="ai-tab-content fade-in" style="display:none;">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem;">
             <!-- Card 4: Business Health Score -->
             <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:1.5rem; display:flex; flex-direction:column; animation-delay: 0.4s;">
                 <div style="border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem; margin-bottom: 1rem; display:flex; justify-content:space-between; align-items:flex-start;">
@@ -2494,6 +2525,8 @@ const SandboxPage = () => {
                 </div>
             </div>
         </div>
+</div>
+</div>
     `;
 
 const contents = { dashboard: dashboardContent, analytics: analyticsContent, invoicing: invoicingContent, ecosystem: ecosystemContent, predictiveAi: predictiveAiContent };
@@ -4190,6 +4223,8 @@ const HowItWorksPage = () => {
 
             ${PublicFooter()}
         </div>
+</div>
+</div>
     `;
 };
 
@@ -4268,6 +4303,8 @@ const OceanAuth = () => {
                 <a href="#" class="ocean-login-action-link btn-cancel-auth" style="font-size: 0.8rem; opacity: 0.7;">Kembali ke Beranda</a>
             </div>
         </div>
+</div>
+</div>
     `;
 
     const renderSelect = () => `
@@ -4303,6 +4340,8 @@ const OceanAuth = () => {
                 <a href="#" class="ocean-login-action-link btn-cancel-auth">Kembali ke Beranda</a>
             </div>
         </div>
+</div>
+</div>
     `;
 
     const renderPin = () => `
@@ -4322,6 +4361,8 @@ const OceanAuth = () => {
                 <a href="#" class="ocean-login-action-link" data-auth="select">Ganti Metode Verifikasi</a>
             </div>
         </div>
+</div>
+</div>
     `;
 
     const renderBiometric = () => `
@@ -4339,6 +4380,8 @@ const OceanAuth = () => {
                 <a href="#" class="ocean-login-action-link" data-auth="select">Ganti Metode Verifikasi</a>
             </div>
         </div>
+</div>
+</div>
     `;
 
     const renderOtp = () => `
@@ -4355,6 +4398,8 @@ const OceanAuth = () => {
                 <a href="#" class="ocean-login-action-link" data-auth="select">Ganti Metode Verifikasi</a>
             </div>
         </div>
+</div>
+</div>
     `;
 
     let stepContent = '';
@@ -4456,6 +4501,8 @@ const OceanAuth = () => {
                 </footer>
             </div>
         </div>
+</div>
+</div>
     `;
 };
 
@@ -5939,6 +5986,38 @@ const attachEventListeners = () => {
                 btnHealthScore.disabled = false;
                 btnHealthScore.textContent = 'Update Score';
             }
+        });
+    }
+
+    // 6. AI Tabs Navigation
+    const aiTabBtns = document.querySelectorAll('.ai-tab-btn');
+    const aiTabContents = document.querySelectorAll('.ai-tab-content');
+    
+    if (aiTabBtns.length > 0) {
+        aiTabBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const targetId = e.target.getAttribute('data-target');
+                
+                // Reset buttons
+                aiTabBtns.forEach(b => {
+                    b.classList.remove('active');
+                    b.style.color = '#64748b';
+                    b.style.borderBottom = '3px solid transparent';
+                });
+                
+                // Set active button
+                e.target.classList.add('active');
+                e.target.style.color = '#2563eb';
+                e.target.style.borderBottom = '3px solid #2563eb';
+                
+                // Reset contents
+                aiTabContents.forEach(content => {
+                    content.style.display = 'none';
+                });
+                
+                // Show target content
+                document.getElementById(targetId).style.display = 'block';
+            });
         });
     }
 
