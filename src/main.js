@@ -2497,126 +2497,95 @@ const SandboxPage = () => {
 </div>
 
 <div id="tab-health" class="ai-tab-content fade-in" style="display:none;">
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem;">
-            <!-- Card 4: Business Health Score -->
-            <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:1.5rem; display:flex; flex-direction:column; animation-delay: 0.4s;">
-                <div style="border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem; margin-bottom: 1rem; display:flex; justify-content:space-between; align-items:flex-start;">
-                    <div>
-                        <h4 style="color:var(--bca-blue-dark); font-weight:800; font-size:1.1rem;">❤️ Automated Business Health Score</h4>
-                        <p style="color:#64748b; font-size:0.8rem; margin-top:0.25rem;">AI menghitung skor kesehatan bisnis dari kombinasi Liquidity, Efficiency, & Risk secara mingguan/bulanan.</p>
-                    </div>
-                    <button id="btn-health-score" class="btn-primary" style="padding:0.4rem 1rem; font-size:0.75rem; border-radius:50px; background:#10b981; border:none; white-space:nowrap;">Update Score</button>
+<div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
+    <!-- OCEAN-CLASS CORPORATE PEER MATRIX -->
+    <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; display:flex; flex-direction:column; animation-delay: 0.1s; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+        <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
+            <div>
+                <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">Corporate Peer Matrix & Gap Analysis</h4>
+                <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">Membandingkan rasio 7-Point KPIs Anda secara langsung dengan Top 10% Industry Leaders dan menghitung Opportunity Loss.</p>
+            </div>
+            <button id="btn-health-score" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#10b981; border:none; box-shadow: 0 4px 6px rgba(16,185,129,0.2);">Run Deep Benchmark</button>
+        </div>
+        
+        <div style="display:flex; gap:2rem;">
+            <!-- PARAMETERS -->
+            <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Peer Group Selection</div>
+                
+                <div style="margin-bottom:1.2rem;">
+                    <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Sektor / Sub-Sektor</label>
+                    <select id="bm-sector" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                        <option>Distributor Farmasi / Alat Kesehatan</option>
+                        <option>Manufaktur Logam Dasar</option>
+                        <option>Retail Consumer Goods (FMCG)</option>
+                    </select>
                 </div>
-                <div style="display:flex; gap:2.5rem; align-items:center; flex:1; padding: 0 1rem;">
-                    <!-- Circular Progress -->
-                    <div id="health-score-circle" style="position:relative; width:140px; height:140px; border-radius:50%; background:conic-gradient(#22c55e 85%, #e2e8f0 85%); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-                        <div style="position:absolute; width:120px; height:120px; background:white; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:inset 0 4px 6px rgba(0,0,0,0.05);">
-                            <span id="health-score-total" style="font-size:2.5rem; font-weight:800; color:#15803d; line-height:1;">85</span>
-                            <div style="width: 40px; height: 1px; background: #e2e8f0; margin: 4px 0;"></div>
-                            <span id="health-score-status" style="font-size:0.7rem; color:#64748b; font-weight:800; text-transform:uppercase;">/ 100 (Sehat)</span>
-                        </div>
-                    </div>
-                    <!-- Stats Breakdown -->
-                    <div style="flex:1;">
-                        <table style="width:100%; border-collapse:collapse; font-size:0.8rem;">
-                            <tbody>
-                                <tr>
-                                    <td style="padding:6px 0; color:#475569; font-weight:700;">💧 Liquidity Score</td>
-                                    <td id="health-score-liquidity" style="padding:6px 0; text-align:right; font-weight:800; color:#0f172a;">90</td>
-                                </tr>
-                                <tr><td colspan="2"><div style="height:6px; background:#f1f5f9; border-radius:3px; overflow:hidden;"><div id="health-bar-liquidity" style="width:90%; height:100%; background:#22c55e; border-radius:3px; transition: width 1s;"></div></div></td></tr>
-                                
-                                <tr>
-                                    <td style="padding:12px 0 6px 0; color:#475569; font-weight:700;">⚙️ Efficiency Score</td>
-                                    <td id="health-score-efficiency" style="padding:12px 0 6px 0; text-align:right; font-weight:800; color:#0f172a;">80</td>
-                                </tr>
-                                <tr><td colspan="2"><div style="height:6px; background:#f1f5f9; border-radius:3px; overflow:hidden;"><div id="health-bar-efficiency" style="width:80%; height:100%; background:#eab308; border-radius:3px; transition: width 1s;"></div></div></td></tr>
-                                
-                                <tr>
-                                    <td style="padding:12px 0 6px 0; color:#475569; font-weight:700;">🛡️ Risk Indicators</td>
-                                    <td id="health-score-risk" style="padding:12px 0 6px 0; text-align:right; font-weight:800; color:#0f172a;">86</td>
-                                </tr>
-                                <tr><td colspan="2"><div style="height:6px; background:#f1f5f9; border-radius:3px; overflow:hidden;"><div id="health-bar-risk" style="width:86%; height:100%; background:#22c55e; border-radius:3px; transition: width 1s;"></div></div></td></tr>
-                            </tbody>
-                        </table>
-                        <div style="margin-top: 1rem; font-size: 0.65rem; color: #94a3b8; font-style: italic;">*Data bersumber dari perbankan + myEcosystem.</div>
-                    </div>
+                
+                <div style="margin-bottom:1.2rem;">
+                    <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Skala Pendapatan (Revenue)</label>
+                    <select id="bm-revenue" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                        <option>Rp 100M - Rp 500M (Mid-Corp)</option>
+                        <option>> Rp 1 Triliun (Large-Corp)</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom:1.2rem;">
+                    <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Regional Coverage</label>
+                    <select id="bm-region" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                        <option>National (Seluruh Indonesia)</option>
+                        <option>Jawa - Bali Coverage</option>
+                        <option>Export / International</option>
+                    </select>
                 </div>
             </div>
-
-            <!-- Card 5: AI-Driven Industry Benchmarking -->
-            <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:1.5rem; display:flex; flex-direction:column; animation-delay: 0.5s;">
-                <div style="border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem; margin-bottom: 1rem;">
-                    <h4 style="color:var(--bca-blue-dark); font-weight:800; font-size:1.1rem;">📊 AI-Driven Industry Benchmarking</h4>
-                    <p style="color:#64748b; font-size:0.8rem; margin-top:0.25rem;">Membandingkan performa keuangan dengan <i>peer group</i> industri (anonim agregat) secara objektif tanpa kebocoran data.</p>
-                </div>
-                <div style="display:flex; flex-direction:column; gap:1rem; flex:1;">
-                    <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:1.25rem;">
-                        <div style="font-size:0.85rem; font-weight:800; color:#0f172a; margin-bottom:1rem; text-align:center;">Cash Conversion Cycle (CCC)</div>
-                        
-                        <!-- You -->
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                            <span style="font-size:0.75rem; font-weight:700; color:#475569;">Perusahaan Anda</span>
-                            <span style="font-size:0.85rem; font-weight:800; color:#ef4444;">52 Hari</span>
-                        </div>
-                        <div style="height:6px; background:#f1f5f9; border-radius:3px; margin-bottom:12px; overflow:hidden;">
-                            <div style="width:75%; height:100%; background:#ef4444; border-radius:3px;"></div>
-                        </div>
-                        
-                        <!-- Industry -->
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                            <span style="font-size:0.75rem; font-weight:700; color:#475569;">Rata-rata Industri (Distributor)</span>
-                            <span style="font-size:0.85rem; font-weight:800; color:#22c55e;">38 - 42 Hari</span>
-                        </div>
-                        <div style="height:6px; background:#f1f5f9; border-radius:3px; overflow:hidden;">
-                            <div style="width:60%; height:100%; background:#22c55e; border-radius:3px;"></div>
-                        </div>
-                    </div>
+            
+            <!-- RESULTS: INSTITUTIONAL GRADE TERMINAL -->
+            <div style="flex:1;">
+                <div id="health-score-result-container" style="display:block; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; padding:0; min-height:450px; font-size:0.85rem; line-height:1.5; color:#0f172a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02), 0 4px 6px -1px rgba(0,0,0,0.05); overflow:hidden;">
                     
-                    <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:12px; padding:1rem; display:flex; gap:12px; align-items:flex-start;">
-                        <span style="font-size:1.5rem; line-height:1;">💡</span>
-                        <div>
-                            <div style="font-size:0.8rem; font-weight:800; color:#b45309; margin-bottom:4px;">Insight & Rekomendasi AI</div>
-                            <div style="font-size:0.75rem; color:#92400e; line-height:1.5;">Perputaran kas Anda 10 hari lebih lambat dari kompetitor. Pertimbangkan penggunaan <b>API Invoicing & Virtual Account</b> untuk mempercepat collection.</div>
+                    <!-- TERMINAL HEADER -->
+                    <div style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+                        <div style="font-family:monospace; font-weight:800; color:#475569; font-size:0.75rem; letter-spacing:1px;">OCEAN // CORPORATE ANALYTICS TERMINAL // v3.1.0</div>
+                        <div style="display:flex; gap:6px;">
+                            <span style="width:10px; height:10px; background:#cbd5e1; border-radius:50%;"></span>
+                            <span style="width:10px; height:10px; background:#cbd5e1; border-radius:50%;"></span>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- Card 6: Opportunity Radar -->
-            <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:1.5rem; display:flex; flex-direction:column; animation-delay: 0.6s;">
-                <div style="border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem; margin-bottom: 1rem;">
-                    <h4 style="color:var(--bca-blue-dark); font-weight:800; font-size:1.1rem;">🎯 Opportunity Radar</h4>
-                    <p style="color:#64748b; font-size:0.8rem; margin-top:0.25rem;">Mendeteksi peluang bisnis baru berdasarkan pola anomali positif dan memberikan rekomendasi ekspansi.</p>
-                </div>
-                <div style="display:flex; flex-direction:column; gap:1rem; flex:1; justify-content:center;">
-                    
-                    <div style="text-align:center; position:relative; padding:1rem 0;">
-                        <!-- Radar Animation Mock -->
-                        <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:120px; height:120px; border-radius:50%; border:1px solid rgba(59,130,246,0.1); animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;"></div>
-                        <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:80px; height:80px; border-radius:50%; border:1px solid rgba(59,130,246,0.3); animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite 0.5s;"></div>
-                        <span style="font-size:2.5rem; position:relative; z-index:2;">🚢</span>
-                    </div>
-
-                    <div style="background:linear-gradient(135deg, #eff6ff, #dbeafe); border:1px solid #bfdbfe; border-radius:12px; padding:1.25rem;">
-                        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
-                            <span style="width:8px; height:8px; background:#3b82f6; border-radius:50%; display:inline-block; animation:pulse 1.5s infinite;"></span>
-                            <span style="font-size:0.75rem; font-weight:800; color:#1e40af; text-transform:uppercase;">Sinyal Pertumbuhan Terdeteksi</span>
+                    <div style="padding:2rem; min-height: 400px; display:flex; flex-direction:column;">
+                        <!-- TERMINAL LOADING SKELETON -->
+                        <div id="health-score-loading" style="display:none; flex-direction:column; gap:15px; color:#334155; width:100%;">
+                            <div style="font-family:monospace; font-weight:800; color:#0f172a; border-bottom:1px dashed #cbd5e1; padding-bottom:10px; margin-bottom:10px; display:flex; align-items:center; gap:10px;">
+                                <div class="spinner" style="width:16px; height:16px; border:2px solid #e2e8f0; border-top-color:#1e40af; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                                > INITIATING CROSS-SECTOR DATA PULL...
+                            </div>
+                            
+                            <!-- SKELETON BARS -->
+                            <div style="display:flex; gap:20px; margin-bottom:20px;">
+                                <div style="flex:1; height:80px; background:#f1f5f9; border:1px solid #e2e8f0; border-radius:6px; animation: pulse 1.5s infinite;"></div>
+                                <div style="flex:1; height:80px; background:#f1f5f9; border:1px solid #e2e8f0; border-radius:6px; animation: pulse 1.5s infinite 0.2s;"></div>
+                                <div style="flex:1; height:80px; background:#fef2f2; border:1px solid #fecaca; border-radius:6px; animation: pulse 1.5s infinite 0.4s;"></div>
+                            </div>
+                            
+                            <div style="height:30px; background:#f1f5f9; border-radius:4px; margin-bottom:10px; animation: pulse 1.5s infinite;"></div>
+                            <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:100%; animation: pulse 1.5s infinite 0.1s;"></div>
+                            <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:95%; animation: pulse 1.5s infinite 0.2s;"></div>
+                            <div style="height:20px; background:#f8fafc; border-radius:4px; margin-bottom:10px; width:98%; animation: pulse 1.5s infinite 0.3s;"></div>
                         </div>
-                        <div style="font-size:0.85rem; font-weight:700; color:#0f172a; margin-bottom:8px; line-height:1.4;">Volume ekspor (FX) Anda meningkat tajam <span style="color:#16a34a;">+35%</span> dalam 3 bulan terakhir.</div>
-                        
-                        <div style="background:white; border-radius:8px; padding:10px; margin-top:12px;">
-                            <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:4px;">Mitra Ekosistem Direkomendasikan:</div>
-                            <div style="display:flex; flex-wrap:wrap; gap:6px;">
-                                <span style="background:#f1f5f9; padding:4px 8px; border-radius:4px; font-size:0.7rem; font-weight:700; color:#334155;">💳 Trade Finance</span>
-                                <span style="background:#f1f5f9; padding:4px 8px; border-radius:4px; font-size:0.7rem; font-weight:700; color:#334155;">🛡️ Asuransi Pengiriman</span>
+
+                        <!-- TERMINAL CONTENT -->
+                        <div id="health-score-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:#64748b; text-align:center;">
+                            <div style="font-family:monospace; font-size:0.85rem; padding:15px 30px; background:#f8fafc; border:1px dashed #cbd5e1; color:#475569; border-radius:6px;">
+                                <div style="margin-bottom:8px; font-weight:800;">AWAITING PARAMETER INPUT</div>
+                                Select Sector, Revenue Range, and Region on the left panel to execute deep analytical benchmark.
                             </div>
                         </div>
                     </div>
-                    
                 </div>
             </div>
         </div>
+    </div>
 </div>
 </div>
             </div> <!-- Close RIGHT WORKSPACE -->
