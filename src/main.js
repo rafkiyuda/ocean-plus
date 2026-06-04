@@ -1,5 +1,5 @@
 import './style.css'
-import { uploadDocument, importFromUrl, fetchDocuments, fetchStats, deleteDocument, chatWithRAG, chatSimulation, generateEcosystemOptimizer } from './rag-service.js'
+import { uploadDocument, importFromUrl, fetchDocuments, fetchStats, deleteDocument, chatWithRAG, chatSimulation, generateEcosystemOptimizer, generateCashFlowForecast, generateEarlyAlerts, runScenarioSimulation, calculateBusinessHealthScore } from './rag-service.js'
 
 // ── Markdown renderer (lightweight, no deps) ────────────────────────────────
 function renderMarkdown(text) {
@@ -2278,12 +2278,15 @@ const SandboxPage = () => {
             
             <!-- Card 1: Cash Flow Forecasting -->
             <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:1.5rem; display:flex; flex-direction:column; animation-delay: 0.1s;">
-                <div style="border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem; margin-bottom: 1rem;">
-                    <h4 style="color:var(--bca-blue-dark); font-weight:800; font-size:1.1rem;">📈 Proactive Cash Flow Forecasting & Early Warning</h4>
-                    <p style="color:#64748b; font-size:0.8rem; margin-top:0.25rem;">Prediksi likuiditas 30–90 hari ke depan berdasarkan pola historis, musiman, dan faktor eksternal.</p>
+                <div style="border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem; margin-bottom: 1rem; display:flex; justify-content:space-between; align-items:flex-start;">
+                    <div>
+                        <h4 style="color:var(--bca-blue-dark); font-weight:800; font-size:1.1rem;">📈 Proactive Cash Flow Forecasting & Early Warning</h4>
+                        <p style="color:#64748b; font-size:0.8rem; margin-top:0.25rem;">Prediksi likuiditas 30–90 hari ke depan berdasarkan pola historis, musiman, dan faktor eksternal.</p>
+                    </div>
+                    <button id="btn-cash-forecast" class="btn-primary" style="padding:0.4rem 1rem; font-size:0.75rem; border-radius:50px; background:#00a4ad; border:none; white-space:nowrap;">Tarik Prediksi AI</button>
                 </div>
                 <div style="flex:1; display:flex; flex-direction:column; gap:1rem;">
-                    <div style="height:120px; display:flex; align-items:flex-end; gap:12px; padding-bottom:8px; border-bottom:1px dashed #cbd5e1; position:relative;">
+                    <div style="height:120px; display:flex; align-items:flex-end; gap:12px; padding-bottom:8px; border-bottom:1px dashed #cbd5e1; position:relative;" id="cash-forecast-chart">
                         <div style="position:absolute; top:40px; width:100%; height:1px; background:rgba(239,68,68,0.2); border-top:1px dashed #ef4444;"></div>
                         <span style="position:absolute; top:25px; right:0; font-size:0.65rem; color:#ef4444; font-weight:800; letter-spacing: 0.5px;">AMBANG BATAS DEFISIT</span>
                         <!-- Mock Chart Bars -->
@@ -2299,7 +2302,7 @@ const SandboxPage = () => {
                         <div style="position:absolute; left:0; top:0; bottom:0; width:4px; background:#ef4444;"></div>
                         <div style="display:flex; gap:12px;">
                             <div style="font-size:1.75rem; line-height:1;">⚠️</div>
-                            <div>
+                            <div id="cash-forecast-result">
                                 <div style="color:#b91c1c; font-size:0.9rem; font-weight:800; margin-bottom:6px;">Dalam 18 hari mendatang, cash flow berpotensi defisit Rp 850.000.000</div>
                                 <div style="color:#991b1b; font-size:0.8rem; line-height: 1.4;"><b>Rekomendasi Instan:</b> Akses fasilitas KKB BCA senilai Rp 1 Miliar dengan bunga kompetitif yang telah diprakalkulasi.</div>
                                 <button class="btn-primary" style="padding:0.4rem 1rem; font-size:0.75rem; border-radius:50px; margin-top:8px; background:#ef4444;">Ambil Tindakan</button>
@@ -2311,11 +2314,14 @@ const SandboxPage = () => {
 
             <!-- Card 2: Early Alert & Recommendation -->
             <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:1.5rem; display:flex; flex-direction:column; animation-delay: 0.2s;">
-                <div style="border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem; margin-bottom: 1rem;">
-                    <h4 style="color:var(--bca-blue-dark); font-weight:800; font-size:1.1rem;">⚡ Early Alert & Action Recommendation</h4>
-                    <p style="color:#64748b; font-size:0.8rem; margin-top:0.25rem;">AI mendeteksi anomali operasional dan memberikan rekomendasi tindakan proaktif yang langsung dapat ditindaklanjuti.</p>
+                <div style="border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem; margin-bottom: 1rem; display:flex; justify-content:space-between; align-items:flex-start;">
+                    <div>
+                        <h4 style="color:var(--bca-blue-dark); font-weight:800; font-size:1.1rem;">⚡ Early Alert & Action Recommendation</h4>
+                        <p style="color:#64748b; font-size:0.8rem; margin-top:0.25rem;">AI mendeteksi anomali operasional dan memberikan rekomendasi tindakan proaktif yang langsung dapat ditindaklanjuti.</p>
+                    </div>
+                    <button id="btn-early-alert" class="btn-primary" style="padding:0.4rem 1rem; font-size:0.75rem; border-radius:50px; background:#0ea5e9; border:none; white-space:nowrap;">Scan Anomali</button>
                 </div>
-                <div style="flex:1; display:flex; flex-direction:column; gap:0.85rem;">
+                <div style="flex:1; display:flex; flex-direction:column; gap:0.85rem;" id="early-alert-result">
                     <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:1rem; display:flex; justify-content:space-between; align-items:center;">
                         <div>
                             <div style="font-size:0.85rem; font-weight:700; color:#0f172a; margin-bottom:4px;">Potensi Keterlambatan Pembayaran</div>
@@ -2349,14 +2355,17 @@ const SandboxPage = () => {
                 <div style="display:flex; flex-direction:column; justify-content:center; flex:1; gap:1rem;">
                     <div style="display:flex; flex-direction:column; gap:0.5rem;">
                         <label style="font-size:0.8rem; font-weight:800; color:#475569;">Pilih Skenario Stres Test (Simulasi):</label>
-                        <select style="width:100%; padding:0.8rem; border:1px solid #cbd5e1; border-radius:8px; font-size:0.85rem; font-weight: 500; outline:none; background:#f8fafc; color:#0f172a;">
-                            <option>Kenaikan Harga Bahan Baku 15%</option>
-                            <option>Penundaan Pembayaran 3 Pelanggan Besar</option>
-                            <option>Penurunan Penjualan 10% di Kuartal Depan</option>
-                        </select>
+                        <div style="display:flex; gap:0.5rem;">
+                            <select id="scenario-select" style="flex:1; padding:0.8rem; border:1px solid #cbd5e1; border-radius:8px; font-size:0.85rem; font-weight: 500; outline:none; background:#f8fafc; color:#0f172a;">
+                                <option>Kenaikan Harga Bahan Baku 15%</option>
+                                <option>Penundaan Pembayaran 3 Pelanggan Besar</option>
+                                <option>Penurunan Penjualan 10% di Kuartal Depan</option>
+                            </select>
+                            <button id="btn-run-scenario" class="btn-primary" style="padding:0.4rem 1rem; border-radius:8px; font-size:0.85rem; font-weight:700; background:#3b82f6; border:none; white-space:nowrap;">Simulasikan</button>
+                        </div>
                     </div>
                     
-                    <div style="margin-top:0.5rem; padding:1.5rem; background:#eff6ff; border:2px dashed #93c5fd; border-radius:12px; text-align:center;">
+                    <div id="scenario-result" style="margin-top:0.5rem; padding:1.5rem; background:#eff6ff; border:2px dashed #93c5fd; border-radius:12px; text-align:center;">
                         <div style="font-size:0.85rem; color:#1e40af; font-weight:800; margin-bottom:0.5rem;">Dampak Proyeksi pada Cash Flow (30 Hari):</div>
                         <div style="font-size:1.75rem; font-weight:800; color:#dc2626;">- Rp 420.000.000</div>
                         <div style="margin-top:1rem; font-size:0.75rem; color:#1e3a8a; background:rgba(255,255,255,0.7); padding:8px; border-radius:6px; display:inline-block;">
@@ -2368,17 +2377,20 @@ const SandboxPage = () => {
 
             <!-- Card 4: Business Health Score -->
             <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:1.5rem; display:flex; flex-direction:column; animation-delay: 0.4s;">
-                <div style="border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem; margin-bottom: 1rem;">
-                    <h4 style="color:var(--bca-blue-dark); font-weight:800; font-size:1.1rem;">❤️ Automated Business Health Score</h4>
-                    <p style="color:#64748b; font-size:0.8rem; margin-top:0.25rem;">AI menghitung skor kesehatan bisnis dari kombinasi Liquidity, Efficiency, & Risk secara mingguan/bulanan.</p>
+                <div style="border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem; margin-bottom: 1rem; display:flex; justify-content:space-between; align-items:flex-start;">
+                    <div>
+                        <h4 style="color:var(--bca-blue-dark); font-weight:800; font-size:1.1rem;">❤️ Automated Business Health Score</h4>
+                        <p style="color:#64748b; font-size:0.8rem; margin-top:0.25rem;">AI menghitung skor kesehatan bisnis dari kombinasi Liquidity, Efficiency, & Risk secara mingguan/bulanan.</p>
+                    </div>
+                    <button id="btn-health-score" class="btn-primary" style="padding:0.4rem 1rem; font-size:0.75rem; border-radius:50px; background:#10b981; border:none; white-space:nowrap;">Update Score</button>
                 </div>
                 <div style="display:flex; gap:2.5rem; align-items:center; flex:1; padding: 0 1rem;">
                     <!-- Circular Progress -->
-                    <div style="position:relative; width:140px; height:140px; border-radius:50%; background:conic-gradient(#22c55e 85%, #e2e8f0 85%); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                    <div id="health-score-circle" style="position:relative; width:140px; height:140px; border-radius:50%; background:conic-gradient(#22c55e 85%, #e2e8f0 85%); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
                         <div style="position:absolute; width:120px; height:120px; background:white; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:inset 0 4px 6px rgba(0,0,0,0.05);">
-                            <span style="font-size:2.5rem; font-weight:800; color:#15803d; line-height:1;">85</span>
+                            <span id="health-score-total" style="font-size:2.5rem; font-weight:800; color:#15803d; line-height:1;">85</span>
                             <div style="width: 40px; height: 1px; background: #e2e8f0; margin: 4px 0;"></div>
-                            <span style="font-size:0.7rem; color:#64748b; font-weight:800; text-transform:uppercase;">/ 100 (Sehat)</span>
+                            <span id="health-score-status" style="font-size:0.7rem; color:#64748b; font-weight:800; text-transform:uppercase;">/ 100 (Sehat)</span>
                         </div>
                     </div>
                     <!-- Stats Breakdown -->
@@ -2387,21 +2399,21 @@ const SandboxPage = () => {
                             <tbody>
                                 <tr>
                                     <td style="padding:6px 0; color:#475569; font-weight:700;">💧 Liquidity Score</td>
-                                    <td style="padding:6px 0; text-align:right; font-weight:800; color:#0f172a;">90</td>
+                                    <td id="health-score-liquidity" style="padding:6px 0; text-align:right; font-weight:800; color:#0f172a;">90</td>
                                 </tr>
-                                <tr><td colspan="2"><div style="height:6px; background:#f1f5f9; border-radius:3px; overflow:hidden;"><div style="width:90%; height:100%; background:#22c55e; border-radius:3px;"></div></div></td></tr>
+                                <tr><td colspan="2"><div style="height:6px; background:#f1f5f9; border-radius:3px; overflow:hidden;"><div id="health-bar-liquidity" style="width:90%; height:100%; background:#22c55e; border-radius:3px; transition: width 1s;"></div></div></td></tr>
                                 
                                 <tr>
                                     <td style="padding:12px 0 6px 0; color:#475569; font-weight:700;">⚙️ Efficiency Score</td>
-                                    <td style="padding:12px 0 6px 0; text-align:right; font-weight:800; color:#0f172a;">80</td>
+                                    <td id="health-score-efficiency" style="padding:12px 0 6px 0; text-align:right; font-weight:800; color:#0f172a;">80</td>
                                 </tr>
-                                <tr><td colspan="2"><div style="height:6px; background:#f1f5f9; border-radius:3px; overflow:hidden;"><div style="width:80%; height:100%; background:#eab308; border-radius:3px;"></div></div></td></tr>
+                                <tr><td colspan="2"><div style="height:6px; background:#f1f5f9; border-radius:3px; overflow:hidden;"><div id="health-bar-efficiency" style="width:80%; height:100%; background:#eab308; border-radius:3px; transition: width 1s;"></div></div></td></tr>
                                 
                                 <tr>
                                     <td style="padding:12px 0 6px 0; color:#475569; font-weight:700;">🛡️ Risk Indicators</td>
-                                    <td style="padding:12px 0 6px 0; text-align:right; font-weight:800; color:#0f172a;">86</td>
+                                    <td id="health-score-risk" style="padding:12px 0 6px 0; text-align:right; font-weight:800; color:#0f172a;">86</td>
                                 </tr>
-                                <tr><td colspan="2"><div style="height:6px; background:#f1f5f9; border-radius:3px; overflow:hidden;"><div style="width:86%; height:100%; background:#22c55e; border-radius:3px;"></div></div></td></tr>
+                                <tr><td colspan="2"><div style="height:6px; background:#f1f5f9; border-radius:3px; overflow:hidden;"><div id="health-bar-risk" style="width:86%; height:100%; background:#22c55e; border-radius:3px; transition: width 1s;"></div></div></td></tr>
                             </tbody>
                         </table>
                         <div style="margin-top: 1rem; font-size: 0.65rem; color: #94a3b8; font-style: italic;">*Data bersumber dari perbankan + myEcosystem.</div>
@@ -5801,6 +5813,133 @@ const attachEventListeners = () => {
         };
         sendBtnInternal.addEventListener('click', send);
         chatInputInternal.addEventListener('keypress', (e) => { if (e.key === 'Enter') send(); });
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // PREDICTIVE AI / BUSINESS CO-PILOT EVENTS
+    // ═══════════════════════════════════════════════════════════
+
+    // 1. Ecosystem Optimizer
+    const btnAiOptimize = document.getElementById('btn-ai-optimize');
+    if (btnAiOptimize) {
+        btnAiOptimize.addEventListener('click', async () => {
+            const industry = document.getElementById('ai-opt-industry')?.value || 'Retail';
+            const volume = document.getElementById('ai-opt-volume')?.value || '10.000';
+            const challenge = document.getElementById('ai-opt-challenge')?.value || 'Rekonsiliasi lambat';
+            
+            document.getElementById('ai-opt-result-container').style.display = 'block';
+            document.getElementById('ai-opt-loading').style.display = 'flex';
+            document.getElementById('ai-opt-content').style.display = 'none';
+            btnAiOptimize.disabled = true;
+
+            try {
+                const html = await generateEcosystemOptimizer(industry, volume, challenge);
+                document.getElementById('ai-opt-content').innerHTML = html;
+            } catch (err) {
+                document.getElementById('ai-opt-content').innerHTML = '<div style="color:red;">Gagal menghubungi AI.</div>';
+            } finally {
+                document.getElementById('ai-opt-loading').style.display = 'none';
+                document.getElementById('ai-opt-content').style.display = 'block';
+                btnAiOptimize.disabled = false;
+            }
+        });
+    }
+
+    // 2. Cash Flow Forecasting
+    const btnCashForecast = document.getElementById('btn-cash-forecast');
+    if (btnCashForecast) {
+        btnCashForecast.addEventListener('click', async () => {
+            btnCashForecast.disabled = true;
+            btnCashForecast.textContent = 'Memprediksi...';
+            document.getElementById('cash-forecast-result').innerHTML = '<div style="display:flex;align-items:center;gap:10px;"><div class="spinner" style="width:20px;height:20px;border:3px solid #e2e8f0;border-top-color:#3b82f6;border-radius:50%;animation:spin 1s linear infinite;"></div><div>AI sedang menghitung pola arus kas...</div></div>';
+            try {
+                const html = await generateCashFlowForecast(state.sandbox);
+                document.getElementById('cash-forecast-result').innerHTML = html;
+                
+                // Animate bars slightly for effect
+                const bars = document.querySelectorAll('#cash-forecast-chart div[style*="transition"]');
+                bars.forEach(bar => {
+                    bar.style.height = (Math.random() * 50 + 20) + '%';
+                });
+            } catch (err) {
+                document.getElementById('cash-forecast-result').innerHTML = '<div style="color:red;">Gagal mengambil prediksi.</div>';
+            } finally {
+                btnCashForecast.disabled = false;
+                btnCashForecast.textContent = 'Refresh Prediksi AI';
+            }
+        });
+    }
+
+    // 3. Early Alerts
+    const btnEarlyAlert = document.getElementById('btn-early-alert');
+    if (btnEarlyAlert) {
+        btnEarlyAlert.addEventListener('click', async () => {
+            btnEarlyAlert.disabled = true;
+            btnEarlyAlert.textContent = 'Scanning...';
+            document.getElementById('early-alert-result').innerHTML = '<div style="display:flex;align-items:center;gap:10px;justify-content:center;padding:1rem;"><div class="spinner" style="width:20px;height:20px;border:3px solid #e2e8f0;border-top-color:#3b82f6;border-radius:50%;animation:spin 1s linear infinite;"></div><div>AI sedang memindai anomali...</div></div>';
+            try {
+                const html = await generateEarlyAlerts(state.sandbox);
+                document.getElementById('early-alert-result').innerHTML = html;
+            } catch (err) {
+                document.getElementById('early-alert-result').innerHTML = '<div style="color:red;padding:1rem;">Gagal melakukan scan.</div>';
+            } finally {
+                btnEarlyAlert.disabled = false;
+                btnEarlyAlert.textContent = 'Scan Anomali Lagi';
+            }
+        });
+    }
+
+    // 4. Scenario Simulation
+    const btnRunScenario = document.getElementById('btn-run-scenario');
+    if (btnRunScenario) {
+        btnRunScenario.addEventListener('click', async () => {
+            btnRunScenario.disabled = true;
+            btnRunScenario.textContent = 'Memproses...';
+            const scenario = document.getElementById('scenario-select').value;
+            document.getElementById('scenario-result').innerHTML = '<div style="display:flex;align-items:center;gap:10px;justify-content:center;"><div class="spinner" style="width:20px;height:20px;border:3px solid #e2e8f0;border-top-color:#3b82f6;border-radius:50%;animation:spin 1s linear infinite;"></div><div>AI sedang menghitung dampak skenario...</div></div>';
+            try {
+                const html = await runScenarioSimulation(scenario, state.sandbox);
+                document.getElementById('scenario-result').innerHTML = html;
+            } catch (err) {
+                document.getElementById('scenario-result').innerHTML = '<div style="color:red;">Gagal mensimulasikan.</div>';
+            } finally {
+                btnRunScenario.disabled = false;
+                btnRunScenario.textContent = 'Simulasikan';
+            }
+        });
+    }
+
+    // 5. Business Health Score
+    const btnHealthScore = document.getElementById('btn-health-score');
+    if (btnHealthScore) {
+        btnHealthScore.addEventListener('click', async () => {
+            btnHealthScore.disabled = true;
+            btnHealthScore.textContent = 'Menghitung...';
+            try {
+                const res = await calculateBusinessHealthScore(state.sandbox);
+                document.getElementById('health-score-total').textContent = res.total || 80;
+                document.getElementById('health-score-status').textContent = `/ 100 (${res.status || 'Normal'})`;
+                
+                document.getElementById('health-score-liquidity').textContent = res.liquidity || 80;
+                document.getElementById('health-bar-liquidity').style.width = (res.liquidity || 80) + '%';
+                
+                document.getElementById('health-score-efficiency').textContent = res.efficiency || 80;
+                document.getElementById('health-bar-efficiency').style.width = (res.efficiency || 80) + '%';
+                
+                document.getElementById('health-score-risk').textContent = res.risk || 80;
+                document.getElementById('health-bar-risk').style.width = (res.risk || 80) + '%';
+                
+                const c1 = res.total > 80 ? '#22c55e' : (res.total > 60 ? '#eab308' : '#ef4444');
+                const c2 = res.total > 80 ? '#15803d' : (res.total > 60 ? '#a16207' : '#b91c1c');
+                document.getElementById('health-score-circle').style.background = `conic-gradient(${c1} ${res.total}%, #e2e8f0 ${res.total}%)`;
+                document.getElementById('health-score-total').style.color = c2;
+            } catch (err) {
+                showToast('Error', 'Gagal menghitung skor.', 'error');
+            } finally {
+                btnHealthScore.disabled = false;
+                btnHealthScore.textContent = 'Update Score';
+            }
+        });
     }
 
     // Chat Logic (Public)
