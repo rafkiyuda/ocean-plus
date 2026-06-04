@@ -2497,8 +2497,57 @@ const SandboxPage = () => {
 </div>
 
 <div id="tab-health" class="ai-tab-content fade-in" style="display:none;">
-<div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
-    <!-- OCEAN-CLASS CORPORATE PEER MATRIX -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem;">
+<!-- Card 4: Business Health Score -->
+            <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:1.5rem; display:flex; flex-direction:column; animation-delay: 0.4s;">
+                <div style="border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem; margin-bottom: 1rem; display:flex; justify-content:space-between; align-items:flex-start;">
+                    <div>
+                        <h4 style="color:var(--bca-blue-dark); font-weight:800; font-size:1.1rem;">❤️ Automated Business Health Score</h4>
+                        <p style="color:#64748b; font-size:0.8rem; margin-top:0.25rem;">AI menghitung skor kesehatan bisnis dari kombinasi Liquidity, Efficiency, & Risk secara mingguan/bulanan.</p>
+                    </div>
+                    <button id="btn-health-score" class="btn-primary" style="padding:0.4rem 1rem; font-size:0.75rem; border-radius:50px; background:#10b981; border:none; white-space:nowrap;">Update Score</button>
+                </div>
+                <div style="display:flex; gap:2.5rem; align-items:center; flex:1; padding: 0 1rem;">
+                    <!-- Circular Progress -->
+                    <div id="health-score-circle" style="position:relative; width:140px; height:140px; border-radius:50%; background:conic-gradient(#22c55e 85%, #e2e8f0 85%); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                        <div style="position:absolute; width:120px; height:120px; background:white; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:inset 0 4px 6px rgba(0,0,0,0.05);">
+                            <span id="health-score-total" style="font-size:2.5rem; font-weight:800; color:#15803d; line-height:1;">85</span>
+                            <div style="width: 40px; height: 1px; background: #e2e8f0; margin: 4px 0;"></div>
+                            <span id="health-score-status" style="font-size:0.7rem; color:#64748b; font-weight:800; text-transform:uppercase;">/ 100 (Sehat)</span>
+                        </div>
+                    </div>
+                    <!-- Stats Breakdown -->
+                    <div style="flex:1;">
+                        <table style="width:100%; border-collapse:collapse; font-size:0.8rem;">
+                            <tbody>
+                                <tr>
+                                    <td style="padding:6px 0; color:#475569; font-weight:700;">💧 Liquidity Score</td>
+                                    <td id="health-score-liquidity" style="padding:6px 0; text-align:right; font-weight:800; color:#0f172a;">90</td>
+                                </tr>
+                                <tr><td colspan="2"><div style="height:6px; background:#f1f5f9; border-radius:3px; overflow:hidden;"><div id="health-bar-liquidity" style="width:90%; height:100%; background:#22c55e; border-radius:3px; transition: width 1s;"></div></div></td></tr>
+                                
+                                <tr>
+                                    <td style="padding:12px 0 6px 0; color:#475569; font-weight:700;">⚙️ Efficiency Score</td>
+                                    <td id="health-score-efficiency" style="padding:12px 0 6px 0; text-align:right; font-weight:800; color:#0f172a;">80</td>
+                                </tr>
+                                <tr><td colspan="2"><div style="height:6px; background:#f1f5f9; border-radius:3px; overflow:hidden;"><div id="health-bar-efficiency" style="width:80%; height:100%; background:#eab308; border-radius:3px; transition: width 1s;"></div></div></td></tr>
+                                
+                                <tr>
+                                    <td style="padding:12px 0 6px 0; color:#475569; font-weight:700;">🛡️ Risk Indicators</td>
+                                    <td id="health-score-risk" style="padding:12px 0 6px 0; text-align:right; font-weight:800; color:#0f172a;">86</td>
+                                </tr>
+                                <tr><td colspan="2"><div style="height:6px; background:#f1f5f9; border-radius:3px; overflow:hidden;"><div id="health-bar-risk" style="width:86%; height:100%; background:#22c55e; border-radius:3px; transition: width 1s;"></div></div></td></tr>
+                            </tbody>
+                        </table>
+                        <div style="margin-top: 1rem; font-size: 0.65rem; color: #94a3b8; font-style: italic;">*Data bersumber dari perbankan + myEcosystem.</div>
+                    </div>
+                </div>
+            </div>
+
+            
+</div>
+<div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 1.5rem;">
+<!-- OCEAN-CLASS CORPORATE PEER MATRIX -->
     <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; display:flex; flex-direction:column; animation-delay: 0.1s; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
         <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
             <div>
@@ -2586,6 +2635,15 @@ const SandboxPage = () => {
             </div>
         </div>
     </div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+<!-- Card 6: Opportunity Radar -->
+            <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:1.5rem; display:flex; flex-direction:column; animation-delay: 0.6s;">
+                <div style="border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem; margin-bottom: 1rem;">
+                    <h4 style="color:var(--bca-blue-dark); font-weight:800; font-size:1.1rem;">🎯 Opportunity Radar</h4>
+                    <p style="color:#64748b; font-size:0.8rem; margin-top:0.25rem;">Mendeteksi peluang bisnis baru berdasarkan pola anomali positif dan memberikan rekomendasi ekspansi.</p>
+</div>
+</div>
 </div>
 </div>
             </div> <!-- Close RIGHT WORKSPACE -->
