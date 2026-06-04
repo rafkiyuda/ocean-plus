@@ -101,7 +101,7 @@ const state = {
     ragUploadError: null,
     ragActiveType: 'doc',
     ragLoaded: false,
-    sandboxTab: 'dashboard',
+    sandboxTab: 'predictiveAi',
     sandbox: {
         totalBalance: 12450000000,
         incomingToday: 450200000,
