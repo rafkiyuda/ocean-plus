@@ -487,19 +487,22 @@ Harus memuat:
 }
 
 export async function calculateBusinessHealthScore(params, sandboxData) {
-    const prompt = `Anda adalah "Ocean Predictive Intelligence Layer" - platform intelijen sekelas terminal finansial papan atas (Ocean-Class).
-Berdasarkan parameter industri:
-- Sektor/Sub-Sektor: ${params.sector}
-- Skala Pendapatan (Revenue): ${params.revenue}
-- Regional Coverage: ${params.region}
-Data Saldo Saat Ini: Rp ${sandboxData.totalBalance.toLocaleString('id-ID')}
+    const prompt = `Anda adalah "Ocean Institutional Engine" - platform intelijen finansial tingkat direksi (Institutional Grade).
+Parameter Industri: Sektor ${params.sector}, Revenue ${params.revenue}, Regional ${params.region}.
+Saldo: Rp ${sandboxData.totalBalance.toLocaleString('id-ID')}
 
-Tugas Anda adalah menghasilkan HTML Laporan "Deep Industry Benchmark & Peer-to-Peer Gap Analysis" (tanpa \`\`\`html).
-Keluarkan Laporan HTML Murni yang berisi:
-1. Header <h3 style="color:#0f172a; border-bottom:2px solid #e2e8f0; padding-bottom:10px;">Corporate Peer Matrix vs Top 10% Industry Leaders</h3>
-2. Tabel Gap Analysis 7-Point KPIs (DSO, DPO, Inventory Turnover, Quick Ratio, Debt-to-Equity, EBITDA Margin, Cost of Fund). Tabel ini harus sangat detail, memiliki kolom (Metric, Perusahaan Anda, Industry Median, Top 10% Leaders, Gap). Styling tabel harus rapi dan profesional.
-3. <b>Opportunity Loss Calculation</b>: Paragraf tebal dengan background merah muda transparan yang menghitung kerugian potensial akibat tertinggal dari rata-rata industri.
-4. Strategi penutupan gap (Gap Closure Strategy) spesifik via ekosistem BCA.`;
+Hasilkan Laporan HTML Murni (tanpa tag \`\`\`html) dengan gaya "Corporate ERP / Data Terminal" yang sangat ketat dan profesional:
+1. Papan Skor Utama: Buat <div style="display:flex; gap:15px; margin-bottom:20px;"> berisi 3 kotak data (<div style="flex:1; border:1px solid #cbd5e1; border-radius:6px; padding:15px; background:#f8fafc;">):
+   - Kotak 1: "Overall Health Index" (Angka besar 0-100).
+   - Kotak 2: "Liquidity Stress" (Status: Low/Medium/High, gunakan font tebal dengan warna mencolok).
+   - Kotak 3: "Est. Opportunity Loss" (Nominal Rupiah fiktif raksasa merah gelap, cth: Rp 1.45 Miliar).
+2. Tabel Gap Analysis 7-Point KPIs. Gunakan styling tabel ketat ini:
+   <table style="width:100%; border-collapse:collapse; font-size:0.75rem; font-family:monospace; border:1px solid #cbd5e1;">
+   <thead style="background:#f1f5f9; border-bottom:2px solid #94a3b8; text-transform:uppercase; color:#475569; text-align:left;"><tr><th style="padding:10px;">Metric</th><th style="padding:10px;">You</th><th style="padding:10px;">Top 10% Leaders</th><th style="padding:10px; width:120px;">Gap Visualizer</th><th style="padding:10px;">Status</th></tr></thead>
+   <tbody>...
+   Untuk sel "Gap Visualizer", JANGAN HANYA TEKS. Buat div horizontal bar: <div style="width:100%; height:8px; background:#e2e8f0; border-radius:4px;"><div style="width:[PERSENTASE]%; height:100%; background:[#ef4444 (buruk) atau #22c55e (baik)]; border-radius:4px;"></div></div>
+   Untuk sel "Status", gunakan pill badge elegan: <span style="padding:3px 8px; border-radius:12px; font-weight:bold; font-family:sans-serif; background:[#fecaca / #bbf7d0]; color:[#991b1b / #166534];">Underperform / Outperform</span>
+3. Paragraf penutup singkat tentang rekomendasi strategi BCA secara profesional (tanpa markdown tebal, gunakan HTML).`;
 
     const body = { contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.2, maxOutputTokens: 1800 } };
     const res = await fetch(`${GEMINI_BASE}/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_KEY}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
