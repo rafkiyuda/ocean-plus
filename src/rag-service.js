@@ -415,21 +415,23 @@ Jangan gunakan gaya CSS eksternal, gunakan class utilitas Tailwind-like jika per
 
 // ── Predictive Intelligence Layer ────────────────────────────────────────────
 
-export async function generateCashFlowForecast(sandboxData) {
-    const prompt = `Anda adalah "Ocean Predictive Intelligence Layer" - sistem AI dari BCA.
-Tugas Anda adalah membuat proyeksi Cash Flow (arus kas) 30 hari ke depan berdasarkan data berikut:
-Total Saldo: Rp ${sandboxData.totalBalance.toLocaleString('id-ID')}
-Pemasukan Hari Ini: Rp ${sandboxData.incomingToday.toLocaleString('id-ID')}
-Pengeluaran Hari Ini: Rp ${sandboxData.outgoingToday.toLocaleString('id-ID')}
-Data Tagihan (Invoices): ${JSON.stringify(sandboxData.invoices)}
-Data Transaksi Terakhir: ${JSON.stringify(sandboxData.transactions)}
+export async function generateCashFlowForecast(sandboxData, macroParams = {}) {
+    const prompt = `Anda adalah "Ocean Predictive Intelligence Layer" - sistem AI Enterprise dari BCA.
+Buatkan Laporan Proyeksi Cash Flow Tingkat Eksekutif (Corporate-Grade) berdasarkan data berikut:
+- Saldo: Rp ${sandboxData.totalBalance.toLocaleString('id-ID')}
+- Pemasukan/Pengeluaran Harian: Rp ${sandboxData.incomingToday.toLocaleString('id-ID')} / Rp ${sandboxData.outgoingToday.toLocaleString('id-ID')}
+- Tagihan: ${JSON.stringify(sandboxData.invoices)}
+- Kondisi Makro: ${JSON.stringify(macroParams)}
 
-Berikan output berupa analisis singkat mengenai prediksi status kas (apakah surplus atau potensi defisit dalam 30 hari ke depan), beserta 1 rekomendasi instan terkait fasilitas pembiayaan atau layanan manajemen kas BCA (seperti KKB BCA atau Invoice Financing). 
-Format output sebagai HTML: <div style="color:#b91c1c; font-size:0.9rem; font-weight:800; margin-bottom:6px;">[Kalimat Prediksi Utama, misal: Dalam 18 hari mendatang, cash flow berpotensi defisit...]</div><div style="color:#991b1b; font-size:0.8rem; line-height: 1.4;"><b>Rekomendasi Instan:</b> [Penjelasan Rekomendasi]</div>`;
+Keluarkan output dalam HTML murni (tanpa tag \`\`\`html) dengan gaya enterprise dashboard yang mewah:
+1. <h3 style="color:#1e3a8a; font-weight:800; border-bottom:1px solid #cbd5e1; padding-bottom:8px;">Executive Brief: 30-Day Liquidity Forecast</h3>
+2. Paragraf ringkasan eksekutif (Executive Summary).
+3. <b>Key Risk Drivers</b> (Gunakan list <ul> dengan persentase probabilitas, misal "Keterlambatan Piutang: 65%").
+4. <div style="background:#f8fafc; border-left:4px solid #2563eb; padding:12px; margin-top:12px;"> <b>3-Tier Mitigation Strategy:</b><br>- Short-term (1-7 Hari): ...<br>- Mid-term (15-30 Hari): ...<br>- Long-term: ... </div>`;
 
     const body = {
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.3, maxOutputTokens: 512 }
+        generationConfig: { temperature: 0.2, maxOutputTokens: 1500 }
     };
     const res = await fetch(`${GEMINI_BASE}/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_KEY}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     if (!res.ok) throw new Error('Gemini API error');
@@ -437,43 +439,43 @@ Format output sebagai HTML: <div style="color:#b91c1c; font-size:0.9rem; font-we
     return (data.candidates?.[0]?.content?.parts?.[0]?.text || '').replace(/```html/g, '').replace(/```/g, '');
 }
 
-export async function generateEarlyAlerts(sandboxData) {
+export async function generateEarlyAlerts(sandboxData, filters = {}) {
     const prompt = `Anda adalah "Ocean Predictive Intelligence Layer". 
-Analisis data berikut untuk mencari anomali atau risiko operasional (misal: invoice jatuh tempo, pengeluaran tinggi, atau keterlambatan pembayaran):
-Tagihan: ${JSON.stringify(sandboxData.invoices)}
-Transaksi: ${JSON.stringify(sandboxData.transactions)}
+Hasilkan Laporan Anomali Operasional (Early Warning System) level Enterprise.
+Data:
+- Tagihan: ${JSON.stringify(sandboxData.invoices)}
+- Transaksi: ${JSON.stringify(sandboxData.transactions)}
 
-Berikan 3 "Early Alert" yang spesifik beserta rekomendasi tindakannya.
-Format output sebagai HTML murni tanpa dibungkus dengan markdown. Untuk setiap alert, gunakan struktur div persis seperti ini:
-<div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:1rem; display:flex; justify-content:space-between; align-items:center; margin-bottom:0.85rem;">
-    <div>
-        <div style="font-size:0.85rem; font-weight:700; color:#0f172a; margin-bottom:4px;">[Judul Alert, misal: Potensi Keterlambatan Pembayaran]</div>
-        <div style="font-size:0.75rem; color:#64748b;">[Keterangan Singkat]</div>
-    </div>
-    <button style="background:#3b82f6; color:white; border:none; padding:0.5rem 1rem; border-radius:50px; font-size:0.75rem; font-weight:700; cursor:pointer;">[Aksi Singkat, max 3 kata]</button>
-</div>`;
+Berikan output HTML murni (tanpa \`\`\`html) yang berisi tabel laporan anomali tingkat tinggi.
+Gunakan format tabel HTML yang rapi:
+<table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+<thead style="background:#f1f5f9; text-align:left;"><tr><th style="padding:10px;">Risk Identifier</th><th style="padding:10px;">Severity</th><th style="padding:10px;">Impact Analysis</th><th style="padding:10px;">BCA Action Plan</th></tr></thead>
+<tbody>
+... (berikan 3-4 baris anomali yang mendalam, Severity gunakan badge warna: High=Merah, Medium=Kuning)
+</tbody>
+</table>`;
 
-    const body = { contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.3, maxOutputTokens: 800 } };
+    const body = { contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.2, maxOutputTokens: 1200 } };
     const res = await fetch(`${GEMINI_BASE}/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_KEY}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     if (!res.ok) throw new Error('Gemini API error');
     const data = await res.json();
     return (data.candidates?.[0]?.content?.parts?.[0]?.text || '').replace(/```html/g, '').replace(/```/g, '');
 }
 
-export async function runScenarioSimulation(scenario, sandboxData) {
+export async function runScenarioSimulation(scenarioParams, sandboxData) {
     const prompt = `Anda adalah "Ocean Predictive Intelligence Layer".
-Nasabah memilih skenario stres test: "${scenario}".
-Data keuangan saat ini: Saldo Rp ${sandboxData.totalBalance.toLocaleString('id-ID')}, Tagihan Tertunda/Jatuh Tempo: ${sandboxData.invoices.filter(i=>i.status!=='Lunas').length} invoice.
+Jalankan Financial Stress Test (Corporate Simulation) dengan parameter makro kompleks berikut:
+- Variabel Skenario Utama: ${JSON.stringify(scenarioParams)}
+- Data Saldo Saat Ini: Rp ${sandboxData.totalBalance.toLocaleString('id-ID')}
 
-Hitung secara logis (namun fiktif) dampaknya terhadap arus kas 30 hari ke depan dalam bentuk nominal uang (misal: - Rp 420.000.000 atau + Rp 150.000.000). Warna teks nominal: merah jika negatif, hijau jika positif.
-Berikan output HTML murni tanpa markdown:
-<div style="font-size:0.85rem; color:#1e40af; font-weight:800; margin-bottom:0.5rem;">Dampak Proyeksi pada Cash Flow (30 Hari):</div>
-<div style="font-size:1.75rem; font-weight:800; color:[#dc2626 (negatif) atau #16a34a (positif)];">[Nominal Dampak]</div>
-<div style="margin-top:1rem; font-size:0.75rem; color:#1e3a8a; background:rgba(255,255,255,0.7); padding:8px; border-radius:6px; display:inline-block;">
-    <b>Rekomendasi AI:</b> [Tindakan mitigasi spesifik menggunakan solusi BCA]
-</div>`;
+Tuliskan laporan Simulasi Dampak (Impact Analysis Report) dalam HTML murni. 
+Harus memuat:
+1. <h4 style="color:#991b1b; border-bottom:1px solid #fecaca; padding-bottom:8px;">Financial Impact Simulation</h4>
+2. <div style="display:flex; gap:20px; margin-top:12px;">... [Kotak berisi Angka Nominal Dampak (Impact Amount) yang sangat besar, warna merah/hijau] ...</div>
+3. Daftar poin-poin "Cascading Effects" (Efek domino pada operasional).
+4. Rekomendasi Restrukturisasi atau Solusi Hedging BCA (misal: "FX Forward", "Trade Finance Line").`;
 
-    const body = { contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.4, maxOutputTokens: 512 } };
+    const body = { contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.4, maxOutputTokens: 1500 } };
     const res = await fetch(`${GEMINI_BASE}/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_KEY}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     if (!res.ok) throw new Error('Gemini API error');
     const data = await res.json();
@@ -482,21 +484,22 @@ Berikan output HTML murni tanpa markdown:
 
 export async function calculateBusinessHealthScore(sandboxData) {
     const prompt = `Anda adalah "Ocean Predictive Intelligence Layer".
-Berdasarkan data berikut:
-Total Saldo: Rp ${sandboxData.totalBalance.toLocaleString('id-ID')}
+Berdasarkan data keuangan korporat:
+Saldo: Rp ${sandboxData.totalBalance.toLocaleString('id-ID')}
 Invoices: ${JSON.stringify(sandboxData.invoices)}
 
-Hitung Business Health Score (0-100) dan berikan breakdown untuk Liquidity Score (0-100), Efficiency Score (0-100), dan Risk Score (0-100).
-Format output sebagai JSON murni tanpa markdown:
+Hitung Business Health Score (0-100) dan berikan breakdown skor, SERTA berikan "narrative_report" berupa HTML analisis tingkat direktur (minimal 2 paragraf padat tentang rasio likuiditas dan solvabilitas, serta peer benchmarking).
+Format output JSON murni tanpa markdown \`\`\`json:
 {
   "total": 85,
   "liquidity": 90,
   "efficiency": 80,
   "risk": 75,
-  "status": "Sehat"
+  "status": "Sehat",
+  "narrative_report": "<div>Analisis teknikal mendalam...</div>"
 }`;
 
-    const body = { contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.1, maxOutputTokens: 200 } };
+    const body = { contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.2, maxOutputTokens: 1000 } };
     const res = await fetch(`${GEMINI_BASE}/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_KEY}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     if (!res.ok) throw new Error('Gemini API error');
     const data = await res.json();
