@@ -382,20 +382,24 @@ ATURAN JAWABAN:
 }
 
 // ── Ecosystem Optimizer AI ───────────────────────────────────────────────────
-export async function generateEcosystemOptimizer(industry, volume, challenge) {
-    const prompt = `Anda adalah "Ocean Predictive Intelligence Layer" - mesin AI dari BCA.
-Tugas Anda adalah memberikan rekomendasi kombinasi produk/mitra ekosistem BCA dan strategi pembiayaan untuk nasabah berikut:
-- Industri: ${industry}
-- Volume Transaksi: ${volume} per bulan
-- Tantangan Utama: ${challenge}
+export async function generateEcosystemOptimizer(networkParams) {
+    const prompt = `Anda adalah "Ocean Predictive Intelligence Layer" - sistem konsultan manajemen tingkat tinggi (Ocean-Class).
+Hasilkan *Corporate Strategic Blueprint* (Value Network Simulation) berdasarkan topologi bisnis B2B nasabah berikut:
+- Model Bisnis Utama: ${networkParams.bizModel}
+- Ketergantungan Tier-1 Suppliers: ${networkParams.suppliers}
+- Tingkat Eksposur Valas (FX): ${networkParams.fxExposure}
+- Metode Koleksi Dominan: ${networkParams.collectionMethod}
 
-Berikan rekomendasi "Smart Ecosystem Matching" dan "Predictive Supply Chain Finance".
-Format output Anda HARUS dalam sintaks HTML murni tanpa markdown blok \`\`\`. Gunakan struktur elemen seperti <div>, <ul>, <li>, dan <strong>. 
-Jangan gunakan gaya CSS eksternal, gunakan class utilitas Tailwind-like jika perlu atau styling sederhana. Buatlah agar terlihat sangat cerdas, presisi, dan seperti sistem otomatis BCA yang canggih (sebutkan nama-nama layanan fiktif/nyata BCA seperti "Ocean API Disbursement", "BCA KlikBisnis", "Fasilitas KKB BCA", "Invoice Financing", dsb). Berikan angka proyeksi fiktif tapi logis (misal: "potensi efisiensi 25%").`;
+Keluarkan HTML murni (tanpa tag markdown \`\`\`html) berbentuk Blueprint Strategis super elegan:
+1. <h3 style="color:#1e3a8a; font-weight:900; border-bottom:2px solid #cbd5e1; padding-bottom:8px; margin-bottom:1rem;">B2B Supply Chain & Value Network Blueprint</h3>
+2. <b>Upstream Optimization (Supplier Side)</b>: Analisis mendalam SCF (Supply Chain Finance) dan mitigasi risiko pasokan.
+3. <b>Treasury & FX Hedging</b>: Rekomendasi spesifik mitigasi fluktuasi nilai tukar menggunakan instrumen derivatif BCA (Forward/Swap).
+4. <b>Downstream Automation</b>: Solusi digitalisasi piutang dengan API BCA & Virtual Account.
+5. <div style="background:#f0fdf4; border:1px solid #bbf7d0; padding:15px; margin-top:20px; border-radius:8px;"><b>Estimated Annual Efficiency Gain:</b> [Hitung nilai nominal rupiah/persen secara fiktif namun terlihat dihitung presisi, misal: Cost Reduction Rp 1.25M atau Cash Conversion cycle -8 days]</div>`;
 
     const body = {
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.4, maxOutputTokens: 1024 }
+        generationConfig: { temperature: 0.3, maxOutputTokens: 1500 }
     };
 
     const res = await fetch(`${GEMINI_BASE}/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_KEY}`, {
@@ -482,32 +486,24 @@ Harus memuat:
     return (data.candidates?.[0]?.content?.parts?.[0]?.text || '').replace(/```html/g, '').replace(/```/g, '');
 }
 
-export async function calculateBusinessHealthScore(sandboxData) {
-    const prompt = `Anda adalah "Ocean Predictive Intelligence Layer".
-Berdasarkan data keuangan korporat:
-Saldo: Rp ${sandboxData.totalBalance.toLocaleString('id-ID')}
-Invoices: ${JSON.stringify(sandboxData.invoices)}
+export async function calculateBusinessHealthScore(params, sandboxData) {
+    const prompt = `Anda adalah "Ocean Predictive Intelligence Layer" - platform intelijen sekelas terminal finansial papan atas (Ocean-Class).
+Berdasarkan parameter industri:
+- Sektor/Sub-Sektor: ${params.sector}
+- Skala Pendapatan (Revenue): ${params.revenue}
+- Regional Coverage: ${params.region}
+Data Saldo Saat Ini: Rp ${sandboxData.totalBalance.toLocaleString('id-ID')}
 
-Hitung Business Health Score (0-100) dan berikan breakdown skor, SERTA berikan "narrative_report" berupa HTML analisis tingkat direktur (minimal 2 paragraf padat tentang rasio likuiditas dan solvabilitas, serta peer benchmarking).
-Format output JSON murni tanpa markdown \`\`\`json:
-{
-  "total": 85,
-  "liquidity": 90,
-  "efficiency": 80,
-  "risk": 75,
-  "status": "Sehat",
-  "narrative_report": "<div>Analisis teknikal mendalam...</div>"
-}`;
+Tugas Anda adalah menghasilkan HTML Laporan "Deep Industry Benchmark & Peer-to-Peer Gap Analysis" (tanpa \`\`\`html).
+Keluarkan Laporan HTML Murni yang berisi:
+1. Header <h3 style="color:#0f172a; border-bottom:2px solid #e2e8f0; padding-bottom:10px;">Corporate Peer Matrix vs Top 10% Industry Leaders</h3>
+2. Tabel Gap Analysis 7-Point KPIs (DSO, DPO, Inventory Turnover, Quick Ratio, Debt-to-Equity, EBITDA Margin, Cost of Fund). Tabel ini harus sangat detail, memiliki kolom (Metric, Perusahaan Anda, Industry Median, Top 10% Leaders, Gap). Styling tabel harus rapi dan profesional.
+3. <b>Opportunity Loss Calculation</b>: Paragraf tebal dengan background merah muda transparan yang menghitung kerugian potensial akibat tertinggal dari rata-rata industri.
+4. Strategi penutupan gap (Gap Closure Strategy) spesifik via ekosistem BCA.`;
 
-    const body = { contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.2, maxOutputTokens: 1000 } };
+    const body = { contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.2, maxOutputTokens: 1800 } };
     const res = await fetch(`${GEMINI_BASE}/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_KEY}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     if (!res.ok) throw new Error('Gemini API error');
     const data = await res.json();
-    let text = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
-    text = text.replace(/```json/g, '').replace(/```/g, '');
-    try {
-        return JSON.parse(text);
-    } catch {
-        return { total: 80, liquidity: 85, efficiency: 75, risk: 80, status: "Normal" };
-    }
+    return (data.candidates?.[0]?.content?.parts?.[0]?.text || '').replace(/```html/g, '').replace(/```/g, '');
 }

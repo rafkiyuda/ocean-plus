@@ -2292,40 +2292,69 @@ const SandboxPage = () => {
             <div style="flex:1; background:#f8fafc; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; overflow-y:auto; box-shadow: inset 0 2px 10px rgba(0,0,0,0.02);" class="ai-workspace">
 
         <div id="tab-optimizer" class="ai-tab-content fade-in" style="display:block;">
-        <!-- LIVE AI ECOSYSTEM OPTIMIZER FORM -->
-        <div class="card-premium fade-in" style="background:linear-gradient(135deg, #f8fafc, #f1f5f9); border-radius:16px; border:1px solid #bfdbfe; padding:1.5rem; margin-bottom: 1.5rem; box-shadow: 0 4px 6px -1px rgba(59,130,246,0.1);">
-            <div style="display:flex; align-items:center; gap:10px; margin-bottom:1rem;">
-                <span style="font-size:1.5rem;">🤖</span>
+        <!-- OCEAN-CLASS ECOSYSTEM OPTIMIZER -->
+        <div class="card-premium fade-in" style="background:white; border-radius:16px; border:1px solid #e2e8f0; padding:2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 1.5rem; margin-bottom: 1.5rem; display:flex; justify-content:space-between; align-items:center;">
                 <div>
-                    <h4 style="color:#1e40af; font-weight:800; font-size:1.1rem; margin:0;">Live Ecosystem Optimizer (Powered by Gemini AI)</h4>
-                    <p style="color:#475569; font-size:0.8rem; margin:4px 0 0 0;">Coba masukkan profil bisnis fiktif Anda, dan AI BCA akan menghasilkan rekomendasi kombinasi produk ekosistem yang paling tepat secara real-time.</p>
+                    <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">B2B Supply Chain & Value Network Simulator</h4>
+                    <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">Pemetaan ekosistem end-to-end untuk mengidentifikasi inefisiensi treasury, bottleneck likuiditas, dan risiko nilai tukar.</p>
                 </div>
+                <button id="btn-ai-optimize" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#0f172a; border:none; box-shadow: 0 4px 6px rgba(15,23,42,0.2);">Generate Strategic Blueprint</button>
             </div>
             
-            <div style="display:flex; gap:1rem; align-items:flex-end;">
+            <div style="display:flex; gap:2rem;">
+                <!-- NETWORK TOPOLOGY PARAMS -->
+                <div style="width: 320px; background:#f8fafc; padding:1.5rem; border-radius:12px; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#475569; margin-bottom:1.5rem; text-transform:uppercase;">Network Topology Parameters</div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Model Bisnis Utama</label>
+                        <select id="eco-bizmodel" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Heavy Manufacturing (Import Oriented)</option>
+                            <option>FMCG Nationwide Distribution</option>
+                            <option>Export-Oriented Commodities</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Ketergantungan Tier-1 Suppliers</label>
+                        <select id="eco-suppliers" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Terkonsentrasi (1-3 Supplier Utama)</option>
+                            <option>Tersebar (>10 Supplier Menengah)</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1.2rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Eksposur FX / Valas</label>
+                        <select id="eco-fx" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Tinggi (>50% COGS dalam USD)</option>
+                            <option>Rendah (Hanya OPEX domestik)</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom:1rem;">
+                        <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">Metode Koleksi Piutang</label>
+                        <select id="eco-collection" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.85rem; background:white;">
+                            <option>Giro/Bilyet (Manual, Risiko Tolakan)</option>
+                            <option>Transfer Bank (Rekonsiliasi Manual)</option>
+                            <option>Virtual Account BCA</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- BLUEPRINT CONTAINER -->
                 <div style="flex:1;">
-                    <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:4px;">Industri Bisnis</label>
-                    <input type="text" id="ai-opt-industry" placeholder="Misal: E-Commerce / Manufaktur / Retail..." style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:8px; font-size:0.85rem; outline:none; background:white;">
+                    <div id="ai-opt-result-container" style="display:block; background:white; border:1px solid #e2e8f0; border-radius:12px; padding:2rem; min-height:400px; font-size:0.9rem; line-height:1.6; color:#1e293b; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);">
+                        <div id="ai-opt-loading" style="display:none; align-items:center; justify-content:center; gap:15px; color:#3b82f6; font-size:1rem; font-weight:800; height:100%; margin-top: 150px;">
+                            <div class="spinner" style="width:30px; height:30px; border:4px solid #e2e8f0; border-top-color:#3b82f6; border-radius:50%; animation:spin 1s linear infinite;"></div>
+                            Generating Strategic Blueprint...
+                        </div>
+                        <div id="ai-opt-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; color:#94a3b8; text-align:center; padding-top: 100px;">
+                            <div style="font-size:3rem; margin-bottom:1rem;">🌐</div>
+                            <div>Petakan parameter jaringan suplai Anda di sebelah kiri, lalu klik <b>Generate Strategic Blueprint</b>.</div>
+                        </div>
+                    </div>
                 </div>
-                <div style="flex:1;">
-                    <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:4px;">Volume Transaksi (per bulan)</label>
-                    <input type="text" id="ai-opt-volume" placeholder="Misal: 10.000 trx atau Rp 5 Miliar" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:8px; font-size:0.85rem; outline:none; background:white;">
-                </div>
-                <div style="flex:2;">
-                    <label style="font-size:0.75rem; font-weight:700; color:#334155; display:block; margin-bottom:4px;">Tantangan Operasional Saat Ini</label>
-                    <input type="text" id="ai-opt-challenge" placeholder="Misal: Banyak pelanggan telat bayar, rekonsiliasi manual ribet..." style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:8px; font-size:0.85rem; outline:none; background:white;">
-                </div>
-                <button id="btn-ai-optimize" class="btn-primary" style="padding:0.6rem 1.25rem; height:42px; border-radius:8px; font-weight:800; background:#2563eb; white-space:nowrap; display:flex; align-items:center; gap:6px;">
-                    ✨ Generate Optimizer
-                </button>
-            </div>
-            
-            <div id="ai-opt-result-container" style="display:none; margin-top:1.5rem; background:white; border:1px solid #e2e8f0; border-radius:12px; padding:1.5rem;">
-                <div id="ai-opt-loading" style="display:flex; align-items:center; gap:10px; color:#64748b; font-size:0.85rem; font-weight:700;">
-                    <div class="spinner" style="width:20px; height:20px; border:3px solid #e2e8f0; border-top-color:#3b82f6; border-radius:50%; animation:spin 1s linear infinite;"></div>
-                    AI sedang menganalisis pola bisnis Anda...
-                </div>
-                <div id="ai-opt-content" style="display:none; font-size:0.85rem; color:#1e293b; line-height:1.6;"></div>
             </div>
         </div>
         </div>
