@@ -486,7 +486,7 @@ Harus memuat:
     return (data.candidates?.[0]?.content?.parts?.[0]?.text || '').replace(/```html/g, '').replace(/```/g, '');
 }
 
-export async function calculateBusinessHealthScore(params, sandboxData) {
+export async function calculateDeepBenchmark(params, sandboxData) {
     const prompt = `Anda adalah "Ocean Institutional Engine" - platform intelijen finansial tingkat direksi (Institutional Grade).
 Parameter Industri: Sektor ${params.sector}, Revenue ${params.revenue}, Regional ${params.region}.
 Saldo: Rp ${sandboxData.totalBalance.toLocaleString('id-ID')}
@@ -509,4 +509,34 @@ Hasilkan Laporan HTML Murni (tanpa tag \`\`\`html) dengan gaya "Corporate ERP / 
     if (!res.ok) throw new Error('Gemini API error');
     const data = await res.json();
     return (data.candidates?.[0]?.content?.parts?.[0]?.text || '').replace(/```html/g, '').replace(/```/g, '');
+}
+
+
+export async function calculateBusinessHealthScore(sandboxData) {
+    const prompt = `Anda adalah "Ocean Predictive Intelligence Layer".
+Berdasarkan data keuangan:
+Saldo: Rp ${sandboxData.totalBalance.toLocaleString('id-ID')}
+Invoices: ${JSON.stringify(sandboxData.invoices)}
+
+Hitung Business Health Score (0-100).
+Format output JSON murni tanpa markdown \`\`\`json:
+{
+  "total": 85,
+  "liquidity": 90,
+  "efficiency": 80,
+  "risk": 75,
+  "status": "Sehat"
+}`;
+
+    const body = { contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.2, maxOutputTokens: 500 } };
+    const res = await fetch(`${GEMINI_BASE}/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_KEY}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    if (!res.ok) throw new Error('Gemini API error');
+    const data = await res.json();
+    let text = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
+    text = text.replace(/```json/g, '').replace(/```/g, '');
+    try {
+        return JSON.parse(text);
+    } catch {
+        return { total: 80, liquidity: 85, efficiency: 75, risk: 80, status: "Normal" };
+    }
 }

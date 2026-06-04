@@ -2554,7 +2554,7 @@ const SandboxPage = () => {
                 <h4 style="color:var(--bca-blue-dark); font-weight:900; font-size:1.4rem; letter-spacing:-0.5px;">Corporate Peer Matrix & Gap Analysis</h4>
                 <p style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">Membandingkan rasio 7-Point KPIs Anda secara langsung dengan Top 10% Industry Leaders dan menghitung Opportunity Loss.</p>
             </div>
-            <button id="btn-health-score" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#10b981; border:none; box-shadow: 0 4px 6px rgba(16,185,129,0.2);">Run Deep Benchmark</button>
+            <button id="btn-run-benchmark" class="btn-primary" style="padding:0.6rem 1.25rem; font-size:0.8rem; font-weight:800; border-radius:8px; background:#10b981; border:none; box-shadow: 0 4px 6px rgba(16,185,129,0.2);">Run Deep Benchmark</button>
         </div>
         
         <div style="display:flex; gap:2rem;">
@@ -6120,6 +6120,41 @@ const attachEventListeners = () => {
             } finally {
                 btnHealthScore.disabled = false;
                 btnHealthScore.textContent = 'Update Score';
+            }
+        });
+    }
+
+    // 5.1 Deep Benchmark Matrix
+    const btnRunBenchmark = document.getElementById('btn-run-benchmark');
+    if (btnRunBenchmark) {
+        btnRunBenchmark.addEventListener('click', async () => {
+            const loading = document.getElementById('health-score-loading');
+            const contentDiv = document.getElementById('health-score-content');
+            
+            if(loading && contentDiv) {
+                loading.style.display = 'flex';
+                contentDiv.style.display = 'none';
+                
+                try {
+                    const params = {
+                        sector: document.getElementById('bm-sector')?.value || 'Umum',
+                        revenue: document.getElementById('bm-revenue')?.value || 'Mid',
+                        region: document.getElementById('bm-region')?.value || 'National'
+                    };
+                    const resultHtml = await calculateDeepBenchmark(params, window.state.sandbox);
+                    
+                    contentDiv.innerHTML = resultHtml;
+                    
+                    loading.style.display = 'none';
+                    contentDiv.style.display = 'block';
+                    contentDiv.style.paddingTop = '0';
+                    contentDiv.style.textAlign = 'left';
+                } catch(e) {
+                    console.error(e);
+                    loading.style.display = 'none';
+                    contentDiv.style.display = 'block';
+                    contentDiv.innerHTML = '<div style="color:red; text-align:center;">Gagal menghitung benchmark. Silakan coba lagi.</div>';
+                }
             }
         });
     }
