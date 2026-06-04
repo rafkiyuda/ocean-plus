@@ -1041,6 +1041,190 @@ const LeaderboardPage = () => `
 // --- Public Components ---
 
 const PublicFooter = () => `
+
+        <!-- INTEGRATED ECOSYSTEM SECTION -->
+        <style>
+            .eco-node {
+                position: absolute;
+                background: white;
+                border: 2px solid #e2e8f0;
+                border-radius: 50px;
+                padding: 10px 20px;
+                font-size: 0.85rem;
+                font-weight: 700;
+                color: #334155;
+                box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                white-space: nowrap;
+                z-index: 10;
+                cursor: default;
+            }
+            .eco-node:hover {
+                transform: translate(-50%, -50%) scale(1.05) !important;
+                border-color: #0ea5e9;
+                color: #0ea5e9;
+                box-shadow: 0 10px 15px -3px rgba(14,165,233,0.2);
+            }
+            
+            /* Overriding hover transform depending on initial transform */
+            .eco-node.pos-t:hover { transform: translate(-50%, 0) scale(1.05) !important; }
+            .eco-node.pos-r:hover { transform: translate(0, -50%) scale(1.05) !important; }
+            .eco-node.pos-b:hover { transform: translate(-50%, -100%) scale(1.05) !important; }
+            .eco-node.pos-l:hover { transform: translate(-100%, -50%) scale(1.05) !important; }
+
+            .eco-line {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 1px;
+                height: 40%;
+                background: linear-gradient(0deg, rgba(14,165,233,0.8) 0%, rgba(14,165,233,0) 100%);
+                transform-origin: top center;
+                animation: flow 3s infinite linear;
+            }
+            @keyframes flow {
+                0% { opacity: 0.2; height: 10%; }
+                50% { opacity: 0.8; height: 40%; }
+                100% { opacity: 0.2; height: 10%; }
+            }
+            
+            /* SVG Lines */
+            .eco-svg-line {
+                stroke: #cbd5e1;
+                stroke-width: 1.5;
+                stroke-dasharray: 4 4;
+                animation: dash 20s linear infinite;
+            }
+            @keyframes dash {
+                to { stroke-dashoffset: -100; }
+            }
+        </style>
+        
+        <section class="fade-in" style="padding: 6rem 2rem; background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%); position: relative; overflow: hidden; border-top: 1px solid #e2e8f0;">
+            <div style="max-width: 1200px; margin: 0 auto;">
+                <div style="text-align: center; margin-bottom: 4rem;">
+                    <div style="display:inline-block; padding: 6px 12px; background:#eff6ff; color:#2563eb; font-size:0.75rem; font-weight:800; border-radius:50px; margin-bottom:1rem; letter-spacing:1px; text-transform:uppercase;">Ocean Intelligence</div>
+                    <h2 style="font-size: 2.5rem; font-weight: 900; color: #0f172a; margin-bottom: 1rem; letter-spacing: -1px;">Integrated Ecosystem</h2>
+                    <p style="font-size: 1.1rem; color: #64748b; max-width: 700px; margin: 0 auto;">Jaringan interkoneksi cerdas yang secara proaktif menyelaraskan bisnis Anda dengan ekosistem BCA dan mitra strategis.</p>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 4rem;">
+                    
+                    <!-- NODE GRAPH: CENTER -->
+                    <div style="position: relative; width: 100%; height: 450px; display: flex; align-items: center; justify-content: center; margin-bottom: 2rem;">
+                        
+                        <!-- Connecting Lines (SVG) -->
+                        <svg width="100%" height="100%" style="position: absolute; top: 0; left: 0; z-index: 1; overflow: visible;">
+                            <circle cx="50%" cy="50%" r="160" fill="none" stroke="#f1f5f9" stroke-width="2" />
+                            <circle cx="50%" cy="50%" r="220" fill="none" stroke="#f8fafc" stroke-width="1" />
+                            <!-- Lines from center to nodes -->
+                            <!-- We use approximate percentages for lines -->
+                            <line x1="50%" y1="50%" x2="50%" y2="10%" class="eco-svg-line" />
+                            <line x1="50%" y1="50%" x2="78%" y2="22%" class="eco-svg-line" />
+                            <line x1="50%" y1="50%" x2="88%" y2="50%" class="eco-svg-line" />
+                            <line x1="50%" y1="50%" x2="78%" y2="78%" class="eco-svg-line" />
+                            <line x1="50%" y1="50%" x2="50%" y2="90%" class="eco-svg-line" />
+                            <line x1="50%" y1="50%" x2="22%" y2="78%" class="eco-svg-line" />
+                            <line x1="50%" y1="50%" x2="12%" y2="50%" class="eco-svg-line" />
+                            <line x1="50%" y1="50%" x2="22%" y2="22%" class="eco-svg-line" />
+                        </svg>
+
+                        <!-- Center Node -->
+                        <div style="position: absolute; z-index: 10; width: 130px; height: 130px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 50px rgba(14, 165, 233, 0.25), inset 0 4px 10px rgba(0,0,0,0.02); border: 4px solid #0ea5e9; flex-direction: column;">
+                            <span style="font-size: 1.1rem; font-weight: 900; color: #0ea5e9; line-height:1.2;">ocean</span>
+                            <span style="font-size: 0.75rem; font-weight: 700; color: #475569;">by BCA</span>
+                            <!-- Ripples -->
+                            <div style="position:absolute; width:100%; height:100%; border-radius:50%; border:1px solid #3b82f6; animation:ping 2s cubic-bezier(0,0,0.2,1) infinite; opacity:0.5;"></div>
+                        </div>
+                        
+                        <!-- Satellite Nodes -->
+                        <div style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 5;">
+                            <!-- Top -->
+                            <div class="eco-node pos-t" style="top: 10%; left: 50%; transform: translate(-50%, 0);">
+                                <span style="color:#0f172a;">🏢</span> BCA
+                            </div>
+                            <!-- Top Right -->
+                            <div class="eco-node" style="top: 22%; left: 78%; transform: translate(-50%, -50%);">
+                                <span style="color:#0ea5e9;">📈</span> BCA Sekuritas
+                            </div>
+                            <!-- Right -->
+                            <div class="eco-node pos-r" style="top: 50%; left: 88%; transform: translate(0, -50%);">
+                                <span style="color:#3b82f6;">📱</span> BCA Digital
+                            </div>
+                            <!-- Bottom Right -->
+                            <div class="eco-node" style="top: 78%; left: 78%; transform: translate(-50%, -50%);">
+                                <span style="color:#8b5cf6;">🎯</span> PINA
+                            </div>
+                            <!-- Bottom -->
+                            <div class="eco-node pos-b" style="top: 90%; left: 50%; transform: translate(-50%, -100%);">
+                                <span style="color:#f59e0b;">💳</span> Paylater BCA
+                            </div>
+                            <!-- Bottom Left -->
+                            <div class="eco-node" style="top: 78%; left: 22%; transform: translate(-50%, -50%);">
+                                <span style="color:#f43f5e;">🛍️</span> Papeton
+                            </div>
+                            <!-- Left -->
+                            <div class="eco-node pos-l" style="top: 50%; left: 12%; transform: translate(-100%, -50%);">
+                                <span style="color:#0f172a;">💻</span> KlikBCA Bisnis
+                            </div>
+                            <!-- Top Left (Green/Tosca Logo replacement) -->
+                            <div class="eco-node" style="top: 22%; left: 22%; transform: translate(-50%, -50%); border-color: #10b981;">
+                                <span style="color:#10b981;">🌿</span> Eco-Partner
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARDS: BOTTOM GRID -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+                        
+                        <!-- Card 1 -->
+                        <div class="card-premium fade-in" style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 2rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.02); display: flex; flex-direction: column;">
+                            <div style="width: 48px; height: 48px; background: #eff6ff; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.5rem; border: 1px solid #bfdbfe;">🧠</div>
+                            <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem; line-height:1.4;">Smart Ecosystem Matching & Auto-Suggestion</h3>
+                            <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1.5rem; line-height: 1.6;">AI menganalisis pola operasional nasabah (seperti volume transaksi, frekuensi invoicing, dan aktivitas payroll) untuk merekomendasikan kombinasi mitra ekosistem yang paling optimal, otomatis.</p>
+                            <div style="margin-top: auto; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 1.25rem;">
+                                <div style="font-size: 0.75rem; font-weight: 800; color: #b45309; margin-bottom: 8px; display:flex; align-items:center; gap:6px;"><span style="width:6px;height:6px;background:#f59e0b;border-radius:50%;display:inline-block;animation:pulse 2s infinite;"></span> AI Auto-Suggestion</div>
+                                <div style="font-size: 0.8rem; color: #334155; font-style: italic; line-height: 1.5;">"Dalam 18 hari mendatang, cash flow berpotensi defisit Rp 850 juta karena pola pembayaran pelanggan. Rekomendasi: Akses fasilitas KKB BCA senilai Rp 1 Miliar dengan suku bunga 2%."</div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="card-premium fade-in" style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 2rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.02); display: flex; flex-direction: column; animation-delay: 0.1s;">
+                            <div style="width: 48px; height: 48px; background: #f0fdf4; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.5rem; border: 1px solid #bbf7d0;">🔗</div>
+                            <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem; line-height:1.4;">Predictive Supply Chain Finance Recommendation</h3>
+                            <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1.5rem; line-height: 1.6;">AI menganalisis pola transaksi serta hubungan supplier, customer untuk mengidentifikasi kebutuhan pembiayaan dalam supply chain, lalu secara proaktif merekomendasikan solusi seperti invoice financing atau working capital loan.</p>
+                            <div style="margin-top: auto; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 1.25rem;">
+                                <div style="font-size: 0.75rem; font-weight: 800; color: #0369a1; margin-bottom: 8px; display:flex; align-items:center; gap:6px;"><span style="width:6px;height:6px;background:#0ea5e9;border-radius:50%;display:inline-block;animation:pulse 2s infinite;"></span> AI Recommendation</div>
+                                <div style="font-size: 0.8rem; color: #334155; font-style: italic; line-height: 1.5;">"Terdeteksi keterlambatan pembayaran dari pelanggan utama hingga 20 hari. Ocean merekomendasikan Invoice Financing Rp 2 Miliar untuk menjaga likuiditas dalam 30 hari ke depan."</div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="card-premium fade-in" style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 2rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.02); display: flex; flex-direction: column; animation-delay: 0.2s;">
+                            <div style="width: 48px; height: 48px; background: #fff1f2; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.5rem; border: 1px solid #fecdd3;">🛡️</div>
+                            <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem; line-height:1.4;">Anomaly Detection & Business Health Scoring</h3>
+                            <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1.5rem; line-height: 1.6;">AI mendeteksi anomali atau potensi risiko dalam aktivitas bisnis serta memberikan skor kesehatan bisnis secara real-time sehingga nasabah dapat mengambil tindakan preventif lebih cepat.</p>
+                            
+                            <div style="margin-top: auto; background: linear-gradient(135deg, #f0fdf4, #dcfce7); border: 1px solid #bbf7d0; border-radius: 8px; padding: 1.25rem; display:flex; align-items:center; gap: 15px;">
+                                <div style="width: 65px; height: 65px; background: white; border-radius: 50%; border: 4px solid #22c55e; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900; color: #16a34a; box-shadow: 0 4px 6px rgba(34,197,94,0.2);">78</div>
+                                <div>
+                                    <div style="font-size: 0.75rem; font-weight: 800; color: #166534; text-transform:uppercase; letter-spacing:0.5px;">Business Health Score</div>
+                                    <div style="font-size: 0.95rem; font-weight: 800; color: #15803d; margin-top:6px; display:flex; align-items:center; gap:6px;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                        Status: Good
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- FOOTER SECTION -->
         <footer class="footer-official">
             <div class="footer-border-container">
@@ -1822,6 +2006,190 @@ const LandingPage = () => `
                             <button type="submit" id="btn-submit-contact" class="btn-submit-disabled" disabled>Kirim</button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- INTEGRATED ECOSYSTEM SECTION -->
+        <style>
+            .eco-node {
+                position: absolute;
+                background: white;
+                border: 2px solid #e2e8f0;
+                border-radius: 50px;
+                padding: 10px 20px;
+                font-size: 0.85rem;
+                font-weight: 700;
+                color: #334155;
+                box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                white-space: nowrap;
+                z-index: 10;
+                cursor: default;
+            }
+            .eco-node:hover {
+                transform: translate(-50%, -50%) scale(1.05) !important;
+                border-color: #0ea5e9;
+                color: #0ea5e9;
+                box-shadow: 0 10px 15px -3px rgba(14,165,233,0.2);
+            }
+            
+            /* Overriding hover transform depending on initial transform */
+            .eco-node.pos-t:hover { transform: translate(-50%, 0) scale(1.05) !important; }
+            .eco-node.pos-r:hover { transform: translate(0, -50%) scale(1.05) !important; }
+            .eco-node.pos-b:hover { transform: translate(-50%, -100%) scale(1.05) !important; }
+            .eco-node.pos-l:hover { transform: translate(-100%, -50%) scale(1.05) !important; }
+
+            .eco-line {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 1px;
+                height: 40%;
+                background: linear-gradient(0deg, rgba(14,165,233,0.8) 0%, rgba(14,165,233,0) 100%);
+                transform-origin: top center;
+                animation: flow 3s infinite linear;
+            }
+            @keyframes flow {
+                0% { opacity: 0.2; height: 10%; }
+                50% { opacity: 0.8; height: 40%; }
+                100% { opacity: 0.2; height: 10%; }
+            }
+            
+            /* SVG Lines */
+            .eco-svg-line {
+                stroke: #cbd5e1;
+                stroke-width: 1.5;
+                stroke-dasharray: 4 4;
+                animation: dash 20s linear infinite;
+            }
+            @keyframes dash {
+                to { stroke-dashoffset: -100; }
+            }
+        </style>
+        
+        <section class="fade-in" style="padding: 6rem 2rem; background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%); position: relative; overflow: hidden; border-top: 1px solid #e2e8f0;">
+            <div style="max-width: 1200px; margin: 0 auto;">
+                <div style="text-align: center; margin-bottom: 4rem;">
+                    <div style="display:inline-block; padding: 6px 12px; background:#eff6ff; color:#2563eb; font-size:0.75rem; font-weight:800; border-radius:50px; margin-bottom:1rem; letter-spacing:1px; text-transform:uppercase;">Ocean Intelligence</div>
+                    <h2 style="font-size: 2.5rem; font-weight: 900; color: #0f172a; margin-bottom: 1rem; letter-spacing: -1px;">Integrated Ecosystem</h2>
+                    <p style="font-size: 1.1rem; color: #64748b; max-width: 700px; margin: 0 auto;">Jaringan interkoneksi cerdas yang secara proaktif menyelaraskan bisnis Anda dengan ekosistem BCA dan mitra strategis.</p>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 4rem;">
+                    
+                    <!-- NODE GRAPH: CENTER -->
+                    <div style="position: relative; width: 100%; height: 450px; display: flex; align-items: center; justify-content: center; margin-bottom: 2rem;">
+                        
+                        <!-- Connecting Lines (SVG) -->
+                        <svg width="100%" height="100%" style="position: absolute; top: 0; left: 0; z-index: 1; overflow: visible;">
+                            <circle cx="50%" cy="50%" r="160" fill="none" stroke="#f1f5f9" stroke-width="2" />
+                            <circle cx="50%" cy="50%" r="220" fill="none" stroke="#f8fafc" stroke-width="1" />
+                            <!-- Lines from center to nodes -->
+                            <!-- We use approximate percentages for lines -->
+                            <line x1="50%" y1="50%" x2="50%" y2="10%" class="eco-svg-line" />
+                            <line x1="50%" y1="50%" x2="78%" y2="22%" class="eco-svg-line" />
+                            <line x1="50%" y1="50%" x2="88%" y2="50%" class="eco-svg-line" />
+                            <line x1="50%" y1="50%" x2="78%" y2="78%" class="eco-svg-line" />
+                            <line x1="50%" y1="50%" x2="50%" y2="90%" class="eco-svg-line" />
+                            <line x1="50%" y1="50%" x2="22%" y2="78%" class="eco-svg-line" />
+                            <line x1="50%" y1="50%" x2="12%" y2="50%" class="eco-svg-line" />
+                            <line x1="50%" y1="50%" x2="22%" y2="22%" class="eco-svg-line" />
+                        </svg>
+
+                        <!-- Center Node -->
+                        <div style="position: absolute; z-index: 10; width: 130px; height: 130px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 50px rgba(14, 165, 233, 0.25), inset 0 4px 10px rgba(0,0,0,0.02); border: 4px solid #0ea5e9; flex-direction: column;">
+                            <span style="font-size: 1.1rem; font-weight: 900; color: #0ea5e9; line-height:1.2;">ocean</span>
+                            <span style="font-size: 0.75rem; font-weight: 700; color: #475569;">by BCA</span>
+                            <!-- Ripples -->
+                            <div style="position:absolute; width:100%; height:100%; border-radius:50%; border:1px solid #3b82f6; animation:ping 2s cubic-bezier(0,0,0.2,1) infinite; opacity:0.5;"></div>
+                        </div>
+                        
+                        <!-- Satellite Nodes -->
+                        <div style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 5;">
+                            <!-- Top -->
+                            <div class="eco-node pos-t" style="top: 10%; left: 50%; transform: translate(-50%, 0);">
+                                <span style="color:#0f172a;">🏢</span> BCA
+                            </div>
+                            <!-- Top Right -->
+                            <div class="eco-node" style="top: 22%; left: 78%; transform: translate(-50%, -50%);">
+                                <span style="color:#0ea5e9;">📈</span> BCA Sekuritas
+                            </div>
+                            <!-- Right -->
+                            <div class="eco-node pos-r" style="top: 50%; left: 88%; transform: translate(0, -50%);">
+                                <span style="color:#3b82f6;">📱</span> BCA Digital
+                            </div>
+                            <!-- Bottom Right -->
+                            <div class="eco-node" style="top: 78%; left: 78%; transform: translate(-50%, -50%);">
+                                <span style="color:#8b5cf6;">🎯</span> PINA
+                            </div>
+                            <!-- Bottom -->
+                            <div class="eco-node pos-b" style="top: 90%; left: 50%; transform: translate(-50%, -100%);">
+                                <span style="color:#f59e0b;">💳</span> Paylater BCA
+                            </div>
+                            <!-- Bottom Left -->
+                            <div class="eco-node" style="top: 78%; left: 22%; transform: translate(-50%, -50%);">
+                                <span style="color:#f43f5e;">🛍️</span> Papeton
+                            </div>
+                            <!-- Left -->
+                            <div class="eco-node pos-l" style="top: 50%; left: 12%; transform: translate(-100%, -50%);">
+                                <span style="color:#0f172a;">💻</span> KlikBCA Bisnis
+                            </div>
+                            <!-- Top Left (Green/Tosca Logo replacement) -->
+                            <div class="eco-node" style="top: 22%; left: 22%; transform: translate(-50%, -50%); border-color: #10b981;">
+                                <span style="color:#10b981;">🌿</span> Eco-Partner
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARDS: BOTTOM GRID -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+                        
+                        <!-- Card 1 -->
+                        <div class="card-premium fade-in" style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 2rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.02); display: flex; flex-direction: column;">
+                            <div style="width: 48px; height: 48px; background: #eff6ff; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.5rem; border: 1px solid #bfdbfe;">🧠</div>
+                            <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem; line-height:1.4;">Smart Ecosystem Matching & Auto-Suggestion</h3>
+                            <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1.5rem; line-height: 1.6;">AI menganalisis pola operasional nasabah (seperti volume transaksi, frekuensi invoicing, dan aktivitas payroll) untuk merekomendasikan kombinasi mitra ekosistem yang paling optimal, otomatis.</p>
+                            <div style="margin-top: auto; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 1.25rem;">
+                                <div style="font-size: 0.75rem; font-weight: 800; color: #b45309; margin-bottom: 8px; display:flex; align-items:center; gap:6px;"><span style="width:6px;height:6px;background:#f59e0b;border-radius:50%;display:inline-block;animation:pulse 2s infinite;"></span> AI Auto-Suggestion</div>
+                                <div style="font-size: 0.8rem; color: #334155; font-style: italic; line-height: 1.5;">"Dalam 18 hari mendatang, cash flow berpotensi defisit Rp 850 juta karena pola pembayaran pelanggan. Rekomendasi: Akses fasilitas KKB BCA senilai Rp 1 Miliar dengan suku bunga 2%."</div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="card-premium fade-in" style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 2rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.02); display: flex; flex-direction: column; animation-delay: 0.1s;">
+                            <div style="width: 48px; height: 48px; background: #f0fdf4; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.5rem; border: 1px solid #bbf7d0;">🔗</div>
+                            <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem; line-height:1.4;">Predictive Supply Chain Finance Recommendation</h3>
+                            <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1.5rem; line-height: 1.6;">AI menganalisis pola transaksi serta hubungan supplier, customer untuk mengidentifikasi kebutuhan pembiayaan dalam supply chain, lalu secara proaktif merekomendasikan solusi seperti invoice financing atau working capital loan.</p>
+                            <div style="margin-top: auto; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 1.25rem;">
+                                <div style="font-size: 0.75rem; font-weight: 800; color: #0369a1; margin-bottom: 8px; display:flex; align-items:center; gap:6px;"><span style="width:6px;height:6px;background:#0ea5e9;border-radius:50%;display:inline-block;animation:pulse 2s infinite;"></span> AI Recommendation</div>
+                                <div style="font-size: 0.8rem; color: #334155; font-style: italic; line-height: 1.5;">"Terdeteksi keterlambatan pembayaran dari pelanggan utama hingga 20 hari. Ocean merekomendasikan Invoice Financing Rp 2 Miliar untuk menjaga likuiditas dalam 30 hari ke depan."</div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="card-premium fade-in" style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 2rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.02); display: flex; flex-direction: column; animation-delay: 0.2s;">
+                            <div style="width: 48px; height: 48px; background: #fff1f2; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.5rem; border: 1px solid #fecdd3;">🛡️</div>
+                            <h3 style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem; line-height:1.4;">Anomaly Detection & Business Health Scoring</h3>
+                            <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1.5rem; line-height: 1.6;">AI mendeteksi anomali atau potensi risiko dalam aktivitas bisnis serta memberikan skor kesehatan bisnis secara real-time sehingga nasabah dapat mengambil tindakan preventif lebih cepat.</p>
+                            
+                            <div style="margin-top: auto; background: linear-gradient(135deg, #f0fdf4, #dcfce7); border: 1px solid #bbf7d0; border-radius: 8px; padding: 1.25rem; display:flex; align-items:center; gap: 15px;">
+                                <div style="width: 65px; height: 65px; background: white; border-radius: 50%; border: 4px solid #22c55e; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900; color: #16a34a; box-shadow: 0 4px 6px rgba(34,197,94,0.2);">78</div>
+                                <div>
+                                    <div style="font-size: 0.75rem; font-weight: 800; color: #166534; text-transform:uppercase; letter-spacing:0.5px;">Business Health Score</div>
+                                    <div style="font-size: 0.95rem; font-weight: 800; color: #15803d; margin-top:6px; display:flex; align-items:center; gap:6px;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                        Status: Good
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </section>
