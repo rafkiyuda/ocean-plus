@@ -3450,7 +3450,7 @@ const contents = { dashboard: dashboardContent, analytics: analyticsContent, inv
 
     return `
     
-        /* OCEAN PRODUCT TOUR CSS */
+        <!-- OCEAN PRODUCT TOUR CSS -->
         <style>
             .tour-tooltip {
                 position: fixed; /* Use fixed to avoid scroll issues */
@@ -8106,15 +8106,29 @@ const attachEventListeners = () => {
                 steps = [
                     {
                         targetQuery: '#sm-volume',
-                        title: "Input Parameter Operasional",
-                        desc: "Sebelum menjalankan analisis, atur variabel bisnis Anda di sini (seperti volume transaksi atau aktivitas payroll).",
-                        tip: "Tip: Ubah parameter ini untuk melihat bagaimana rekomendasi AI berubah!",
+                        title: "Volume Transaksi",
+                        desc: "Masukkan estimasi volume transaksi bulanan perusahaan Anda.",
+                        tip: "Tip: Semakin besar volume, semakin banyak opsi likuiditas!",
+                        pos: "right"
+                    },
+                    {
+                        targetQuery: '#sm-invoice',
+                        title: "Frekuensi Invoicing",
+                        desc: "Tentukan seberapa sering perusahaan Anda menerbitkan invoice ke pelanggan.",
+                        tip: "Tip: Frekuensi harian sangat cocok untuk layanan Invoice Financing!",
+                        pos: "right"
+                    },
+                    {
+                        targetQuery: '#sm-payroll',
+                        title: "Aktivitas Payroll",
+                        desc: "Pilih rentang jumlah karyawan untuk melihat rekomendasi layanan Payroll terintegrasi.",
+                        tip: "Tip: BCA menawarkan Payroll Package khusus korporasi!",
                         pos: "right"
                     },
                     {
                         targetQuery: '#btn-smart-matching',
                         title: "Eksekusi Auto-Suggestion",
-                        desc: "Klik tombol eksekusi untuk mengirim parameter Anda ke mesin AI (Ocean LLM) dan memulai kalkulasi.",
+                        desc: "Klik tombol eksekusi untuk mengirim parameter Anda ke mesin AI (Ocean LLM).",
                         tip: "Tip: Analisis AI diproses seketika dalam hitungan detik!",
                         pos: "bottom"
                     },
@@ -8133,6 +8147,13 @@ const attachEventListeners = () => {
                         title: "Target Analisis",
                         desc: "Pilih apakah Anda ingin menganalisis risiko dari sisi pelanggan (Customer) atau Pemasok (Supplier).",
                         tip: "Tip: Pilih sesuai dengan masalah utama rantai pasok Anda!",
+                        pos: "right"
+                    },
+                    {
+                        targetQuery: '#sc-period',
+                        title: "Periode Evaluasi",
+                        desc: "Tentukan rentang data historis yang akan dipindai oleh AI (misal: 6 atau 12 bulan terakhir).",
+                        tip: "Tip: Rentang 12 bulan memberikan akurasi prediksi lebih tinggi!",
                         pos: "right"
                     },
                     {
@@ -8155,8 +8176,29 @@ const attachEventListeners = () => {
                     {
                         targetQuery: '#eco-bizmodel',
                         title: "Model Bisnis",
-                        desc: "Sesuaikan model bisnis perusahaan Anda agar AI dapat memetakan ekosistem yang paling cocok.",
-                        tip: "Tip: Parameter ini sangat krusial untuk akurasi rekomendasi!",
+                        desc: "Sesuaikan model bisnis perusahaan Anda (B2B, B2C, Manufaktur, dll).",
+                        tip: "Tip: Parameter ini menentukan struktur ekosistem dasar!",
+                        pos: "right"
+                    },
+                    {
+                        targetQuery: '#eco-suppliers',
+                        title: "Skala Supplier",
+                        desc: "Tentukan jumlah dan skala supplier utama perusahaan Anda.",
+                        tip: "Tip: Berpengaruh pada rekomendasi Supplier Financing!",
+                        pos: "right"
+                    },
+                    {
+                        targetQuery: '#eco-fx',
+                        title: "Ketergantungan Valas",
+                        desc: "Tentukan tingkat paparan bisnis Anda terhadap valuta asing.",
+                        tip: "Tip: Penting untuk rekomendasi BCA Forex & Hedging!",
+                        pos: "right"
+                    },
+                    {
+                        targetQuery: '#eco-collection',
+                        title: "Metode Collection",
+                        desc: "Pilih cara utama Anda menerima pembayaran dari pelanggan.",
+                        tip: "Tip: Membantu AI menyesuaikan gateway BCA yang tepat!",
                         pos: "right"
                     },
                     {
@@ -8179,8 +8221,15 @@ const attachEventListeners = () => {
                     {
                         targetQuery: '#param-birate',
                         title: "Asumsi BI Rate",
-                        desc: "Geser slider untuk mensimulasikan dampak perubahan suku bunga terhadap beban bunga perusahaan Anda.",
+                        desc: "Geser slider untuk mensimulasikan dampak perubahan suku bunga terhadap beban bunga.",
                         tip: "Tip: Lihat secara real-time bagaimana arus kas terpengaruh!",
+                        pos: "right"
+                    },
+                    {
+                        targetQuery: '#param-ardelay',
+                        title: "Asumsi Keterlambatan AR",
+                        desc: "Masukkan simulasi keterlambatan pembayaran Piutang (Account Receivables) dalam hari.",
+                        tip: "Tip: Ketahui kapan kas Anda akan defisit jika klien telat bayar!",
                         pos: "right"
                     },
                     {
@@ -8203,8 +8252,22 @@ const attachEventListeners = () => {
                     {
                         targetQuery: '#sim-type',
                         title: "Tipe Krisis",
-                        desc: "Pilih skenario stres finansial (seperti Gagal Bayar Massal atau Depresiasi Kurs) untuk menguji ketahanan solvabilitas.",
+                        desc: "Pilih skenario stres finansial (seperti Gagal Bayar Massal atau Depresiasi Kurs).",
                         tip: "Tip: Lakukan stress-test ini secara berkala!",
+                        pos: "right"
+                    },
+                    {
+                        targetQuery: '#sim-severity',
+                        title: "Tingkat Keparahan (%)",
+                        desc: "Tentukan persentase probabilitas krisis (misal: 25% penurunan pendapatan).",
+                        tip: "Tip: Gunakan skenario terburuk untuk bersiap diri!",
+                        pos: "right"
+                    },
+                    {
+                        targetQuery: '#sim-duration',
+                        title: "Durasi Krisis (Bulan)",
+                        desc: "Perkiraan berapa lama krisis akan berlangsung.",
+                        tip: "Tip: Menentukan seberapa lama dana cadangan Anda bisa bertahan!",
                         pos: "right"
                     },
                     {
@@ -8225,14 +8288,60 @@ const attachEventListeners = () => {
             } else if (activeAiTarget === 'tab-health') {
                 steps = [
                     {
+                        targetQuery: '#health-score-total',
+                        title: "Skor Utama",
+                        desc: "Nilai kesehatan finansial secara keseluruhan (dari 0-100) berdasarkan data transaksi Anda.",
+                        tip: "Tip: Skor di atas 80 berarti perusahaan sangat sehat!",
+                        pos: "right"
+                    },
+                    {
+                        targetQuery: '#health-score-liquidity',
+                        title: "Rasio Likuiditas",
+                        desc: "Menilai seberapa baik Anda bisa menutupi kewajiban jangka pendek.",
+                        tip: "Tip: Likuiditas tinggi adalah kunci bebas macet operasional!",
+                        pos: "left"
+                    },
+                    {
+                        targetQuery: '#health-score-efficiency',
+                        title: "Tingkat Efisiensi",
+                        desc: "Berapa lama rata-rata Cash Conversion Cycle (CCC) Anda berjalan.",
+                        tip: "Tip: Semakin cepat uang diputar, semakin baik efisiensinya!",
+                        pos: "left"
+                    },
+                    {
+                        targetQuery: '#health-score-risk',
+                        title: "Profil Risiko",
+                        desc: "Analisis konsentrasi risiko (misal jika terlalu bergantung pada 1 supplier/buyer besar).",
+                        tip: "Tip: Sebarkan risiko dengan diversifikasi mitra bisnis!",
+                        pos: "left"
+                    },
+                    {
                         targetQuery: '#btn-run-benchmark',
                         title: "Run Deep Benchmark",
-                        desc: "Jalankan algoritma benchmark untuk membandingkan metrik keuangan Anda dengan standar industri sejenis.",
+                        desc: "Jalankan algoritma benchmark untuk membandingkan metrik keuangan Anda dengan industri.",
                         tip: "Tip: Ketahui posisi daya saing bisnis Anda!",
                         pos: "bottom"
+                    },
+                    {
+                        targetQuery: '#health-score-result-container',
+                        title: "Laporan Industri",
+                        desc: "Rekomendasi spesifik AI setelah menimbang skor Anda dengan data industri sejenis.",
+                        tip: "Tip: Jadikan patokan untuk KPI departemen keuangan Anda!",
+                        pos: "top"
                     }
                 ];
             } else {
+                steps = [
+                    {
+                        targetQuery: '.ai-sidebar',
+                        title: "Ocean AI Engine",
+                        desc: "Pilih salah satu dari 6 modul AI di sebelah kiri untuk melihat fungsionalitasnya.",
+                        tip: "Tip: Klik setiap modul untuk mengeksplorasi kecerdasan buatan Ocean!",
+                        pos: "right"
+                    }
+                ];
+            }
+        } else {
                 steps = [
                     {
                         targetQuery: '.ai-sidebar',
