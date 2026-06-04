@@ -7984,11 +7984,25 @@ const attachEventListeners = () => {
         if (currentTab === 'dashboard') {
             steps = [
                 {
-                    targetQuery: '.sb-stats',
-                    title: "Corporate Dashboard",
-                    desc: "Pantau kesehatan finansial perusahaan dari satu layar. Integrasi real-time 5 rekening giro & virtual account.",
-                    tip: "Tip: Pantau Pending Approval agar tidak ada transaksi yang tertunda!",
+                    targetQuery: '.sb-stats .sb-stat:nth-child(1)',
+                    title: "Total Saldo Gabungan",
+                    desc: "Pantau total saldo gabungan dari seluruh rekening operasional (Giro dan Virtual Account) secara real-time.",
+                    tip: "Tip: Ocean menyajikan saldo terintegrasi tanpa perlu pindah aplikasi!",
                     pos: "bottom"
+                },
+                {
+                    targetQuery: '.sb-stats .sb-stat:nth-child(2)',
+                    title: "Incoming Today",
+                    desc: "Lacak total dana yang masuk (Inflow) pada hari ini secara seketika.",
+                    tip: "Tip: Bandingkan trend kenaikan/penurunan dari hari sebelumnya.",
+                    pos: "bottom"
+                },
+                {
+                    targetQuery: '.sb-stats .sb-stat:nth-child(4)',
+                    title: "Pending Approval",
+                    desc: "Jumlah transaksi atau invoice yang membutuhkan persetujuan/otorisasi Anda sebelum dieksekusi.",
+                    tip: "Tip: Pastikan angka ini nol sebelum hari berakhir untuk kelancaran bisnis!",
+                    pos: "left"
                 },
                 {
                     targetQuery: '.sb-chart-placeholder',
@@ -7996,21 +8010,42 @@ const attachEventListeners = () => {
                     desc: "Visualisasi arus kas masuk dan keluar selama 6 bulan terakhir.",
                     tip: "Tip: Gunakan grafik ini untuk melihat tren likuiditas jangka panjang.",
                     pos: "top"
+                },
+                {
+                    targetQuery: '.sb-recent',
+                    title: "Histori Transaksi Terbaru",
+                    desc: "Daftar mutasi rekening secara lengkap beserta status rekonsiliasi (Success/Pending/Overdue).",
+                    tip: "Tip: Status 'Success' berarti tagihan Anda telah ter-rekon otomatis!",
+                    pos: "top"
                 }
             ];
         } else if (currentTab === 'analytics') {
             steps = [
                 {
-                    targetQuery: '.sb-analytics-grid',
-                    title: "Business Analytics",
-                    desc: "Ringkasan volume dan nilai transaksi perusahaan Anda beserta efisiensi waktu settlement.",
-                    tip: "Tip: Filter data harian, mingguan, atau bulanan di sudut kanan atas!",
+                    targetQuery: '.sb-filter-row',
+                    title: "Filter Analitik Dinamis",
+                    desc: "Sesuaikan tampilan data analitik berdasarkan periode (Harian/Mingguan/Bulanan) atau spesifik rekening.",
+                    tip: "Tip: Analisis performa keuangan pada akhir bulan lebih mudah di sini!",
                     pos: "bottom"
                 },
                 {
+                    targetQuery: '.sb-analytics-grid',
+                    title: "Business Analytics",
+                    desc: "Ringkasan volume dan nilai rata-rata transaksi perusahaan Anda beserta efisiensi waktu settlement.",
+                    tip: "Tip: Match rate 98% membuktikan efisiensi sistem rekonsiliasi otomatis!",
+                    pos: "bottom"
+                },
+                {
+                    targetQuery: '.sb-chart-placeholder',
+                    title: "Trend Volume",
+                    desc: "Grafik perbandingan jumlah transaksi pengumpulan dana (Collection) vs pengeluaran (Disbursement).",
+                    tip: "Tip: Berguna untuk evaluasi beban sistem payment gateway perusahaan.",
+                    pos: "top"
+                },
+                {
                     targetQuery: '.sb-top-counterparties',
-                    title: "Top Counterparty",
-                    desc: "Dapatkan insight mendalam tentang siapa mitra terbesar Anda bulan ini berdasarkan volume transaksi.",
+                    title: "Top 5 Counterparty",
+                    desc: "Dapatkan insight mendalam tentang siapa mitra/supplier terbesar Anda bulan ini berdasarkan volume transaksi.",
                     tip: "Tip: Gunakan data ini untuk negosiasi term pembayaran dengan supplier!",
                     pos: "top"
                 }
@@ -8018,17 +8053,31 @@ const attachEventListeners = () => {
         } else if (currentTab === 'invoicing') {
             steps = [
                 {
+                    targetQuery: '#btn-sb-create-invoice',
+                    title: "Buat Invoice Cepat",
+                    desc: "Klik tombol ini untuk membuat dan mengirim tagihan baru ke klien/pelanggan Anda.",
+                    tip: "Tip: Pembuatan invoice otomatis membuat Virtual Account BCA unik!",
+                    pos: "left"
+                },
+                {
                     targetQuery: '.sb-invoice-stats',
                     title: "Status Invoice",
-                    desc: "Lihat ringkasan total tagihan yang sudah lunas, menunggu pembayaran, dan jatuh tempo.",
-                    tip: "Tip: Ocean otomatis mengirimkan notifikasi pada invoice yang jatuh tempo!",
+                    desc: "Lihat ringkasan total tagihan berdasarkan status: Sudah Dibayar, Menunggu, dan Jatuh Tempo.",
+                    tip: "Tip: Nilai warna merah (Jatuh Tempo) membutuhkan perhatian ekstra!",
                     pos: "bottom"
                 },
                 {
-                    targetQuery: '#btn-sb-create-invoice',
-                    title: "Buat Invoice Cepat",
-                    desc: "Buat dan kirim invoice dalam hitungan detik. Ocean otomatis membuatkan Virtual Account BCA untuk setiap invoice.",
-                    tip: "Tip: Rekonsiliasi otomatis berjalan 24/7!",
+                    targetQuery: '.sb-recent',
+                    title: "Tabel Daftar Invoice",
+                    desc: "Pantau setiap tagihan per klien secara rinci lengkap dengan tanggal jatuh temponya.",
+                    tip: "Tip: Cek kolom 'Status' untuk melihat mana yang butuh difollow-up.",
+                    pos: "top"
+                },
+                {
+                    targetQuery: '.sb-btn-pay',
+                    title: "Aksi Langsung",
+                    desc: "Tombol interaktif (Bayar / Ingatkan) untuk menyelesaikan tagihan yang masih tertunda.",
+                    tip: "Tip: Klik 'Ingatkan' untuk mengirim notifikasi WA/Email otomatis ke klien!",
                     pos: "left"
                 }
             ];
@@ -8036,10 +8085,17 @@ const attachEventListeners = () => {
             steps = [
                 {
                     targetQuery: '.sb-eco-grid',
-                    title: "API Ecosystem Gateway",
-                    desc: "Kelola semua koneksi API Anda. Aktifkan dan nonaktifkan integrasi ERP/SAP Anda dengan mudah dan aman.",
-                    tip: "Tip: Jangan pernah membagikan API Key Anda ke pihak tak bertanggung jawab!",
+                    title: "API Connections",
+                    desc: "Kelola semua koneksi sistem eksternal ERP/SAP Anda dengan layanan BCA.",
+                    tip: "Tip: Klik 'Aktifkan Sekarang' untuk mengkoneksikan sistem baru.",
                     pos: "top"
+                },
+                {
+                    targetQuery: '.sb-copy-btn',
+                    title: "Manajemen API Key",
+                    desc: "Token khusus untuk integrasi (Host-to-Host). Cukup klik tombol papan klip untuk menyalin.",
+                    tip: "Tip: Jangan pernah membagikan API Key Anda ke pihak tak bertanggung jawab!",
+                    pos: "bottom"
                 }
             ];
         } else if (currentTab === 'predictiveAi') {
@@ -8047,15 +8103,29 @@ const attachEventListeners = () => {
                 {
                     targetQuery: '.ai-sidebar',
                     title: "Ocean AI Engine",
-                    desc: "Pusat kecerdasan buatan Ocean. Di sini Anda bisa memprediksi cashflow, mengevaluasi supply chain, dan simulasi bisnis.",
-                    tip: "Tip: Ocean AI belajar dari histori transaksi Anda!",
+                    desc: "Pilih salah satu dari 4 modul AI (Ecosystem Matching, Supply Chain, Cash Flow, atau Simulator).",
+                    tip: "Tip: Klik setiap modul untuk mengeksplorasi kecerdasan buatan Ocean!",
                     pos: "right"
                 },
                 {
-                    targetQuery: '.ai-workspace',
-                    title: "AI Analysis Workspace",
-                    desc: "Area kerja tempat simulasi AI dijalankan. Sesuaikan parameter di sebelah kiri, lalu eksekusi untuk melihat prediksi AI.",
-                    tip: "Tip: Dapatkan rekomendasi produk kredit BCA secara otomatis!",
+                    targetQuery: '#sm-volume',
+                    title: "Input Parameter Operasional",
+                    desc: "Sebelum menjalankan analisis, atur variabel bisnis Anda di sini (seperti volume transaksi atau aktivitas payroll).",
+                    tip: "Tip: Ubah parameter ini untuk melihat bagaimana rekomendasi AI berubah!",
+                    pos: "right"
+                },
+                {
+                    targetQuery: '#btn-smart-matching',
+                    title: "Eksekusi AI",
+                    desc: "Klik tombol eksekusi untuk mengirim parameter Anda ke mesin AI (Ocean LLM) dan memulai kalkulasi.",
+                    tip: "Tip: Analisis AI diproses seketika dalam hitungan detik!",
+                    pos: "bottom"
+                },
+                {
+                    targetQuery: '#sm-result',
+                    title: "AI Analysis Blueprint",
+                    desc: "Hasil analisis komprehensif, mendeteksi risiko dan memberikan rekomendasi solusi konkrit (e.g. KKB atau Invoice Financing).",
+                    tip: "Tip: Rekomendasi dijamin cocok dengan profil keuangan Anda!",
                     pos: "top"
                 }
             ];
