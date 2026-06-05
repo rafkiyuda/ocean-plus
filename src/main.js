@@ -7785,18 +7785,23 @@ const attachEventListeners = () => {
         btnCashForecast.addEventListener('click', async () => {
             btnCashForecast.disabled = true;
             btnCashForecast.textContent = 'Memprediksi...';
-            document.getElementById('cash-forecast-result').innerHTML = '<div style="display:flex;align-items:center;gap:10px;"><div class="spinner" style="width:20px;height:20px;border:3px solid #e2e8f0;border-top-color:#3b82f6;border-radius:50%;animation:spin 1s linear infinite;"></div><div>AI sedang menghitung pola arus kas...</div></div>';
+            document.getElementById('cash-forecast-result').innerHTML = '<div style="display:flex;align-items:center;gap:10px;justify-content:center;"><div class="spinner" style="width:20px;height:20px;border:3px solid #e2e8f0;border-top-color:#3b82f6;border-radius:50%;animation:spin 1s linear infinite;"></div><div>AI sedang menghitung pola arus kas...</div></div>';
+            
             try {
-                const html = await generateCashFlowForecast(state.sandbox);
-                document.getElementById('cash-forecast-result').innerHTML = html;
-                
-                // Animate bars slightly for effect
-                const bars = document.querySelectorAll('#cash-forecast-chart div[style*="transition"]');
-                bars.forEach(bar => {
-                    bar.style.height = (Math.random() * 50 + 20) + '%';
-                });
+                // Get macro parameters
+                const biRate = document.getElementById('param-birate') ? document.getElementById('param-birate').value : '6.25';
+                const arDelay = document.getElementById('param-ardelay') ? document.getElementById('param-ardelay').value : '14';
+                const macroParams = { biRate: biRate + '%', arDelay: arDelay + ' hari' };
+
+                const html = await generateCashFlowForecast(state.sandbox, macroParams);
+                if (html && html.trim().length > 0) {
+                    document.getElementById('cash-forecast-result').innerHTML = html;
+                } else {
+                    document.getElementById('cash-forecast-result').innerHTML = '<div style="color:red;padding:1rem;">Gagal menghasilkan prediksi (AI mengembalikan teks kosong).</div>';
+                }
             } catch (err) {
-                document.getElementById('cash-forecast-result').innerHTML = '<div style="color:red;">Gagal mengambil prediksi.</div>';
+                console.error("Cash forecast error:", err);
+                document.getElementById('cash-forecast-result').innerHTML = '<div style="color:red;padding:1rem;">Gagal mengambil prediksi: ' + err.message + '</div>';
             } finally {
                 btnCashForecast.disabled = false;
                 btnCashForecast.textContent = 'Refresh Prediksi AI';
@@ -7813,9 +7818,14 @@ const attachEventListeners = () => {
             document.getElementById('early-alert-result').innerHTML = '<div style="display:flex;align-items:center;gap:10px;justify-content:center;padding:1rem;"><div class="spinner" style="width:20px;height:20px;border:3px solid #e2e8f0;border-top-color:#3b82f6;border-radius:50%;animation:spin 1s linear infinite;"></div><div>AI sedang memindai anomali...</div></div>';
             try {
                 const html = await generateEarlyAlerts(state.sandbox);
-                document.getElementById('early-alert-result').innerHTML = html;
+                if (html && html.trim().length > 0) {
+                    document.getElementById('early-alert-result').innerHTML = html;
+                } else {
+                    document.getElementById('early-alert-result').innerHTML = '<div style="color:red;padding:1rem;">Gagal melakukan scan (AI mengembalikan teks kosong).</div>';
+                }
             } catch (err) {
-                document.getElementById('early-alert-result').innerHTML = '<div style="color:red;padding:1rem;">Gagal melakukan scan.</div>';
+                console.error("Early alert error:", err);
+                document.getElementById('early-alert-result').innerHTML = '<div style="color:red;padding:1rem;">Gagal melakukan scan: ' + err.message + '</div>';
             } finally {
                 btnEarlyAlert.disabled = false;
                 btnEarlyAlert.textContent = 'Scan Anomali Lagi';
@@ -7829,13 +7839,24 @@ const attachEventListeners = () => {
         btnRunScenario.addEventListener('click', async () => {
             btnRunScenario.disabled = true;
             btnRunScenario.textContent = 'Memproses...';
-            const scenario = document.getElementById('scenario-select').value;
             document.getElementById('scenario-result').innerHTML = '<div style="display:flex;align-items:center;gap:10px;justify-content:center;"><div class="spinner" style="width:20px;height:20px;border:3px solid #e2e8f0;border-top-color:#3b82f6;border-radius:50%;animation:spin 1s linear infinite;"></div><div>AI sedang menghitung dampak skenario...</div></div>';
+            
             try {
-                const html = await runScenarioSimulation(scenario, state.sandbox);
-                document.getElementById('scenario-result').innerHTML = html;
+                // Get simulation parameters
+                const simType = document.getElementById('sim-type') ? document.getElementById('sim-type').value : 'Default Crisis';
+                const simSeverity = document.getElementById('sim-severity') ? document.getElementById('sim-severity').value : '25';
+                const simDuration = document.getElementById('sim-duration') ? document.getElementById('sim-duration').value : '6';
+                const scenarioParams = { type: simType, severity: simSeverity + '%', duration: simDuration + ' bulan' };
+
+                const html = await runScenarioSimulation(scenarioParams, state.sandbox);
+                if (html && html.trim().length > 0) {
+                    document.getElementById('scenario-result').innerHTML = html;
+                } else {
+                    document.getElementById('scenario-result').innerHTML = '<div style="color:red;padding:1rem;">Gagal mensimulasikan (AI mengembalikan teks kosong).</div>';
+                }
             } catch (err) {
-                document.getElementById('scenario-result').innerHTML = '<div style="color:red;">Gagal mensimulasikan.</div>';
+                console.error("Simulation error:", err);
+                document.getElementById('scenario-result').innerHTML = '<div style="color:red;padding:1rem;">Gagal mensimulasikan: ' + err.message + '</div>';
             } finally {
                 btnRunScenario.disabled = false;
                 btnRunScenario.textContent = 'Simulasikan';
